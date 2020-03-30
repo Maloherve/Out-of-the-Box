@@ -184,17 +184,27 @@ namespace qsim::math {
     }
 }
 
-template <typename T, size_t D> 
-const qsim::math::diagonals<T,D> operator*(qsim::math::diagonals<T,D> A, T a) {
+/*
+ * By scalar multiplication
+ */
+template <typename T, size_t D, typename S>
+const qsim::math::diagonals<T,D> operator*(qsim::math::diagonals<T,D> A, S a) {
     return A *= a;
 }
 
-template <typename T, size_t D> 
-const qsim::math::diagonals<T,D> operator*(T a, qsim::math::diagonals<T,D> A) {
+template <typename T, size_t D, typename S> 
+const qsim::math::diagonals<T,D> operator*(S a, qsim::math::diagonals<T,D> A) {
     return A *= a;
 }
 
-template <typename T, size_t D, class V> 
+/*
+ * Matrix multiplication/application
+ * Enable it for all non-arithmetic types
+ * TODO: disable for std::complex too
+ */
+template <typename T, size_t D, class V, 
+          typename = typename std::enable_if<! std::is_arithmetic<V>::value>::type
+          >
 V operator*(const qsim::math::diagonals<T,D>& mat, const V& v) {
 
     V out(v); // eventually copy the size, in case it's vector like
@@ -207,4 +217,3 @@ V operator*(const qsim::math::diagonals<T,D>& mat, const V& v) {
     
     return out;
 }
-

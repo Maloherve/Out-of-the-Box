@@ -25,7 +25,7 @@ namespace qsim::math {
             return data[m];
         }
 
-        diag_array& operator*=(double g) {
+        diag_array& operator*=(T g) {
 
             for (auto& elem : data)
                 elem *= g;
@@ -39,21 +39,45 @@ namespace qsim::math {
         
         // functor T f(size_t)
         std::function<T (size_t)> f; 
-        double gain;
+        T gain;
     
     public:
-        diag_functor(const std::function<T (size_t)>& _f, double g = 1) : f(_f), gain(g) {}
+        diag_functor(const std::function<T (size_t)>& _f, T g = 1) : f(_f), gain(g) {}
 
         virtual T operator[](size_t m) const override {
             return gain * f(m);
         }
 
-        diag_functor& operator*=(double g) {
+        diag_functor& operator*=(T g) {
 
             gain *= g;
             return *this;
         }
     };
+}
+
+/*
+ * Scalar multiplication
+ */
+
+template<typename T, typename Q>
+qsim::math::diag_functor<T> operator*(qsim::math::diag_functor<T> A, Q g) {
+    return A *= g;
+}
+
+template<typename T, typename Q>
+qsim::math::diag_functor<T> operator*(Q g, qsim::math::diag_functor<T> A) {
+    return A *= g;
+}
+
+template<typename T, typename Q, size_t N>
+qsim::math::diag_array<T,N> operator*(qsim::math::diag_array<T,N> A, Q g) {
+    return A *= g;
+}
+
+template<typename T, typename Q, size_t N>
+qsim::math::diag_array<T,N> operator*(Q g, qsim::math::diag_array<T,N> A) {
+    return A *= g;
 }
 
 /*
