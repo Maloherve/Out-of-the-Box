@@ -3,6 +3,7 @@
 #include "qsystem.hpp"
 #include <array>
 #include "constants.hpp"
+#include "diagonals.hpp"
 
 namespace qsim {
    
@@ -25,17 +26,11 @@ namespace qsim {
             wave_t<Ni, Nj> operator()(const wave_t<Ni, Nj>& psi, H&& h, double dt) {
 
                 wave_t<Ni, Nj> out;
-                constexpr long int cset[] = {Nj, -Nj, 1, -1, 0};
 
                 for (grid_t m = 0; m < psi.size(); ++m) {
-                    // select the hamiltonian where it's not zero
                     out[m] = 0;
-                    for (long int c : cset) {
-                        // careful to array boundaries
-                        if (c + static_cast<long int>(m) >= 0 && 
-                            c + static_cast<long int>(m) < psi.size())
-                            out[m] += h(m, c+m) * psi[c+m];
-                    }
+                    for (const auto& row : h(m))
+                        out[m] += row.value() * psi[row.column()];
                 }
 
                 return out;
@@ -46,7 +41,7 @@ namespace qsim {
     /*
      * System approximation using a finite difference spatial approximation
      */
-    template <grid_t Ni, grd_t Nj, class Integrator<Ni,Nj> = evo::grid_explicit<Ni,Nj>>
+    template <grid_t Ni, grid_t Nj, class Integrator<Ni,Nj> = evo::grid_explicit<Ni,Nj>>
     class qgridsystem : qsystem<grid_t> {
 
         // Wavefunction discretization
@@ -58,12 +53,21 @@ namespace qsim {
         // discretization intervals
         const double dx, dy;
 
+        // laplace operator
+        const math::diagonal<double, 5, Ni*Nj> laplace;
+
     public: 
         qgridsystem(double Lx, double Ly, double m, 
                     wave_t<Ni, Nj> init,
                     std::shared_ptr<potential<grid_t>> _V, 
                     Integrator<Ni,Nj> _evolver = evo::grid_explicit<Ni,Nj>())
-            : qsystem(m, _V), evolver(_evolver), dx(Lx/Ni), dy(Ly/Nj) {}
+            : qsystem(m, _V), evolver(_evolver), dx(Lx/Ni), dy(Ly/Nj),
+              laplace({std::pair<long int, double>(-Nj, 1/(dx*dx)), 
+                       std::pair<long int, double>(-1, 1/(dy*dy)),
+                       std::pair<long int, double>(1, 1/(dy*dy)),
+                       std::pair<long int, double>(0, 2/(dx*dx) + 2/(dy*dy)),
+                       std::pair<long int, double>(Nj, 1/(dx*dx))}) { 
+            }
 
         static constexpr grid_t Nx = Ni;
         static constexpr grid_t Ny = Nj;
@@ -84,22 +88,24 @@ namespace qsim {
         virtual std::complex psi(grid_t m) const override {
             return grid[m];
         }
+       
+        /* 
+         * returns a diagonals::row_array, complexity O(1)
+         * this is a descriptor of the hemiltonian matrix storing only the minimal quantity if values
+         * A diagonals::row_array is iterable object of which value in this case is a std::pair<grid_t, double>, where:
+         *  ->first : column index
+         *  ->second : value of the matrix at the specified row and the column of "->first" 
+         */
+        inline auto H(grid_t m) const {
+           return (((- hbar * hbar / (2 * mass())) * laplace) += V(m)).get_row();
+        }
 
         virtual void evolve(double dt) override {
-            // hemiltonian matrix descriptor
-            auto&& H = [&] -> double (grid_t m, grid_t c) {
-                if (c == m)
-                    return V(m) + hbar * hbar / m * (1 / (dx*dx) + 1 / (dy*dy));
-                else if (c == m + Nj || c == m - Nj)
-                    return - hbar * hbar / (2 * mass() * dx * dx);
-                else if (c == m + 1 || c == m - 1)
-                    return - hbar * hbar / (2 * mass() * dy * dy);
-
-                return 0; // else
-            };
             
-            // replace the grid with the new one
-            grid = evolver(grid, std::move(H), dt);
+            // replace the old wave function grid with the new one
+            grid = evolver(grid,
+                           [&](grid_t m) -> auto { return H(m) }, 
+                           dt);
         }
     };
 }
