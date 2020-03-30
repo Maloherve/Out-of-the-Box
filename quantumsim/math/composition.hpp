@@ -30,11 +30,18 @@ namespace qsim::math {
          */
         composition(T id, Obj&& ...c) : identity(id), components(std::make_tuple(c...)) {}
 
-        // apply a linear operation over all elements
+        /*
+         * Apply a linear operation over all elements
+         * Requirements of In:
+         *      - In operator+(In, In)
+         *      - T operator[](size_t m) const
+         *      - size_t In::size() const
+         */
         template<class Out, class In, class Op>
         Out linear(const In& input, Op&& A) const
         {
             // apply the operation over the sum of all elements, std=c++17 needed
+            // TODO: optimize using move semantics
             return std::apply([&](Obj const& ...objs) { return A(identity, input) + (A(objs, input) + ...); }, components);
         }
 

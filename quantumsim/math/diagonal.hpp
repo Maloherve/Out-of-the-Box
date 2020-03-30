@@ -83,10 +83,10 @@ qsim::math::diag_array<T,N> operator*(Q g, qsim::math::diag_array<T,N> A) {
 /*
  * Matrix multiplication by diagonal
  */
-template<typename T, size_t N, template <typename _T, size_t _N> class V>
-V<T,N> operator*(const qsim::math::diagonal<T>& mat, V<T,N> v) {
+template<typename T, class V>
+V operator*(const qsim::math::diagonal<T>& mat, V v) {
 
-    for (size_t k = 0; k < N; ++k)
+    for (size_t k = 0; k < v.size(); ++k)
         v[k] *= mat[k];
 
     return v;
