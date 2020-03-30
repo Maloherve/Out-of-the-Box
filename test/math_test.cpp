@@ -2,6 +2,7 @@
 
 #include "math/diagonal.hpp"
 #include "math/diagonals.hpp"
+#include "math/composition.hpp"
 
 using namespace qsim::math;
 
@@ -33,4 +34,15 @@ int main() {
     auto E = A * 2; // E = (0, 2, 4, 6, 8, ...)
     auto F = B * 0.5; // F = (1, 2, 3, 4, 5)
     auto G = C * 10;  // G = (1, 0, 1, 0, 0, 0, ...)
+
+    // step 5, build a composition using A, B, C
+    
+    // matrix = 0 * id + A + B + C 
+    auto matrix = composition(0, std::move(A), std::move(B), std::move(C));
+
+    // step 6, apply scalar multiplication and diagonal addiction
+    
+    matrix *= 4;    // apply integer multiplication
+    matrix *= 1.0 / 4; // apply double multiplication
+    matrix += 2;
 }

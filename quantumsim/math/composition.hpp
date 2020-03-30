@@ -1,6 +1,7 @@
 #pragma once
 
 #include <tuple>
+#include "tools.hpp"
 
 namespace qsim::math {
     
@@ -21,6 +22,8 @@ namespace qsim::math {
         std::tuple<Obj...> components;
 
     public:
+
+        static constexpr size_t N = sizeof...(Obj);
         /*
          * id: first element, multiple of the identity
          * ...c: list of composing elements
@@ -39,13 +42,20 @@ namespace qsim::math {
         qsim::math::composition<T, Obj..., Another> extend(Another&& addon) const {
             return qsim::math::composition<T, Obj..., Another>(identity, (std::get<Obj>(components), ...), addon);
         }
+        
+        template <typename S>
+        qsim::math::composition<T, Obj...>& operator*=(S mult) {
+            identity *= mult;
+            std::apply([&mult](Obj& ...obj) { (..., (obj *= mult)); }, components);
+            return *this;
+        }
 
-        qsim::math::composition<T, Obj..., Another>& operator+=(T add) {
+        qsim::math::composition<T, Obj...>& operator+=(T add) {
             identity += add;
             return *this;
         }
 
-        qsim::math::composition<T, Obj..., Another>& operator-=(T add) {
+        qsim::math::composition<T, Obj...>& operator-=(T add) {
             identity -= add;
             return *this;
         }
@@ -93,6 +103,6 @@ qsim::math::composition<T, Obj..., Another> operator+(qsim::math::composition<T,
  */
 template<class ...Obj, class V>
 V operator*(const qsim::math::composition<Obj...>& comp, const V& v) {
-    return comp.linear(v, [&](auto&& obj, const V& a) -> { return obj * a; });
+    return comp.linear(v, [&](auto&& obj, const V& a) { return obj * a; });
 }
 
