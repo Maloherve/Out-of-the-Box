@@ -1,5 +1,8 @@
 #pragma once
 
+#include <array>
+#include <functional>
+
 namespace qsim::math {
     
     // constant random access
@@ -23,14 +26,14 @@ namespace qsim::math {
         }
     };
 
-    template<typename T, Closure F>
-    class diag_functor {
+    template<typename T>
+    class diag_functor : public diagonal<T> {
         
         // functor T f(size_t)
-        F f; 
+        std::function<T (size_t)> f; 
     
     public:
-        diag_functor(F&& _f) : f(_f) {}
+        diag_functor(const std::function<T (size_t)>& _f) : f(_f) {}
 
         virtual T operator[](size_t m) const override {
             return f(m);

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <algorithm>
+#include <utility>
 
 namespace qsim::math {
   
@@ -10,9 +11,8 @@ namespace qsim::math {
      * each diagonal admits only ONE value.
      * T = matrix field type
      * D = quantity of non-zero values in the first row
-     * N = size of the matrix
      */ 
-    template <typename T, size_t D, size_t N> 
+    template <typename T, size_t D> 
     class diagonals {
 
     public:
@@ -24,12 +24,12 @@ namespace qsim::math {
 
             bool operator<(const entry& other) const {
                 // compare indices
-                return first < other.first;    
+                return this->first < other.first;    
             }
 
             bool operator<(long int index) const {
                 // compare indices
-                return first < index;    
+                return this->first < index;    
             }
         };
 
@@ -50,23 +50,9 @@ namespace qsim::math {
                 // sort by ascending index
                 std::sort(data.begin(), data.end());
         }
-        
-        /*
-         * row := current row index
-         * action := functor (column index, column value) to be executed in the for loop
-         */
-        template <class F>
-        void foreach(size_t row, F&& action) const {
-            for (const std::pair<long int,T>& p : data) {
-                // execute if in bounds
-                if (p.first + static_cast<long int>(row) >= 0 &&
-                    p.first + static_cast<long int>(row) < N)
-                    action(static_cast<size_t>(p.first + row), p.second);
-            }
-        }
 
         /*
-         * Ouput type
+         * Output type
          */
 
         struct output_t : public std::pair<size_t,T> {
@@ -80,23 +66,26 @@ namespace qsim::math {
             inline size_t value() const {
                 return this->second;
             }
-        }
+        };
 
         /*
          * Iterator to a row
          */
 
         struct const_iterator {
-            size_t row;
-            std::array<entry,D>::const_iterator it;
 
-            const_iterator(size_t r, std::array<std::pair<long int,T>,D>::const_iterator _it)
-                : row(r), it(_it) {
+            using array_iterator = typename std::array<entry,D>::const_iterator;
+
+            size_t row;
+            array_iterator it, end;
+
+            const_iterator(size_t r, array_iterator _it, array_iterator _end)
+                : row(r), it(_it), end(_end) {
                 // skip invalid addresses
                 skip_invalid();
             }
 
-            output_t operator*()() {
+            output_t operator*() {
                 return output_t(row + static_cast<size_t>(it->first), it->second);
             }
 
@@ -110,8 +99,7 @@ namespace qsim::math {
         private:
 
             inline void skip_invalid() {
-                while ((*it).first + static_cast<long int>(row) >= 0 &&
-                       (*it).first + static_cast<long int>(row) < N)
+                while (it != end && (*it).first + static_cast<long int>(row) >= 0)
                     ++it;
             }
         };
@@ -121,11 +109,11 @@ namespace qsim::math {
          */
 
         const_iterator begin(size_t row) const {
-            return const_iterator(row, data.begin());
+            return const_iterator(row, data.begin(), data.end());
         }
 
         const_iterator end(size_t row) const {
-            return const_iterator(row, data.end());
+            return const_iterator(row, data.end(), data.end());
         }
 
         /*
@@ -135,9 +123,9 @@ namespace qsim::math {
         struct row_array {
 
             size_t row_n;
-            const diagonals<T,D,N>& reference;
+            const diagonals<T,D>& reference;
 
-            row_array(const diagonals<T,D,N>& ref, size_t row_number) : reference(ref), row_n(row_number) {}
+            row_array(const diagonals<T,D>& ref, size_t row_number) : reference(ref), row_n(row_number) {}
 
             const_iterator begin() const {
                 return reference.begin(row_n);
@@ -153,11 +141,11 @@ namespace qsim::math {
          * Advantage: a row_array is for auto loopable
          */
 
-        inline row_array<T,D,N> get_row(size_t row) const {
+        inline row_array get_row(size_t row) const {
             return row_array(*this, row);
         }
 
-        inline row_array<T,D,N> operator[](size_t row) const {
+        inline row_array operator[](size_t row) const {
             return row_array(*this, row);
         }
         
@@ -170,31 +158,38 @@ namespace qsim::math {
         // add a multiple of the identity matrix O(log(D))
         diagonals& operator+=(T a) {
             auto it = this->find(0);
-            if (it != std::npos)
+            if (it != data.end()) // not found
                 it->second += a;
             else {
                 // TODO, throw error
             }
         }
     };
+
+    // initialization by pairs
+    template <typename T, class ... Args> 
+    static diagonals<T, sizeof...(Args)> make_diagonals(Args&& ... pairs) {
+
+        return diagonals(std::array<T,sizeof...(Args)>{std::pair<long int, T>(pairs) ...});
+    }
 }
 
-template <typename T, size_t D, size_t N> 
-const qsim::math::diagonals<T,D,N> operator*(qsim::math::diagonals<T,D,N> A, T a) {
+template <typename T, size_t D> 
+const qsim::math::diagonals<T,D> operator*(qsim::math::diagonals<T,D> A, T a) {
     return A *= a;
 }
 
-template <typename T, size_t D, size_t N> 
-const qsim::math::diagonals<T,D,N> operator*(T a, qsim::math::diagonals<T,D,N> A) {
+template <typename T, size_t D> 
+const qsim::math::diagonals<T,D> operator*(T a, qsim::math::diagonals<T,D> A) {
     return A *= a;
 }
 
 template <typename T, size_t D, size_t N, template <typename _T, size_t _N> class V> 
-V<T,N> operator*(const qsim::math::diagonals<T,D,N>& mat, const V<T,N>& v) {
+V<T,N> operator*(const qsim::math::diagonals<T,D>& mat, const V<T,N>& v) {
 
     V<T,N> out;
 
-    for (grid_t m = 0; m < v.size(); ++m) {
+    for (size_t m = 0; m < v.size(); ++m) {
         out[m] = 0;
         for (auto&& row : mat[m]) // loop through the column
             out[m] += row.value() * v[row.column()];
