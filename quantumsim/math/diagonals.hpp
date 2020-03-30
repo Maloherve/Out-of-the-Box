@@ -139,6 +139,8 @@ namespace qsim::math {
         diagonals& operator*=(T a) {
             for (auto& p : data)
                 p.second *= a;
+
+            return *this;
         }
         
         // add a multiple of the identity matrix O(log(D))
@@ -149,6 +151,7 @@ namespace qsim::math {
             else {
                 // TODO, throw error
             }
+            return *this;
         }
 
     private:

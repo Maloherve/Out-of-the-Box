@@ -13,13 +13,18 @@ int main() {
     auto A = diag_functor<double>([] (size_t m) { return m * 0.2; } );
 
     // initialize diagonal array
-    diag_array<double, 5> B({0,1,3,4,5});
+    diag_array<double, 5> B({0,1,2,3,4});
 
     // step 2, initialize a sub-diagonal operator, not fully passed
+    
+    // by constructor
+    diagonals<double,2> C({sdiag_entry<double>(0, 5.0), sdiag_entry<double>(2, 5.0)});
 
-    diagonals<double,2> C({sdiag_entry<double>(0, 5.0), sdiag_entry<double>(2, 3.0)});
+    // by helper
     //diagonals<double,2> D = make_diagonal<double>({0, 5.0}, {2, 3.0}); // TODO, not compiling
 
-    // step 3, operate on each of them singularly
-
+    // step 3, operate on each of them singularly by multiplication
+    A *= 5; // A = (0, 1, 2, 3, 4, ...)
+    B *= 2; // B = (0, 2, 4, 6, 8)
+    C *= 0.2; // C = (1, 0, 1, 0, 0, 0, ...)
 }

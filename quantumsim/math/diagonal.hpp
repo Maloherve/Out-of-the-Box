@@ -24,6 +24,14 @@ namespace qsim::math {
         virtual T operator[](size_t m) const override {
             return data[m];
         }
+
+        diag_array& operator*=(double g) {
+
+            for (auto& elem : data)
+                elem *= g;
+
+            return *this;
+        }
     };
 
     template<typename T>
@@ -31,12 +39,19 @@ namespace qsim::math {
         
         // functor T f(size_t)
         std::function<T (size_t)> f; 
+        double gain;
     
     public:
-        diag_functor(const std::function<T (size_t)>& _f) : f(_f) {}
+        diag_functor(const std::function<T (size_t)>& _f, double g = 1) : f(_f), gain(g) {}
 
         virtual T operator[](size_t m) const override {
-            return f(m);
+            return gain * f(m);
+        }
+
+        diag_functor& operator*=(double g) {
+
+            gain *= g;
+            return *this;
         }
     };
 }
