@@ -20,20 +20,9 @@ namespace qsim {
         template <grid_t Ni, grid_t Nj>
         struct grid_explicit {
 
-            static constexpr grid_t N = Ni * Nj;
-
-            template<class H>
-            wave_t<Ni, Nj> operator()(const wave_t<Ni, Nj>& psi, H&& h, double dt) {
-
-                wave_t<Ni, Nj> out;
-
-                for (grid_t m = 0; m < psi.size(); ++m) {
-                    out[m] = 0;
-                    for (const auto& row : h(m))
-                        out[m] += row.value() * psi[row.column()];
-                }
-
-                return out;
+            template<class Hamiltonian>
+            wave_t<Ni, Nj> operator()(const wave_t<Ni, Nj>& psi, const Hamiltonian& H, double dt) {
+                return (1 - (dt / hbar) * H) * psi;
             }
         };
     }
@@ -66,8 +55,9 @@ namespace qsim {
                        std::pair<long int, double>(-1, 1/(dy*dy)),
                        std::pair<long int, double>(1, 1/(dy*dy)),
                        std::pair<long int, double>(0, 2/(dx*dx) + 2/(dy*dy)),
-                       std::pair<long int, double>(Nj, 1/(dx*dx))}) { 
-            }
+                       std::pair<long int, double>(Nj, 1/(dx*dx))}) 
+        { 
+        }
 
         static constexpr grid_t Nx = Ni;
         static constexpr grid_t Ny = Nj;
@@ -96,16 +86,17 @@ namespace qsim {
          *  ->first : column index
          *  ->second : value of the matrix at the specified row and the column of "->first" 
          */
-        inline auto H(grid_t m) const {
-           return (((- hbar * hbar / (2 * mass())) * laplace) += V(m)).get_row();
+        inline auto H() const {
+            // compose the hamiltonian operator
+            return math::composition((- hbar * hbar / (2 * mass())) * laplace,
+                                      math::diag_functor([&](size_t m) { return V(m); })
+                                    );
         }
 
         virtual void evolve(double dt) override {
             
             // replace the old wave function grid with the new one
-            grid = evolver(grid,
-                           [&](grid_t m) -> auto { return H(m) }, 
-                           dt);
+            grid = evolver(grid, [&]() { return H(); } , dt);
         }
     };
 }

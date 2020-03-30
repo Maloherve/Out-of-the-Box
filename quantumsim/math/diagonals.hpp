@@ -1,5 +1,7 @@
 #pragma once
 
+#include <algorithm>
+
 namespace qsim::math {
   
     /*
@@ -187,10 +189,10 @@ const qsim::math::diagonals<T,D,N> operator*(T a, qsim::math::diagonals<T,D,N> A
     return A *= a;
 }
 
-template <typename T, size_t D, size_t N> 
-std::array<T,N> operator*(const qsim::math::diagonals<T,D,N>& mat, const std::array<T,N>& v) {
+template <typename T, size_t D, size_t N, template <typename _T, size_t _N> class V> 
+V<T,N> operator*(const qsim::math::diagonals<T,D,N>& mat, const V<T,N>& v) {
 
-    std::array<T,N> out;
+    V<T,N> out;
 
     for (grid_t m = 0; m < v.size(); ++m) {
         out[m] = 0;
