@@ -81,8 +81,11 @@ namespace qsim::math {
         template<class V>
         V operator*(const V& input) const
         {
-            // apply the operation over the sum of all elements, std=c++17 needed
-            return std::apply([&](Obj const& ...objs) -> V { return optimizer<V>(id_t(identity) << input) + (optimizer<V>(objs << input) + ...); }, components);
+            if constexpr (sizeof...(Obj) > 0)
+                // apply the operation over the sum of all elements, std=c++17 needed
+                return std::apply([&](Obj const& ...objs) -> V { return optimizer<V>(id_t(identity) << input) + (optimizer<V>(objs << input) + ...); }, components);
+            else
+                return id_t(identity) << input;
         }
 
         template<class Another>
@@ -93,7 +96,8 @@ namespace qsim::math {
         template <typename S>
         qsim::math::composition<T, Obj...>& operator*=(S mult) {
             identity *= mult;
-            std::apply([&mult](Obj& ...obj) { (..., (obj *= mult)); }, components);
+            if constexpr (sizeof...(Obj) > 0)
+                std::apply([&mult](Obj& ...obj) { (..., (obj *= mult)); }, components);
             return *this;
         }
 

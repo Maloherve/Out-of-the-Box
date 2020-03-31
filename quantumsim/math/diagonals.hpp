@@ -3,6 +3,9 @@
 #include <algorithm>
 #include <utility>
 
+// TODO, debug
+//#include <iostream>
+
 namespace qsim::math {
 
     // admit std::sort
@@ -39,6 +42,9 @@ namespace qsim::math {
      */ 
     template <typename T, size_t D> 
     class diagonals {
+        
+        // avoid empty initializations
+        static_assert(D > 0);
 
         using entry = sdiag_entry<T>;
         
@@ -70,7 +76,7 @@ namespace qsim::math {
                 return this->first;
             }
 
-            inline size_t value() const {
+            inline T value() const {
                 return this->second;
             }
         };
@@ -126,7 +132,12 @@ namespace qsim::math {
                 reference(ref), 
                 m_begin(reference.begin(row_number)),
                 m_end(reference.end(row_number, N))
-            {}
+            {
+                // TODO, debug
+                //using namespace std;
+                //cout << "Begin shift: " << m_begin - reference.data.begin() << endl;
+                //cout << "End shift: " << reference.data.end() - m_end << endl;
+            }
 
             const const_iterator begin() const {
                 return m_begin;
@@ -181,9 +192,9 @@ namespace qsim::math {
         }
 
         const_iterator end(size_t row, size_t N) const {
-            auto it = data.end();
+            auto it = data.end(); // initialize to last available element
 
-            while(it != data.begin() && (*it).column() + static_cast<long int>(row) >= N)
+            while(it != data.begin() && (*(it-1)).column() + static_cast<long int>(row) >= N)
                 --it;
 
             return const_iterator(row, it);
@@ -209,19 +220,23 @@ const qsim::math::diagonals<T,D> operator*(S a, qsim::math::diagonals<T,D> A) {
     return A *= a;
 }
 
+
 /*
  * Matrix multiplication/application
  * Enable it for all non-arithmetic types
  */
 template <typename T, size_t D, class V>
 V operator<<(const qsim::math::diagonals<T,D>& mat, const V& v) {
-
+    
     V out(v); // eventually copy the size, in case it's vector like
 
     for (size_t m = 0; m < v.size(); ++m) {
         out[m] = 0;
-        for (auto&& row : mat.get_row(m, v.size())) // loop through the column
-            out[m] += row.value() * v[row.column()];
+        // loop through the column
+        for (auto&& col : mat.get_row(m, v.size())) {
+            //cout << "Column: " << col.column() << " -> Value: " << col.value() << endl; // TODO, remove after debug
+            out[m] += col.value() * v[col.column()];
+        }
     }
     
     return out;
