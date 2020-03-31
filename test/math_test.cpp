@@ -49,5 +49,5 @@ int main() {
     // step 7, apply to a vector
     
     std::array<double, 5> v = {1, 1, 1, 1, 1};
-    auto w = matrix * v;
+    std::array<double, 5> w = matrix * v;
 }

@@ -8,7 +8,7 @@ namespace qsim::math {
     // constant random access
     template<typename T>
     class diagonal {
-
+    public:
         virtual T operator[](size_t m) const = 0;
     };
 
@@ -84,7 +84,7 @@ qsim::math::diag_array<T,N> operator*(Q g, qsim::math::diag_array<T,N> A) {
  * Matrix multiplication by diagonal
  */
 template<typename T, class V>
-V operator*(const qsim::math::diagonal<T>& mat, V v) {
+V operator<<(const qsim::math::diagonal<T>& mat, V v) {
 
     for (size_t k = 0; k < v.size(); ++k)
         v[k] *= mat[k];

@@ -1,12 +1,11 @@
 #pragma once
 
 #include <tuple>
-#include "tools.hpp"
 
 namespace qsim::math {
     
     /*
-     * General composition of an object
+     * General sum composition of a mathematical object
      * This structure take advantages where properties
      * applies to all components singularly (ex: linear operations)
      *
@@ -20,6 +19,49 @@ namespace qsim::math {
         
         // storage tuple
         std::tuple<Obj...> components;
+        
+        // identity multiplication wrapper 
+        struct id_t {
+            T value;
+
+            id_t(T a) : value(a) {}
+            operator T() { return value; }
+            
+            template<class V>
+            V operator<<(V v) const {
+                for (auto& elem : v)
+                    elem *= value;
+                return v; // home it's moved
+            }
+        };
+
+        /*
+         * Chain sum optimizer
+         * It allows to move the result until the end
+         */
+        template<class V>
+        struct optimizer {
+
+            V vector; // TODO, check if rvalue or reference
+
+            optimizer(optimizer&& other) : vector(std::move(other.vector)) {}
+
+            optimizer(V&& v) : vector(std::move(v)) {}
+           
+            // chained sum over the vector 
+            optimizer operator+(optimizer&& next) {
+
+                for (size_t k = 0; k < vector.size(); k++)
+                    vector[k] += next.vector[k];
+
+                return optimizer(std::move(*this));
+            }
+            
+            // move the final result the a definitive vector by static_cast
+            operator V() {
+                return std::move(vector);
+            }
+        };
 
     public:
 
@@ -33,16 +75,14 @@ namespace qsim::math {
         /*
          * Apply a linear operation over all elements
          * Requirements of In:
-         *      - In operator+(In, In)
          *      - T operator[](size_t m) const
          *      - size_t In::size() const
          */
-        template<class Out, class In, class Op>
-        Out linear(const In& input, Op&& A) const
+        template<class V>
+        V operator*(const V& input) const
         {
             // apply the operation over the sum of all elements, std=c++17 needed
-            // TODO: optimize using move semantics
-            return std::apply([&](Obj const& ...objs) { return A(identity, input) + (A(objs, input) + ...); }, components);
+            return std::apply([&](Obj const& ...objs) -> V { return optimizer<V>(id_t(identity) << input) + (optimizer<V>(objs << input) + ...); }, components);
         }
 
         template<class Another>
@@ -108,8 +148,17 @@ qsim::math::composition<T, Obj..., Another> operator+(qsim::math::composition<T,
 /*
  * Element-wise multiplication
  */
+/*namespace qsim::helper {
+    template<class Op, class V>
+    struct application {
+        V operator()(const Op& op, const V& v) {
+            return op * v;
+        }
+    };
+}
+
 template<class ...Obj, class V>
 V operator*(const qsim::math::composition<Obj...>& comp, const V& v) {
-    return comp.linear(v, [&](auto&& obj, const V& a) { return obj * a; });
-}
+    return comp.linear(v, qsim::helper::application);
+}*/
 

@@ -36,14 +36,14 @@ namespace qsim {
         // Wavefunction discretization
         wave_t<Ni, Nj> grid;
 
-        // an abstract integrator, a friend functor
+        // an abstract integrator, a functor
         Integrator<Ni,Nj> evolver;
         
         // discretization intervals
         const double dx, dy;
 
         // laplace operator
-        const math::diagonal<double, 5, Ni*Nj> laplace;
+        const math::diagonals<double, 5> laplace;
 
     public: 
         qgridsystem(double Lx, double Ly, double m, 

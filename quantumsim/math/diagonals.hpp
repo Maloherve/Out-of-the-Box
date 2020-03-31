@@ -20,6 +20,14 @@ namespace qsim::math {
             // compare indices
             return this->first < index;    
         }
+
+        inline long int column() const {
+            return this->first;
+        }
+
+        inline T value() const {
+            return this->second;
+        }
     };
   
     /*
@@ -96,6 +104,10 @@ namespace qsim::math {
             const_iterator operator++() {
                 ++it;
                 return *this;
+            }
+
+            bool operator!=(const const_iterator& other) const {
+                return it != other.it;
             }
         };
 
@@ -200,12 +212,9 @@ const qsim::math::diagonals<T,D> operator*(S a, qsim::math::diagonals<T,D> A) {
 /*
  * Matrix multiplication/application
  * Enable it for all non-arithmetic types
- * TODO: disable for std::complex too
  */
-template <typename T, size_t D, class V, 
-          typename = typename std::enable_if<! std::is_arithmetic<V>::value>::type
-          >
-V operator*(const qsim::math::diagonals<T,D>& mat, const V& v) {
+template <typename T, size_t D, class V>
+V operator<<(const qsim::math::diagonals<T,D>& mat, const V& v) {
 
     V out(v); // eventually copy the size, in case it's vector like
 
