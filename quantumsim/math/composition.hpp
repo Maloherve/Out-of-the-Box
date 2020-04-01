@@ -31,7 +31,7 @@ namespace qsim::math {
             V operator<<(V v) const {
                 for (auto& elem : v)
                     elem *= value;
-                return v; // home it's moved
+                return v; // hope it's moved
             }
         };
 
@@ -74,30 +74,58 @@ namespace qsim::math {
 
         /*
          * Apply a linear operation over all elements
-         * Requirements of In:
-         *      - T operator[](size_t m) const
-         *      - size_t In::size() const
+         * Requirements of V:
+         *      - V operator+(V, V)
+         *      - V operator*(T, V)
          */
         template<class V>
         V operator*(const V& input) const
         {
             if constexpr (sizeof...(Obj) > 0)
                 // apply the operation over the sum of all elements, std=c++17 needed
-                return std::apply([&](Obj const& ...objs) -> V { return optimizer<V>(id_t(identity) << input) + (optimizer<V>(objs << input) + ...); }, components);
+                //return std::apply([&](Obj const& ...objs) -> V { return optimizer<V>(id_t(identity) << input) + (optimizer<V>(objs << input) + ...); }, components);
+                // TODO, hope in automatic move operation
+                return std::apply([&](Obj const& ...objs) noexcept -> V { return (identity * input) + (... + (objs << input)); }, components);
             else
-                return id_t(identity) << input;
+                return identity * input;
         }
 
+        /*
+         * Extend the composition by pushing another element at the end
+         */ 
         template<class Another>
         qsim::math::composition<T, Obj..., Another> extend(Another&& addon) const {
             return qsim::math::composition<T, Obj..., Another>(identity, (std::get<Obj>(components), ...), addon);
         }
+       
+        /*
+         * Get element by positional index
+         */ 
+        template <size_t K>
+        auto& get() {
+            if constexpr (K == 0)
+                return identity;
+            else {
+                return std::get<K>(components);
+            }
+        }
+
+        template <size_t K>
+        const auto& get() const {
+            if constexpr (K == 0)
+                return identity;
+            else {
+                return std::get<K>(components);
+            }
+        }
         
-        template <typename S>
-        qsim::math::composition<T, Obj...>& operator*=(S mult) {
+        /*
+         * Operator modifiers
+         */ 
+        qsim::math::composition<T, Obj...>& operator*=(T mult) {
             identity *= mult;
             if constexpr (sizeof...(Obj) > 0)
-                std::apply([&mult](Obj& ...obj) { (..., (obj *= mult)); }, components);
+                std::apply([&mult](Obj& ...obj) noexcept { (..., (obj *= mult)); }, components);
             return *this;
         }
 
@@ -116,34 +144,51 @@ namespace qsim::math {
 /*
  * double and complex addiction (specialization)
  */
-template<typename T, class ...Obj, typename std::enable_if<std::is_floating_point<T>::value>::type>
+template<typename T, class ...Obj>
 qsim::math::composition<T, Obj...> operator+(qsim::math::composition<T, Obj...> input, T add) {
     // add to the first element
     return input += add;
 }
 
-template<typename T, class ...Obj, typename std::enable_if<std::is_floating_point<T>::value>::type>
+template<typename T, class ...Obj>
 qsim::math::composition<T, Obj...> operator+(T add, qsim::math::composition<T, Obj...> input) {
     // add to the first element
     return input += add;
 }
 
-template<typename T, class ...Obj, typename std::enable_if<std::is_floating_point<T>::value>::type>
+template<typename T, class ...Obj>
 qsim::math::composition<T, Obj...> operator-(qsim::math::composition<T, Obj...> input, T add) {
     // add to the first element
     return input -= add;
 }
 
-template<typename T, class ...Obj, typename std::enable_if<std::is_floating_point<T>::value>::type>
+template<typename T, class ...Obj>
 qsim::math::composition<T, Obj...> operator-(T add, qsim::math::composition<T, Obj...> input) {
     // add to the first element
     return input -= add;
 }
 
 /*
+ * By scalar multiplication
+ */
+
+
+template<typename T, class ...Obj>
+qsim::math::composition<T, Obj...> operator*(qsim::math::composition<T, Obj...> input, T mult) {
+    // add to the first element
+    return input *= mult;
+}
+
+template<typename T, class ...Obj>
+qsim::math::composition<T, Obj...> operator*(T mult, qsim::math::composition<T, Obj...> input) {
+    // add to the first element
+    return input *= mult;
+}
+
+/*
  * Push element into a new composition if Another is not a floating point
  */
-template<typename T, class ...Obj, class Another, class Enable = void>
+template<typename T, class ...Obj, class Another, typename = typename std::enable_if<!std::is_same<T, Another>::value>::type>
 qsim::math::composition<T, Obj..., Another> operator+(qsim::math::composition<T, Obj...>&& input, Another&& addon) {
     // expand to tuple and push the new element
     return qsim::math::composition<T, Obj..., Another>(input.identity, (std::get<Obj>(input.components), ...), addon);

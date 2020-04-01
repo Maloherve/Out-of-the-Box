@@ -4,11 +4,12 @@
 
 namespace qsim::evo {
 
-    template <typename Coords, template <typename _Coords> class WaveFunction<_Coords>, class H>
-    class explicit_scheme : public integrator<Coords, WaveFunction<Coords>, H> {
+    template <typename Coords, class WaveFunction, class H>
+    class explicit_scheme : public integrator<Coords, WaveFunction, H> {
+
     public:
 
-        virtual WaveFunction<Coords> evolve(const qsystem<Coords, WaveFunction<Coords>, H>& system, double dt) const {
+        virtual WaveFunction evolve(const qsystem<Coords, WaveFunction, H>& system, double dt) const {
             return (1 - (dt / hbar) * system.hemiltonian()) * system.psi();
         }
     };

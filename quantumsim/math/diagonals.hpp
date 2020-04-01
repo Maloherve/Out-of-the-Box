@@ -11,7 +11,8 @@ namespace qsim::math {
     // admit std::sort
     template <typename T> 
     struct sdiag_entry : public std::pair<long int,T> {
-
+        
+        // TODO, will it inherit the constexpr constructor?
         using std::pair<long int, T>::pair;
 
         bool operator<(const sdiag_entry& other) const {
@@ -58,7 +59,8 @@ namespace qsim::math {
         }
 
     public:
-        diagonals(const std::array<entry,D>& values) 
+
+        constexpr diagonals(const std::array<entry,D>& values) 
             : data(values) {
                 // sort by ascending index
                 std::sort(data.begin(), data.end());
@@ -194,7 +196,7 @@ namespace qsim::math {
         const_iterator end(size_t row, size_t N) const {
             auto it = data.end(); // initialize to last available element
 
-            while(it != data.begin() && (*(it-1)).column() + static_cast<long int>(row) >= N)
+            while(it != data.begin() && (*(it-1)).column() + static_cast<long int>(row) >= static_cast<long int>(N))
                 --it;
 
             return const_iterator(row, it);

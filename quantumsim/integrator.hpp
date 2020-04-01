@@ -2,16 +2,16 @@
 
 namespace qsim {
 
-    template <typename Coords, template <typename _Coords> class WaveFunction<_Coords>>
+    template <typename Coords, class WaveFunction, class H>
     class qsystem;
 }
 
 namespace qsim::evo {
     
-    template <typename Coords, template <typename _Coords> class WaveFunction<_Coords>, class H>
+    template <typename Coords, class WaveFunction, class H>
     class integrator {
     public:
 
-        virtual WaveFunction<Coords> evolve(const qsystem<Coords, WaveFunction<Coords>, H>& system, double dt) const = 0;
+        virtual WaveFunction evolve(const qsystem<Coords, WaveFunction, H>& system, double dt) const = 0;
     };
 }

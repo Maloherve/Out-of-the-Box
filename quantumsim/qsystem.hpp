@@ -1,32 +1,34 @@
 #pragma once
 
-#include "potential.hpp"
 #include <complex>
 #include <memory>
-#include <cmath>
+#include "math/composition.hpp"
 
 namespace qsim {
-
-    template <typename Coords, template <typename _Coords> class WaveFunction<_Coords>, class H>
+    
+    /*
+     * Most general description of quantum system
+     */
+    template <typename Coords, class WaveFunction, class H>
     class qsystem {
 
         // mass
         double m;
 
         // the wave function
-        WaveFunction<Coords> wave;
+        WaveFunction wave;
 
-        // a potential
-        std::shared_ptr<potential<Coords>> pot;
+        // a potential, external management
+        std::shared_ptr<potential<Coords>> pot,
 
-        // a potential
-        std::shared_ptr<evo::integrator<Coords, WaveFunction<Coords>>> evolver;
+        // an integrator
+        std::shared_ptr<evo::integrator<WaveFunction, H> evolver;
         
     public:
         qsystem(double _m, 
-                const WaveFunction<Coords>& _wave,
+                const WaveFunction& _wave,
                 std::shared_ptr<potential<Coords>> _V,
-                std::shared_ptr<evo::integrator<Coords,WaveFunction>> _evolver,
+                std::shared_ptr<evo::integrator<WaveFunction, H>> _evolver,
                 )
             : m(_m), wave(_wave), pot(_V), evolver(_evolver) {
 
@@ -46,14 +48,10 @@ namespace qsim {
         double mass() const {
             return m;
         }
-
-        void set_mass(double m) {
-            this->m = abs(m);
-        }
         
-        // access to the potential
-        double V(Coords r) const {
-            return (*pot)(r);
+        // eventually change the behaviour
+        virtual void set_mass(double m) {
+            this->m = abs(m);
         }
 
         // evolution in time
@@ -61,22 +59,16 @@ namespace qsim {
             wave = std::move(evolver->evolve(*this, dt));
         }
 
-        // access to wave function
-        inline std::complex psi(Coords c) const {
-            return wave(c);
-        }
-
-        // access to wave function
-        inline std::complex& psi(Coords c) {
-            return wave(c);
-        }
-
-        inline const WaveFunction<Coords>& psi() const {
+        inline const WaveFunction& psi() const {
             return wave;
         }
 
+        inline const potential<Coords>& V() const {
+            return const_cast<const potential<Coords>&>(*pot);
+        }
+
         // hemiltonian access
-        virtual H Hemiltonian() const = 0;
+        virtual H hemiltonian() const = 0;
         
         // averanges
         virtual double energy() const = 0;
