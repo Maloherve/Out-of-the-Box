@@ -12,8 +12,10 @@ namespace qsim::math {
     template <typename T> 
     struct sdiag_entry : public std::pair<long int,T> {
         
-        // TODO, will it inherit the constexpr constructor?
         using std::pair<long int, T>::pair;
+
+        constexpr sdiag_entry(long int n, T x) 
+            : std::pair<long int, T>(n, x) {}
 
         bool operator<(const sdiag_entry& other) const {
             // compare indices
@@ -60,7 +62,7 @@ namespace qsim::math {
 
     public:
 
-        constexpr diagonals(const std::array<entry,D>& values) 
+        diagonals(const std::array<entry,D>& values) 
             : data(values) {
                 // sort by ascending index
                 std::sort(data.begin(), data.end());

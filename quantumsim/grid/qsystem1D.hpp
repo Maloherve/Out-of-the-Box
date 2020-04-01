@@ -1,23 +1,33 @@
 #pragma once
 
+#include "grid/qgridsystem.hpp"
 #include "math/composition.hpp"
+#include "math/diagonals.hpp"
+#include "math/diagonal.hpp"
 
 namespace qsim {
 
-    typedef math::composition<double, math::diagonals<double, 3>, math::diag_functor<double>> 1D_H_matrix;
+    typedef math::composition<
+                              double, 
+                              math::diagonals<double, 3>, 
+                              math::diag_functor<double>
+                             > H_matrix_1D;
     
+// macro helper for templates deduction
+#define qgs1_H qsim::H_matrix_1D
+#define qgs1_args(type) type<size_t, qsim::grid_wave, qsim::math::ptr_composition<double, qgs1_H>>
+
     // concretization for a 1D grid
-    class qsystem1D : public qgridsystem<1D_H_matrix> {
+    class qsystem1D : public qgridsystem<H_matrix_1D> {
         
         // hamiltonian object
         const std::pair<double, double> boundaries;
         const double dx;
 
-        1D_H_matrix H; // non-constant, the mass could change
+        H_matrix_1D H; // non-constant, the mass could change
         
         // standard matrix A
-        static constexpr math::diagonals<double, 3> A = 
-            math::diagonals<double, 3>(math::sdiag_entry(-1, -1), math::sdiag_entry(0, 2), math::sdiag_entry(1, -1));
+        static const math::diagonals<double, 3> A;
 
     public: 
 
@@ -25,15 +35,16 @@ namespace qsim {
                   const std::pair<double, double>& _bounds,
                   const grid_wave& _wave,
                   std::shared_ptr<potential<size_t>> _V,
-                  std::shared_ptr<evo::integrator<grid_wave, H_obj> _evolver,
+                  std::shared_ptr<evo::integrator<size_t, grid_wave, H_obj>> _evolver
                   );
 
-        virtual const 1D_H_matrix* hemiltonian_ptr() const {
+        virtual const H_matrix_1D* hemiltonian_ptr() const {
             return &H;
         }        
+
         
         // change the hemiltonian expression
-        virtual void set_mass(double m) override;
+        virtual void set_mass(double) override;
         
         // implementations
         virtual double energy() const override;

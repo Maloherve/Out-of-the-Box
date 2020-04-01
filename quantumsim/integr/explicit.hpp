@@ -1,6 +1,7 @@
 #pragma once
 
 #include "integrator.hpp"
+#include "constants.hpp"
 
 namespace qsim::evo {
 
@@ -10,7 +11,7 @@ namespace qsim::evo {
     public:
 
         virtual WaveFunction evolve(const qsystem<Coords, WaveFunction, H>& system, double dt) const {
-            return (1 - (dt / hbar) * system.hemiltonian()) * system.psi();
+            return (1.0 - (dt / hbar) * system.hemiltonian()) * system.psi();
         }
     };
 }

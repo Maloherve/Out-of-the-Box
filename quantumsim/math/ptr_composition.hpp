@@ -1,5 +1,7 @@
 #pragma once
 
+#include <vector>
+
 namespace qsim::math {
 
     template <class T, class Obj>
@@ -41,14 +43,17 @@ namespace qsim::math {
         qsim::math::ptr_composition<T, Obj>& operator*=(T mult) {
             identity *= mult;
             gain *= mult; 
+            return *this;
         }
 
         qsim::math::ptr_composition<T, Obj>& operator+=(T add) {
             identity += add;
+            return *this;
         }
 
         qsim::math::ptr_composition<T, Obj>& operator-=(T add) {
             identity -= add;
+            return *this;
         }
     };
 }

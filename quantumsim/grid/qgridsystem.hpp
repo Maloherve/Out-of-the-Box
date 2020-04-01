@@ -6,6 +6,11 @@
 
 namespace qsim {
 
+// template helper macros, qgs = qgridsystem
+#define qgs_coords size_t
+#define qgs_wave qsim::grid_wave
+#define qgs_H(H) qsim::math::ptr_composition<double, H>
+
     template<class H>
     class qgridsystem : public qsystem<size_t, grid_wave, math::ptr_composition<double, H>> {
 
@@ -26,7 +31,7 @@ namespace qsim {
         virtual const H* hemiltonian_ptr() const = 0;
 
         inline size_t size() const {
-            return psi().size();
+            return this->psi().size();
         }
     };
 

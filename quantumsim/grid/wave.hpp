@@ -45,6 +45,15 @@ namespace qsim {
         grid_wave& operator-=(const grid_wave&);
         grid_wave& operator*=(const wave_t&);
         grid_wave& operator/=(const wave_t&);
+        
+        /*
+         * mean over an operation A, <psi|A|psi>
+         */
+        template<class Op, class Integrator>
+        wave_t bra_ket(const Op& A, Integrator&& integr) const {
+
+            return integr(*this, A);
+        }
     };
 }
 

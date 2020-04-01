@@ -3,15 +3,19 @@
 #include <complex>
 #include <memory>
 #include "math/composition.hpp"
+#include "integrator.hpp"
 
 namespace qsim {
     
+    template <typename Coords>
+    class potential;
+
     /*
      * Most general description of quantum system
      */
     template <typename Coords, class WaveFunction, class H>
     class qsystem {
-
+    private:
         // mass
         double m;
 
@@ -19,16 +23,16 @@ namespace qsim {
         WaveFunction wave;
 
         // a potential, external management
-        std::shared_ptr<potential<Coords>> pot,
+        std::shared_ptr<potential<Coords>> pot;
 
         // an integrator
-        std::shared_ptr<evo::integrator<WaveFunction, H> evolver;
+        std::shared_ptr<evo::integrator<Coords, WaveFunction, H>> evolver;
         
     public:
         qsystem(double _m, 
                 const WaveFunction& _wave,
                 std::shared_ptr<potential<Coords>> _V,
-                std::shared_ptr<evo::integrator<WaveFunction, H>> _evolver,
+                std::shared_ptr<evo::integrator<Coords, WaveFunction, H>> _evolver
                 )
             : m(_m), wave(_wave), pot(_V), evolver(_evolver) {
 
@@ -40,7 +44,7 @@ namespace qsim {
                 // TODO, throw error
             }
                 
-            if (m =< 0)
+            if (m < 0)
                 m = -m;
         }
 
@@ -50,14 +54,18 @@ namespace qsim {
         }
         
         // eventually change the behaviour
-        virtual void set_mass(double m) {
-            this->m = abs(m);
+        virtual void set_mass(double _m) {
+            this->m = abs(_m);
         }
 
         // evolution in time
         void evolve(double dt) {
             wave = std::move(evolver->evolve(*this, dt));
+            post(dt);
         }
+        
+        // just in case after the evolution, some constraints must be set
+        virtual void post(double dt) {}
 
         inline const WaveFunction& psi() const {
             return wave;
