@@ -3,14 +3,15 @@
 #include "grid/qsystem1D.hpp"
 #include "grid/wave.hpp"
 #include "potentials/uniform.hpp"
-#include "integr/explicit.hpp"
+#include "evolvers/explicit.hpp"
 
 #include <fstream>
 
 using namespace qsim;
+using namespace qsim::grid;
 using namespace std;
 
-grid_wave init_wave();
+wave_vector init_wave();
 
 constexpr double mass = 1;
 constexpr double dt = 1;
@@ -20,8 +21,8 @@ constexpr size_t steps = 100;
 int main() {
     
     // flat zero potential
-    auto V = std::make_shared<pot::uniform<qgs_coords>>();
-    auto integ = std::make_shared<qgs1_args(evo::explicit_scheme)>();
+    auto V = std::make_shared<pot::uniform<size_t>>();
+    auto integ = std::make_shared<qsystem1D::explicit_evolver>();
     
     // step 1, initialization
     qsystem1D system(mass, bounds, init_wave(), V, integ);
@@ -40,13 +41,13 @@ int main() {
     out.close();
 }
 
-grid_wave init_wave() {
+wave_vector init_wave() {
 
     using namespace std::complex_literals;
 
     constexpr size_t N = 50;
 
-    grid_wave v(N);
+    wave_vector v(N);
     constexpr double L = bounds.second - bounds.first;
     constexpr double s_norm = 1;
     constexpr double x0 = 0;

@@ -5,7 +5,7 @@ FLAGS += -Wnoexcept
 #FLAGS += -Werror 
 all: clean math_test
 
-SRC:= ../../quantumsim/grid_wave.cpp ../../quantumsim/qsystem1D.cpp
+SRC:= ../../quantumsim/grid/wave.cpp ../../quantumsim/grid/qsystem1D.cpp
 
 math_test:
 	g++ -o qsim_test ${FLAGS} -std=c++17 qsim_test.cpp ${SRC} -I../../quantumsim

@@ -2,9 +2,9 @@
 #include <algorithm>
 #include <ostream>
 
-using namespace qsim;
+using namespace qsim::grid;
 
-grid_wave& grid_wave::operator+=(const grid_wave& other) {
+wave_vector& wave_vector::operator+=(const wave_vector& other) {
     
     const size_t N = std::min(size(), other.size()); 
 
@@ -18,7 +18,7 @@ grid_wave& grid_wave::operator+=(const grid_wave& other) {
     return *this;
 }
 
-grid_wave& grid_wave::operator-=(const grid_wave& other) {
+wave_vector& wave_vector::operator-=(const wave_vector& other) {
     const size_t N = std::min(size(), other.size()); 
 
     for (size_t k = 0; k < N; ++k)
@@ -31,45 +31,45 @@ grid_wave& grid_wave::operator-=(const grid_wave& other) {
     return *this;
 }
 
-grid_wave& grid_wave::operator*=(const wave_t& z) {
+wave_vector& wave_vector::operator*=(const wave_t& z) {
     for (size_t k = 0; k < size(); ++k)
         (*this)[k] *= z;
 
     return *this;
 }
 
-grid_wave& grid_wave::operator/=(const wave_t& z) {
+wave_vector& wave_vector::operator/=(const wave_t& z) {
     for (size_t k = 0; k < size(); ++k)
         (*this)[k] /= z;
 
     return *this;
 }
 
-grid_wave operator+(grid_wave w, const grid_wave& other) {
+wave_vector operator+(wave_vector w, const wave_vector& other) {
     return w += other;
 }
 
-grid_wave operator-(grid_wave w, const grid_wave& other) {
+wave_vector operator-(wave_vector w, const wave_vector& other) {
     return w -= other;
 }
 
-grid_wave operator*(grid_wave w, const wave_t& z) {
+wave_vector operator*(wave_vector w, const wave_t& z) {
     return w *= z;
 }
 
-grid_wave operator/(grid_wave w, const wave_t& z) {
+wave_vector operator/(wave_vector w, const wave_t& z) {
     return w /= z;
 }
 
-grid_wave operator*(const wave_t& z, grid_wave w) {
+wave_vector operator*(const wave_t& z, wave_vector w) {
     return w *= z;
 }
 
-grid_wave operator/(const wave_t& z, grid_wave w) {
+wave_vector operator/(const wave_t& z, wave_vector w) {
     return w /= z;
 }
 
-std::ostream& operator<<(std::ostream& os, const grid_wave& v) {
+std::ostream& operator<<(std::ostream& os, const wave_vector& v) {
     using namespace std;
 
     os << "(";

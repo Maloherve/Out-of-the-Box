@@ -3,7 +3,7 @@
 #include <complex>
 #include <memory>
 #include "math/composition.hpp"
-#include "integrator.hpp"
+#include "evolver.hpp"
 
 namespace qsim {
     
@@ -25,22 +25,22 @@ namespace qsim {
         // a potential, external management
         std::shared_ptr<potential<Coords>> pot;
 
-        // an integrator
-        std::shared_ptr<evo::integrator<Coords, WaveFunction, H>> evolver;
+        // an evolver
+        std::shared_ptr<evolver<Coords, WaveFunction, H>> m_evolver;
         
     public:
         qsystem(double _m, 
                 const WaveFunction& _wave,
                 std::shared_ptr<potential<Coords>> _V,
-                std::shared_ptr<evo::integrator<Coords, WaveFunction, H>> _evolver
+                std::shared_ptr<evolver<Coords, WaveFunction, H>> _evolver
                 )
-            : m(_m), wave(_wave), pot(_V), evolver(_evolver) {
+            : m(_m), wave(_wave), pot(_V), m_evolver(_evolver) {
 
             if (pot == nullptr) {
                 // TODO, throw error
             }
 
-            if (evolver == nullptr) {
+            if (m_evolver == nullptr) {
                 // TODO, throw error
             }
                 
@@ -60,7 +60,7 @@ namespace qsim {
 
         // evolution in time
         void evolve(double dt) {
-            wave = std::move(evolver->evolve(*this, dt));
+            wave = std::move(m_evolver->evolve(*this, dt));
             post(dt);
         }
         

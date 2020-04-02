@@ -1,30 +1,28 @@
 #pragma once
 
 #include "qsystem.hpp"
-#include "math/ptr_composition.hpp"
 #include "wave.hpp"
+#include "math/ptr_composition.hpp"
 
-namespace qsim {
+namespace qsim::grid {
 
-// template helper macros, qgs = qgridsystem
-#define qgs_coords size_t
-#define qgs_wave qsim::grid_wave
-#define qgs_H(H) qsim::math::ptr_composition<double, H>
+    // grid coordinates
+    typedef size_t grid_t;
+    
+    // hemiltonian class 
+    template<class H>
+    using grid_H = qsim::math::ptr_composition<double, H>;
 
     template<class H>
-    class qgridsystem : public qsystem<size_t, grid_wave, math::ptr_composition<double, H>> {
+    class qgridsystem : public qsim::qsystem<size_t, wave_vector, grid_H<H>> {
 
-    protected:
-
-        using H_obj = math::ptr_composition<double, H>;
-        
     public:
 
-        using qsystem<size_t, grid_wave, H_obj>::qsystem;
+        using qsystem<size_t, wave_vector, grid_H<H>>::qsystem;
         
         // do not copy real hemiltonian
-        virtual H_obj hemiltonian() const override {
-            return H_obj({hemiltonian_ptr()});
+        virtual grid_H<H> hemiltonian() const override {
+            return grid_H<H>({hemiltonian_ptr()});
         }
         
         // this value depends on the exact grid

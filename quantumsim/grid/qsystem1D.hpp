@@ -4,18 +4,18 @@
 #include "math/composition.hpp"
 #include "math/diagonals.hpp"
 #include "math/diagonal.hpp"
+#include "evolvers/evofw.hpp"
 
-namespace qsim {
+namespace qsim::grid {
 
-    typedef math::composition<
+    typedef qsim::math::composition<
                               double, 
                               math::diagonals<double, 3>, 
                               math::diag_functor<double>
                              > H_matrix_1D;
+
+    typedef grid_H<H_matrix_1D> grid_H_1D;
     
-// macro helper for templates deduction
-#define qgs1_H qsim::H_matrix_1D
-#define qgs1_args(type) type<size_t, qsim::grid_wave, qsim::math::ptr_composition<double, qgs1_H>>
 
     // concretization for a 1D grid
     class qsystem1D : public qgridsystem<H_matrix_1D> {
@@ -31,11 +31,14 @@ namespace qsim {
 
     public: 
 
+        // possible integrators' forward declaration
+        typedef evo::explicit_scheme<size_t, wave_vector, grid_H_1D> explicit_evolver;
+
         qsystem1D(double _m, 
                   const std::pair<double, double>& _bounds,
-                  const grid_wave& _wave,
+                  const wave_vector& _wave,
                   std::shared_ptr<potential<size_t>> _V,
-                  std::shared_ptr<evo::integrator<size_t, grid_wave, H_obj>> _evolver
+                  std::shared_ptr<evolver<size_t, wave_vector, grid_H_1D>> _evolver
                   );
 
         virtual const H_matrix_1D* hemiltonian_ptr() const {

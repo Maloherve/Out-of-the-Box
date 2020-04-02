@@ -6,10 +6,10 @@ namespace qsim {
     class qsystem;
 }
 
-namespace qsim::evo {
+namespace qsim {
     
     template <typename Coords, class WaveFunction, class H>
-    class integrator {
+    class evolver {
     public:
 
         virtual WaveFunction evolve(const qsystem<Coords, WaveFunction, H>& system, double dt) const = 0;

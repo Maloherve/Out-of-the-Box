@@ -2,15 +2,15 @@
 #include "constants.hpp"
 #include "potential.hpp"
 
-using namespace qsim;
+using namespace qsim::grid;
 
-const math::diagonals<double, 3> qsystem1D::A = math::diagonals<double, 3>({math::sdiag_entry(-1, -1.0), math::sdiag_entry(0, 2.0), math::sdiag_entry(1, -1.0)});
+const qsim::math::diagonals<double, 3> qsystem1D::A = math::diagonals<double, 3>({math::sdiag_entry(-1, -1.0), math::sdiag_entry(0, 2.0), math::sdiag_entry(1, -1.0)});
 
 qsystem1D::qsystem1D(double _m, 
                      const std::pair<double, double>& _bounds,
-                     const grid_wave& _wave,
+                     const wave_vector& _wave,
                      std::shared_ptr<potential<size_t>> _V,
-                     std::shared_ptr<evo::integrator<size_t, grid_wave, H_obj>> _evolver
+                     std::shared_ptr<evolver<size_t, wave_vector, grid_H_1D>> _evolver
                      ) : qgridsystem<H_matrix_1D>(_m, _wave, _V, _evolver),
                         boundaries(_bounds),
                         // TODO, adjust correct dx

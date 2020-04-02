@@ -4,13 +4,13 @@
 #include <vector>
 #include <iosfwd>
 
-namespace qsim {
+namespace qsim::grid {
 
     typedef std::complex<double> wave_t;
     /*
     * Discretized wave function
     */
-    class grid_wave : private std::vector<wave_t> {
+    class wave_vector : private std::vector<wave_t> {
         
     public:
         
@@ -40,11 +40,11 @@ namespace qsim {
             return std::vector<wave_t>::operator[](i);
         }
 
-        grid_wave& operator+=(const grid_wave&);
+        wave_vector& operator+=(const wave_vector&);
 
-        grid_wave& operator-=(const grid_wave&);
-        grid_wave& operator*=(const wave_t&);
-        grid_wave& operator/=(const wave_t&);
+        wave_vector& operator-=(const wave_vector&);
+        wave_vector& operator*=(const wave_t&);
+        wave_vector& operator/=(const wave_t&);
         
         /*
          * mean over an operation A, <psi|A|psi>
@@ -57,13 +57,13 @@ namespace qsim {
     };
 }
 
-qsim::grid_wave operator+(qsim::grid_wave, const qsim::grid_wave&);
-qsim::grid_wave operator-(qsim::grid_wave, const qsim::grid_wave&);
+qsim::grid::wave_vector operator+(qsim::grid::wave_vector, const qsim::grid::wave_vector&);
+qsim::grid::wave_vector operator-(qsim::grid::wave_vector, const qsim::grid::wave_vector&);
 
-qsim::grid_wave operator*(qsim::grid_wave, const qsim::wave_t&);
-qsim::grid_wave operator/(qsim::grid_wave, const qsim::wave_t&);
-qsim::grid_wave operator*(const qsim::wave_t&, qsim::grid_wave);
-qsim::grid_wave operator/(const qsim::wave_t&, qsim::grid_wave);
+qsim::grid::wave_vector operator*(qsim::grid::wave_vector, const qsim::grid::wave_t&);
+qsim::grid::wave_vector operator/(qsim::grid::wave_vector, const qsim::grid::wave_t&);
+qsim::grid::wave_vector operator*(const qsim::grid::wave_t&, qsim::grid::wave_vector);
+qsim::grid::wave_vector operator/(const qsim::grid::wave_t&, qsim::grid::wave_vector);
 
-std::ostream& operator<<(std::ostream&, const qsim::grid_wave&);
+std::ostream& operator<<(std::ostream&, const qsim::grid::wave_vector&);
 
