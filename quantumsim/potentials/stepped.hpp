@@ -16,7 +16,7 @@ namespace qsim::pot {
             : value(_value), bounds({left, right}) {}
         
         virtual double operator()(const Coords& access) const override {
-            return (bounds.first <= access && bounds.second >= access) value : 0;
+            return (bounds.first <= access && bounds.second >= access) ? value : 0;
         }
     }; 
-};
+}

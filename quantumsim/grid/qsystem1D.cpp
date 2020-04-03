@@ -63,7 +63,16 @@ std::vector<double> qsystem1D::generate_map() const {
 
 // TODO, implement trapezium integration
 double qsystem1D::energy() const {
-    return 0.0;
+    const double H0 = -hbar * hbar / (2*mass());
+    wave_t result = grid::grid_integrate(psi(), [&] (const neighbourhood<>& map, size_t location) {
+                    return H0 * (map.at(location, -1) + map.at(location, 1))  
+                        + (V()(location) - 2 * H0) * map.at(location, 0); // return the value itself
+                }, dx);
+
+    if (abs(result.imag()) > qsim::machine_prec)
+        throw result; // TODO, a real error
+
+    return result.real();
 }
 
 double qsystem1D::position() const {

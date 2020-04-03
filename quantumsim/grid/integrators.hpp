@@ -15,9 +15,9 @@ namespace qsim::grid {
         neighbourhood(const wave_vector& _vector, Coords&& ... args)
             : vector(_vector), jumps(args ...) {}
 
-        wave_t at(size_t offset, size_t k, const Coords& ... cs) const {
+        wave_t at(size_t offset, int k, const Coords& ... cs) const {
             if constexpr (sizeof...(Coords) == 0)
-                return vector[offset + k];
+                return vector[static_cast<int>(offset) + k];
             else
                 return std::apply([&](const Coords& ... Ns) { return vector[offset + k + ((Ns * cs) + ...) ]; }, jumps);
         }
