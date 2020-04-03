@@ -2,6 +2,8 @@
 #include "constants.hpp"
 #include "potential.hpp"
 
+    #include "grid/integrators.hpp"
+
 using namespace qsim::grid;
 
 const qsim::math::diagonals<double, 3> qsystem1D::A = math::diagonals<double, 3>({math::sdiag_entry(-1, -1.0), math::sdiag_entry(0, 2.0), math::sdiag_entry(1, -1.0)});
@@ -31,6 +33,18 @@ void qsystem1D::set_mass(double _m) {
     // using mass assures the positivity
     // get<1> refers to the A matrix component
     H.get<1>() *= mass() / old;
+}
+
+void qsystem1D::normalize() {
+
+    wave_t norm = grid::grid_integrate(psi(), [&] (const neighbourhood<>& map, size_t location) {
+                    return map.at(location, 0); // return the value itself
+                }, dx);
+
+    if (abs(norm.imag()) > qsim::machine_prec)
+        throw norm; // TODO, a real error
+    
+    psi() /= sqrt(norm.real());  
 }
 
 // TODO, implement trapezium integration

@@ -4,6 +4,7 @@
 #include "grid/wave.hpp"
 #include "potentials/uniform.hpp"
 #include "evolvers/explicit.hpp"
+#include "grid/integrators.hpp"
 
 #include <fstream>
 
@@ -12,6 +13,7 @@ using namespace qsim::grid;
 using namespace std;
 
 wave_vector init_wave();
+void print(const qsystem1D&, ostream&);
 
 constexpr double mass = 1;
 constexpr double dt = 1;
@@ -26,15 +28,19 @@ int main() {
     
     // step 1, initialization
     qsystem1D system(mass, bounds, init_wave(), V, integ);
+    
+    try {
+        system.normalize();
+    } catch (wave_t A) {
+        cout << "Normalization: " << A << endl;
+    }
 
     ofstream out("wave_test.out");
 
     for (size_t k = 0; k < steps; k++) {
         // print out psi
-        for (const auto& psi : system.psi())
-            out << abs(psi) << "  ";
-        out << endl;
-
+        print(system, out);
+        // evolve
         system.evolve(dt); 
     }
 
@@ -61,5 +67,12 @@ wave_vector init_wave() {
     }
 
     return v;
+}
+
+void print(const qsystem1D& system, ostream& out) {
+
+    for (const auto& psi : system.psi())
+        out << norm(psi) << "  ";
+    out << endl;
 }
 

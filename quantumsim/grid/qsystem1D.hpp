@@ -53,6 +53,9 @@ namespace qsim::grid {
         virtual double energy() const override;
         virtual double position() const override;
         virtual double momentum() const override;
+
+        // normalize the wave function
+        virtual void normalize() override;
     };
 }
 
