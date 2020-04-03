@@ -6,7 +6,7 @@
 
 using namespace qsim::grid;
 
-const qsim::math::diagonals<double, 3> qsystem1D::A = math::diagonals<double, 3>({math::sdiag_entry(-1, -1.0), math::sdiag_entry(0, 2.0), math::sdiag_entry(1, -1.0)});
+const qsim::math::diagonals<double, 3> qsystem1D::A = math::diagonals<double, 3>({math::sdiag_entry(-1, 1.0), math::sdiag_entry(0, -2.0), math::sdiag_entry(1, 1.0)});
 
 qsystem1D::qsystem1D(double _m, 
                      const std::pair<double, double>& _bounds,
@@ -35,7 +35,7 @@ void qsystem1D::set_mass(double _m) {
     H.get<1>() *= mass() / old;
 }
 
-void qsystem1D::normalize() {
+double qsystem1D::normalize() {
 
     wave_t norm = grid::grid_integrate(psi(), [&] (const neighbourhood<>& map, size_t location) {
                     return map.at(location, 0); // return the value itself
@@ -43,8 +43,22 @@ void qsystem1D::normalize() {
 
     if (abs(norm.imag()) > qsim::machine_prec)
         throw norm; // TODO, a real error
+
+    double out = sqrt(norm.real());
     
-    psi() /= sqrt(norm.real());  
+    psi() /= out;  
+    return out;
+}
+
+std::vector<double> qsystem1D::generate_map() const {
+
+    std::vector<double> out;
+    out.reserve(psi().size());
+
+    for (size_t k = 0; k < psi().size(); ++k)
+        out.push_back(boundaries.first + dx * k);
+
+    return out;
 }
 
 // TODO, implement trapezium integration

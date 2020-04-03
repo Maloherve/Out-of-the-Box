@@ -7,13 +7,14 @@
 #include "grid/integrators.hpp"
 
 #include <fstream>
+#include <sstream>
 
 using namespace qsim;
 using namespace qsim::grid;
 using namespace std;
 
 wave_vector init_wave();
-void print(const qsystem1D&, ostream&);
+void print(const qsystem1D&, const std::vector<double>&, size_t k);
 
 constexpr double mass = 1;
 constexpr double dt = 1;
@@ -35,16 +36,23 @@ int main() {
         cout << "Normalization: " << A << endl;
     }
 
-    ofstream out("wave_test.out");
-
+    /*
+     * Print out the discretization 1D map
+     */
+    auto map = system.generate_map(); 
+    
+    /*
+     * Symulate
+     */
     for (size_t k = 0; k < steps; k++) {
         // print out psi
-        print(system, out);
+        print(system, map, k);
         // evolve
         system.evolve(dt); 
-    }
 
-    out.close();
+        double A = system.normalize();
+        cout << "Step k, norm = " << A << endl;
+    }
 }
 
 wave_vector init_wave() {
@@ -55,7 +63,7 @@ wave_vector init_wave() {
 
     wave_vector v(N);
     constexpr double L = bounds.second - bounds.first;
-    constexpr double s_norm = 1;
+    constexpr double s_norm = 0.4;
     constexpr double x0 = 0;
     constexpr double n = 1;
     constexpr double sigma(s_norm * L);
@@ -69,10 +77,15 @@ wave_vector init_wave() {
     return v;
 }
 
-void print(const qsystem1D& system, ostream& out) {
+void print(const qsystem1D& system, const std::vector<double>& map, size_t k) {
 
-    for (const auto& psi : system.psi())
-        out << norm(psi) << "  ";
-    out << endl;
+    std::ostringstream filename;
+    filename << "outs/wave_test" << k << ".out";
+    ofstream out(filename.str());
+ 
+    for (size_t i = 0; i < map.size(); ++i)
+        out << map[i] << "  " << norm(system.psi()[i]) << endl;
+
+    out.close();
 }
 

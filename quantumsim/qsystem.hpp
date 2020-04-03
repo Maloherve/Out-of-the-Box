@@ -84,7 +84,7 @@ namespace qsim {
         virtual double momentum() const = 0;
         
         // normalization
-        virtual void normalize() = 0;
+        virtual double normalize() = 0;
 
     protected:
         

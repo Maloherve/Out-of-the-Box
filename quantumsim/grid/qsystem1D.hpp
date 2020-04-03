@@ -55,7 +55,9 @@ namespace qsim::grid {
         virtual double momentum() const override;
 
         // normalize the wave function
-        virtual void normalize() override;
+        virtual double normalize() override;
+
+        std::vector<double> generate_map() const;
     };
 }
 
