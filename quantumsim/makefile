@@ -6,6 +6,7 @@ BUILD:= build
 BIN := $(BUILD)/$(NAME).a
 CC := g++
 STDCPP := -std=c++17
+FLAGS:= -fPIC
 
 BACKUP := backup
 
@@ -35,7 +36,7 @@ $(BIN): dirs $(OBJ)
 
 $(OBJ): $(BUILD)/%.o : %.cpp $(SRC)
 	@printf "\nCompiling $<\n"
-	$(CC) -c $< -o $@ $(INCLUDES) $(STDCPP)
+	$(CC) -c $< ${FLAGS} -o $@ $(INCLUDES) $(STDCPP)
 
 # generate all necessaries directories
 dirs:

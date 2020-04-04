@@ -1,3 +1,7 @@
 **/*.swp
 **/*.out
+**/bin
+**/build
+**/*.os
+**/*.o
 qunatumgdn/api.json
