@@ -58,6 +58,8 @@ namespace qsim::grid {
         virtual double normalize() override;
 
         std::vector<double> generate_map() const;
+
+        double map(size_t) const;
     };
 }
 

@@ -56,9 +56,13 @@ std::vector<double> qsystem1D::generate_map() const {
     out.reserve(psi().size());
 
     for (size_t k = 0; k < psi().size(); ++k)
-        out.push_back(boundaries.first + dx * k);
+        out.push_back(map(k));
 
     return out;
+}
+
+double qsystem1D::map(size_t k) const {
+    return boundaries.first + dx * k;
 }
 
 // TODO, implement trapezium integration

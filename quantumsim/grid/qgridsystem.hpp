@@ -28,7 +28,7 @@ namespace qsim::grid {
         // this value depends on the exact grid
         virtual const H* hemiltonian_ptr() const = 0;
 
-        inline size_t size() const {
+        size_t size() const {
             return this->psi().size();
         }
     };
