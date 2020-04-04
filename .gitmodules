@@ -1,0 +1,4 @@
+[submodule "quantumgdn/godot-cpp"]
+	path = quantumgdn/godot-cpp
+	url = https://github.com/GodotNativeTools/godot-cpp
+	branch = 3.0

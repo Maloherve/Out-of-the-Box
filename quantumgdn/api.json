@@ -6,7 +6,7 @@
 		"singleton": true,
 		"singleton_name": "GlobalConstants",
 		"instanciable": false,
-		"is_reference": false,
+		"is_reference": true,
 		"constants": {
 			"BUTTON_LEFT": 1,
 			"BUTTON_MASK_LEFT": 1,
