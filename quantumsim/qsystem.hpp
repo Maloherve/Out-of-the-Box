@@ -63,6 +63,14 @@ namespace qsim {
             wave = std::move(m_evolver->evolve(*this, dt));
             post(dt);
         }
+
+        void set_evolver(std::shared_ptr<evolver<Coords, WaveFunction, H>> evo) {
+            m_evolver = evo;
+        }
+
+        void set_potential(std::shared_ptr<potential<Coords>> _V) {
+            pot = _V;
+        }
         
         // just in case after the evolution, some constraints must be set
         virtual void post(double dt) {}
