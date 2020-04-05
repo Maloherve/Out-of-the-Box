@@ -16,10 +16,4 @@ void uniform_potential::_init() {
 
 void uniform_potential::_register_methods() {
     // direct methods
-    register_method("get", &uniform_potential::access);
-    //register_method("at", &uniform::);
-}
-
-double uniform_potential::access(size_t m) {
-    return (*this)(m);
 }

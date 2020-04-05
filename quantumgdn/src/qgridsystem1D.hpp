@@ -1,6 +1,8 @@
+#pragma once
+
 #include "quantumsim/grid/qsystem1D.hpp"
 
-#include <core/Godot.hpp>
+#include <Godot.hpp>
 #include <Node.hpp>
 #include "potential.hpp"
 

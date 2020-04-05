@@ -13,8 +13,5 @@ namespace godot {
         ~uniform_potential();
         void _init();
         static void _register_methods();
-        
-        // wrapper for operator()
-        double access(size_t);
     };
 }

@@ -1,17 +1,23 @@
 #pragma once
 
-#include <core/Godot.hpp>
+#include <Godot.hpp>
 #include <Reference.hpp>
 #include <memory>
 #include "quantumsim/potential.hpp"
 
 #define POTENTIAL_CLASS(instance, Coords) _set(instance);
 
+namespace qsim {
+    template <class Coords>
+    class potential;
+}
+
 namespace godot {
+
     
     template <class Coords>
     class potential : public Reference {
-        GODOT_CLASS(potential, Reference)
+        GODOT_CLASS(potential<Coords>, Reference)
 
         std::shared_ptr<qsim::potential<Coords>> m_pot;
 
@@ -30,9 +36,17 @@ namespace godot {
             return m_pot;
         }
 
-        void _init() {}
+        void _init() {
+            // nothing to do
+        }
 
-        static void _register_methods() {}
+        double access(size_t m) {
+            return (*m_pot)(m);
+        }
+
+        static void _register_methods() {
+            register_method("get", &potential::access);
+        }
     };
 
     typedef potential<size_t> grid_potential;

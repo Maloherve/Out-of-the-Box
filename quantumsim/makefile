@@ -6,7 +6,7 @@ BUILD:= build
 BIN := $(BUILD)/$(NAME).a
 CC := g++
 STDCPP := -std=c++17
-FLAGS:= -fPIC
+FLAGS:= -fPIC -g3 -Og -fPIC
 
 BACKUP := backup
 
@@ -20,7 +20,7 @@ SRC := \
 	grid/wave.cpp \
 	grid/qsystem1D.cpp
 
-OBJ := $(patsubst %.cpp,$(BUILD)/%.o,$(SRC))
+OBJ := $(patsubst %.cpp,$(BUILD)/%.os,$(SRC))
 
 .PHONY: dirs clean backup restore
 all: $(BIN)
@@ -34,7 +34,7 @@ $(BIN): dirs $(OBJ)
 
 # compile all sources
 
-$(OBJ): $(BUILD)/%.o : %.cpp $(SRC)
+$(OBJ): $(BUILD)/%.os : %.cpp $(SRC)
 	@printf "\nCompiling $<\n"
 	$(CC) -c $< ${FLAGS} -o $@ $(INCLUDES) $(STDCPP)
 

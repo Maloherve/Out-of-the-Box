@@ -19,7 +19,8 @@ qgridsystem1D::~qgridsystem1D() {}
 
 void qgridsystem1D::_register_methods() {
     // direct methods
-    register_property<qgridsystem1D, double>("set_mass", &qgridsystem1D::set_mass, &qgridsystem1D::mass, 1.0);
+    register_method("_process", &qgridsystem1D::_process);
+    register_property<qgridsystem1D, double>("mass", &qgridsystem1D::set_mass, &qgridsystem1D::mass, 1.0);
     //register_method("energy", &qgridsystem1D::energy);
     //register_method("position", &qgridsystem1D::position);
     //register_method("momentum", &qgridsystem1D::momentum);
@@ -97,7 +98,10 @@ potential<size_t>* qgridsystem1D::get_potential() const {
     return m_evolver;
 }*/
 
+#include <iostream>
+
 void qgridsystem1D::_init() {
+    std::cerr << "OLEEE" << std::endl;
     // default values
     m_potential = nullptr;
 }
