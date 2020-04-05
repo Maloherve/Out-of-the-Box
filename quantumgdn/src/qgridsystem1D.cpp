@@ -21,16 +21,42 @@ void qgridsystem1D::_register_methods() {
     // direct methods
     register_method("_process", &qgridsystem1D::_process);
     register_property<qgridsystem1D, double>("mass", &qgridsystem1D::set_mass, &qgridsystem1D::mass, 1.0);
-    //register_method("energy", &qgridsystem1D::energy);
-    //register_method("position", &qgridsystem1D::position);
-    //register_method("momentum", &qgridsystem1D::momentum);
-    //register_method("normalize", &qgridsystem1D::normalize);
-    //register_method("map", &qgridsystem1D::map);
-    //register_method("size", &qgridsystem1D::size);
+    register_method("energy", &qgridsystem1D::_energy);
+    register_method("position", &qgridsystem1D::_position);
+    register_method("momentum", &qgridsystem1D::_momentum);
+    register_method("normalize", &qgridsystem1D::_normalize);
+    register_method("map", &qgridsystem1D::_map);
+    register_method("size", &qgridsystem1D::_size);
+    register_method("wave", &qgridsystem1D::_wave);
     
     // TODO, methods that need to be adapted
     //register_method("psi", &qgridsystem1D::gdn_psi);
-    //register_property<qgridsystem1D, Reference*>("V", &qgridsystem1D::set_potential, &qgridsystem1D::get_potential);
+    register_property<qgridsystem1D, potential<size_t>*>("V", &qgridsystem1D::set_potential, &qgridsystem1D::get_potential, nullptr);
+}
+
+
+double qgridsystem1D::_energy() const {
+    return energy();
+}
+
+double qgridsystem1D::_position() const {
+    return position();
+}
+
+double qgridsystem1D::_momentum() const {
+    return momentum();
+}
+
+double qgridsystem1D::_normalize() {
+    return normalize();
+}
+
+double qgridsystem1D::_map(size_t m) const {
+    return map(m);
+}
+
+double qgridsystem1D::_size() const {
+    return size();
 }
 
 
@@ -63,6 +89,12 @@ void qgridsystem1D::set_potential(potential<size_t>* pot) {
     
     // finally set the potential 
     qsim::grid::qsystem1D::set_potential(ptr); 
+}
+
+grid_wave * qgridsystem1D::_wave() {
+    grid_wave * wrap = new grid_wave;
+    wrap->_set(&psi());
+    return wrap; // TODO, test memory leaks
 }
 
 /*void set_evolver(Reference* evo) {

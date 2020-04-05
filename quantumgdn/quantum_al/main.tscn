@@ -1,8 +1,10 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
+[ext_resource path="res://bin/uniform_potential.gdns" type="Script" id=1]
 [ext_resource path="res://bin/qgridsystem1D.gdns" type="Script" id=2]
 
 [node name="Node2D" type="Node2D"]
 
 [node name="Simulator" type="Node" parent="."]
 script = ExtResource( 2 )
+V = ExtResource( 1 )
