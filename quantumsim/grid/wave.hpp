@@ -54,6 +54,17 @@ namespace qsim::grid {
 
             return integr(*this, A);
         }
+
+        /*
+         * Add precompiled iterable object
+         */
+
+        template<class Iter>
+        void push(const Iter& iter) {
+            size_t k(0);
+            for (const auto& val : iter)
+                (*this)[k++] = val;
+        }
     };
 }
 

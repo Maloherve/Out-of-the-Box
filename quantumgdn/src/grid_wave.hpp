@@ -3,19 +3,14 @@
 #include <Godot.hpp>
 #include <Reference.hpp>
 #include <Vector2.hpp>
+#include <Array.hpp>
 
-namespace qsim::grid {
-    class wave_vector;
-}
+#include "quantumsim/grid/wave.hpp"
 
 namespace godot {
 
-    class grid_wave : public Reference {
-        GODOT_CLASS(grid_wave, Reference)
-        
-        // pointer to the wave function
-        qsim::grid::wave_vector * m_wave;
-
+    class grid_wave : public qsim::grid::wave_vector, public Object {
+        GODOT_CLASS(grid_wave, Object)
     public:
 
         grid_wave();
@@ -27,26 +22,15 @@ namespace godot {
         double real(int) const;
         double imag(int) const;
         double prob(int) const; // square modulus
-        size_t size() const;
+        size_t _size() const;
         
         // access to members
-        void set(size_t, Vector2);
-        Vector2 get(int) const;
-
-        /*
-         * Helper methods
-         */
-
-        void _set(qsim::grid::wave_vector *wave) {
-            m_wave = wave;
-        }
+        void _set(size_t, Vector2);
+        Vector2 _get(int) const;
         
-        // move the pointer
-        /*grid_wave& operator=(const grid_wave& other) {
-            m_wave = other.m_wave;
-            return *this;
-        }*/
-        
+        // push elements
+        //void _push(const Array&);
+
         /*
          * initializers
          */

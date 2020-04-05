@@ -10,10 +10,10 @@ using namespace qsim::pot;
 qgridsystem1D::qgridsystem1D() 
     : qsystem1D(1.0, 
                 {-1.0, 1.0},
-                wave_vector(100, 0.0), // empty wave
+                nullptr, 
                 std::make_shared<uniform<size_t>>(), // zero potential, not a godot reference
                 std::make_shared<qsystem1D::explicit_evolver>()),
-        m_potential(nullptr) {}
+        m_potential(nullptr), m_wave(nullptr) {}
 
 qgridsystem1D::~qgridsystem1D() {}
 
@@ -27,11 +27,10 @@ void qgridsystem1D::_register_methods() {
     register_method("normalize", &qgridsystem1D::_normalize);
     register_method("map", &qgridsystem1D::_map);
     register_method("size", &qgridsystem1D::_size);
-    register_method("wave", &qgridsystem1D::_wave);
     
-    // TODO, methods that need to be adapted
-    //register_method("psi", &qgridsystem1D::gdn_psi);
-    register_property<qgridsystem1D, potential<size_t>*>("V", &qgridsystem1D::set_potential, &qgridsystem1D::get_potential, nullptr);
+    // methods that need to be adapted
+    register_property<qgridsystem1D, Ref<potential<size_t>>>("V", &qgridsystem1D::set_potential, &qgridsystem1D::get_potential);
+    register_property<qgridsystem1D, grid_wave*>("wave", &qgridsystem1D::set_wave, &qgridsystem1D::get_wave);
 }
 
 
@@ -59,28 +58,12 @@ double qgridsystem1D::_size() const {
     return size();
 }
 
+void qgridsystem1D::set_potential(Ref<grid_potential> pot) {
 
-void qgridsystem1D::set_potential(potential<size_t>* pot) {
+    potential<size_t> * ptr = *pot; 
 
-    if (pot == nullptr) {
+    if (!(ptr != nullptr && ptr->is_safe())) {
         // TODO throw godot exception
-        return;
-    }
-
-    auto ptr = pot->get_ptr(); 
-
-    if (ptr == nullptr) {
-        // TODO throw godot exception
-        return;
-    }
-
-    if(!pot->reference()) {
-        // TODO cannot bind reference
-        return;
-    }
-
-    if (m_potential != nullptr && !m_potential->unreference()) {
-        // TODO cannot unreference old potential
         return;
     }
     
@@ -88,13 +71,20 @@ void qgridsystem1D::set_potential(potential<size_t>* pot) {
     m_potential = pot; 
     
     // finally set the potential 
-    qsim::grid::qsystem1D::set_potential(ptr); 
+    qsim::grid::qsystem1D::set_potential(*ptr); 
 }
 
-grid_wave * qgridsystem1D::_wave() {
-    grid_wave * wrap = new grid_wave;
-    wrap->_set(&psi());
-    return wrap; // TODO, test memory leaks
+Ref<grid_potential> qgridsystem1D::get_potential() const {
+    return m_potential;
+}
+
+grid_wave * qgridsystem1D::_get_wave() const {
+    return m_wave;
+}
+
+void qgridsystem1D::_set_wave(grid_wave * buffer) {
+    m_wave = buffer;
+    replace_wave(buffer);
 }
 
 /*void set_evolver(Reference* evo) {
@@ -122,9 +112,6 @@ grid_wave * qgridsystem1D::_wave() {
     qsim::grid::qsystem1D::set_evolver(ptr);
 }*/
 
-potential<size_t>* qgridsystem1D::get_potential() const {
-    return m_potential;
-}
 
 /*Reference * get_evolver() const {
     return m_evolver;
@@ -133,7 +120,6 @@ potential<size_t>* qgridsystem1D::get_potential() const {
 #include <iostream>
 
 void qgridsystem1D::_init() {
-    std::cerr << "OLEEE" << std::endl;
     // default values
     m_potential = nullptr;
 }

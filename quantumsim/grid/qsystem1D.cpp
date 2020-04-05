@@ -10,13 +10,13 @@ const qsim::math::diagonals<double, 3> qsystem1D::A = math::diagonals<double, 3>
 
 qsystem1D::qsystem1D(double _m, 
                      const std::pair<double, double>& _bounds,
-                     const wave_vector& _wave,
+                     wave_vector* _wave,
                      std::shared_ptr<potential<size_t>> _V,
                      std::shared_ptr<evolver<size_t, wave_vector, grid_H_1D>> _evolver
                      ) : qgridsystem<H_matrix_1D>(_m, _wave, _V, _evolver),
                         boundaries(_bounds),
                         // TODO, adjust correct dx
-                        dx((_bounds.second - _bounds.first) / _wave.size()),
+                        dx((_bounds.second - _bounds.first) / _wave->size()),
                         // compose the hemiltonian matrix
                         H(
                             0.0,

@@ -13,9 +13,11 @@ namespace godot {
     class qgridsystem1D : private qsim::grid::qsystem1D, public Node {
         GODOT_CLASS(qgridsystem1D, Node)
 
-        potential<size_t> * m_potential;
+        Ref<grid_potential> m_potential;
         //Reference * m_evolver;
-
+        
+        grid_wave * m_wave; 
+        
     public:
         qgridsystem1D();
         ~qgridsystem1D();
@@ -46,16 +48,17 @@ namespace godot {
         /*
          * Access to wave function
          */
-
-        grid_wave * _wave();
+        
+        void _set_wave(grid_wave *);
+        grid_wave * _get_wave() const;
 
         /*
          * Potential property
          */
-        void set_potential(potential<size_t>* pot);
-        //void set_evolver(Reference* integ);
+        void set_potential(Ref<grid_potential> pot);
+        Ref<grid_potential> get_potential() const;
 
-        potential<size_t> * get_potential() const;
+        //void set_evolver(Reference* integ);
         //Reference * get_evolver() const;
 
         // GD constructor

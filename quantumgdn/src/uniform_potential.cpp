@@ -5,7 +5,6 @@ using namespace godot;
 
 uniform_potential::uniform_potential() {
     // set the superclass pointer
-    POTENTIAL_CLASS(this, size_t)
 }
 
 uniform_potential::~uniform_potential() {}

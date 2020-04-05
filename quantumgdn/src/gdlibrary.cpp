@@ -5,6 +5,7 @@
 #include "uniform_potential.hpp"
 #include "grid_wave.hpp"
 #include "qgridsystem1D.hpp"
+#include "wave_packets.hpp"
 
 using namespace godot;
 
@@ -24,7 +25,9 @@ extern "C" void GDN_EXPORT godot_nativescript_init(void *handle)
     
     // test
 	register_class<grid_potential>();
-	register_class<uniform_potential>();
+	register_class<grid_uniform_potential>();
+	register_class<wave_packet>();
+	register_class<gaussian_packet>();
 	register_class<grid_wave>();
 	register_class<qgridsystem1D>();
 }

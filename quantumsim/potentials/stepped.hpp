@@ -5,7 +5,7 @@
 namespace qsim::pot {
        
     template <typename Coords> 
-    class stepped : public potential<Coords> {
+    class stepped : virtual public potential<Coords> {
 
         double value; 
         std::pair<Coords, Coords> bounds;

@@ -36,7 +36,7 @@ namespace qsim::grid {
 
         qsystem1D(double _m, 
                   const std::pair<double, double>& _bounds,
-                  const wave_vector& _wave,
+                  wave_vector* _wave,
                   std::shared_ptr<potential<size_t>> _V,
                   std::shared_ptr<evolver<size_t, wave_vector, grid_H_1D>> _evolver
                   );

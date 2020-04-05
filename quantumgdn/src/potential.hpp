@@ -3,9 +3,8 @@
 #include <Godot.hpp>
 #include <Reference.hpp>
 #include <memory>
-#include "quantumsim/potential.hpp"
 
-#define POTENTIAL_CLASS(instance, Coords) _set(instance);
+#define POTENTIAL_CLASS(instance) this->_set(instance);
 
 namespace qsim {
     template <class Coords>
@@ -14,7 +13,9 @@ namespace qsim {
 
 namespace godot {
 
-    
+    /*
+     * Wrapper for a general referenciable potential
+     */    
     template <class Coords>
     class potential : public Reference {
         GODOT_CLASS(potential<Coords>, Reference)
@@ -31,16 +32,21 @@ namespace godot {
         potential() : m_pot(nullptr) {}
 
         virtual ~potential() {}
-
-        std::shared_ptr<qsim::potential<Coords>> get_ptr() {
+        
+        // static_cast convertion convertion
+        inline operator std::shared_ptr<qsim::potential<Coords>>() const {
             return m_pot;
+        }
+
+        inline bool is_safe() const {
+            return m_pot != nullptr;
         }
 
         void _init() {
             // nothing to do
         }
 
-        double access(size_t m) {
+        double access(Coords m) {
             return (*m_pot)(m);
         }
 
