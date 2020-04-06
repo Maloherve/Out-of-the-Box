@@ -21,8 +21,8 @@ namespace qsim::grid {
     class qsystem1D : public qgridsystem<H_matrix_1D> {
         
         // hamiltonian object
-        const std::pair<double, double> boundaries;
-        const double dx;
+        std::pair<double, double> boundaries;
+        double dx;
 
         H_matrix_1D H; // non-constant, the mass could change
         
@@ -36,7 +36,7 @@ namespace qsim::grid {
 
         qsystem1D(double _m, 
                   const std::pair<double, double>& _bounds,
-                  wave_vector* _wave,
+                  const wave_vector& _wave,
                   std::shared_ptr<potential<size_t>> _V,
                   std::shared_ptr<evolver<size_t, wave_vector, grid_H_1D>> _evolver
                   );
@@ -48,6 +48,8 @@ namespace qsim::grid {
         
         // change the hemiltonian expression
         virtual void set_mass(double) override;
+
+        // TODO, allow to set boundaries
         
         // implementations
         virtual double energy() const override;

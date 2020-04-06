@@ -16,8 +16,6 @@ namespace godot {
         Ref<grid_potential> m_potential;
         //Reference * m_evolver;
         
-        grid_wave * m_wave; 
-        
     public:
         qgridsystem1D();
         ~qgridsystem1D();
@@ -49,8 +47,11 @@ namespace godot {
          * Access to wave function
          */
         
-        void _set_wave(grid_wave *);
-        grid_wave * _get_wave() const;
+        // careful, after this operation the buffer wouldn't be no more available
+        void _set_wave(Ref<grid_wave> buffer);
+
+        // get 
+        Ref<grid_wave> _get_wave();
 
         /*
          * Potential property

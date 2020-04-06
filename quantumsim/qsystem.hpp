@@ -20,7 +20,7 @@ namespace qsim {
         double m;
 
         // the wave function
-        std::unique_ptr<WaveFunction> wave;
+        WaveFunction wave;
 
         // a potential, external management
         std::shared_ptr<potential<Coords>> pot;
@@ -30,7 +30,7 @@ namespace qsim {
         
     public:
         qsystem(double _m, 
-                WaveFunction* _wave,
+                const WaveFunction& _wave,
                 std::shared_ptr<potential<Coords>> _V,
                 std::shared_ptr<evolver<Coords, WaveFunction, H>> _evolver
                 )
@@ -38,10 +38,6 @@ namespace qsim {
 
             if (pot == nullptr) {
                 // TODO, throw error
-            }
-
-            if (wave == nullptr) {
-                // TODO throw error
             }
 
             if (m_evolver == nullptr) {
@@ -83,11 +79,15 @@ namespace qsim {
         virtual void post(double dt) {}
 
         inline const WaveFunction& psi() const {
-            return *wave;
+            return wave;
         }
 
-        inline void replace_wave(WaveFunction * ptr) {
-            wave = ptr;
+        inline void replace_wave(const WaveFunction& other) {
+            wave = other;
+        }
+
+        inline void replace_wave(WaveFunction&& other) {
+            wave = std::move(other);
         }
 
         inline const potential<Coords>& V() const {
@@ -109,7 +109,7 @@ namespace qsim {
         
         // protected access
         inline WaveFunction& psi() {
-            return *wave;
+            return wave;
         }
     };
 }

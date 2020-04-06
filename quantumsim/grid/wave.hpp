@@ -3,10 +3,10 @@
 #include <complex>
 #include <vector>
 #include <iosfwd>
+#include "fw.hpp"
 
 namespace qsim::grid {
 
-    typedef std::complex<double> wave_t;
     /*
     * Discretized wave function
     */

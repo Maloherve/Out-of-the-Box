@@ -1,7 +1,8 @@
 #include "qgridsystem1D.hpp"
 
-#include "quantumsim/potentials/uniform.hpp"
 #include "quantumsim/evolvers/explicit.hpp"
+#include "wave_packets.hpp"
+#include "uniform_potential.hpp"
 
 using namespace godot;
 using namespace qsim::grid;
@@ -10,10 +11,21 @@ using namespace qsim::pot;
 qgridsystem1D::qgridsystem1D() 
     : qsystem1D(1.0, 
                 {-1.0, 1.0},
-                nullptr, 
-                std::make_shared<uniform<size_t>>(), // zero potential, not a godot reference
+                gaussian_packet().generate()->ref(), 
+                nullptr, // zero potential, not a godot reference
                 std::make_shared<qsystem1D::explicit_evolver>()),
-        m_potential(nullptr), m_wave(nullptr) {}
+        m_potential(nullptr) {
+
+        }
+
+void qgridsystem1D::_init() {
+    // default values
+    set_potential(new grid_uniform_potential);
+
+    // initialize reference
+    Ref<gaussian_packet> w(new gaussian_packet);
+    _set_wave(w->generate());
+}
 
 qgridsystem1D::~qgridsystem1D() {}
 
@@ -29,8 +41,8 @@ void qgridsystem1D::_register_methods() {
     register_method("size", &qgridsystem1D::_size);
     
     // methods that need to be adapted
-    register_property<qgridsystem1D, Ref<potential<size_t>>>("V", &qgridsystem1D::set_potential, &qgridsystem1D::get_potential);
-    register_property<qgridsystem1D, grid_wave*>("wave", &qgridsystem1D::set_wave, &qgridsystem1D::get_wave);
+    register_property<qgridsystem1D, Ref<potential<size_t>>>("V", &qgridsystem1D::set_potential, &qgridsystem1D::get_potential, nullptr);
+    register_property<qgridsystem1D, Ref<grid_wave>>("wave", &qgridsystem1D::_set_wave, &qgridsystem1D::_get_wave, nullptr);
 }
 
 
@@ -78,13 +90,14 @@ Ref<grid_potential> qgridsystem1D::get_potential() const {
     return m_potential;
 }
 
-grid_wave * qgridsystem1D::_get_wave() const {
-    return m_wave;
+void qgridsystem1D::_set_wave(Ref<grid_wave> buffer) {
+    // buffer is moved!!
+    replace_wave(std::forward<wave_vector>(buffer->ref()));
 }
 
-void qgridsystem1D::_set_wave(grid_wave * buffer) {
-    m_wave = buffer;
-    replace_wave(buffer);
+Ref<grid_wave> qgridsystem1D::_get_wave() {
+    // create a new wrapper, do not delete at the end
+    return new grid_wave(&psi(), false);
 }
 
 /*void set_evolver(Reference* evo) {
@@ -119,10 +132,6 @@ void qgridsystem1D::_set_wave(grid_wave * buffer) {
 
 #include <iostream>
 
-void qgridsystem1D::_init() {
-    // default values
-    m_potential = nullptr;
-}
 
 void qgridsystem1D::_process(double dt) {
     // default values

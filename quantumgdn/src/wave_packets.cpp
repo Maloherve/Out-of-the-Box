@@ -1,17 +1,19 @@
 #include "wave_packets.hpp"
 #include "grid_wave.hpp"
+#include "quantumsim/grid/wave.hpp"
 
 #define _USE_MATH_DEFINES
 #include <cmath>
 
 using namespace godot;
+using namespace qsim::grid;
 
 /*
  * General wave_packet definition
  */
 
 wave_packet::wave_packet()
-        : op([&](size_t k) { return qsim::grid::wave_t(k,0); }), N(0) {}
+        : op([&](size_t k) { return wave_t(k,0); }), N(0) {}
 
 wave_packet::~wave_packet() {}
 
@@ -23,17 +25,20 @@ wave_packet::Op_iter wave_packet::end() const {
     return Op_iter(op, N);
 }
 
-grid_wave * wave_packet::generate() const {
-    grid_wave * out = new grid_wave;
-    out->push(*this);
+Ref<grid_wave> wave_packet::generate() const {
+    Ref<grid_wave> out = new grid_wave;
+    wave_vector* wave = new wave_vector(N);
+    wave->push(*this);
+    out->set_instance(wave, true);
+    return out;
 }
 
 void wave_packet::_init() {
-    N = 0;
+    N = 50;
 }
 
 void wave_packet::_register_methods() {
-    register_property("size", &wave_packet::N, 0); 
+    register_property<wave_packet, size_t>("size", &wave_packet::N, 50); 
     register_method("generate", &wave_packet::generate);
 }
 
@@ -41,18 +46,18 @@ void wave_packet::_register_methods() {
  * wave_packet iterator
  */
 
-wave_packet::Op_iter::Op_iter(Op op, size_t _k) : k(_k) {}
+wave_packet::Op_iter::Op_iter(const wave_packet::Op& _op, size_t _k) : op(_op), k(_k) {}
 
-qsim::grid::wave_t wave_packet::Op_iter::operator*() const {
-    return op;
+wave_t wave_packet::Op_iter::operator*() const {
+    return op(k);
 }
 
 
-bool wave_packet::Op_iter::operator==(const gaussian_iter& other) const {
-    return k == other.k;
+bool wave_packet::Op_iter::operator!=(const wave_packet::Op_iter& other) const {
+    return k != other.k;
 }
 
-gaussian_iter& wave_packet::Op_iter::operator++() {
+wave_packet::Op_iter& wave_packet::Op_iter::operator++() {
     ++k;
     return (*this);
 }
@@ -61,15 +66,15 @@ gaussian_iter& wave_packet::Op_iter::operator++() {
  * Gaussian definition
  */
 
-gaussian_packet::gaussian_packet(double _first, double _second, double n, double _x0, double _sigma, double _N) : 
-            wave_generator(std::bind(&gaussian_packet::operator(), this)), 
+gaussian_packet::gaussian_packet(size_t _N, double _first, double _second, double n, double _x0, double _sigma) : 
+            wave_packet([&] (size_t k) { return (*this)(k); }, _N), 
             first(_first), 
             L(_second - _first), 
             k0(2 * M_PI * n / L), x0(_x0), 
-            sigma(_sigma), N(_N) {}
+            sigma(_sigma) {}
 
 
-qsim::grid::wave_t gaussian_packet::operator()(size_t k) const {
+wave_t gaussian_packet::operator()(size_t k) const {
 
     using namespace std::complex_literals;
     double x = first + double(k * L) / N;
@@ -89,14 +94,14 @@ void gaussian_packet::set_n(double n) {
     k0 = 2 * M_PI * n / L;
 }
 
-double gaussian_packet::get_n(double n) const {
+double gaussian_packet::get_n() const {
     return k0 * L / (2 * M_PI);
 }
 
 void gaussian_packet::_register_methods() {
-    register_property<gaussian_packet, double>("first", &gaussian_packet::first);
-    register_property<gaussian_packet, double>("L", &gaussian_packet::L);
-    register_property<gaussian_packet, double>("n", &gaussian_packet::set_n, &gaussian_packet::set_n);
-    register_property<gaussian_packet, double>("x0", &gaussian_packet::x0);
-    register_property<gaussian_packet, double>("sigma", &gaussian_packet::sigma);
+    register_property<gaussian_packet, double>("first", &gaussian_packet::first, -1.0);
+    register_property<gaussian_packet, double>("L", &gaussian_packet::L, 2.0);
+    register_property<gaussian_packet, double>("n", &gaussian_packet::set_n, &gaussian_packet::get_n, 0.0);
+    register_property<gaussian_packet, double>("x0", &gaussian_packet::x0, 0.0);
+    register_property<gaussian_packet, double>("sigma", &gaussian_packet::sigma, 1.0);
 }
