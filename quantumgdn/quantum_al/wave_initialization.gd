@@ -20,7 +20,7 @@ func _ready():
 	# potential initialization
 	var potential = load("res://bin/uniform_potential.gdns").new()
 	potential.value = 5
-	self.V = potential
+	self.V = potential.pass()
 	
 	pass # Replace with function body.
 

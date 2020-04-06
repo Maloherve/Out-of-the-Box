@@ -50,14 +50,14 @@ namespace godot {
         // careful, after this operation the buffer wouldn't be no more available
         void _set_wave(Ref<grid_wave> buffer);
 
-        // get 
+        // get a reference to the wave
         Ref<grid_wave> _get_wave();
 
         /*
          * Potential property
          */
-        void set_potential(Ref<grid_potential> pot);
-        Ref<grid_potential> get_potential() const;
+        void _set_potential(Ref<grid_potential> pot);
+        Ref<grid_potential> _get_potential() const;
 
         //void set_evolver(Reference* integ);
         //Reference * get_evolver() const;

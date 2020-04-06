@@ -4,6 +4,8 @@
 #include <Reference.hpp>
 #include <memory>
 
+#include <iostream>
+
 #define POTENTIAL_CLASS(instance) this->_set(instance);
 
 namespace qsim {
@@ -22,20 +24,17 @@ namespace godot {
 
         std::shared_ptr<qsim::potential<Coords>> m_pot;
 
-    protected:
-        void _set(qsim::potential<Coords>* pot) {
-            m_pot = std::shared_ptr<qsim::potential<Coords>>(pot);
-        }
-
     public:
 
-        potential() : m_pot(nullptr) {}
+        potential(std::shared_ptr<qsim::potential<Coords>> ref = nullptr) : m_pot(ref) {
+            std::cerr << "Potential constructro" << std::endl;
+        }
 
         virtual ~potential() {}
         
         // static_cast convertion convertion
         inline operator std::shared_ptr<qsim::potential<Coords>>() const {
-            return m_pot;
+            return std::shared_ptr<qsim::potential<Coords>>(m_pot);
         }
 
         inline bool is_safe() const {
@@ -44,6 +43,7 @@ namespace godot {
 
         void _init() {
             // nothing to do
+            m_pot = nullptr;
         }
 
         double access(Coords m) {
@@ -54,6 +54,19 @@ namespace godot {
             register_method("get", &potential::access);
         }
     };
+
+    template<class Coords>
+    class potential_obj : virtual public Object {
+    public:
+
+        virtual Ref<potential<Coords>> _abstract() = 0;
+
+        operator Ref<potential<Coords>>() {
+            return _abstract();
+        }
+
+#define POTENTIAL_OBJ(subclass) register_method("pass", &subclass::_abstract);
+};
 
     typedef potential<size_t> grid_potential;
 }

@@ -111,5 +111,9 @@ namespace qsim {
         inline WaveFunction& psi() {
             return wave;
         }
+
+        std::shared_ptr<potential<Coords>> potential_ptr() const {
+            return pot;
+        }
     };
 }
