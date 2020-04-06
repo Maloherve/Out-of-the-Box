@@ -11,20 +11,41 @@ using namespace qsim::pot;
 qgridsystem1D::qgridsystem1D() 
     : qsystem1D(1.0, 
                 {-1.0, 1.0},
-                gaussian_packet().generate()->ref(), 
+                wave_vector(5, 0.0), // trivial wave function
                 nullptr, // zero potential, not a godot reference
                 std::make_shared<qsystem1D::explicit_evolver>()),
         m_potential(nullptr) {
 
         }
 
+#include <iostream>
+
 void qgridsystem1D::_init() {
+
+    using namespace std;
+
+    std::cerr << "Init" << endl;
+
+    grid_potential * pot_init = new grid_uniform_potential;
+
+    std::cerr << "Potential initialized" << endl;
+
+    Ref<grid_potential> pot_ref(pot_init);
+
+    std::cerr << "Potential reference initialized" << endl;
+
     // default values
-    set_potential(new grid_uniform_potential);
+    set_potential(pot_ref);
+
+    std::cerr << "Potential set" << endl;
+
+    //gaussian_packet().generate()->ref()
 
     // initialize reference
     Ref<gaussian_packet> w(new gaussian_packet);
     _set_wave(w->generate());
+
+    std::cerr << "Gaussian packet set" << endl;
 }
 
 qgridsystem1D::~qgridsystem1D() {}
@@ -72,18 +93,29 @@ double qgridsystem1D::_size() const {
 
 void qgridsystem1D::set_potential(Ref<grid_potential> pot) {
 
-    potential<size_t> * ptr = *pot; 
+    std::cerr << "Get potential reference" << std::endl;
+
+    grid_potential * ptr = *pot; 
+
+    std::cerr << "Got potential reference" << std::endl;
 
     if (!(ptr != nullptr && ptr->is_safe())) {
+        std::cerr << "Aptempting to initialize a null pointer or an unsafe reference" << std::endl;
         // TODO throw godot exception
         return;
     }
+
+    std::cerr << "Setting potential reference" << std::endl;
     
     // set the old potential 
     m_potential = pot; 
+
+    std::cerr << "Potential reference set" << std::endl;
     
     // finally set the potential 
     qsim::grid::qsystem1D::set_potential(*ptr); 
+
+    std::cerr << "Potential set to qsim::grid::qsystem1D" << std::endl;
 }
 
 Ref<grid_potential> qgridsystem1D::get_potential() const {

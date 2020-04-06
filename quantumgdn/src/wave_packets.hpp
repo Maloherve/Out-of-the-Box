@@ -73,6 +73,9 @@ namespace godot {
                 
         qsim::grid::wave_t operator()(size_t k) const;
 
+        void set_second(double);
+        double get_second() const;
+
         void set_n(double n);
         double get_n() const;
 

@@ -73,6 +73,7 @@ gaussian_packet::gaussian_packet(size_t _N, double _first, double _second, doubl
             k0(2 * M_PI * n / L), x0(_x0), 
             sigma(_sigma) {}
 
+gaussian_packet::~gaussian_packet() {}
 
 wave_t gaussian_packet::operator()(size_t k) const {
 
@@ -89,6 +90,13 @@ void gaussian_packet::_init() {
     sigma = 1.0;
 }
 
+void gaussian_packet::set_second(double value) {
+    L = value - first;
+}
+
+double gaussian_packet::get_second() const {
+    return first + L;
+}
 
 void gaussian_packet::set_n(double n) {
     k0 = 2 * M_PI * n / L;
@@ -100,7 +108,7 @@ double gaussian_packet::get_n() const {
 
 void gaussian_packet::_register_methods() {
     register_property<gaussian_packet, double>("first", &gaussian_packet::first, -1.0);
-    register_property<gaussian_packet, double>("L", &gaussian_packet::L, 2.0);
+    register_property<gaussian_packet, double>("second", &gaussian_packet::set_second, &gaussian_packet::get_second, 1.0);
     register_property<gaussian_packet, double>("n", &gaussian_packet::set_n, &gaussian_packet::get_n, 0.0);
     register_property<gaussian_packet, double>("x0", &gaussian_packet::x0, 0.0);
     register_property<gaussian_packet, double>("sigma", &gaussian_packet::sigma, 1.0);

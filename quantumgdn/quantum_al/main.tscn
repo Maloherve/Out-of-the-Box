@@ -7,4 +7,5 @@
 
 [node name="Simulator" type="Node" parent="."]
 script = ExtResource( 2 )
+mass = 40.0
 V = ExtResource( 1 )
