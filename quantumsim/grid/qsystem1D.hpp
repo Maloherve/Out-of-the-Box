@@ -22,12 +22,14 @@ namespace qsim::grid {
         
         // hamiltonian object
         std::pair<double, double> boundaries;
-        double dx;
 
         H_matrix_1D H; // non-constant, the mass could change
         
         // standard matrix A
         static const math::diagonals<double, 3> A;
+        
+        // determine first hamiltonian term in function of the mass and the discretization step
+        qsim::math::diagonals<double, 3> H_zero() const;
 
     public: 
 
@@ -44,7 +46,9 @@ namespace qsim::grid {
         virtual const H_matrix_1D* hemiltonian_ptr() const {
             return &H;
         }        
-
+        
+        // update the hamiltonian matrix
+        void update_H();
         
         // change the hemiltonian expression
         virtual void set_mass(double) override;
@@ -58,6 +62,31 @@ namespace qsim::grid {
 
         // normalize the wave function
         virtual double normalize() override;
+        
+        // override these functions
+        void replace_wave(const wave_vector& other);
+        void replace_wave(wave_vector&& other);
+
+        /*
+         * Access to boundaries
+         */
+
+        const std::pair<double, double>& bounds() const;
+
+        inline double lower_bound() const {
+            return boundaries.first;
+        }
+
+        inline double upper_bound() const {
+            return boundaries.second;
+        }
+
+        void set_upper_bound(double up);
+        void set_lower_bound(double low);
+
+        inline double dx() const {
+            return (boundaries.second - boundaries.first) / size();
+        }
 
         std::vector<double> generate_map() const;
 

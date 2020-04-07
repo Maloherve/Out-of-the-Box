@@ -2,7 +2,7 @@
 #include "constants.hpp"
 #include "potential.hpp"
 
-    #include "grid/integrators.hpp"
+#include "grid/integrators.hpp"
 
 using namespace qsim::grid;
 
@@ -15,31 +15,37 @@ qsystem1D::qsystem1D(double _m,
                      std::shared_ptr<evolver<size_t, wave_vector, grid_H_1D>> _evolver
                      ) : qgridsystem<H_matrix_1D>(_m, _wave, _V, _evolver),
                         boundaries(_bounds),
-                        // TODO, adjust correct dx
-                        dx((_bounds.second - _bounds.first) / _wave.size()),
                         // compose the hemiltonian matrix
                         H(
                             0.0,
-                            math::diagonals<double,3>((- hbar * hbar / (2 * mass() * dx * dx)) * A), 
+                            H_zero(), 
                             std::function<double (size_t)>([&] (size_t k) -> double { return V()(k); }) 
                          )
         {
         }
 
+qsim::math::diagonals<double, 3> qsystem1D::H_zero() const {
+    return math::diagonals<double,3>((- hbar * hbar / (2 * mass() * pow(dx(), 2))) * A);
+}
+
+void qsystem1D::update_H() {
+    /*
+     * Regenerate the part of the matrix which corresponds to 
+     * the H_0 hamiltonian
+     */
+    H.get<1>() = H_zero();
+}
 
 void qsystem1D::set_mass(double _m) {
-    double old = mass();
     qgridsystem<H_matrix_1D>::set_mass(_m);
-    // using mass assures the positivity
-    // get<1> refers to the A matrix component
-    H.get<1>() *= mass() / old;
+    update_H();
 }
 
 double qsystem1D::normalize() {
 
     wave_t norm = grid::grid_integrate(psi(), [&] (const neighbourhood<>& map, size_t location) {
                     return map.at(location, 0); // return the value itself
-                }, dx);
+                }, dx());
 
     if (abs(norm.imag()) > qsim::machine_prec)
         throw norm; // TODO, a real error
@@ -61,8 +67,37 @@ std::vector<double> qsystem1D::generate_map() const {
     return out;
 }
 
+
+void qsystem1D::replace_wave(const wave_vector& other) {
+    qgridsystem<H_matrix_1D>::replace_wave(other);
+    update_H(); // update matrix
+}
+
+void qsystem1D::replace_wave(wave_vector&& other) {
+    qgridsystem<H_matrix_1D>::replace_wave(other);
+    update_H(); // update matrix
+}
+
+const std::pair<double, double>& qsystem1D::bounds() const {
+    return boundaries;
+}
+
 double qsystem1D::map(size_t k) const {
-    return boundaries.first + dx * k;
+    return boundaries.first + dx() * k;
+}
+
+void qsystem1D::set_upper_bound(double up) {
+    if (up > boundaries.first) {
+        boundaries.second = up;
+        update_H();
+    }
+}
+
+void qsystem1D::set_lower_bound(double low) {
+    if (low < boundaries.second) {
+        boundaries.first = low;
+        update_H();
+    }
 }
 
 // TODO, implement trapezium integration
@@ -71,7 +106,7 @@ double qsystem1D::energy() const {
     wave_t result = grid::grid_integrate(psi(), [&] (const neighbourhood<>& map, size_t location) {
                     return H0 * (map.at(location, -1) + map.at(location, 1))  
                         + (V()(location) - 2 * H0) * map.at(location, 0); // return the value itself
-                }, dx);
+                }, dx());
 
     if (abs(result.imag()) > qsim::machine_prec)
         throw result; // TODO, a real error

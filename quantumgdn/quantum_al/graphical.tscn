@@ -1,0 +1,24 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://wave_visual.gd" type="Script" id=1]
+
+[sub_resource type="CanvasItemMaterial" id=1]
+
+[sub_resource type="ParticlesMaterial" id=2]
+flag_disable_z = true
+gravity = Vector3( 0, 98, 0 )
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+
+[node name="CanvasModulate" type="CanvasModulate"]
+modulate = Color( 0.466667, 0.756863, 0.854902, 1 )
+self_modulate = Color( 0.286275, 0.780392, 0.513726, 1 )
+show_behind_parent = true
+light_mask = 7
+material = SubResource( 1 )
+color = Color( 0.211765, 0.411765, 0.623529, 1 )
+
+[node name="Particles2D" type="Particles2D" parent="."]
+lifetime = 0.5
+process_material = SubResource( 2 )
+script = ExtResource( 1 )

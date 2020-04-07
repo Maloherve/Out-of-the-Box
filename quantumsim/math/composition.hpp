@@ -100,13 +100,14 @@ namespace qsim::math {
        
         /*
          * Get element by positional index
+         * index 0 = identity part
          */ 
         template <size_t K>
         auto& get() {
             if constexpr (K == 0)
                 return identity;
             else {
-                return std::get<K>(components);
+                return std::get<K-1>(components);
             }
         }
 

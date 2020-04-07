@@ -8,6 +8,8 @@ var potential = null
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	
+	set_process(false)
 		
 	# resolve node dependencies
 	qsystem = get_node("qsystem")
@@ -25,8 +27,12 @@ func _ready():
 	packet.size = 100
 	
 	# initialize the wave with this packet
-	qsystem.psi.set_packet(packet) 
+	qsystem.psi.set_packet(packet)
+	pass 
+
+var t = 0
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	print("System energy: ", qsystem.energy())
+	t += delta
+	print("System energy at ", t, ": ", qsystem.energy())

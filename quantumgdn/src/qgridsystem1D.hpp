@@ -68,7 +68,7 @@ namespace godot {
         void _ready();
         
         // GD evolve
-        void _process(double dt);
+        void _fixed_process(double dt);
 
         // bindings
         static void _register_methods();

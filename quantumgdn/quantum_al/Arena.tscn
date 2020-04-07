@@ -1,0 +1,29 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Background.tscn" type="PackedScene" id=1]
+[ext_resource path="res://barrier.tres" type="Texture" id=2]
+[ext_resource path="res://blink.gd" type="Script" id=3]
+
+[node name="Arena" type="Node2D"]
+
+[node name="Background" parent="." instance=ExtResource( 1 )]
+position = Vector2( 4.20474, 8.40945 )
+
+[node name="CanvasModulate" type="CanvasModulate" parent="."]
+script = ExtResource( 3 )
+
+[node name="Parquet" type="ColorRect" parent="CanvasModulate"]
+margin_left = -19.0
+margin_top = 653.0
+margin_right = 1412.0
+margin_bottom = 704.0
+color = Color( 0.152941, 0.12549, 0.392157, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Sprite" type="Sprite" parent="CanvasModulate"]
+position = Vector2( 766.3, 464.387 )
+rotation = -1.5708
+scale = Vector2( 0.216723, 80 )
+texture = ExtResource( 2 )

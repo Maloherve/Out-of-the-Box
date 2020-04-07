@@ -26,15 +26,14 @@ void qgridsystem1D::_init() {
 
 qgridsystem1D::~qgridsystem1D() {
     npdebug("Freeing system")
-    //delete wave_fct; // TODO, check if crash
-    npdebug("Freed system")
 }
 
 void qgridsystem1D::_register_methods() {
-    // direct methods
-    register_method("_process", &qgridsystem1D::_process);
+    // godot built-in
+    register_method("_fixed_process", &qgridsystem1D::_fixed_process);
     register_method("_ready", &qgridsystem1D::_ready);
-    register_property<qgridsystem1D, double>("mass", &qgridsystem1D::set_mass, &qgridsystem1D::mass, 1.0);
+
+    // direct methods
     register_method("energy", &qgridsystem1D::_energy);
     register_method("position", &qgridsystem1D::_position);
     register_method("momentum", &qgridsystem1D::_momentum);
@@ -42,7 +41,10 @@ void qgridsystem1D::_register_methods() {
     register_method("map", &qgridsystem1D::_map);
     register_method("size", &qgridsystem1D::_size);
     
-    // methods that need to be adapted
+    // properties
+    register_property<qgridsystem1D, double>("mass", &qgridsystem1D::set_mass, &qgridsystem1D::mass, 1.0);
+    register_property<qgridsystem1D, double>("upper_bound", &qgridsystem1D::set_upper_bound, &qgridsystem1D::upper_bound, 1.0);
+    register_property<qgridsystem1D, double>("lower_bound", &qgridsystem1D::set_lower_bound, &qgridsystem1D::lower_bound, -1.0);
     register_property<qgridsystem1D, grid_potential*>("V", &qgridsystem1D::_set_potential, &qgridsystem1D::_get_potential, nullptr);
     register_property<qgridsystem1D, grid_wave*>("psi", &qgridsystem1D::_set_wave, &qgridsystem1D::_get_wave, nullptr);
 }
@@ -139,7 +141,7 @@ void qgridsystem1D::_ready() {
     qsim::grid::qsystem1D::normalize();
 }
 
-void qgridsystem1D::_process(double dt) {
+void qgridsystem1D::_fixed_process(double dt) {
     // default values
     npdebug("Evolving system")
     qsim::grid::qsystem1D::evolve(dt);

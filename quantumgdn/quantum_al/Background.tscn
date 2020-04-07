@@ -1,0 +1,20 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://woods.png" type="Texture" id=1]
+
+[sub_resource type="CanvasItemMaterial" id=1]
+
+[node name="Background" type="Node2D"]
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
+
+[node name="CanvasModulate" type="CanvasModulate" parent="ParallaxBackground/ParallaxLayer"]
+material = SubResource( 1 )
+color = Color( 0.862745, 0.282353, 0.623529, 1 )
+
+[node name="Sprite" type="Sprite" parent="ParallaxBackground/ParallaxLayer/CanvasModulate"]
+position = Vector2( 693.546, 348.895 )
+scale = Vector2( 1.79672, 1.16231 )
+texture = ExtResource( 1 )
