@@ -22,7 +22,7 @@ func _ready():
 	packet.size = 100
 	
 	# initialize the wave with this packet
-	get_parent().set_packet(packet) 
+	wave.set_packet(packet) 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):

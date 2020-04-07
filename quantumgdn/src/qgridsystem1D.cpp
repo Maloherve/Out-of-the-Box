@@ -14,18 +14,20 @@ qgridsystem1D::qgridsystem1D()
     : qsystem1D(1.0, 
                 {-1.0, 1.0},
                 wave_vector(1, 0.0), // trivial wave function
-                std::make_shared<grid_uniform_potential>(), // zero potential, not a godot reference
+                std::make_shared<qsim::pot::uniform<size_t>>(), // zero potential, not a godot reference
                 std::make_shared<qsystem1D::explicit_evolver>()),
-    wave_fct(nullptr) {}
+    wave_fct(nullptr), m_potential(nullptr) {}
 
 void qgridsystem1D::_init() {
-    //wave_fct = grid_wave::_new();
-    //wave_fct->set_instance(&psi());
-    //add_child(wave_fct);
+    wave_fct = grid_wave::_new();
+    wave_fct->set_instance(&psi());
+    add_child(wave_fct);
 }
 
 qgridsystem1D::~qgridsystem1D() {
     npdebug("Freeing system")
+    delete wave_fct; // TODO, check if crash
+    npdebug("Freed system")
 }
 
 void qgridsystem1D::_register_methods() {
@@ -40,7 +42,7 @@ void qgridsystem1D::_register_methods() {
     register_method("size", &qgridsystem1D::_size);
     
     // methods that need to be adapted
-    //register_property<qgridsystem1D, Ref<potential<size_t>>>("V", &qgridsystem1D::_set_potential, &qgridsystem1D::_get_potential, nullptr);
+    register_property<qgridsystem1D, grid_potential>("V", &qgridsystem1D::_set_potential, &qgridsystem1D::_get_potential, nullptr);
     register_property<qgridsystem1D, grid_wave*>("psi", &qgridsystem1D::_set_wave, &qgridsystem1D::_get_wave, nullptr);
 }
 
@@ -69,11 +71,9 @@ double qgridsystem1D::_size() const {
     return size();
 }
 
-void qgridsystem1D::_set_potential(Ref<grid_potential> pot) {
+void qgridsystem1D::_set_potential(grid_potential * pot) {
 
-    grid_potential * ptr = *pot; 
-
-    if (!(ptr != nullptr && ptr->is_safe())) {
+    if (!(pot != nullptr && pot->is_safe())) {
         npdebug("Aptempting to initialize a null pointer or an unsafe reference")
         npdebug("Godot reference grid potential pointer: ", ptr)
         // TODO throw godot exception
@@ -81,11 +81,11 @@ void qgridsystem1D::_set_potential(Ref<grid_potential> pot) {
     }
     
     // finally set the potential 
-    qsim::grid::qsystem1D::set_potential(*ptr); 
+    qsim::grid::qsystem1D::set_potential(*pot); 
 }
 
-Ref<grid_potential> qgridsystem1D::_get_potential() const {
-    return new grid_potential(potential_ptr());
+grid_potential * qgridsystem1D::_get_potential() const {
+    return m_potential;
 }
 
 
