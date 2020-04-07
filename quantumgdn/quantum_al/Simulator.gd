@@ -1,16 +1,26 @@
 extends Node
-
-
 # Declare member variables here. Examples:
 # var a = 2
 # var b = "text"
 
+var qsystem = null
+var potential = null
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	
+	for nd in get_children():
+		print(nd.get_path())
+		
 	# resolve node dependencies
-	var wave = get_parent() # get wave node
-	var sim = wave.get_parent()
-	sim.psi = wave
+	qsystem = get_node("qsystem")
+	potential = get_node("potential")
+	
+	qsystem.V = potential
+	
+	# children test
+	for nd in qsystem.get_children():
+		print(nd.get_path())
 	
 	# initialize and customize a wave packet
 	var packet = load("res://bin/gaussian_packet.gdns").new()
@@ -22,8 +32,8 @@ func _ready():
 	packet.size = 100
 	
 	# initialize the wave with this packet
-	wave.set_packet(packet) 
+	qsystem.psi.set_packet(packet) 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
+func _process(delta):
+	print("System energy: ", qsystem.energy())

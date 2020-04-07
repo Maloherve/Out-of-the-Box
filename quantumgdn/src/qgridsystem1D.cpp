@@ -131,7 +131,13 @@ grid_wave * qgridsystem1D::_get_wave() const {
     return m_evolver;
 }*/
 
+void qgridsystem1D::_ready() {
+    qsim::grid::qsystem1D::normalize();
+}
+
 void qgridsystem1D::_process(double dt) {
     // default values
+    npdebug("Evolving system")
     qsim::grid::qsystem1D::evolve(dt);
+    qsim::grid::qsystem1D::normalize();
 }
