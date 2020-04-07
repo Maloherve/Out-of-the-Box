@@ -8,6 +8,8 @@ var debug_mode : bool = false;
 var darken : bool = false;
 const WORLD_MODULATE_COLOR : Color = Color(0.5,1,0.5);
 const PLAYER_MODULATE_COLOR : Color = Color(0.3,0.3,0.3)
+# Player 
+var teleport_player : bool = false;
 
 func _ready():
 	# Connect Signals
@@ -43,9 +45,26 @@ func _get_input():
 		debug_mode = !debug_mode;
 
 
+# Teleports the character
+func teleport():
+	# Wave returns a random posistion
+	var new_pos : Vector2 = $Fonction_Onde.rand_pos()
+	
+	
+	
+	
+	
+	pass
+
+# Finds the new position in the wave
+func find_position_wave():
+	pass
+
+
 # ----- Node Function ------
 func on_Player_start_casting():
 	darken = true;
 
 func on_Player_stop_casting():
+	teleport_player = true;
 	darken = false;
