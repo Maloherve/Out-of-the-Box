@@ -42,7 +42,7 @@ void qgridsystem1D::_register_methods() {
     register_method("size", &qgridsystem1D::_size);
     
     // methods that need to be adapted
-    register_property<qgridsystem1D, grid_potential>("V", &qgridsystem1D::_set_potential, &qgridsystem1D::_get_potential, nullptr);
+    register_property<qgridsystem1D, grid_potential*>("V", &qgridsystem1D::_set_potential, &qgridsystem1D::_get_potential, nullptr);
     register_property<qgridsystem1D, grid_wave*>("psi", &qgridsystem1D::_set_wave, &qgridsystem1D::_get_wave, nullptr);
 }
 
@@ -75,7 +75,7 @@ void qgridsystem1D::_set_potential(grid_potential * pot) {
 
     if (!(pot != nullptr && pot->is_safe())) {
         npdebug("Aptempting to initialize a null pointer or an unsafe reference")
-        npdebug("Godot reference grid potential pointer: ", ptr)
+        npdebug("Godot reference grid potential pointer: ", pot)
         // TODO throw godot exception
         return;
     }
