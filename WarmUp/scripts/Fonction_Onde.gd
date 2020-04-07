@@ -5,10 +5,12 @@ var x_min : float = -20;				# Minimum value to calculate the wave function
 var x_max : float = 20;					# Maximum value to calculate the wave function
 var N : int = 1000;						# Precision of the function (number of points)
 var step : float= (x_max - x_min)/N;	# Step in x axis (ie distance between two x points)
+var x : Array;							# Actual x axis for the Wave Function
 var y : Array;							# Value of the wave Function
 var change_to_function : bool = false;
+var xboost = 10;						# Makes the Wave function longer
 # Variables for the gaussian
-var amplitude : float = 10;				# Amplitude of the Wave Function
+var amplitude : float = - 10;			# Negative because y positive is down
 var fo_x : float = 0;					# x position of the peak
 # Player
 var can_modify : bool = false;			# Can the wave function be modified by the player
@@ -25,8 +27,12 @@ func _ready():
 	player.connect("is_casting", self, "on_Player_is_casting")
 	player.connect("stop_casting", self, "on_Player_stop_casting");
 	player.connect("finish_casting", self, "on_Player_finish_casting");
-#	Determine Wave Function
-	set_to_gaussian();
+#	Make x
+	for i in range(N): x.push_back(x_min + i*step);
+#	Initialize Wave Function
+	for i in range(N):
+		y.push_back(amplitude*exp(-x[i]*x[i]/2))
+	pass
 
 
 # Execute ASAP
@@ -38,11 +44,10 @@ func _process(delta):
 		else:
 			modulate.a = lerp(modulate.a, 0.5, 0.01);
 	
-#	Apply changes to function
+#	Apply changes to function for gaussian case
 	if change_to_function:
-		for i in range(N+1):
-			var x = x_min + i*step + fo_x;
-			y[i] = amplitude*exp(-x*x/2);
+		for i in range(N):
+			y[i] = amplitude*exp(-(x[i] - fo_x)*(x[i] - fo_x)/2);
 		change_to_function = false;
 	
 #	Update draw
@@ -54,19 +59,19 @@ func _physics_process(delta):
 	_get_input();
 	pass
 
-
+# Inputs to modify the wave function
 func _get_input():
 	if Input.is_action_just_pressed("ui_up") && can_modify:
-		amplitude += 1;
-		change_to_function = true;
-	if Input.is_action_just_pressed("ui_down") && can_modify:
 		amplitude -= 1;
 		change_to_function = true;
+	if Input.is_action_just_pressed("ui_down") && can_modify:
+		amplitude += 1;
+		change_to_function = true;
 	if Input.is_action_just_pressed("ui_left") && can_modify:
-		fo_x += 1;
+		fo_x -= 1;
 		change_to_function = true;
 	if Input.is_action_just_pressed("ui_right") && can_modify:
-		fo_x -= 1;
+		fo_x += 1;
 		change_to_function = true;
 	pass
 
@@ -74,19 +79,15 @@ func _get_input():
 func _draw():
 	if draw_wave_function:
 		draw_function(player.position, y, false);
-	pass
 
 
-# Return a random position 
-func rand_pos():
+# Find a random point in x axis of the Wave Function, weighted by value of Wave Function
+func random_point() -> Vector2: 
 	var new_pos : Vector2;
-	
-	
-	
+#	Find new x and y
+	new_pos.x = player.position.x + xboost * weighted_choice(x, y.duplicate());
+	new_pos.y = player.position.y;
 	return new_pos;
-
-
-
 
 
 # ----- Player Action ------
@@ -107,9 +108,10 @@ func on_Player_finish_casting():
 	fade_wave_function = false;
 	modulate.a = 0;
 	fo_x = 0;
-	amplitude = 10;
+	amplitude = -10;
 	change_to_function = true;
 # --------------------------
+
 
 # ------- Draw Functions ------- 
 func draw_path(path, color):
@@ -120,22 +122,63 @@ func draw_function(origin, list, vert):
 	var line_width = 3;
 	var color = Color(0,1,0);
 	if !vert:
-		var yboost = -7;   # Negative because in Godot, positive goes down
-		var xboost = 10;
+		var yboost = 7;   # Negative because in Godot, positive goes down
 		var step = (x_max - x_min)/N;
-		for i in range(N):
-			var x = x_min + i*step;
-			var x_ = x_min + (i+1)*step;
-			draw_line(origin + Vector2(xboost * x, yboost * list[i]), origin + Vector2(xboost * x_, yboost * list[i+1]), color, line_width)
+		for i in range(N-1):
+			draw_line(origin + Vector2(xboost * x[i], yboost * list[i]), origin + Vector2(xboost * x[i+1], yboost * list[i+1]), color, line_width)
+# -----------------------------------
+
+
+
+# ---- Functions Related to Probability Manipulation -----
+# Find a random number within a weighted list
+func weighted_choice(numbers, weights) -> float:
+	var choice;
+#	Normalise
+	weights = multiply(weights, 1/sum_of_array(weights));
+	weights = cumulative_array(weights);
+	var rng = RandomNumberGenerator.new();
+	rng.randomize();
+	var random = rng.randf();
+	for i in range(weights.size()-1):
+		if random < weights[i]:
+			choice = numbers[i];
+			return choice;
+	print("There was a problem")
+	return choice;
+
+
+func sum_of_array(array) -> float:
+	var sum: float = 0;
+	for element in array:
+		sum += element;
+	return sum;
+
+
+func cumulative_array(array) -> Array:
+	var cum_array : Array
+	cum_array.push_back(array[0]);
+	for i in range(1,array.size()):
+		cum_array.push_back(cum_array[i-1] + array[i]);
+	return cum_array;
+
+
+func multiply(array, constant) -> Array:
+	for i in range(array.size()): array[i] *= constant;
+	return array
+
+
+func add(array, constant) -> Array:
+	for i in range(array.size()): array[i] += constant;
+	return array
 # -----------------------------------
 
 
 # ------- Wave Function -------
 func set_to_gaussian():
-	for i in range(N+1):
-		var x = x_min + i*step;
-		y += [amplitude*exp(-x*x/2)]
+	for i in range(N):
+		y[i] = amplitude*exp(-x[i]*x[i]/2)
 	pass
-
+# -----------------------------------
 
 

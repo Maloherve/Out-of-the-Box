@@ -10,12 +10,12 @@ const WORLD_MODULATE_COLOR : Color = Color(0.5,1,0.5);
 const PLAYER_MODULATE_COLOR : Color = Color(0.3,0.3,0.3)
 # Player 
 var teleport_player : bool = false;
+# TMP
 
 func _ready():
 	# Connect Signals
 	$Player.connect("start_casting", self, "on_Player_start_casting");
 	$Player.connect("stop_casting", self, "on_Player_stop_casting");
-
 
 # Execute ASAP
 func _process(delta):
@@ -32,7 +32,9 @@ func _process(delta):
 		$InfoScreen.show();
 	else:
 		$InfoScreen.hide();
-
+	
+	if (teleport_player):
+		teleport();
 
 # Execute Regularly
 func _physics_process(delta):
@@ -48,18 +50,10 @@ func _get_input():
 # Teleports the character
 func teleport():
 	# Wave returns a random posistion
-	var new_pos : Vector2 = $Fonction_Onde.rand_pos()
-	
-	
-	
-	
-	
-	pass
-
-# Finds the new position in the wave
-func find_position_wave():
-	pass
-
+	var new_pos : Vector2 = $Fonction_Onde.random_point()
+	$Player.position = new_pos;
+	$Fonction_Onde.set_to_gaussian();
+	teleport_player = false;
 
 # ----- Node Function ------
 func on_Player_start_casting():

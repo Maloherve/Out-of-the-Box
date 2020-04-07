@@ -3,7 +3,7 @@ extends HBoxContainer
 # This node will give information on the state of the game : FPS, position, velocity ....
 
 # Nodes
-onready var Fonction_Onde = get_tree().get_root().get_node("Level/World").get_node("Fonction_Onde");
+onready var Fonction_Onde = get_tree().get_root().get_node("Level").get_node("Fonction_Onde");
 onready var Player = get_tree().get_root().get_node("Level/Player");
 onready var World_Info_Label = $LeftInfo/World_Info_Label;
 onready var Player_Info_Label = $RightInfo/Player_Info_Label;
@@ -26,7 +26,8 @@ func _process(delta):
 func _physics_process(delta):
 #	Print out the text
 #	World
-	World_Info_Label.text = "FPS : " + str(1/delta) + "\n"
+	World_Info_Label.text = "FPS : " + str(1/delta) + "\n";
+	World_Info_Label.text += "Wave function precision : N = " + str(Fonction_Onde.N) + "\n";
 #	Player
 	Player_Info_Label.text = "Position = " + str(Vector2(round(Player.position[0]), round(Player.position[1]))) + "\n";
 	Player_Info_Label.text += "Velocity = " + str(Vector2(round(Player.velocity[0]), round(Player.velocity[1]))) + "\n";
