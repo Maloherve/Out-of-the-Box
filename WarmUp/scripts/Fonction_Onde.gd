@@ -1,19 +1,20 @@
 extends Node2D
 
 # Variables for wave function
-var x_min : float = -20;
-var x_max : float = 20;
-var N : int = 100;
-var step = (x_max - x_min)/N;
-var y : Array;
-var amplitude : float = 10;
-var fo_x : float = 0;
+var x_min : float = -20;				# Minimum value to calculate the wave function
+var x_max : float = 20;					# Maximum value to calculate the wave function
+var N : int = 1000;						# Precision of the function (number of points)
+var step : float= (x_max - x_min)/N;	# Step in x axis (ie distance between two x points)
+var y : Array;							# Value of the wave Function
 var change_to_function : bool = false;
+# Variables for the gaussian
+var amplitude : float = 10;				# Amplitude of the Wave Function
+var fo_x : float = 0;					# x position of the peak
 # Player
-var can_modify : bool = false; 
+var can_modify : bool = false;			# Can the wave function be modified by the player
 # Other
 var draw_wave_function : bool = false;
-var darken_wave_function : bool = false;
+var fade_wave_function : bool = false;
 # Nodes
 onready var player = get_tree().get_root().get_node("Level").get_node("Player")
 
@@ -32,7 +33,7 @@ func _ready():
 func _process(delta):
 #	Make the wave function appear slowly
 	if draw_wave_function:
-		if darken_wave_function:
+		if fade_wave_function:
 			modulate.a = lerp(modulate.a, 0, 0.05);
 		else:
 			modulate.a = lerp(modulate.a, 0.5, 0.01);
@@ -76,6 +77,18 @@ func _draw():
 	pass
 
 
+# Return a random position 
+func rand_pos():
+	var new_pos : Vector2;
+	
+	
+	
+	return new_pos;
+
+
+
+
+
 # ----- Player Action ------
 func on_Player_start_casting():
 	set_to_gaussian();
@@ -85,13 +98,13 @@ func on_Player_is_casting():
 	can_modify = true;
 
 func on_Player_stop_casting():
-	darken_wave_function = true;
+	fade_wave_function = true;
 	can_modify = false;
 
 func on_Player_finish_casting():
 #	Make Wave function disapear
 	draw_wave_function = false;
-	darken_wave_function = false;
+	fade_wave_function = false;
 	modulate.a = 0;
 	fo_x = 0;
 	amplitude = 10;
