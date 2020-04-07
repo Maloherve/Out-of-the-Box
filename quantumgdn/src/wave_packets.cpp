@@ -5,6 +5,10 @@
 #define _USE_MATH_DEFINES
 #include <cmath>
 
+#include "debug.hpp"
+
+#include <Ref.hpp>
+
 using namespace godot;
 using namespace qsim::grid;
 
@@ -15,7 +19,9 @@ using namespace qsim::grid;
 wave_packet::wave_packet()
         : op([&](size_t k) { return wave_t(k,0); }), N(0) {}
 
-wave_packet::~wave_packet() {}
+wave_packet::~wave_packet() {
+    npdebug("Destroying packet")
+}
 
 wave_packet::Op_iter wave_packet::begin() const {
     return Op_iter(op, 0);
@@ -25,21 +31,12 @@ wave_packet::Op_iter wave_packet::end() const {
     return Op_iter(op, N);
 }
 
-Ref<grid_wave> wave_packet::generate() const {
-    Ref<grid_wave> out = new grid_wave;
-    wave_vector* wave = new wave_vector(N);
-    wave->push(*this);
-    out->set_instance(wave, true);
-    return out;
-}
-
 void wave_packet::_init() {
     N = 50;
 }
 
 void wave_packet::_register_methods() {
     register_property<wave_packet, size_t>("size", &wave_packet::N, 50); 
-    register_method("generate", &wave_packet::generate);
 }
 
 /*
@@ -52,6 +49,7 @@ wave_t wave_packet::Op_iter::operator*() const {
     return op(k);
 }
 
+wave_packet::Op_iter::~Op_iter() {}
 
 bool wave_packet::Op_iter::operator!=(const wave_packet::Op_iter& other) const {
     return k != other.k;
@@ -73,7 +71,9 @@ gaussian_packet::gaussian_packet(size_t _N, double _first, double _second, doubl
             k0(2 * M_PI * n / L), x0(_x0), 
             sigma(_sigma) {}
 
-gaussian_packet::~gaussian_packet() {}
+gaussian_packet::~gaussian_packet() {
+    npdebug("Calling")
+}
 
 wave_t gaussian_packet::operator()(size_t k) const {
 

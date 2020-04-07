@@ -26,6 +26,7 @@ namespace godot {
         }
 
         void _set_value(double val) {
+            std::cerr << "Value set: " << val << std::endl;
             return this->set_value(val);
         }
 
@@ -34,6 +35,7 @@ namespace godot {
          */
 
         void _init() {
+            std::cerr << "Init uniform" << std::endl;
             this->set_value(0.0);
         }
 

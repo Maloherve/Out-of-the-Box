@@ -34,6 +34,7 @@ namespace godot {
         public:
 
             Op_iter(const Op& op, size_t _k);
+            ~Op_iter();
 
             qsim::grid::wave_t operator*() const;
             bool operator!=(const Op_iter& other) const;
@@ -43,15 +44,12 @@ namespace godot {
         Op_iter begin() const;
         Op_iter end() const;
         
-        // this reference will automaticly auto-delete
-        Ref<grid_wave> generate() const;
-
         void _init();
         static void _register_methods();
     };
 
     class gaussian_packet : public wave_packet {
-        GODOT_CLASS(gaussian_packet, wave_packet)
+        GODOT_SUBCLASS(gaussian_packet, wave_packet)
 
         double first;
         double L;
@@ -80,6 +78,7 @@ namespace godot {
         double get_n() const;
 
         void _init();
+
         static void _register_methods();
     };
 }

@@ -7,14 +7,12 @@ extends Node
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	var sim = self.get_parent()
-	
+	# resolve node dependencies
+	var wave = get_parent() # get wave node
+	var sim = wave.get_parent()
 	sim.psi = wave
 	
-	print(sim.mass)
-	print(sim.psi)
-	
-	# wave function initialization
+	# initialize and customize a wave packet
 	var packet = load("res://bin/gaussian_packet.gdns").new()
 	packet.first = -50
 	packet.second = 50
@@ -22,15 +20,9 @@ func _ready():
 	packet.n = 4
 	packet.sigma = 10
 	packet.size = 100
-	#self.Wave = generator
 	
-	# potential initialization
-	#var potential = load("res://bin/uniform_potential.gdns")
-	#potential.value = 5
-	#self.V = potential.reference()
-	
-	pass # Replace with function body.
-
+	# initialize the wave with this packet
+	get_parent().set_packet(packet) 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
