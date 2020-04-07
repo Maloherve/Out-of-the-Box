@@ -13,10 +13,12 @@ namespace godot {
     class qgridsystem1D : private qsim::grid::qsystem1D, public Node {
         GODOT_CLASS(qgridsystem1D, Node)
 
-        //Ref<grid_potential> m_potential;
-
+        // implicit child, accessible by psi
         grid_wave * wave_fct;
-        //Reference * m_evolver;
+
+        // explicit child, accessible by V
+        // it's supposed to be an external object
+        grid_potential * m_potential;
         
     public:
         qgridsystem1D();
@@ -48,8 +50,8 @@ namespace godot {
         /*
          * Potential property
          */
-        void _set_potential(Ref<grid_potential> pot);
-        Ref<grid_potential> _get_potential() const;
+        void _set_potential(grid_potential * pot);
+        grid_potential * _get_potential() const;
 
         //void set_evolver(Reference* integ);
         //Reference * get_evolver() const;

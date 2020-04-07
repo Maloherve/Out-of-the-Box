@@ -4,7 +4,7 @@
 #include <Reference.hpp>
 #include <memory>
 
-#include <iostream>
+#include "debug.hpp"
 
 #define POTENTIAL_CLASS(instance) this->_set(instance);
 
@@ -15,57 +15,80 @@ namespace qsim {
 
 namespace godot {
 
-    /*
-     * Wrapper for a general referenciable potential
-     */    
     template <class Coords>
-    class potential : public Reference {
-        GODOT_CLASS(potential<Coords>, Reference)
+    class potential : public Node {
+        GODOT_CLASS(potential, Node)
 
         std::shared_ptr<qsim::potential<Coords>> m_pot;
 
+    protected:
+
+        void set_ptr(std::shared_ptr<qsim::potential<Coords>> ptr){
+            m_pot = ptr;
+        }
+
     public:
 
-        potential(std::shared_ptr<qsim::potential<Coords>> ref = nullptr) : m_pot(ref) {
-            std::cerr << "Potential constructro" << std::endl;
+        potential(std::shared_ptr<qsim::potential<Coords>> ptr = nullptr) : m_pot(ptr) {
+            npdebug("Potential constructed")
         }
 
         virtual ~potential() {}
         
         // static_cast convertion convertion
         inline operator std::shared_ptr<qsim::potential<Coords>>() const {
-            return std::shared_ptr<qsim::potential<Coords>>(m_pot);
+            return m_pot;
         }
 
-        inline bool is_safe() const {
+        bool is_safe() const {
             return m_pot != nullptr;
         }
 
-        void _init() {
-            // nothing to do
-            m_pot = nullptr;
-        }
-
-        double access(Coords m) {
+        double access(Coords m) const {
             return (*m_pot)(m);
         }
+
+        void _init() {}
 
         static void _register_methods() {
             register_method("get", &potential::access);
         }
     };
 
-    template<class Coords>
-    class potential_obj : virtual public Object {
+    /*
+     * Wrapper for a general referenciable potential
+     * Coords must be a Variant like (see Godot documentation)
+     */    
+    template <class Coords, class Specific, class ... Args>
+    class potential_obj : public potential<Coords> {
+        GODOT_SUBCLASS(potential_obj, potential<Coords>)
+
+        static_assert(std::is_base_of<qsim::potential<Coords>, Specific>::value, "Potential specific type must be derived from qsim::potential<Coords>");
+
+    protected:
+
+        std::shared_ptr<Specific> m_ptr;
+
     public:
 
-        virtual Ref<potential<Coords>> _abstract() = 0;
-
-        operator Ref<potential<Coords>>() {
-            return _abstract();
+        potential_obj(const Args& ... args) 
+            : potential<Coords>(nullptr) , m_ptr(std::make_shared<Specific>(args ...))
+        {
+            this->set_ptr(std::static_pointer_cast<qsim::potential<Coords>>(m_ptr));
+            std::cerr << "Potential constructro" << std::endl;
         }
 
-#define POTENTIAL_OBJ(subclass) register_method("reference", &subclass::_abstract);
+        void _init() {
+            // nothing to do
+            //m_pot = nullptr;
+        }
+
+        virtual std::shared_ptr<qsim::potential<Coords>> get_ptr() const {
+            return std::static_pointer_cast<qsim::potential<Coords>>(m_ptr);
+        }
+
+        static void _register_methods() {
+        }
     };
 
     typedef potential<size_t> grid_potential;
