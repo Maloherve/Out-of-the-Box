@@ -41,12 +41,6 @@ namespace godot {
             this->m_ptr->set_value(0.0);
         }
 
-        static uniform_potential<Coords> * _new(double value) {
-            auto * ptr = uniform_potential<Coords>::_new();
-            ptr->set_value(value);
-            return ptr;
-        } 
-
         /*virtual Ref<potential<Coords>> _abstract() override {
             auto ptr = std::shared_ptr<qsim::potential<Coords>>(this);
             return new potential<Coords>(ptr);
@@ -58,6 +52,21 @@ namespace godot {
         }
     };
     
-    // alias for the grid case
-    typedef uniform_potential<size_t> grid_uniform_potential;
+    /*
+     * Specializations
+     */
+    class grid_uniform_potential : public uniform_potential<size_t> {
+        GODOT_SUBCLASS(grid_uniform_potential, uniform_potential<size_t>)
+    public:
+        using uniform_potential<size_t>::uniform_potential;
+        using uniform_potential<size_t>::_init;
+
+        static grid_uniform_potential* _new(double value) {
+            auto *ptr = grid_uniform_potential::_new();
+            ptr->_set_value(value);
+            return ptr;
+        }
+
+        static void _register_methods() {}
+    };
 }

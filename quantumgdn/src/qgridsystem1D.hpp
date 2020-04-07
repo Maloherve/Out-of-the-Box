@@ -65,6 +65,7 @@ namespace godot {
 
         // GD constructor
         void _init();
+        void _ready();
         
         // GD evolve
         void _process(double dt);

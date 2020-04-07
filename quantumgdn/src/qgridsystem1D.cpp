@@ -26,13 +26,14 @@ void qgridsystem1D::_init() {
 
 qgridsystem1D::~qgridsystem1D() {
     npdebug("Freeing system")
-    delete wave_fct; // TODO, check if crash
+    //delete wave_fct; // TODO, check if crash
     npdebug("Freed system")
 }
 
 void qgridsystem1D::_register_methods() {
     // direct methods
     register_method("_process", &qgridsystem1D::_process);
+    register_method("_ready", &qgridsystem1D::_ready);
     register_property<qgridsystem1D, double>("mass", &qgridsystem1D::set_mass, &qgridsystem1D::mass, 1.0);
     register_method("energy", &qgridsystem1D::_energy);
     register_method("position", &qgridsystem1D::_position);
@@ -79,6 +80,8 @@ void qgridsystem1D::_set_potential(grid_potential * pot) {
         // TODO throw godot exception
         return;
     }
+
+    m_potential = pot;
     
     // finally set the potential 
     qsim::grid::qsystem1D::set_potential(*pot); 
@@ -131,7 +134,14 @@ grid_wave * qgridsystem1D::_get_wave() const {
     return m_evolver;
 }*/
 
+void qgridsystem1D::_ready() {
+    npdebug("Normalizing function")
+    qsim::grid::qsystem1D::normalize();
+}
+
 void qgridsystem1D::_process(double dt) {
     // default values
+    npdebug("Evolving system")
     qsim::grid::qsystem1D::evolve(dt);
+    qsim::grid::qsystem1D::normalize();
 }
