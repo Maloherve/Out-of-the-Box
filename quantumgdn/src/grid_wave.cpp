@@ -12,7 +12,7 @@ grid_wave::grid_wave(wave_vector * wave)
 
 
 grid_wave::~grid_wave() {
-
+    npdebug("Successfully deleted");
 }
 
 void grid_wave::set_instance(wave_vector * wave) {

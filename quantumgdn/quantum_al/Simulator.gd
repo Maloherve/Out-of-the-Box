@@ -8,19 +8,12 @@ var potential = null
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	
-	for nd in get_children():
-		print(nd.get_path())
 		
 	# resolve node dependencies
 	qsystem = get_node("qsystem")
 	potential = get_node("potential")
 	
 	qsystem.V = potential
-	
-	# children test
-	for nd in qsystem.get_children():
-		print(nd.get_path())
 	
 	# initialize and customize a wave packet
 	var packet = load("res://bin/gaussian_packet.gdns").new()
