@@ -1,11 +1,20 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=5 format=2]
 
-[ext_resource path="res://bin/uniform_potential.gdns" type="Script" id=1]
+[ext_resource path="res://Wave_initializer.gd" type="Script" id=1]
 [ext_resource path="res://bin/qgridsystem1D.gdns" type="Script" id=2]
+[ext_resource path="res://bin/grid_wave.gdns" type="Script" id=4]
+
+[sub_resource type="GDScript" id=1]
 
 [node name="Node2D" type="Node2D"]
 
 [node name="Simulator" type="Node" parent="."]
 script = ExtResource( 2 )
-mass = 40.0
-V = ExtResource( 1 )
+mass = 60.0
+psi = SubResource( 1 )
+
+[node name="Wave function" type="Node" parent="Simulator"]
+script = ExtResource( 4 )
+
+[node name="Initialize" type="Node" parent="Simulator/Wave function"]
+script = ExtResource( 1 )

@@ -1,21 +1,23 @@
 #include "grid_wave.hpp"
 #include "quantumsim/grid/wave.hpp"
+#include "wave_packets.hpp"
 
 using namespace godot;
 using namespace qsim::grid;
 
-grid_wave::grid_wave(wave_vector * wave, bool free) 
-    : wave_ref(wave), to_be_deleted(free) {}
+#include "debug.hpp"
+
+grid_wave::grid_wave(wave_vector * wave) 
+    : wave_ref(wave) {}
 
 
 grid_wave::~grid_wave() {
-    if (to_be_deleted && wave_ref != nullptr)
-        delete wave_ref;
+
 }
 
-void grid_wave::set_instance(wave_vector * wave, bool free) {
+void grid_wave::set_instance(wave_vector * wave) {
+    npdebug("Setting instance")
     wave_ref = wave;
-    to_be_deleted = free;
 }
 
 /*
@@ -53,7 +55,9 @@ Vector2 grid_wave::_get(int m) const {
 /*
  * initializers
  */
-void grid_wave::_init() {}
+void grid_wave::_init() {
+    npdebug("Initializing grid_wave")
+}
                                  
 void grid_wave::_register_methods() {
     register_method("real", &grid_wave::real);
@@ -62,5 +66,22 @@ void grid_wave::_register_methods() {
     register_method("size", &grid_wave::_size);
     register_method("set", &grid_wave::_set);
     register_method("get", &grid_wave::_get);
-    //register_method("push", &grid_wave::_push);
+    register_method("set_packet", &grid_wave::_set_packet);
+}
+
+void grid_wave::move_into(qsim::grid::wave_vector& other) {
+    other = std::move(*wave_ref);
+    wave_ref = &other; // other must persist
+}
+
+void grid_wave::_set_packet(Ref<wave_packet> pack) {
+    if (wave_ref == nullptr) {
+        npdebug("Null wave")
+    } else if (pack == nullptr) {
+        npdebug("Null pack")
+    } else {
+        npdebug("Setting packet")
+        wave_ref->clear();
+        wave_ref->push(*(*pack));
+    }
 }

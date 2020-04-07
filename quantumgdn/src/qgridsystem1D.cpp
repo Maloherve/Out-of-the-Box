@@ -4,6 +4,8 @@
 #include "wave_packets.hpp"
 #include "uniform_potential.hpp"
 
+#include "debug.hpp"
+
 using namespace godot;
 using namespace qsim::grid;
 using namespace qsim::pot;
@@ -11,15 +13,20 @@ using namespace qsim::pot;
 qgridsystem1D::qgridsystem1D() 
     : qsystem1D(1.0, 
                 {-1.0, 1.0},
-                wave_vector(5, 0.0), // trivial wave function
+                wave_vector(1, 0.0), // trivial wave function
                 std::make_shared<grid_uniform_potential>(), // zero potential, not a godot reference
-                std::make_shared<qsystem1D::explicit_evolver>()) {}
+                std::make_shared<qsystem1D::explicit_evolver>()),
+    wave_fct(nullptr) {}
 
 void qgridsystem1D::_init() {
-    // nothing to do
+    //wave_fct = grid_wave::_new();
+    //wave_fct->set_instance(&psi());
+    //add_child(wave_fct);
 }
 
-qgridsystem1D::~qgridsystem1D() {}
+qgridsystem1D::~qgridsystem1D() {
+    npdebug("Freeing system")
+}
 
 void qgridsystem1D::_register_methods() {
     // direct methods
@@ -33,8 +40,8 @@ void qgridsystem1D::_register_methods() {
     register_method("size", &qgridsystem1D::_size);
     
     // methods that need to be adapted
-    register_property<qgridsystem1D, Ref<potential<size_t>>>("V", &qgridsystem1D::_set_potential, &qgridsystem1D::_get_potential, nullptr);
-    register_property<qgridsystem1D, Ref<grid_wave>>("wave", &qgridsystem1D::_set_wave, &qgridsystem1D::_get_wave, nullptr);
+    //register_property<qgridsystem1D, Ref<potential<size_t>>>("V", &qgridsystem1D::_set_potential, &qgridsystem1D::_get_potential, nullptr);
+    register_property<qgridsystem1D, grid_wave*>("psi", &qgridsystem1D::_set_wave, &qgridsystem1D::_get_wave, nullptr);
 }
 
 
@@ -62,15 +69,13 @@ double qgridsystem1D::_size() const {
     return size();
 }
 
-#include <iostream>
-
 void qgridsystem1D::_set_potential(Ref<grid_potential> pot) {
 
     grid_potential * ptr = *pot; 
 
     if (!(ptr != nullptr && ptr->is_safe())) {
-        std::cerr << "Aptempting to initialize a null pointer or an unsafe reference" << std::endl;
-        std::cerr << "Godot reference grid potential pointer: " << ptr << std::endl;
+        npdebug("Aptempting to initialize a null pointer or an unsafe reference")
+        npdebug("Godot reference grid potential pointer: ", ptr)
         // TODO throw godot exception
         return;
     }
@@ -83,14 +88,17 @@ Ref<grid_potential> qgridsystem1D::_get_potential() const {
     return new grid_potential(potential_ptr());
 }
 
-void qgridsystem1D::_set_wave(Ref<grid_wave> buffer) {
-    // buffer is moved!!
-    replace_wave(std::forward<wave_vector>(buffer->ref()));
+
+void qgridsystem1D::_set_wave(grid_wave *manager) {
+
+    if (manager != nullptr)
+        manager->set_instance(&psi());
+
+    wave_fct = manager; 
 }
 
-Ref<grid_wave> qgridsystem1D::_get_wave() {
-    // create a new wrapper, do not delete at the end
-    return new grid_wave(&psi(), false);
+grid_wave * qgridsystem1D::_get_wave() const {
+    return wave_fct;
 }
 
 /*void set_evolver(Reference* evo) {
@@ -122,9 +130,6 @@ Ref<grid_wave> qgridsystem1D::_get_wave() {
 /*Reference * get_evolver() const {
     return m_evolver;
 }*/
-
-#include <iostream>
-
 
 void qgridsystem1D::_process(double dt) {
     // default values

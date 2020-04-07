@@ -65,8 +65,8 @@ namespace godot {
             return _abstract();
         }
 
-#define POTENTIAL_OBJ(subclass) register_method("pass", &subclass::_abstract);
-};
+#define POTENTIAL_OBJ(subclass) register_method("reference", &subclass::_abstract);
+    };
 
     typedef potential<size_t> grid_potential;
 }

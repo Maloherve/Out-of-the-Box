@@ -19,6 +19,7 @@ namespace qsim::grid {
 
         // inherit other methods
         using std::vector<wave_t>::size;
+        using std::vector<wave_t>::clear;
         using std::vector<wave_t>::begin;
         using std::vector<wave_t>::end;
         using std::vector<wave_t>::front;
@@ -61,9 +62,14 @@ namespace qsim::grid {
 
         template<class Iter>
         void push(const Iter& iter) {
-            size_t k(0);
             for (const auto& val : iter)
-                (*this)[k++] = val;
+                this->push_back(val);
+        }
+
+        template<class Iterator>
+        void push(Iterator begin, const Iterator end) {
+            for (;begin != end; ++begin)
+                this->push_back(*begin);
         }
     };
 }
