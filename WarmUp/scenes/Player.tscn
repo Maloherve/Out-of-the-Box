@@ -157,7 +157,6 @@ extents = Vector2( 9.16279, 16.8728 )
 
 [node name="Player" type="KinematicBody2D"]
 light_mask = 2
-position = Vector2( 102.736, 64.027 )
 script = ExtResource( 2 )
 
 [node name="AnimatedSprite_Cat" type="AnimatedSprite" parent="."]
