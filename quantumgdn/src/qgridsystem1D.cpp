@@ -10,6 +10,31 @@ using namespace godot;
 using namespace qsim::grid;
 using namespace qsim::pot;
 
+
+qbounds1D::qbounds1D(qsim::grid::qsystem1D::bound * _ptr)
+    : ptr(_ptr) {}
+
+void qbounds1D::set_pos(double _pos) {
+    ptr->location = _pos;
+}
+
+double qbounds1D::get_pos() const {
+    return ptr->location;
+}
+
+void qbounds1D::set_mode(int _mode) {
+    ptr->mode = static_cast<qsim::boundary_mode>(_mode);
+}
+
+int qbounds1D::get_mode() const {
+    return static_cast<int>(ptr->mode);
+}
+
+void qbounds1D::_register_methods() {
+    register_property<qbounds1D, double>("location", &qbounds1D::set_pos, &qbounds1D::get_pos, 0.0);
+    register_property<qbounds1D, int>("mode", &qbounds1D::set_mode, &qbounds1D::get_mode, int(qsim::boundary_mode::free));
+}
+
 qgridsystem1D::qgridsystem1D() 
     : qsystem1D(1.0, 
                 {-1.0, 1.0},
@@ -30,7 +55,7 @@ qgridsystem1D::~qgridsystem1D() {
 
 void qgridsystem1D::_register_methods() {
     // godot built-in
-    register_method("_fixed_process", &qgridsystem1D::_fixed_process);
+    register_method("_physics_process", &qgridsystem1D::_fixed_process);
     register_method("_ready", &qgridsystem1D::_ready);
 
     // direct methods
@@ -43,8 +68,8 @@ void qgridsystem1D::_register_methods() {
     
     // properties
     register_property<qgridsystem1D, double>("mass", &qgridsystem1D::set_mass, &qgridsystem1D::mass, 1.0);
-    register_property<qgridsystem1D, double>("upper_bound", &qgridsystem1D::set_upper_bound, &qgridsystem1D::upper_bound, 1.0);
-    register_property<qgridsystem1D, double>("lower_bound", &qgridsystem1D::set_lower_bound, &qgridsystem1D::lower_bound, -1.0);
+    register_property<qgridsystem1D, Ref<qbounds1D>>("upper_bound", &qgridsystem1D::_set_upper_bound, &qgridsystem1D::_get_upper_bound, nullptr);
+    register_property<qgridsystem1D, Ref<qbounds1D>>("lower_bound", &qgridsystem1D::_set_lower_bound, &qgridsystem1D::_get_lower_bound, nullptr);
     register_property<qgridsystem1D, grid_potential*>("V", &qgridsystem1D::_set_potential, &qgridsystem1D::_get_potential, nullptr);
     register_property<qgridsystem1D, grid_wave*>("psi", &qgridsystem1D::_set_wave, &qgridsystem1D::_get_wave, nullptr);
 }
@@ -104,6 +129,26 @@ void qgridsystem1D::_set_wave(grid_wave *manager) {
 
 grid_wave * qgridsystem1D::_get_wave() const {
     return wave_fct;
+}
+
+void qgridsystem1D::_set_upper_bound(Ref<qbounds1D> up) {
+    if (up != nullptr)
+        up->set_instance(&upper_bound());
+    up_bound = up;
+}
+
+void qgridsystem1D::_set_lower_bound(Ref<qbounds1D> low) {
+    if (low != nullptr)
+        low->set_instance(&lower_bound());
+    low_bound = low;
+}
+
+Ref<qbounds1D> qgridsystem1D::_get_upper_bound() const {
+    return up_bound;
+}
+
+Ref<qbounds1D> qgridsystem1D::_get_lower_bound() const {
+    return low_bound;
 }
 
 /*void set_evolver(Reference* evo) {

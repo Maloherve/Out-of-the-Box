@@ -29,6 +29,7 @@ extern "C" void GDN_EXPORT godot_nativescript_init(void *handle)
 	register_class<wave_packet>();
 	register_class<gaussian_packet>();
 	register_class<grid_wave>();
+	register_class<qbounds1D>();
 	register_class<qgridsystem1D>();
 }
 

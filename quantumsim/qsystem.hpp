@@ -11,16 +11,26 @@ namespace qsim {
     class potential;
 
     /*
+     * Set the behaviour for boundary conditions
+     */ 
+    enum class boundary_mode : int {
+        free = 0,
+        fixed = 1
+    };
+
+    /*
      * Most general description of quantum system
      */
     template <typename Coords, class WaveFunction, class H>
     class qsystem {
-    private:
-        // mass
-        double m;
+    protected:
 
         // the wave function
         WaveFunction wave;
+
+    private:
+        // mass
+        double m;
 
         // a potential, external management
         std::shared_ptr<potential<Coords>> pot;
@@ -34,7 +44,7 @@ namespace qsim {
                 std::shared_ptr<potential<Coords>> _V,
                 std::shared_ptr<evolver<Coords, WaveFunction, H>> _evolver
                 )
-            : m(_m), wave(_wave), pot(_V), m_evolver(_evolver) {
+            : wave(_wave), m(_m), pot(_V), m_evolver(_evolver) {
 
             if (pot == nullptr) {
                 // TODO, throw error
@@ -77,6 +87,7 @@ namespace qsim {
         
         // just in case after the evolution, some constraints must be set
         virtual void post(double dt) {}
+
 
         inline const WaveFunction& psi() const {
             return wave;

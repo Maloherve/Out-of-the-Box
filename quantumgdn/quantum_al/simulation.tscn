@@ -5,7 +5,7 @@
 [ext_resource path="res://bin/qgridsystem1D.gdns" type="Script" id=3]
 
 [node name="simulator" type="Node"]
-pause_mode = 1
+pause_mode = 2
 script = ExtResource( 1 )
 
 [node name="potential" type="Node" parent="."]
@@ -13,5 +13,3 @@ script = ExtResource( 2 )
 
 [node name="qsystem" type="Node" parent="."]
 script = ExtResource( 3 )
-upper_bound = 50.0
-lower_bound = -50.0

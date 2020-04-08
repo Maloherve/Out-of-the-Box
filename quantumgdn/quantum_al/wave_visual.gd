@@ -5,7 +5,7 @@ extends Particles2D
 # var a = 2
 # var b = "text"
 
-var img = preload("res://star.png")
+#var img = preload("res://star.png")
 
 func _init():
 	#self.Image = img

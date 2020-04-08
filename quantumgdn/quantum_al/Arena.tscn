@@ -1,29 +1,26 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://Background.tscn" type="PackedScene" id=1]
 [ext_resource path="res://barrier.tres" type="Texture" id=2]
 [ext_resource path="res://blink.gd" type="Script" id=3]
 
-[node name="Arena" type="Node2D"]
-
-[node name="Background" parent="." instance=ExtResource( 1 )]
-position = Vector2( 4.20474, 8.40945 )
+[node name="CanvasLayer" type="CanvasLayer"]
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
+position = Vector2( -6.50711, -3.25354 )
 script = ExtResource( 3 )
 
 [node name="Parquet" type="ColorRect" parent="CanvasModulate"]
-margin_left = -19.0
-margin_top = 653.0
-margin_right = 1412.0
-margin_bottom = 704.0
+margin_left = -2.27441
+margin_top = 540.0
+margin_right = 1030.73
+margin_bottom = 601.0
 color = Color( 0.152941, 0.12549, 0.392157, 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Sprite" type="Sprite" parent="CanvasModulate"]
-position = Vector2( 766.3, 464.387 )
+position = Vector2( 487.18, 323.971 )
 rotation = -1.5708
-scale = Vector2( 0.216723, 80 )
+scale = Vector2( 0.216723, 42.3272 )
 texture = ExtResource( 2 )

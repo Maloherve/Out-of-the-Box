@@ -19,9 +19,22 @@ namespace qsim::grid {
 
     // concretization for a 1D grid
     class qsystem1D : public qgridsystem<H_matrix_1D> {
-        
+    public:
+        struct bound {
+            double location;
+            boundary_mode mode;
+
+            bound(double x, boundary_mode md = boundary_mode::free) 
+                : location(x), mode(md) {}
+
+            operator double() const {
+                return location;
+            }
+        };
+
+    private:
         // hamiltonian object
-        std::pair<double, double> boundaries;
+        std::pair<bound, bound> boundaries;
 
         H_matrix_1D H; // non-constant, the mass could change
         
@@ -31,13 +44,15 @@ namespace qsim::grid {
         // determine first hamiltonian term in function of the mass and the discretization step
         qsim::math::diagonals<double, 3> H_zero() const;
 
+        void boundaries_setup();
+
     public: 
 
         // possible integrators' forward declaration
         typedef evo::explicit_scheme<size_t, wave_vector, grid_H_1D> explicit_evolver;
 
         qsystem1D(double _m, 
-                  const std::pair<double, double>& _bounds,
+                  const std::pair<bound, bound>& _bounds,
                   const wave_vector& _wave,
                   std::shared_ptr<potential<size_t>> _V,
                   std::shared_ptr<evolver<size_t, wave_vector, grid_H_1D>> _evolver
@@ -53,7 +68,8 @@ namespace qsim::grid {
         // change the hemiltonian expression
         virtual void set_mass(double) override;
 
-        // TODO, allow to set boundaries
+        // allow to set boundaries
+        virtual void post(double) override;
         
         // implementations
         virtual double energy() const override;
@@ -68,16 +84,32 @@ namespace qsim::grid {
         void replace_wave(wave_vector&& other);
 
         /*
+         * Causing of boundaries size is decreased of 2
+         */
+
+        inline size_t size() const {
+            return qgridsystem<H_matrix_1D>::size() - 2;
+        }
+
+        /*
          * Access to boundaries
          */
 
-        const std::pair<double, double>& bounds() const;
+        const std::pair<bound, bound>& bounds() const;
 
-        inline double lower_bound() const {
+        inline bound& lower_bound() {
             return boundaries.first;
         }
 
-        inline double upper_bound() const {
+        inline bound& upper_bound() {
+            return boundaries.second;
+        }
+
+        inline bound lower_bound() const {
+            return boundaries.first;
+        }
+
+        inline bound upper_bound() const {
             return boundaries.second;
         }
 

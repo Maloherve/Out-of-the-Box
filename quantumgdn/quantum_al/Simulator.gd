@@ -6,14 +6,19 @@ extends Node
 var qsystem = null
 var potential = null
 
+enum bound_mode {
+	free = 0,
+	fixed = 1
+}
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	
-	set_process(false)
 		
 	# resolve node dependencies
 	qsystem = get_node("qsystem")
 	potential = get_node("potential")
+	
+	qsystem.set_physics_process(is_processing())
 	
 	qsystem.V = potential
 	
@@ -28,11 +33,20 @@ func _ready():
 	
 	# initialize the wave with this packet
 	qsystem.psi.set_packet(packet)
-	pass 
+	
+	qsystem.lower_bound = load("res://bin/qbounds1D.gdns").new()
+	qsystem.upper_bound = load("res://bin/qbounds1D.gdns").new()
+	qsystem.lower_bound.location = -50
+	qsystem.upper_bound.location = 50
+	qsystem.upper_bound.mode = bound_mode.fixed
+	pass
 
 var t = 0
+var tlim = 30
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	t += delta
 	print("System energy at ", t, ": ", qsystem.energy())
+	if (t > tlim):
+		set_process(false)

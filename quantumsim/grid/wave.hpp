@@ -25,6 +25,9 @@ namespace qsim::grid {
         using std::vector<wave_t>::front;
         using std::vector<wave_t>::back;
         using std::vector<wave_t>::operator=;
+
+        using std::vector<wave_t>::push_back;
+        using std::vector<wave_t>::insert;
         
         // define an out-of-bounds different behaviour for the const case
         inline wave_t operator[](int i) const {

@@ -4,17 +4,16 @@
 
 [sub_resource type="CanvasItemMaterial" id=1]
 
-[node name="Background" type="Node2D"]
+[node name="ParallaxBackground" type="ParallaxBackground"]
 
-[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+[node name="ParallaxLayer" type="ParallaxLayer" parent="."]
 
-[node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
-
-[node name="CanvasModulate" type="CanvasModulate" parent="ParallaxBackground/ParallaxLayer"]
+[node name="CanvasModulate" type="CanvasModulate" parent="ParallaxLayer"]
 material = SubResource( 1 )
+position = Vector2( 138.756, 218.646 )
 color = Color( 0.862745, 0.282353, 0.623529, 1 )
 
-[node name="Sprite" type="Sprite" parent="ParallaxBackground/ParallaxLayer/CanvasModulate"]
-position = Vector2( 693.546, 348.895 )
-scale = Vector2( 1.79672, 1.16231 )
+[node name="Sprite" type="Sprite" parent="ParallaxLayer/CanvasModulate"]
+position = Vector2( 378.191, 73.4846 )
+scale = Vector2( 1.28164, 0.987113 )
 texture = ExtResource( 1 )
