@@ -4,7 +4,7 @@ extends KinematicBody2D
 
 # CONSTANTS
 const TYPE = "PLAYER";
-export var cat : bool = false;
+#export var cat : bool = false;
 const GRAVITY : int = 800;
 const MOVE_SPEED : int = 1 * 64;
 const CLIMB_SPEED : float = 1.5 * 64;
@@ -44,15 +44,16 @@ func _ready():
 	if (animNode != null):
 		animNode.play("_idle");
 
-	if (!cat):
-		animNode = get_node("AnimatedSprite_Human");
-		$AnimatedSprite_Cat.hide();
-		$CollisionShape2D_Cat.disabled = true;
-	else:
-		animNode = get_node("AnimatedSprite_Cat");
-		$AnimatedSprite_Human.hide();
-		$CollisionShape2D_Human.disabled = true;
+#	if (!cat):
+#		animNode = get_node("AnimatedSprite_Human");
+#		$AnimatedSprite_Cat.hide();
+#		$CollisionShape2D_Cat.disabled = true;
+#	else:
+#		animNode = get_node("AnimatedSprite_Cat");
+#		$AnimatedSprite_Human.hide();
+#		$CollisionShape2D_Human.disabled = true;
 
+	animNode = get_node("AnimatedSprite")
 	# Connect Signals
 	animNode.connect("animation_finished", self, "_on_AnimatedSprite_animation_finished");
 

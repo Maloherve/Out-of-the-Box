@@ -4,10 +4,10 @@ extends HBoxContainer
 
 # Nodes
 onready var Fonction_Onde = get_tree().get_root().get_node("Level").get_node("Fonction_Onde");
-onready var Player = get_tree().get_root().get_node("Level/Player");
+#onready var Player = get_tree().get_root().get_node("Level/Player");
 onready var World_Info_Label = $LeftInfo/World_Info_Label;
 onready var Player_Info_Label = $RightInfo/Player_Info_Label;
-
+onready var Player = get_tree().get_root().get_node("Level").get_node("Player")
 
 func _ready():
 	rect_size = Player.get_node("Camera2D").zoom * get_tree().get_root().size;

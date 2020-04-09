@@ -1,8 +1,7 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://assets/Background/SkyLine.png" type="Texture" id=1]
 [ext_resource path="res://assets/Tilesets/Floor.tres" type="TileSet" id=2]
-[ext_resource path="res://scenes/Player.tscn" type="PackedScene" id=3]
 [ext_resource path="res://scripts/Main.gd" type="Script" id=4]
 [ext_resource path="res://scripts/Fonction_Onde.gd" type="Script" id=5]
 [ext_resource path="res://assets/Environment/box.png" type="Texture" id=6]
@@ -10,13 +9,13 @@
 [ext_resource path="res://assets/Fonts/abel-regular.ttf" type="DynamicFontData" id=8]
 [ext_resource path="res://scripts/Objectif.gd" type="Script" id=9]
 
-[sub_resource type="RectangleShape2D" id=2]
+[sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 9, 9 )
 
-[sub_resource type="RectangleShape2D" id=3]
+[sub_resource type="RectangleShape2D" id=2]
 extents = Vector2( 8, 8 )
 
-[sub_resource type="DynamicFont" id=1]
+[sub_resource type="DynamicFont" id=3]
 size = 10
 use_filter = true
 font_data = ExtResource( 8 )
@@ -46,7 +45,7 @@ format = 1
 tile_data = PoolIntArray( 131074, 0, 0, 131075, 0, 0, 196608, 0, 0, 196609, 0, 0, 196610, 0, 0, 262144, 1610612736, 0, 262151, 1610612736, 0, 262152, -1073741824, 0, 262164, 1610612736, 0, 262165, 1610612736, 0, 327680, 1610612736, 0, 327687, -1073741824, 0, 327694, 1610612736, 0, 327695, 1610612736, 0, 327701, 1610612736, 0, 327702, 1610612736, 0, 393216, 1610612736, 0, 393219, 1610612736, 0, 393221, 1610612736, 0, 393229, 1610612736, 0, 393230, 1610612736, 0, 393231, 1610612736, 0, 393232, 1610612736, 0, 393239, 1610612736, 0, 458752, 1610612736, 0, 458755, 1610612736, 0, 458756, 1610612736, 0, 458757, 1610612736, 0, 458761, -1073741824, 0, 458766, 1610612736, 0, 458767, 1610612736, 0, 458768, 1610612736, 0, 458769, 1610612736, 0, 458775, 1610612736, 0, 524288, 1610612736, 0, 524290, 1610612736, 0, 524291, 1610612736, 0, 524292, 1610612736, 0, 524293, 1610612736, 0, 524297, -1073741824, 0, 524298, -1073741824, 0, 524299, 1610612736, 0, 524304, 1610612736, 0, 524305, 1610612736, 0, 524306, 1610612736, 0, 524311, 1610612736, 0, 589824, 1610612736, 0, 589827, 1610612736, 0, 589841, 1610612736, 0, 589842, 1610612736, 0, 589847, 1610612736, 0, 655360, 1610612736, 0, 655374, -1610612735, 0, 655383, -1073741824, 0, 720896, 1610612736, 0, 720908, 1610612736, 0, 720909, 1610612736, 0, 720910, 1610612736, 0, 720911, 1610612736, 0, 720919, -1073741824, 0, 786432, 1610612736, 0, 786442, 1610612736, 0, 786443, 1610612736, 0, 786444, 1610612736, 0, 786445, 0, 0, 786447, 0, 0, 786448, 0, 0, 786455, 1610612736, 0, 851968, 536870912, 0, 851978, 1610612736, 0, 851979, 1610612736, 0, 851980, 1610612736, 0, 851984, 1610612736, 0, 851985, 1610612736, 0, 851991, 1610612736, 0, 917504, 536870912, 0, 917514, 1610612736, 0, 917515, 1610612736, 0, 917520, 1610612736, 0, 917521, 1610612736, 0, 917522, 1610612736, 0, 917527, 1610612736, 0, 983040, 536870912, 0, 983041, 1610612736, 0, 983049, 1610612736, 0, 983050, 1610612736, 0, 983057, 1610612736, 0, 983058, 1610612736, 0, 983063, 1610612736, 0, 1048576, 1610612736, 0, 1048577, 0, 0, 1048578, 0, 0, 1048579, 0, 0, 1048580, 0, 0, 1048581, 0, 0, 1048582, 0, 0, 1048583, 1610612736, 0, 1048584, 1610612736, 0, 1048585, 1610612736, 0, 1048593, 1610612736, 0, 1048594, 1610612736, 0, 1048598, 1610612736, 0, 1048599, 0, 0, 1114120, 1610612736, 0, 1114121, 1610612736, 0, 1114122, 1610612736, 0, 1114127, 1610612736, 0, 1114128, 1610612736, 0, 1114129, 1610612736, 0, 1114130, 1610612736, 0, 1114131, 1610612736, 0, 1114132, 1610612736, 0, 1114133, 1610612736, 0, 1114134, 1610612736, 0, 1114135, -1073741824, 0, 1114136, -1073741824, 0, 1114137, -1073741824, 0, 1114138, -1073741824, 0, 1114139, -1073741824, 0, 1114140, -1073741824, 0, 1114141, -1073741824, 0, 1114142, -1073741824, 0, 1114143, -1073741824, 0, 1114144, -1073741824, 0, 1114145, -1073741824, 0, 1114146, -1073741824, 0, 1114147, -1073741824, 0, 1114148, -1073741824, 0, 1114149, -1073741824, 0, 1114150, -1073741824, 0, 1114151, -1073741824, 0, 1114152, -1073741824, 0, 1114153, -1073741824, 0, 1114154, -1073741824, 0, 1114155, -1073741824, 0, 1114156, -1073741824, 0, 1114157, -1073741824, 0, 1114158, -1073741824, 0, 1114159, -1073741824, 0, 1114160, -1073741824, 0, 1114161, -1073741824, 0, 1179657, 1610612736, 0, 1179658, 1610612736, 0, 1179659, 1610612736, 0, 1179660, 1610612736, 0, 1179661, 1610612736, 0, 1179662, 1610612736, 0, 1179663, 1610612736, 0, 1179664, 1610612736, 0 )
 
 [node name="Objectif" type="RigidBody2D" parent="World"]
-position = Vector2( 674.171, 117.098 )
+position = Vector2( 475.009, 337.483 )
 collision_layer = 2
 collision_mask = 2
 mass = 83.56
@@ -65,24 +64,10 @@ texture = ExtResource( 6 )
 [node name="CollisionShape2D" type="CollisionShape2D" parent="World/Objectif/Area2D"]
 visible = false
 light_mask = 0
-shape = SubResource( 2 )
+shape = SubResource( 1 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="World/Objectif"]
-shape = SubResource( 3 )
-
-[node name="Player" parent="." instance=ExtResource( 3 )]
-light_mask = 0
-position = Vector2( 421.445, 333.207 )
-collision_layer = 4
-collision_mask = 2
-cat = true
-
-[node name="Camera2D" type="Camera2D" parent="Player"]
-current = true
-zoom = Vector2( 0.3, 0.3 )
-__meta__ = {
-"_edit_group_": true
-}
+shape = SubResource( 2 )
 
 [node name="InfoScreen" type="HBoxContainer" parent="."]
 visible = false
@@ -108,7 +93,7 @@ margin_right = 67.0
 margin_bottom = 38.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_fonts/font = SubResource( 1 )
+custom_fonts/font = SubResource( 3 )
 text = "World Info"
 autowrap = true
 clip_text = true
@@ -122,7 +107,7 @@ margin_right = 67.0
 margin_bottom = 80.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_fonts/font = SubResource( 1 )
+custom_fonts/font = SubResource( 3 )
 text = "Info"
 valign = 2
 autowrap = true
@@ -143,7 +128,7 @@ margin_right = 68.0
 margin_bottom = 38.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_fonts/font = SubResource( 1 )
+custom_fonts/font = SubResource( 3 )
 text = "Player Info"
 align = 2
 autowrap = true
@@ -158,7 +143,7 @@ margin_right = 68.0
 margin_bottom = 80.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_fonts/font = SubResource( 1 )
+custom_fonts/font = SubResource( 3 )
 text = "Info"
 align = 2
 valign = 2
@@ -171,3 +156,9 @@ __meta__ = {
 [node name="Fonction_Onde" type="Node2D" parent="."]
 modulate = Color( 1, 1, 1, 0 )
 script = ExtResource( 5 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="PlayerInitialPosition" type="Node2D" parent="."]
+position = Vector2( 190.233, 476.681 )

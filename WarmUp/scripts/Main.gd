@@ -9,8 +9,28 @@ var darken : bool = false;
 const WORLD_MODULATE_COLOR : Color = Color(0.5,1,0.5);
 const PLAYER_MODULATE_COLOR : Color = Color(0.3,0.3,0.3)
 # Player 
+var camera_zoom : Vector2 = Vector2(.4, .4)
+export var is_cat : bool = true;
 var teleport_player : bool = false;
 # TMP
+
+
+func _enter_tree():
+	# Load in Player
+	var player_scene;
+	if is_cat:
+		player_scene = load("res://scenes/Cat.tscn")
+	else:
+		player_scene = load("res://scenes/Human.tscn")
+	
+	var Player = player_scene.instance()
+	add_child(Player)
+	Player.position = $PlayerInitialPosition.position
+	# Add and activate Camera 
+	var camera = Camera2D.new(); camera.name = "Camera2D";
+	camera.current = true;	camera.zoom = camera_zoom
+	$Player.add_child(camera)
+
 
 func _ready():
 	# Connect Signals

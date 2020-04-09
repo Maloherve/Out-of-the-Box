@@ -1,0 +1,141 @@
+[gd_scene load_steps=28 format=2]
+
+[ext_resource path="res://scripts/Player.gd" type="Script" id=2]
+[ext_resource path="res://assets/Character/Human/sprites/walk03.png" type="Texture" id=20]
+[ext_resource path="res://assets/Character/Human/sprites/walk08.png" type="Texture" id=40]
+[ext_resource path="res://assets/Character/Human/sprites/walk05.png" type="Texture" id=41]
+[ext_resource path="res://assets/Character/Human/sprites/walk09.png" type="Texture" id=42]
+[ext_resource path="res://assets/Character/Human/sprites/walk07.png" type="Texture" id=43]
+[ext_resource path="res://assets/Character/Human/sprites/walk02.png" type="Texture" id=44]
+[ext_resource path="res://assets/Character/Human/sprites/walk01.png" type="Texture" id=45]
+[ext_resource path="res://assets/Character/Human/sprites/walk06.png" type="Texture" id=46]
+[ext_resource path="res://assets/Character/Human/sprites/walk04.png" type="Texture" id=47]
+[ext_resource path="res://assets/Character/Human/sprites/attack07.png" type="Texture" id=48]
+[ext_resource path="res://assets/Character/Human/sprites/attack06.png" type="Texture" id=49]
+[ext_resource path="res://assets/Character/Human/sprites/attack05.png" type="Texture" id=50]
+[ext_resource path="res://assets/Character/Human/sprites/attack04.png" type="Texture" id=51]
+[ext_resource path="res://assets/Character/Human/sprites/attack08.png" type="Texture" id=52]
+[ext_resource path="res://assets/Character/Human/sprites/attack01.png" type="Texture" id=53]
+[ext_resource path="res://assets/Character/Human/sprites/attack02.png" type="Texture" id=54]
+[ext_resource path="res://assets/Character/Human/sprites/attack03.png" type="Texture" id=55]
+[ext_resource path="res://assets/Character/Human/sprites/cast00.png" type="Texture" id=56]
+[ext_resource path="res://assets/Character/Human/sprites/cast01.png" type="Texture" id=57]
+[ext_resource path="res://assets/Character/Human/sprites/cast03.png" type="Texture" id=58]
+[ext_resource path="res://assets/Character/Human/sprites/cast04.png" type="Texture" id=59]
+[ext_resource path="res://assets/Character/Human/sprites/cast02.png" type="Texture" id=60]
+[ext_resource path="res://scripts/Side_Raycasts.gd" type="Script" id=61]
+[ext_resource path="res://assets/Character/Human/sprites/hold.png" type="Texture" id=62]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 56 ), ExtResource( 57 ), ExtResource( 60 ), ExtResource( 58 ), ExtResource( 59 ) ],
+"loop": false,
+"name": "_cast",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 53 ), ExtResource( 54 ), ExtResource( 55 ), ExtResource( 51 ), ExtResource( 50 ), ExtResource( 49 ), ExtResource( 48 ), ExtResource( 52 ) ],
+"loop": true,
+"name": "_attack",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 45 ), ExtResource( 44 ), ExtResource( 20 ), ExtResource( 47 ), ExtResource( 41 ), ExtResource( 46 ), ExtResource( 43 ), ExtResource( 40 ), ExtResource( 42 ) ],
+"loop": true,
+"name": "_jump",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 45 ) ],
+"loop": true,
+"name": "_idle",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 59 ), ExtResource( 58 ), ExtResource( 60 ), ExtResource( 57 ), ExtResource( 56 ) ],
+"loop": false,
+"name": "_endcast",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 62 ) ],
+"loop": true,
+"name": "_hold",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 45 ), ExtResource( 44 ), ExtResource( 20 ), ExtResource( 47 ), ExtResource( 41 ), ExtResource( 46 ), ExtResource( 43 ), ExtResource( 40 ), ExtResource( 42 ) ],
+"loop": true,
+"name": "_walk",
+"speed": 5.0
+} ]
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 9.16279, 16.8728 )
+
+[node name="Player" type="KinematicBody2D"]
+light_mask = 2
+collision_layer = 4
+collision_mask = 2
+script = ExtResource( 2 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+position = Vector2( -0.269241, -11.6669 )
+scale = Vector2( 0.695636, 0.695636 )
+frames = SubResource( 1 )
+animation = "_hold"
+playing = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( 0, -7.17962 )
+shape = SubResource( 2 )
+
+[node name="Bottom_Raycasts" type="Node2D" parent="."]
+light_mask = 2
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="ray_1" type="RayCast2D" parent="Bottom_Raycasts"]
+light_mask = 7
+position = Vector2( 0, 4.276 )
+enabled = true
+cast_to = Vector2( 0, 6 )
+collision_mask = 2
+collide_with_areas = true
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="ray_2" type="RayCast2D" parent="Bottom_Raycasts"]
+light_mask = 7
+position = Vector2( -6.4, 4.276 )
+enabled = true
+cast_to = Vector2( 0, 6 )
+collision_mask = 2
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="ray_3" type="RayCast2D" parent="Bottom_Raycasts"]
+light_mask = 7
+position = Vector2( 6.3319, 4.27594 )
+enabled = true
+cast_to = Vector2( 0, 6 )
+collision_mask = 2
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Side_Raycasts" type="Node2D" parent="."]
+script = ExtResource( 61 )
+
+[node name="Bottom_Side" type="RayCast2D" parent="Side_Raycasts"]
+position = Vector2( 0, 5.10275 )
+rotation = -1.57079
+enabled = true
+cast_to = Vector2( 0, 10 )
+collision_mask = 2
+collide_with_areas = true
+
+[node name="Top_Side" type="RayCast2D" parent="Side_Raycasts"]
+position = Vector2( 0, -18 )
+rotation = -1.57079
+enabled = true
+cast_to = Vector2( 0, 10 )
+collision_mask = 2
+collide_with_areas = true
