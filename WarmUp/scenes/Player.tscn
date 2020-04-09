@@ -68,6 +68,47 @@
 [ext_resource path="res://assets/Character/Cat/climb2.png" type="Texture" id=66]
 [ext_resource path="res://assets/Character/Cat/climb1.png" type="Texture" id=67]
 
+[sub_resource type="SpriteFrames" id=2]
+animations = [ {
+"frames": [ ExtResource( 45 ), ExtResource( 44 ), ExtResource( 20 ), ExtResource( 47 ), ExtResource( 41 ), ExtResource( 46 ), ExtResource( 43 ), ExtResource( 40 ), ExtResource( 42 ) ],
+"loop": true,
+"name": "_jump",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 56 ), ExtResource( 57 ), ExtResource( 60 ), ExtResource( 58 ), ExtResource( 59 ) ],
+"loop": false,
+"name": "_cast",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 53 ), ExtResource( 54 ), ExtResource( 55 ), ExtResource( 51 ), ExtResource( 50 ), ExtResource( 49 ), ExtResource( 48 ), ExtResource( 52 ) ],
+"loop": true,
+"name": "_attack",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 45 ), ExtResource( 44 ), ExtResource( 20 ), ExtResource( 47 ), ExtResource( 41 ), ExtResource( 46 ), ExtResource( 43 ), ExtResource( 40 ), ExtResource( 42 ) ],
+"loop": true,
+"name": "_walk",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 45 ) ],
+"loop": true,
+"name": "_idle",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 59 ), ExtResource( 58 ), ExtResource( 60 ), ExtResource( 57 ), ExtResource( 56 ) ],
+"loop": false,
+"name": "_endcast",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 62 ) ],
+"loop": true,
+"name": "_hold",
+"speed": 5.0
+} ]
+
+[sub_resource type="RectangleShape2D" id=4]
+extents = Vector2( 9.16279, 16.8728 )
+
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
 "frames": [ ExtResource( 7 ), ExtResource( 25 ), ExtResource( 30 ), ExtResource( 21 ), ExtResource( 15 ), ExtResource( 17 ), ExtResource( 10 ), ExtResource( 11 ) ],
@@ -111,60 +152,12 @@ animations = [ {
 "speed": 5.0
 } ]
 
-[sub_resource type="SpriteFrames" id=2]
-animations = [ {
-"frames": [ ExtResource( 45 ), ExtResource( 44 ), ExtResource( 20 ), ExtResource( 47 ), ExtResource( 41 ), ExtResource( 46 ), ExtResource( 43 ), ExtResource( 40 ), ExtResource( 42 ) ],
-"loop": true,
-"name": "_jump",
-"speed": 5.0
-}, {
-"frames": [ ExtResource( 56 ), ExtResource( 57 ), ExtResource( 60 ), ExtResource( 58 ), ExtResource( 59 ) ],
-"loop": false,
-"name": "_cast",
-"speed": 5.0
-}, {
-"frames": [ ExtResource( 53 ), ExtResource( 54 ), ExtResource( 55 ), ExtResource( 51 ), ExtResource( 50 ), ExtResource( 49 ), ExtResource( 48 ), ExtResource( 52 ) ],
-"loop": true,
-"name": "_attack",
-"speed": 5.0
-}, {
-"frames": [ ExtResource( 45 ), ExtResource( 44 ), ExtResource( 20 ), ExtResource( 47 ), ExtResource( 41 ), ExtResource( 46 ), ExtResource( 43 ), ExtResource( 40 ), ExtResource( 42 ) ],
-"loop": true,
-"name": "_walk",
-"speed": 5.0
-}, {
-"frames": [ ExtResource( 45 ) ],
-"loop": true,
-"name": "_idle",
-"speed": 5.0
-}, {
-"frames": [ ExtResource( 59 ), ExtResource( 58 ), ExtResource( 60 ), ExtResource( 57 ), ExtResource( 56 ) ],
-"loop": false,
-"name": "_endcast",
-"speed": 5.0
-}, {
-"frames": [ ExtResource( 62 ) ],
-"loop": true,
-"name": "_hold",
-"speed": 5.0
-} ]
-
 [sub_resource type="RectangleShape2D" id=3]
 extents = Vector2( 7.38471, 5.85999 )
 
-[sub_resource type="RectangleShape2D" id=4]
-extents = Vector2( 9.16279, 16.8728 )
-
 [node name="Player" type="KinematicBody2D"]
 light_mask = 2
-position = Vector2( 102.736, 64.027 )
 script = ExtResource( 2 )
-
-[node name="AnimatedSprite_Cat" type="AnimatedSprite" parent="."]
-light_mask = 2
-scale = Vector2( 0.941242, 0.941242 )
-frames = SubResource( 1 )
-animation = "_endcast"
 
 [node name="AnimatedSprite_Human" type="AnimatedSprite" parent="."]
 position = Vector2( -0.269241, -11.6669 )
@@ -172,11 +165,6 @@ scale = Vector2( 0.695636, 0.695636 )
 frames = SubResource( 2 )
 animation = "_hold"
 playing = true
-
-[node name="CollisionShape2D_Cat" type="CollisionShape2D" parent="."]
-light_mask = 2
-position = Vector2( -0.0510483, 2.14397 )
-shape = SubResource( 3 )
 
 [node name="CollisionShape2D_Human" type="CollisionShape2D" parent="."]
 position = Vector2( 0, -7.17962 )
@@ -236,3 +224,18 @@ enabled = true
 cast_to = Vector2( 0, 15 )
 collision_mask = 2
 collide_with_areas = true
+
+[node name="AnimatedSprite_Cat" type="AnimatedSprite" parent="."]
+light_mask = 2
+scale = Vector2( 0.941242, 0.941242 )
+frames = SubResource( 1 )
+animation = "_endcast"
+
+[node name="CollisionShape2D_Cat" type="CollisionShape2D" parent="."]
+light_mask = 2
+position = Vector2( -0.500717, 1.39452 )
+shape = SubResource( 3 )
+
+[node name="Node2D" type="Node2D" parent="."]
+
+[node name="Node2D2" type="Node2D" parent="."]
