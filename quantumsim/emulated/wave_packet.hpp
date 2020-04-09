@@ -67,8 +67,15 @@ namespace qsim::emu {
          */
         void eval_coefficients();
 
-        // function access
-        double operator(double x) const;
+        // wave function access
+        double psi(double x) const;
+
+        inline double operator()(double x) const {
+            return psi(x);
+        }
+
+        // wave function derivative, n = order
+        double derivative(double x, size_t n = 1) const;
 
         // integrals
         double position() const;
