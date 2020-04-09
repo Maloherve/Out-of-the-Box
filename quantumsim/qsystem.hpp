@@ -11,12 +11,10 @@ namespace qsim {
     class potential;
 
     /*
-     * Set the behaviour for boundary conditions
-     */ 
-    enum class boundary_mode : int {
-        free = 0,
-        fixed = 1
-    };
+     * Define the WaveFunction internal type as std::complex<double>
+     */
+    
+    typedef std::complex<double> wave_t;
 
     /*
      * Most general description of quantum system

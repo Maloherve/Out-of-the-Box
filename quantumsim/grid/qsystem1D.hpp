@@ -19,23 +19,11 @@ namespace qsim::grid {
 
     // concretization for a 1D grid
     class qsystem1D : public qgridsystem<H_matrix_1D> {
-    public:
-        struct bound {
-            double location;
-            boundary_mode mode;
-
-            bound(double x, boundary_mode md = boundary_mode::free) 
-                : location(x), mode(md) {}
-
-            operator double() const {
-                return location;
-            }
-        };
-
     private:
-        // hamiltonian object
-        std::pair<bound, bound> boundaries;
+        // boundaries
+        std::shared_ptr<interval> bounds;
 
+        // hamiltonian object
         H_matrix_1D H; // non-constant, the mass could change
         
         // standard matrix A
@@ -52,8 +40,8 @@ namespace qsim::grid {
         typedef evo::explicit_scheme<size_t, wave_vector, grid_H_1D> explicit_evolver;
 
         qsystem1D(double _m, 
-                  const std::pair<bound, bound>& _bounds,
                   const wave_vector& _wave,
+                  std::shared_ptr<interval> _bounds,
                   std::shared_ptr<potential<size_t>> _V,
                   std::shared_ptr<evolver<size_t, wave_vector, grid_H_1D>> _evolver
                   );

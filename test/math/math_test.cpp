@@ -6,7 +6,10 @@
 
 #include "grid/wave.hpp"
 
+#include "math/matrix.hpp"
+
 using namespace qsim;
+using namespace qsim::grid;
 using namespace qsim::math;
 
 int main() {
@@ -43,26 +46,26 @@ int main() {
     // step 5, build a composition using A, B, C
     
     // matrix = 0 * id + A + B + C 
-    auto matrix = composition(0.0, std::move(A), std::move(B), std::move(C));
+    auto _matrix = composition(0.0, std::move(A), std::move(B), std::move(C));
 
     // step 6, apply scalar multiplication and diagonal addiction
     
-    matrix *= 4;    // apply integer multiplication
-    matrix *= 1.0 / 4; // apply double multiplication
-    matrix += 2;
+    _matrix *= 4;    // apply integer multiplication
+    _matrix *= 1.0 / 4; // apply double multiplication
+    _matrix += 2;
 
     // step 7, apply to a vector, test the vector, test the components singularly
     
-    grid_wave v = {1, 1, 1, 1, 1};
-    grid_wave w = matrix * v;
+    wave_vector v = {1, 1, 1, 1, 1};
+    wave_vector w = _matrix * v;
 
-    const_cast<const grid_wave&>(v)[1];
+    const_cast<const wave_vector&>(v)[1];
 
     using namespace std;
     cout << endl << "Step 7" << endl;
     cout << "v = " << v << endl;
 
-    grid_wave v2 = {-1, -1, -1, -1, -1};
+    wave_vector v2 = {-1, -1, -1, -1, -1};
 
     cout << "v + v2 = " << (v + v2) << endl;
 
@@ -108,33 +111,78 @@ int main() {
      * 2 id + A + B + C = subdiag<-1>(-1.0) + diag(2, 5, 8, 11, 14) + subdiag<1>(-1.0) 
      */
 
-    grid_wave cols[5] = {{1, 0, 0, 0, 0},
+    wave_vector cols_5[5] = {{1, 0, 0, 0, 0},
                          {0, 1, 0, 0, 0},
                          {0, 0, 1, 0, 0},
                          {0, 0, 0, 1, 0},
                          {0, 0, 0, 0, 1}};
-    
-    for (int i = 0; i < 5; ++i)
-        std::cout << "Column " << i << ": " << (matrix * cols[i]) << endl;
+
+#define PRINT_MATRIX(T, size, buffer)  \
+    for (int i = 0; i < size; ++i) \
+        std::cout << "Column " << i << ": " << (T * buffer[i]) << endl; \
     cout << endl;
+
+    PRINT_MATRIX(_matrix, 5, cols_5)
 
     // single components
 
     // multiple of identity
     for (int i = 0; i < 5; ++i)
-        std::cout << "Column " << i << ": " << (matrix.get<0>() * cols[i]) << endl;
+        std::cout << "Column " << i << ": " << (_matrix.get<0>() * cols_5[i]) << endl;
     cout << endl;
 
     // multiple of identity
     for (int i = 0; i < 5; ++i)
-        std::cout << "Column " << i << ": " << (matrix.get<1>() << cols[i]) << endl;
+        std::cout << "Column " << i << ": " << (_matrix.get<1>() << cols_5[i]) << endl;
     cout << endl;
 
     // multiple of identity
     for (int i = 0; i < 5; ++i)
-        std::cout << "Column " << i << ": " << (matrix.get<2>() << cols[i]) << endl;
+        std::cout << "Column " << i << ": " << (_matrix.get<2>() << cols_5[i]) << endl;
     cout << endl;
 
     // expected result: v = (2, -1, 0, 0, 0)
     std::cout << "Final result: w = " << w << endl;
+    
+    /*
+     * Matrix test
+     */
+    std::cout << endl << "Starting matrix test" << w << endl << endl;
+
+    matrix<double> mat(5, 5);
+    auto I = square_matrix<double>::eye(5);
+
+    cout << "Null: " << (mat * w) << endl; 
+    cout << "Identity: " << (I * w) << endl;
+
+    wave_vector cols_3[3] = {{1, 0, 0},
+                             {0, 1, 0},
+                             {0, 0, 1}};
+
+    // submatrix
+    auto I3 = I({0, 3}, {0, 3}); // 3x3 block
+    cout << "I3 size: " << I3.cols_nb() << endl;
+    try {
+        cout << "Identity crash: " << (I3 * w) << endl;
+    } catch (const std::exception& e) {
+        cout << "Expected error: " << e.what() << endl;
+    }
+
+    wave_vector y = {1, 2, 1};
+    cout << "Identity non-crash: " << (I3 * y) << endl;
+
+    // LU decomposition of the identity
+    auto lu = LU_decomposition<double>(I); 
+
+    cout << "Identity L: " << (lu.L * w) << endl;
+    cout << "Identity U: " << (lu.U * w) << endl;
+
+    // LU decomposition of another matrix
+    square_matrix<double> prob_mat = {{1, 2, 3}, {2, 4, 9}, {4, -3, 1}};
+    PRINT_MATRIX(prob_mat, 3, cols_3)
+
+    auto lu_prob = LU_decomposition<double>(prob_mat); 
+
+    PRINT_MATRIX(lu_prob.L, 3, cols_3)
+    PRINT_MATRIX(lu_prob.U, 3, cols_3)
 }

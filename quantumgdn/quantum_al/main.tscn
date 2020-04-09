@@ -9,7 +9,7 @@
 
 [node name="simulator" parent="." instance=ExtResource( 1 )]
 
-[node name="wave_visual" parent="." instance=ExtResource( 2 )]
+[node name="wave_visual" parent="simulator" instance=ExtResource( 2 )]
 position = Vector2( 920.887, 502.069 )
 scale = Vector2( 1.5, 2 )
 

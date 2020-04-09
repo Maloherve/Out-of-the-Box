@@ -6,7 +6,7 @@ FLAGS += -Wnoexcept
 all: clean math_test
 
 math_test:
-	g++ -o math_test ${FLAGS} -std=c++17 math_test.cpp ../../quantumsim/grid_wave.cpp -I../../quantumsim
+	g++ -o math_test ${FLAGS} -std=c++17 math_test.cpp ../../quantumsim/grid/wave.cpp -I../../quantumsim
 
 .PHONY: clean
 

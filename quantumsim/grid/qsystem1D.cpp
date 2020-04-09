@@ -9,26 +9,26 @@ using namespace qsim::grid;
 const qsim::math::diagonals<double, 3> qsystem1D::A = math::diagonals<double, 3>({math::sdiag_entry(-1, 1.0), math::sdiag_entry(0, -2.0), math::sdiag_entry(1, 1.0)});
 
 qsystem1D::qsystem1D(double _m, 
-                     const std::pair<bound, bound>& _bounds,
                      const wave_vector& _wave,
+                     std::shared_ptr<interval> _bounds,
                      std::shared_ptr<potential<size_t>> _V,
                      std::shared_ptr<evolver<size_t, wave_vector, grid_H_1D>> _evolver
                      ) : qgridsystem<H_matrix_1D>(_m, _wave, _V, _evolver),
-                        boundaries(_bounds),
+                        bounds(_bounds),
                         // compose the hemiltonian matrix
                         H(
                             0.0,
                             H_zero(), 
                             std::function<double (size_t)>([&] (size_t k) -> double { return V()(k); }) 
                          )
-        {
-            // check if boundaries are correct
-            if (boundaries.first.location > boundaries.second.location)
-                std::swap(boundaries.first, boundaries.second);
-            
-            // setup boundaries
-            boundaries_setup();
-        }
+    {
+        // check if boundaries are correct
+        if (boundaries.first.location > boundaries.second.location)
+            std::swap(boundaries.first, boundaries.second);
+        
+        // setup boundaries
+        boundaries_setup();
+    }
 
 
 void qsystem1D::boundaries_setup() {
@@ -65,7 +65,7 @@ double qsystem1D::normalize() {
     if (abs(norm.imag()) > qsim::machine_prec)
         throw norm; // TODO, a real error
 
-    double out = sqrt(norm.real());
+    double out = sqrt(norm.real() + bounds->normalization());
     
     wave /= out;  
     return out;
@@ -73,26 +73,9 @@ double qsystem1D::normalize() {
 
 void qsystem1D::post(double) {
     
-    switch (boundaries.first.mode) {
-        case boundary_mode::free:
-            wave.front() = 2.0 * wave[1u] - wave[2u];
-            break;
-        case boundary_mode::fixed:
-            wave.front() = 0;
-            break;
-    }
-    
-    // last index
-    size_t N = wave.size() - 2;
-
-    switch (boundaries.second.mode) {
-        case boundary_mode::free:
-            wave.back() = 2.0 * wave[N] - wave[N-1];
-            break;
-        case boundary_mode::fixed:
-            wave.back() = 0;
-            break;
-    }
+    auto&& newb = bounds->continuity();    
+    wave.front() = std::move(newb.first);
+    wave.back() = std::move(newb.second);
 }
 
 std::vector<double> qsystem1D::generate_map() const {
@@ -155,9 +138,23 @@ double qsystem1D::energy() const {
 }
 
 double qsystem1D::position() const {
-    return 0.0;
+    wave_t pos = grid::grid_integrate(wave, [&] (const neighbourhood<>& map, size_t location) {
+                    return map.at(location, 0) * this->map(location); // return the value itself
+                }, dx());
+
+    if (abs(pos.imag()) > qsim::machine_prec)
+        throw pos; // TODO, a real error
+
+    return pos.real();
 }
 
 double qsystem1D::momentum() const {
-    return 0.0;
+    wave_t mom = grid::grid_integrate(wave, [&] (const neighbourhood<>& map, size_t location) {
+                    return (map.at(location, 1) - map.at(location, -1)) / (2 * dx()); // return the value itself
+                }, dx());
+
+    if (abs(mom.imag()) > qsim::machine_prec)
+        throw mom; // TODO, a real error
+
+    return mom.real();
 }
