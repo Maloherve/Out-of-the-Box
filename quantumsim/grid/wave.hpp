@@ -35,9 +35,8 @@ namespace qsim::grid {
                 0 : std::vector<wave_t>::operator[](static_cast<size_t>(i));
         }
 
-        inline wave_t operator[](size_t i) const {
-            return (i >= size()) ? 
-                0 : std::vector<wave_t>::operator[](i);
+        inline const wave_t& operator[](size_t i) const {
+            return std::vector<wave_t>::operator[](i);
         }
 
         inline wave_t& operator[](size_t i) {

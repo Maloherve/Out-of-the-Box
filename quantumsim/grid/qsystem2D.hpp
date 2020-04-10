@@ -39,7 +39,7 @@ namespace qsim::grid {
         qsim::math::diagonals<double, 3> H_zero_x() const;
         qsim::math::diagonals<double, 3> H_zero_y() const;
 
-        inline size_t map(size_t i, size_t j) {
+        inline size_t map(size_t i, size_t j) const {
             return (_M - 1) * i + j;
         }
 
@@ -48,9 +48,9 @@ namespace qsim::grid {
         struct init_pack {
             std::function<qsim::wave_t (double, double)> f;
             size_t N;
-            size_t M
+            size_t M;
 
-            init_pack(const std::function<qsim::wave_t (double, double)>& _f = [&] (double, double) { return 0; },
+            init_pack(const std::function<qsim::wave_t (double, double)>& _f = std::function<qsim::wave_t (double, double)>(),
                       size_t _N = 0,
                       size_t _M = 0
                      ) : f(_f), N(_N), M(_M) {}
@@ -65,7 +65,7 @@ namespace qsim::grid {
                   double _dx, double _dy,
                   std::shared_ptr<potential<size_t>> _V,
                   const init_pack& init = init_pack(),
-                  std::shared_ptr<evolver<size_t, wave_vector, grid_H_2D>> _evolver = new explicit_evolver(),
+                  std::shared_ptr<evolver<size_t, wave_vector, grid_H_2D>> _evolver = nullptr,
                   double hbar = 1.0
                   );
 
@@ -81,6 +81,9 @@ namespace qsim::grid {
             update_H_x();
             update_H_y();
         } // do both
+
+        // potential (x,y), TODO define it
+        //double V(double x, double y) const;
 
         // set 0 on boundaries
         void boundaries_setup();
@@ -105,15 +108,10 @@ namespace qsim::grid {
         inline double y(size_t j) const {
             return static_cast<double>(j) * dy;
         }
-
-        // normalize the wave function
-        virtual double normalize() override {
-            this->wave /= norm();
-        }
         
         // override these functions
         void replace_wave(const wave_vector& other, size_t M);
-        void replace_wave(const std::function<qsim::wave_t (double, double)>&, , size_t N, size_t M);
+        void replace_wave(const std::function<qsim::wave_t (double, double)>&, size_t N, size_t M);
 
         void replace_wave(wave_vector&& other, size_t M);
 
@@ -143,22 +141,26 @@ namespace qsim::grid {
                 return *this;
             }
 
-            iterator iterator++(int) {
+            iterator operator++(int) {
                 auto it = iterator(*this);
                 increment();
                 return it;
             }
 
             bool operator!=(const iterator&) const;
-            qsim::wave_t& operator*() const;
+            qsim::wave_t& operator*();
 
-            qsim::wave_t& up() const;
-            qsim::wave_t& down() const;
-            qsim::wave_t& left() const;
-            qsim::wave_t& right() const;
+            qsim::wave_t& up();
+            qsim::wave_t& down();
+            qsim::wave_t& left();
+            qsim::wave_t& right();
 
             double x() const;
             double y() const;
+
+            inline size_t k() const {
+                return sys.map(i,j);
+            }
         };
 
         class const_iterator {
@@ -168,28 +170,33 @@ namespace qsim::grid {
             void increment();
 
         public:
+            const_iterator(const qsystem2D&, size_t i, size_t j);
 
             const_iterator& operator++() {
                 increment();                  
                 return *this;
             }
 
-            const_iterator iterator++(int) {
-                auto it = iterator(*this);
+            const_iterator operator++(int) {
+                auto it = const_iterator(*this);
                 increment();
                 return it;
             }
 
             bool operator!=(const const_iterator&) const;
-            qsim::wave_t& operator*() const;
+            const qsim::wave_t& operator*() const;
 
-            qsim::wave_t& up() const;
-            qsim::wave_t& down() const;
-            qsim::wave_t& left() const;
-            qsim::wave_t& right() const;
+            const qsim::wave_t& up() const;
+            const qsim::wave_t& down() const;
+            const qsim::wave_t& left() const;
+            const qsim::wave_t& right() const;
 
             double x() const;
             double y() const;
+
+            inline size_t k() const {
+                return sys.map(i,j);
+            }
         };
 
         /*

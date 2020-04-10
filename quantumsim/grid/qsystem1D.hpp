@@ -20,19 +20,18 @@ namespace qsim::grid {
     // concretization for a 1D grid
     class qsystem1D : public qgridsystem<H_matrix_1D> {
     private:
-        // boundaries
-        std::shared_ptr<interval> bounds;
 
         // hamiltonian object
         H_matrix_1D H; // non-constant, the mass could change
+        
+        // discretization
+        double dx;
         
         // standard matrix A
         static const math::diagonals<double, 3> A;
         
         // determine first hamiltonian term in function of the mass and the discretization step
         qsim::math::diagonals<double, 3> H_zero() const;
-
-        void boundaries_setup();
 
     public: 
 
@@ -41,9 +40,10 @@ namespace qsim::grid {
 
         qsystem1D(double _m, 
                   const wave_vector& _wave,
-                  std::shared_ptr<interval> _bounds,
+                  double dx,
                   std::shared_ptr<potential<size_t>> _V,
-                  std::shared_ptr<evolver<size_t, wave_vector, grid_H_1D>> _evolver
+                  std::shared_ptr<evolver<size_t, wave_vector, grid_H_1D>> _evolver,
+                  double hbar = 1
                   );
 
         virtual const H_matrix_1D* hemiltonian_ptr() const {
@@ -56,61 +56,30 @@ namespace qsim::grid {
         // change the hemiltonian expression
         virtual void set_mass(double) override;
 
-        // allow to set boundaries
-        virtual void post(double) override;
-        
         // implementations
         virtual double energy() const override;
-        virtual double position() const override;
-        virtual double momentum() const override;
+        double position() const;
+        double momentum() const;
 
         // normalize the wave function
-        virtual double normalize() override;
+        virtual double norm() const override;
         
         // override these functions
         void replace_wave(const wave_vector& other);
         void replace_wave(wave_vector&& other);
 
-        /*
-         * Causing of boundaries size is decreased of 2
-         */
-
         inline size_t size() const {
-            return qgridsystem<H_matrix_1D>::size() - 2;
+            return qgridsystem<H_matrix_1D>::size();
         }
 
         /*
          * Access to boundaries
+         * Idea: i = -1 -> x = 0
          */
 
-        const std::pair<bound, bound>& bounds() const;
-
-        inline bound& lower_bound() {
-            return boundaries.first;
+        inline double x(size_t i) const {
+            return dx * (i+1);
         }
-
-        inline bound& upper_bound() {
-            return boundaries.second;
-        }
-
-        inline bound lower_bound() const {
-            return boundaries.first;
-        }
-
-        inline bound upper_bound() const {
-            return boundaries.second;
-        }
-
-        void set_upper_bound(double up);
-        void set_lower_bound(double low);
-
-        inline double dx() const {
-            return (boundaries.second - boundaries.first) / size();
-        }
-
-        std::vector<double> generate_map() const;
-
-        double map(size_t) const;
     };
 }
 

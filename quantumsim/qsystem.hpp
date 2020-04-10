@@ -49,11 +49,7 @@ namespace qsim {
             : wave(_wave), m(_m), pot(_V), m_evolver(_evolver), plank(_hbar) {
 
             if (pot == nullptr) {
-                // TODO, throw error
-            }
-
-            if (m_evolver == nullptr) {
-                // TODO, throw error
+                throw std::invalid_argument("The potential cannot be null");
             }
                 
             if (m < 0)
@@ -86,7 +82,9 @@ namespace qsim {
 
         // evolution in time
         void evolve(double dt) {
-            wave = std::move(m_evolver->evolve(*this, dt));
+            if (m_evolver != nullptr)
+                wave = std::move(m_evolver->evolve(*this, dt));
+
             post(dt);
         }
 
@@ -125,7 +123,11 @@ namespace qsim {
         virtual double energy() const = 0;
         
         // normalization
-        virtual double normalize() = 0;
+        virtual double norm() const = 0;
+
+        inline void normalize() {
+            wave /= sqrt(norm());
+        }
 
     protected:
         

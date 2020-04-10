@@ -19,8 +19,7 @@ LIBS := #add libraries
 SRC := \
 	grid/wave.cpp \
 	grid/qsystem1D.cpp \
-	grid/free_bounds.cpp \
-	grid/wall_bounds.cpp 
+	grid/qsystem2D.cpp
 
 OBJ := $(patsubst %.cpp,$(BUILD)/%.os,$(SRC))
 

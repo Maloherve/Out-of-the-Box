@@ -4,12 +4,14 @@
 
 #include "grid/integrators.hpp"
 
-using namespace grid;
+#include "debug.hpp"
+
+using namespace qsim::grid;
 
 const qsim::math::diagonals<double, 3> qsystem2D::A_x = math::diagonals<double, 3>({math::sdiag_entry(-1, 1.0), math::sdiag_entry(0, -2.0), math::sdiag_entry(1, 1.0)});
 
 const qsim::math::diagonals<double, 3> qsystem2D::A_y(size_t M) {
-    return math::diagonals<double, 3>({math::sdiag_entry(-M, 1.0), math::sdiag_entry(0, -2.0), {math::sdiag_entry(M, 1.0));
+    return math::diagonals<double, 3>({math::sdiag_entry(-M, 1.0), math::sdiag_entry(0, -2.0), math::sdiag_entry(M, 1.0)});
 }
 
 qsim::math::diagonals<double, 3> qsystem2D::H_zero_x() const {
@@ -39,14 +41,14 @@ qsystem2D::qsystem2D(double _m,
                      std::shared_ptr<potential<size_t>> _V,
                      const init_pack& init,
                      std::shared_ptr<evolver<size_t, wave_vector, grid_H_2D>> _evolver,
-                     double hbar()
+                     double hbar
                     )
-    : qgridsystem<H_matrix_2D>(_m, init.generate(_dx,_dy), _V, _evolver, hbar()),
+    : qgridsystem<H_matrix_2D>(_m, init.generate(_dx,_dy), _V, _evolver, hbar),
       H(
           0.0,
           H_zero_x(), 
           H_zero_y(), 
-          std::function<double (size_t)>([&] (size_t k) -> double { return V()(k); }) 
+          std::function<double (size_t)>([&] (size_t k) -> double { return this->V()(k); }) 
       ),
       dx(_dx), dy(_dy), _N(init.N), _M(init.M)
 {
@@ -64,15 +66,15 @@ void qsystem2D::update_H_y() {
 void qsystem2D::boundaries_setup() {
 
     // j = 0, j = M
-    for (size_t i = 0; i <= N+1; ++i) {
+    for (size_t i = 0; i <= _N+1; ++i) {
         wave[map(i,0)] = 0.0;
-        wave[map(i,M+1)] = 0.0;
+        wave[map(i,_M+1)] = 0.0;
     }
 
     // i = 0, i = N
-    for (size_t j = 0; j <= M+1; ++j) {
+    for (size_t j = 0; j <= _M+1; ++j) {
         wave[map(0,j)] = 0.0;
-        wave[map(N+1,j)] = 0.0;
+        wave[map(_N+1,j)] = 0.0;
     }
 }
 
@@ -95,13 +97,13 @@ double qsystem2D::energy() const {
     double v = 2 * (psix + psiy);
     
     // apply the hamiltonian
-    for (auto it = begin(); it != end(); ++it()) {
-        E += (V(it.x(), it.y()) + v) * (*it) 
+    for (auto it = begin(); it != end(); ++it) {
+        E += (this->V()(it.k()) + v) * (*it) 
            - psix * (it.right() + it.left()) 
            - psiy * (it.up() + it.down());
     }
 
-    if (E.imag() > qsim::machine_prec) {
+    if (abs(E.imag()) > qsim::machine_prec) {
         npdebug("Value: ", E)
         throw std::runtime_error("Energy computation isn't fully real");
     }
@@ -111,7 +113,7 @@ double qsystem2D::energy() const {
 
 std::pair<double,double> qsystem2D::position() const {
     std::pair<double,double> out(0, 0);
-    for (auto it = begin(); it != end(); ++it()) {
+    for (auto it = begin(); it != end(); ++it) {
         out.first += it.x() * std::norm(*it);
         out.second += it.y() * std::norm(*it);
     }
@@ -123,17 +125,17 @@ std::pair<double,double> qsystem2D::position() const {
 
 std::pair<double,double> qsystem2D::momentum() const {
     qsim::wave_t px(0), py(0);
-    for (auto it = begin(); it != end(); ++it()) {
+    for (auto it = begin(); it != end(); ++it) {
         px += it.right() - it.left();
         py += it.up() - it.down();
     }
 
     using namespace std::complex_literals;
 
-    px *= - 1i * hbar() * dy / 2;
-    py *= - 1i * hbar() * dx / 2;
+    px *= - 1i * hbar() * dy / 2.0;
+    py *= - 1i * hbar() * dx / 2.0;
 
-    if (px.imag() > qsim::precision || py.imag() > qsim::precision) {
+    if (abs(px.imag()) > qsim::machine_prec || abs(py.imag()) > qsim::machine_prec) {
         npdebug("Values: (", px, ", ", py, ")")
         throw std::runtime_error("Momentum computation isn't fully real");
     }
@@ -152,19 +154,19 @@ double qsystem2D::norm() const {
 
 //  these functions
 void qsystem2D::replace_wave(const wave_vector& other, size_t M_) {
-    qgridsystem<H_matrix_1D>::replace_wave(other);
+    qgridsystem<H_matrix_2D>::replace_wave(other);
     _M = M_;
     boundaries_setup();
     update_H_y(); // update matrix
 }
 
-void replace_wave(const std::function<qsim::wave_t (double, double)>& init, size_t N_, size_t M_) {
+void qsystem2D::replace_wave(const std::function<qsim::wave_t (double, double)>& init, size_t N_, size_t M_) {
     wave_vector w((N_+2)*(M_+2), qsim::wave_t(0.0));
     _N = N_;
     _M = M_;
 
     // construct it using the analytic expression
-    for (auto it = begin(); it != end(); ++it()) {
+    for (auto it = begin(); it != end(); ++it) {
         *it = init(it.x(), it.y());
     }
     
@@ -173,7 +175,7 @@ void replace_wave(const std::function<qsim::wave_t (double, double)>& init, size
 }
 
 void qsystem2D::replace_wave(wave_vector&& other, size_t M_) {
-    qgridsystem<H_matrix_1D>::replace_wave(other);
+    qgridsystem<H_matrix_2D>::replace_wave(other);
     _M = M_;
     boundaries_setup();
     update_H_y(); // update matrix
@@ -187,19 +189,19 @@ size_t qsystem2D::M() const {
 }
 
 
-iterator qsystem2D::begin() {
+qsystem2D::iterator qsystem2D::begin() {
     return iterator(*this, 1, 1);
 }
 
-const_iterator qsystem2D::begin() const {
+qsystem2D::const_iterator qsystem2D::begin() const {
     return const_iterator(*this, 1, 1);
 }
 
-iterator qsystem2D::end() {
+qsystem2D::iterator qsystem2D::end() {
     return iterator(*this, _N+1, 1);
 }
 
-const_iterator qsystem2D::end() const {
+qsystem2D::const_iterator qsystem2D::end() const {
     return const_iterator(*this, _N+1, 1);
 }
 
@@ -207,12 +209,12 @@ const_iterator qsystem2D::end() const {
  * iterator section
  */ 
 
-iterator::iterator(qsystem2D& _sys, size_t _i, size_t _j) 
+qsystem2D::iterator::iterator(qsystem2D& _sys, size_t _i, size_t _j) 
     : sys(_sys), i(_i), j(_j)
 {
 }
 
-void qsystem2D::iterator::increment {
+void qsystem2D::iterator::increment() {
     if (j < sys.M())
         ++j;
     else {
@@ -226,24 +228,24 @@ bool qsystem2D::iterator::operator!=(const iterator& other) const {
     return i != other.i || j != other.j;
 }
 
-qsim::wave_t& qsystem2D::iterator::operator*() const {
+qsim::wave_t& qsystem2D::iterator::operator*() {
     return sys.wave[sys.map(i,j)];
 }
 
 
-qsim::wave_t& qsystem2D::iterator::up() const {
+qsim::wave_t& qsystem2D::iterator::up() {
     return sys.wave[sys.map(i,j+1)];
 }
 
-qsim::wave_t& qsystem2D::iterator::down() const {
+qsim::wave_t& qsystem2D::iterator::down() {
     return sys.wave[sys.map(i,j-1)];
 }
 
-qsim::wave_t& qsystem2D::iterator::left() const {
+qsim::wave_t& qsystem2D::iterator::left() {
     return sys.wave[sys.map(i-1,j)];
 }
 
-qsim::wave_t& qsystem2D::iterator::right() const {
+qsim::wave_t& qsystem2D::iterator::right() {
     return sys.wave[sys.map(i+1,j)];
 }
 
@@ -257,12 +259,12 @@ double qsystem2D::iterator::y() const {
 
 // const iterator
 
-const_iterator::const_iterator(qsystem2D& _sys, size_t _i, size_t _j) 
+qsystem2D::const_iterator::const_iterator(const qsystem2D& _sys, size_t _i, size_t _j) 
     : sys(_sys), i(_i), j(_j)
 {
 }
 
-void qsystem2D::const_iterator::increment {
+void qsystem2D::const_iterator::increment() {
     if (j < sys.M())
         ++j;
     else {
@@ -275,24 +277,24 @@ bool qsystem2D::const_iterator::operator!=(const const_iterator& other) const {
     return i != other.i || j != other.j;
 }
 
-qsim::wave_t& qsystem2D::const_iterator::operator*() const {
+const qsim::wave_t& qsystem2D::const_iterator::operator*() const {
     return sys.wave[sys.map(i,j)];
 }
 
 
-qsim::wave_t& qsystem2D::const_iterator::up() const {
+const qsim::wave_t& qsystem2D::const_iterator::up() const {
     return sys.wave[sys.map(i,j+1)];
 }
 
-qsim::wave_t& qsystem2D::const_iterator::down() const {
+const qsim::wave_t& qsystem2D::const_iterator::down() const {
     return sys.wave[sys.map(i,j-1)];
 }
 
-qsim::wave_t& qsystem2D::const_iterator::left() const {
+const qsim::wave_t& qsystem2D::const_iterator::left() const {
     return sys.wave[sys.map(i-1,j)];
 }
 
-qsim::wave_t& qsystem2D::const_iterator::right() const {
+const qsim::wave_t& qsystem2D::const_iterator::right() const {
     return sys.wave[sys.map(i+1,j)];
 }
 
