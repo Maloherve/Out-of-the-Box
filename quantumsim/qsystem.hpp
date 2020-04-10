@@ -36,13 +36,17 @@ namespace qsim {
         // an evolver
         std::shared_ptr<evolver<Coords, WaveFunction, H>> m_evolver;
         
+        // plank constant
+        double plank;
+
     public:
         qsystem(double _m, 
                 const WaveFunction& _wave,
                 std::shared_ptr<potential<Coords>> _V,
-                std::shared_ptr<evolver<Coords, WaveFunction, H>> _evolver
+                std::shared_ptr<evolver<Coords, WaveFunction, H>> _evolver,
+                double _hbar = 1.0
                 )
-            : wave(_wave), m(_m), pot(_V), m_evolver(_evolver) {
+            : wave(_wave), m(_m), pot(_V), m_evolver(_evolver), plank(_hbar) {
 
             if (pot == nullptr) {
                 // TODO, throw error
@@ -54,6 +58,9 @@ namespace qsim {
                 
             if (m < 0)
                 m = -m;
+            
+            if (plank < 0)
+                plank = -plank;
         }
         
         // very important the virtual destructor
@@ -67,6 +74,14 @@ namespace qsim {
         // eventually change the behaviour
         virtual void set_mass(double _m) {
             this->m = abs(_m);
+        }
+
+        virtual void set_hbar(double hb) {
+            plank = hb;
+        }
+
+        inline double hbar() const {
+            return plank;
         }
 
         // evolution in time
@@ -108,8 +123,6 @@ namespace qsim {
         
         // averanges
         virtual double energy() const = 0;
-        virtual double position() const = 0;
-        virtual double momentum() const = 0;
         
         // normalization
         virtual double normalize() = 0;
