@@ -10,29 +10,61 @@ namespace qsim::emu {
         
         // packet energy
         double _energy;
+        
+        // TODO abstract system
+        const q_emusystem& system;
 
-        std::shared_ptr<region> map; 
-        std::shared_ptr<potential<size_t>> V; 
-        std::vector<double> A;
-        std::vector<double> B;
+        std::shared_ptr<region> map; // from 0 to M
+        std::shared_ptr<potential<size_t>> V; // from 0 to M
 
+        std::vector<qsim::wave_t> A; // from 0 to M
+        std::vector<qsim::wave_t> B; // from 0 to M
+        
+        // built-in observable integrals integrals
+        static double norm(qsim::wave_t lambda, double x1, double x2, bool real);
+        static double position(qsim::wave_t lambda, double x1, double x2, bool real);
+        static double momentum(qsim::wave_t lambda, double x1, double x2, bool real);
 
     public:
         
-        wave_packet(double energy, std::shared_ptr<region> map, std::shared_ptr<potential<size_t>> V);
+        wave_packet(double energy, const q_emusystem& system);
 
         /*
-         * iteration
+         * iteration over regions
          */
-        struct const_iterator {
+        class iter_entry {
+            const size_t k;
+            const wave_packet& wave;
+        public:
+
+            iter_entry(size_t k, const wave_packet& wave);
+
+            qsim::wave_t A() const;
+            qsim::wave_t B() const;
+            double V() const;
+
+            // boundaries
+            double x_min() const;
+            double x_max() const;
+
+            // check for real domain
+            bool real() const;
+
+            // obtain current domain lambda
+            qsim::wave_t lambda() const;
+        };
+
+        class const_iterator {
             size_t k;
-            wave_packet& wave;
+            const wave_packet& wave;
+        public:
+            const_iterator(const wave_packet&, size_t);
 
-            const_iterator(wave_packet&, size_t);
-
-            const_iterator operator++();
+            const_iterator& operator++();
             const_iterator operator++(int);
-            bool operator!=(iterator);
+            bool operator!=(const iterator&) const;
+
+            iter_entry operator*() const;
         };
 
         const_iterator begin() const;
@@ -40,7 +72,7 @@ namespace qsim::emu {
 
         // regions
         inline size_t size() const {
-            return V->size();
+            return map->size();
         }
     
         // lambda coefficient (complex)
@@ -54,11 +86,14 @@ namespace qsim::emu {
         /*
          * Access to A and B
          */
-        std::pair<double, double> coefficients(size_t k) const;
-        std::pair<double, double> coefficients(double x) const;
+        qsim::wave_t coeff_A(size_t k) const;
+        qsim::wave_t coeff_B(size_t k) const;
 
-        inline std::pair<double, double> operator[](size_t k) const {
-            return coefficients(k);
+        qsim::wave_t coeff_A(double x) const;
+        qsim::wave_t coeff_B(double x) const;
+
+        inline std::pair<qsim::wave_t, qsim::wave_t> operator[](size_t k) const {
+            return {coeff_A(k), coeff_B(k)};
         }
         
         /*
@@ -67,19 +102,31 @@ namespace qsim::emu {
          */
         void eval_coefficients();
 
-        // wave function access
-        double psi(double x) const;
+        /*
+         * wave function access
+         */
+        qsim::wave_t psi(double x) const;
 
-        inline double operator()(double x) const {
+        // access to the boundary values
+        // warning: psi(0) is undefined!!
+        qsim::wave_t psi(size_t k) const;
+
+        inline qsim::wave_t operator()(double x) const {
             return psi(x);
         }
 
         // wave function derivative, n = order
-        double derivative(double x, size_t n = 1) const;
+        qsim::wave_t derivative(double x, size_t n = 1) const;
 
-        // integrals
+        /*
+         * integrals
+         */
+        // squared norm
+        double norm() const;
+        
         double position() const;
         double momentum() const;
+
         // custom observable action
         double observe(observable*) const;
     };

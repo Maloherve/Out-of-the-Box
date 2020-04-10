@@ -3,6 +3,6 @@
 namespace qsim::emu {
 
     class observable {
-        virtual double observe(const wave_packet&) const = 0;
+        virtual double observe(const wave_packet::iter_entry&) const = 0;
     };
 }

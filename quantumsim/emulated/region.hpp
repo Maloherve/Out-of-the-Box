@@ -6,7 +6,9 @@ namespace qsim::emu {
     /*
      * mapping domain (x1, x2, ...., xM)
      */
-    struct region : private std::vector<double> {
+    class region : private std::vector<double> {
+        friend class wave_packet;
+    public:
         region(std::initializer_list<double> init = {}) 
             : region(init) {
             std::sort(begin(), end());
