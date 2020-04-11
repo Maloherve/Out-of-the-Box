@@ -51,6 +51,11 @@ void qsystem1D::update_H() {
     H.get<1>() = H_zero();
 }
 
+void qsystem1D::set_hbar(double plank) {
+     qgridsystem<H_matrix_1D>::set_hbar(plank);
+     update_H();
+}
+
 void qsystem1D::set_mass(double _m) {
     qgridsystem<H_matrix_1D>::set_mass(_m);
     update_H();

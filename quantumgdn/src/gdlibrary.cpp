@@ -4,7 +4,7 @@
 #include "potential.hpp"
 #include "uniform_potential.hpp"
 #include "grid_wave.hpp"
-#include "grid.hpp"
+#include "qsimbox.hpp"
 #include "qgridsystem1D.hpp"
 //#include "qgridsystem2D.hpp"
 

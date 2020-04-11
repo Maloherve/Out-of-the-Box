@@ -15,7 +15,6 @@ namespace godot {
     class qsystem : public Node {
         GODOT_CLASS(qsystem, Node)
     protected:
-        qsimbox * box; 
         potential<Coords, Degrees> * m_pot;
     public:
 
@@ -25,17 +24,20 @@ namespace godot {
             }
          }
 
-         void _ready() {
+         /*void _ready() {
              npdebug("Ready was called")
              box = simulation_box();
+         }*/
+
+         void _init() {
          }
         
          // subclass implementation
          virtual bool _set_potential(potential<Coords, Degrees> *) { return false; }
-         virtual qsimbox * simulation_box() { return nullptr; }
+         virtual qsimbox * box() const { return nullptr; }
 
          static void _register_methods() {
-            register_method("_ready", &qsystem::_ready);
+            //register_method("_ready", &qsystem::_ready);
          }
     };
 

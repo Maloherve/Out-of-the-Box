@@ -37,7 +37,14 @@ namespace godot {
          * Non-binded access to potential
          */
         virtual bool _set_potential(grid_potential1D *) override;
-        virtual qsimbox * simulation_box() override;
+        virtual qsimbox * box() const override;
+
+        /*
+         *  hbar
+         */
+
+        void set_hbar(double);
+        double get_hbar() const;
 
         /*
          * Boundary properties depend on potential

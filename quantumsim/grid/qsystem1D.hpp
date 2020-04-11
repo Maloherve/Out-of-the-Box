@@ -71,6 +71,9 @@ namespace qsim::grid {
         // change the hemiltonian expression
         virtual void set_mass(double) override;
 
+        // update matrix when setting hbar
+        virtual void set_hbar(double) override;
+
         // implementations
         virtual double energy() const override;
         double position() const;

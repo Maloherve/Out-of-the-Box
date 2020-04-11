@@ -1,6 +1,6 @@
 #include "qgridsystem1D.hpp"
 
-#include "grid.hpp"
+#include "qsimbox.hpp"
 
 #include "quantumsim/evolvers/explicit.hpp"
 #include "uniform_potential.hpp"
@@ -37,6 +37,7 @@ void qgridsystem1D::_register_methods() {
     
     // properties
     register_property<qgridsystem1D, double>("mass", &qgridsystem1D::set_mass, &qgridsystem1D::mass, 1.0);
+    register_property<qgridsystem1D, double>("hbar", &qgridsystem1D::set_hbar, &qgridsystem1D::get_hbar, 1.0);
 }
 
 
@@ -45,18 +46,30 @@ double qgridsystem1D::_energy() const {
 }
 
 double qgridsystem1D::_position() const {
-    return qsystem1D::position() + (box != nullptr) ? box->x() : 0;
+    auto * b = box();
+    return qsystem1D::position() + (b != nullptr) ? b->x() : 0;
 }
 
 double qgridsystem1D::_momentum() const {
     return qsystem1D::momentum();
 }
 
+void qgridsystem1D::set_hbar(double plank) {
+    qsystem1D::set_hbar(plank);
+}
+
+double qgridsystem1D::get_hbar() const {
+    return qsystem1D::hbar();
+}
+
 void qgridsystem1D::set_wave(Ref<wave_init1D> init) {
     if (init != nullptr) {
 
-        if (box != nullptr)
-            set_delta(box->width() / static_cast<double>(init->N));
+        qsimbox * b = box();
+        if (b != nullptr) {
+            npdebug("Setting wave")
+            set_delta(b->width() / static_cast<double>(init->N));
+        }
 
         replace_wave(*(*init));
     }
@@ -103,7 +116,7 @@ bool qgridsystem1D::_set_potential(grid_potential1D * pot) {
     return pot->is_safe();
 }
 
-qsimbox * qgridsystem1D::simulation_box() {
+qsimbox * qgridsystem1D::box() const {
     return Object::cast_to<qsimbox>(get_parent());
 }
 

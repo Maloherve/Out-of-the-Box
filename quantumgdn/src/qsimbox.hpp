@@ -27,7 +27,7 @@ namespace godot {
         double height() const;
 
         void _init();
-        //void _ready();
+        void _ready();
 
         static void _register_methods();
     };

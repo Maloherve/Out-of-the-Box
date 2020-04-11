@@ -69,11 +69,15 @@ namespace qsim {
         
         // eventually change the behaviour
         virtual void set_mass(double _m) {
+            if (_m == 0)
+                throw std::invalid_argument("Passed a null mass");
             this->m = abs(_m);
         }
 
         virtual void set_hbar(double hb) {
-            plank = hb;
+            if (hb == 0)
+                throw std::invalid_argument("Passed a null plank constant");
+            plank = abs(hb);
         }
 
         inline double hbar() const {
