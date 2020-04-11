@@ -15,13 +15,6 @@ namespace godot {
     class qgridsystem2D : private qsim::grid::qsystem2D, public Node2D {
         GODOT_CLASS(qgridsystem2D, Node2D)
 
-        // implicit child, accessible by psi
-        grid_wave * wave_fct;
-
-        // explicit child, accessible by V
-        // it's supposed to be an external object
-        grid_potential * m_potential;
-        
     public:
         qgridsystem2D();
         ~qgridsystem2D();
@@ -32,12 +25,6 @@ namespace godot {
 
         Vector2 position() const;
         Vector2 momentum() const;
-
-        /*
-         * Potential property
-         */
-        void _set_potential(grid_potential * pot);
-        grid_potential * _get_potential() const;
 
         //void set_evolver(Reference* integ);
         //Reference * get_evolver() const;

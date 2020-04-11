@@ -53,7 +53,7 @@ namespace godot {
         /*
          * Push a wave packet
          */
-        void _set_packet(Ref<wave_packet>);
+        //void _set_packet(Ref<wave_packet>);
         
         // push elements
         //void _push(const Array&);

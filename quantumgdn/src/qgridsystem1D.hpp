@@ -5,52 +5,32 @@
 #include <Godot.hpp>
 #include <Node.hpp>
 #include <Reference.hpp>
-#include "potential.hpp"
+
+#include "wave_init1D.hpp"
 
 #include "grid_wave.hpp"
 
+#include "qsystem.hpp"
+
 namespace godot {
 
-    class qbounds1D : public Reference {
-        GODOT_CLASS(qbounds1D, Reference)
-
-        qsim::grid::qsystem1D::bound * ptr;
-
-    public:
-        qbounds1D(qsim::grid::qsystem1D::bound *_ptr = nullptr);
-        ~qbounds1D() = default;
-
-        void set_pos(double _pos);
-        double get_pos() const;
-
-        void set_mode(int _mode);
-        int get_mode() const;
-
-        void _init() {}
-
-        inline void set_instance(qsim::grid::qsystem1D::bound* _ptr) {
-            ptr = _ptr;
-        }
-
-        static void _register_methods();
-    };
+    class grid_potential1D;
+    class qsimbox;
 
     class qgridsystem1D : private qsim::grid::qsystem1D, public Node {
-        GODOT_CLASS(qgridsystem1D, Node)
-
-        // implicit child, accessible by psi
-        grid_wave * wave_fct;
-
-        // explicit child, accessible by V
-        // it's supposed to be an external object
-        grid_potential * m_potential;
-
-        Ref<qbounds1D> low_bound, up_bound;
+        GODOT_SUBCLASS(qgridsystem1D, Node)
         
+        qsimbox * box; 
+        grid_potential1D * m_pot;
+
     public:
         qgridsystem1D();
         ~qgridsystem1D();
-        
+
+        /*
+         * Positioning
+         */
+
         /*
          * Methods declarations
          */
@@ -58,15 +38,15 @@ namespace godot {
         double _energy() const;
         double _position() const;
         double _momentum() const;
-        double _normalize();
-        double _map(size_t) const;
-        double _size() const;
 
         /*
-         * Potential property
+         * Non-binded access to potential
          */
-        void _set_potential(grid_potential * pot);
-        grid_potential * _get_potential() const;
+        grid_potential1D * set_potential(grid_potential1D *);
+
+        /*
+         * Boundary properties depend on potential
+         */
 
         //void set_evolver(Reference* integ);
         //Reference * get_evolver() const;
@@ -75,18 +55,10 @@ namespace godot {
          * Access to wave function
          */
 
-        void _set_wave(grid_wave *);
-        grid_wave * _get_wave() const;
-
-        /*
-         * Access to boundaries
-         */
-
-        void _set_upper_bound(Ref<qbounds1D>);
-        void _set_lower_bound(Ref<qbounds1D>);
-
-        Ref<qbounds1D> _get_upper_bound() const;
-        Ref<qbounds1D> _get_lower_bound() const;
+        //void _set_wave(grid_wave *);
+        //grid_wave * _get_wave() const;
+        //
+        void set_wave(Ref<wave_init1D>, double);
 
         // GD constructor
         void _init();

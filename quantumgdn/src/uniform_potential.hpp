@@ -7,10 +7,10 @@
 
 namespace godot {
     
-    template<class Coords>
-    class uniform_potential : public potential_obj<Coords, qsim::pot::uniform<Coords>, double> {
-        typedef potential_obj<Coords, qsim::pot::uniform<Coords>, double> Base;
-        GODOT_SUBCLASS(uniform_potential<Coords>, Base)
+    template<class Coords, class Degrees>
+    class uniform_potential : public potential_obj<Coords, qsim::pot::uniform<Coords>, Degrees, double> {
+        typedef potential_obj<Coords, qsim::pot::uniform<Coords>, Degrees, double> Base;
+        GODOT_SUBCLASS(uniform_potential, Base)
 
     public:
         uniform_potential(double value = 0.0) 
@@ -18,6 +18,14 @@ namespace godot {
              {}
 
         ~uniform_potential() {}
+
+        /*
+         * at method
+         */
+
+        virtual double at(const Degrees&) const override {
+            return this->m_ptr->get_value();
+        }
 
         /*
          * Bindings
@@ -55,14 +63,33 @@ namespace godot {
     /*
      * Specializations
      */
-    class grid_uniform_potential : public uniform_potential<size_t> {
-        GODOT_SUBCLASS(grid_uniform_potential, uniform_potential<size_t>)
+    // 1D grid
+    class grid_uniform_potential1D : public uniform_potential<size_t, double> {
+        typedef uniform_potential<size_t, double> base;
+        GODOT_SUBCLASS(grid_uniform_potential1D, base)
     public:
-        using uniform_potential<size_t>::uniform_potential;
-        using uniform_potential<size_t>::_init;
+        using uniform_potential<size_t, double>::uniform_potential;
+        using uniform_potential<size_t, double>::_init;
 
-        static grid_uniform_potential* _new(double value) {
-            auto *ptr = grid_uniform_potential::_new();
+        static grid_uniform_potential1D * _new(double value) {
+            auto *ptr = grid_uniform_potential1D::_new();
+            ptr->_set_value(value);
+            return ptr;
+        }
+
+        static void _register_methods() {}
+    };
+
+    // 2D grid
+    class grid_uniform_potential2D : public uniform_potential<size_t, Vector2> {
+        typedef uniform_potential<size_t, double> base;
+        GODOT_SUBCLASS(grid_uniform_potential2D, base)
+    public:
+        using uniform_potential<size_t, Vector2>::uniform_potential;
+        using uniform_potential<size_t, Vector2>::_init;
+
+        static grid_uniform_potential2D* _new(double value) {
+            auto *ptr = grid_uniform_potential2D::_new();
             ptr->_set_value(value);
             return ptr;
         }

@@ -40,7 +40,7 @@ size_t grid_wave::_size() const {
 }
 
 void grid_wave::_set(size_t m, Vector2 complx) {
-    (*const_wave())[m] = qsim::grid::wave_t(complx.x, complx.y);
+    (*wave_ref)[m] = qsim::grid::wave_t(complx.x, complx.y);
 }
 
 Vector2 grid_wave::_get(int m) const {
@@ -66,7 +66,7 @@ void grid_wave::_register_methods() {
     register_method("size", &grid_wave::_size);
     register_method("set", &grid_wave::_set);
     register_method("get", &grid_wave::_get);
-    register_method("set_packet", &grid_wave::_set_packet);
+    //register_method("set_packet", &grid_wave::_set_packet);
 }
 
 void grid_wave::move_into(qsim::grid::wave_vector& other) {
@@ -74,7 +74,7 @@ void grid_wave::move_into(qsim::grid::wave_vector& other) {
     wave_ref = &other; // other must persist
 }
 
-void grid_wave::_set_packet(Ref<wave_packet> pack) {
+/*void grid_wave::_set_packet(Ref<wave_packet> pack) {
     if (wave_ref == nullptr) {
         npdebug("Null wave")
     } else if (pack == nullptr) {
@@ -84,4 +84,4 @@ void grid_wave::_set_packet(Ref<wave_packet> pack) {
         wave_ref->clear();
         wave_ref->push(*(*pack));
     }
-}
+}*/

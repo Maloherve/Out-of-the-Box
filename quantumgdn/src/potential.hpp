@@ -1,8 +1,10 @@
 #pragma once
 
 #include <Godot.hpp>
-#include <Reference.hpp>
+#include <Node2D.hpp>
 #include <memory>
+
+#include "qgridsystem1D.hpp"
 
 #include "debug.hpp"
 
@@ -15,7 +17,7 @@ namespace qsim {
 
 namespace godot {
 
-    template <class Coords>
+    template <class Coords, class Degrees>
     class potential : public Node {
         GODOT_CLASS(potential, Node)
 
@@ -47,11 +49,27 @@ namespace godot {
         double access(Coords m) const {
             return (*m_pot)(m);
         }
+        
+        // default, flat potential
+        virtual double at(const Degrees&) const {
+            return 0;
+        }
 
         void _init() {}
 
+        void _ready() {
+            // TODO, there is a better solution, general class for systems
+            auto * par1 = Object::cast_to<qgridsystem1D>(get_parent());
+            //auto * obj = Object::cast_as<qgridsystem2D>(get_parent());
+            if (par1 != nullptr)
+                par1->set_potential(this); 
+
+            //auto * par2 = Object::cast_as<qgridsystem2D>(get_parent());
+        }
+
         static void _register_methods() {
             register_method("get", &potential::access);
+            register_method("_ready", &potential::_ready);
         }
     };
 
@@ -59,9 +77,10 @@ namespace godot {
      * Wrapper for a general referenciable potential
      * Coords must be a Variant like (see Godot documentation)
      */    
-    template <class Coords, class Specific, class ... Args>
-    class potential_obj : public potential<Coords> {
-        GODOT_SUBCLASS(potential_obj, potential<Coords>)
+    template <class Coords, class Specific, class Degrees, class ... Args>
+    class potential_obj : public potential<Coords, Degrees> {
+        typedef potential<Coords, Degrees> base;
+        GODOT_SUBCLASS(potential_obj, base)
 
         static_assert(std::is_base_of<qsim::potential<Coords>, Specific>::value, "Potential specific type must be derived from qsim::potential<Coords>");
 
@@ -72,7 +91,7 @@ namespace godot {
     public:
 
         potential_obj(const Args& ... args) 
-            : potential<Coords>(nullptr) , m_ptr(std::make_shared<Specific>(args ...))
+            : base(nullptr) , m_ptr(std::make_shared<Specific>(args ...))
         {
             this->set_ptr(std::static_pointer_cast<qsim::potential<Coords>>(m_ptr));
             std::cerr << "Potential constructro" << std::endl;
@@ -91,5 +110,6 @@ namespace godot {
         }
     };
 
-    typedef potential<size_t> grid_potential;
+    typedef potential<size_t, double> grid_potential1D;
+    typedef potential<size_t, Vector2> grid_potential2D;
 }
