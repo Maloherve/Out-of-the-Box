@@ -1,5 +1,7 @@
 #pragma once 
 
+#include <Godot.hpp>
+#include <Node.hpp>
 #include "debug.hpp"
 
 namespace godot {
@@ -17,8 +19,8 @@ namespace godot {
         potential<Coords, Degrees> * m_pot;
     public:
 
-         void set_potential(potential<Coords, Degrees> *) {
-            if (pot != nullptr && _set_potential(*pot)) {
+         void set_potential(potential<Coords, Degrees> * pot) {
+            if (pot != nullptr && _set_potential(pot)) {
                 m_pot = pot;
             }
          }
@@ -32,8 +34,10 @@ namespace godot {
          virtual bool _set_potential(potential<Coords, Degrees> *) { return false; }
          virtual qsimbox * simulation_box() { return nullptr; }
 
-         static void register_methods() {
-            register_method("_ready", &qgridsystem1D::_ready);
+         static void _register_methods() {
+            register_method("_ready", &qsystem::_ready);
          }
     };
+
+    typedef qsystem<size_t,double> qgridsystem1D_base;
 }

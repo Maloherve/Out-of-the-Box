@@ -4,7 +4,7 @@
 #include <Node2D.hpp>
 #include <memory>
 
-#include "qgridsystem1D.hpp"
+#include "qsystem.hpp"
 
 #include "debug.hpp"
 
@@ -58,13 +58,9 @@ namespace godot {
         void _init() {}
 
         void _ready() {
-            // TODO, there is a better solution, general class for systems
-            auto * par1 = Object::cast_to<qgridsystem1D>(get_parent());
-            //auto * obj = Object::cast_as<qgridsystem2D>(get_parent());
-            if (par1 != nullptr)
-                par1->set_potential(this); 
-
-            //auto * par2 = Object::cast_as<qgridsystem2D>(get_parent());
+            qsystem<Coords,Degrees> * parent = Object::cast_to<qsystem<Coords,Degrees>>(get_parent());
+            if (parent != nullptr)
+                parent->set_potential(this); 
         }
 
         static void _register_methods() {

@@ -27,9 +27,9 @@ extern "C" void GDN_EXPORT godot_nativescript_init(void *handle)
     
     // potentials
 	register_class<grid_potential1D>();
-	register_class<grid_potential2D>();
+	//register_class<grid_potential2D>();
 	register_class<grid_uniform_potential1D>();
-	register_class<grid_uniform_potential2D>();
+	//register_class<grid_uniform_potential2D>();
 
     // grid wave
 	register_class<grid_wave>();
@@ -39,13 +39,14 @@ extern "C" void GDN_EXPORT godot_nativescript_init(void *handle)
 	register_class<gauss_init1D>();
 
     // 2D initializers
-	register_class<wave_init2D>();
-	register_class<gauss_init2D>();
+	//register_class<wave_init2D>();
+	//register_class<gauss_init2D>();
 
     // layers
     register_class<qsimbox>();
     
     // systems
+	register_class<qgridsystem1D_base>();
 	register_class<qgridsystem1D>();
 	//register_class<qgridsystem2D>();
 }

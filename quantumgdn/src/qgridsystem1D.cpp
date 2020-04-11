@@ -1,5 +1,7 @@
 #include "qgridsystem1D.hpp"
 
+#include "grid.hpp"
+
 #include "quantumsim/evolvers/explicit.hpp"
 #include "uniform_potential.hpp"
 
@@ -13,8 +15,7 @@ using namespace qsim::pot;
 qgridsystem1D::qgridsystem1D() 
     : qsystem1D(1.0, 1.0, std::make_shared<qsim::pot::uniform<size_t>>(), 
                 gauss_init1D(),
-                std::make_shared<qsystem1D::explicit_evolver>()),
-      box(nullptr), m_pot(nullptr)
+                std::make_shared<qsystem1D::explicit_evolver>())
 {}
 
 void qgridsystem1D::_init() {
@@ -55,29 +56,29 @@ void qgridsystem1D::set_wave(Ref<wave_init1D> init) {
     if (init != nullptr) {
 
         if (box != nullptr)
-            set_dx(init->N, box->width());
+            set_delta(box->width() / static_cast<double>(init->N));
 
         replace_wave(*(*init));
     }
 }
 
-grid_potential1D * qgridsystem1D::set_potential(grid_potential1D * pot) {
+/*grid_potential1D * qgridsystem1D::set_potential(grid_potential1D * pot) {
     if (pot != nullptr && pot->is_safe()) {
         qsim::grid::qsystem1D::set_potential(*pot);
         m_pot = pot;
     }
-}
+}*/
 
 void qgridsystem1D::_ready() {
     npdebug("Normalizing function")
     normalize();
 
-    qsimbox * par = Object::cast_to<qsimbox>(get_parent());
+    /*qsimbox * par = Object::cast_to<qsimbox>(get_parent());
 
     if (par != nullptr) {
         // obtain boundary information
         box = area;
-    }
+    }*/
 
 
     //npdebug("Looking for a potential")
@@ -95,6 +96,17 @@ void qgridsystem1D::_ready() {
         }
     }*/
 }
+
+bool qgridsystem1D::_set_potential(grid_potential1D * pot) {
+    if (pot->is_safe())
+        qsim::grid::qsystem1D::set_potential(*pot);
+    return pot->is_safe();
+}
+
+qsimbox * qgridsystem1D::simulation_box() {
+    return Object::cast_to<qsimbox>(get_parent());
+}
+
 
 void qgridsystem1D::_fixed_process(double dt) {
     // default values

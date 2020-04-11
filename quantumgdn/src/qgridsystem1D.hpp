@@ -7,22 +7,16 @@
 #include <Reference.hpp>
 
 #include "wave_init1D.hpp"
-
 #include "grid_wave.hpp"
 
 #include "qsystem.hpp"
+#include "potential.hpp"
 
 namespace godot {
 
-    class grid_potential1D;
-    class qsimbox;
-
-    class qgridsystem1D : private qsim::grid::qsystem1D, public Node {
-        GODOT_SUBCLASS(qgridsystem1D, Node)
+    class qgridsystem1D : private qsim::grid::qsystem1D, public qgridsystem1D_base {
+        GODOT_SUBCLASS(qgridsystem1D, qgridsystem1D_base)
         
-        qsimbox * box; 
-        grid_potential1D * m_pot;
-
     public:
         qgridsystem1D();
         ~qgridsystem1D();
@@ -42,7 +36,8 @@ namespace godot {
         /*
          * Non-binded access to potential
          */
-        grid_potential1D * set_potential(grid_potential1D *);
+        virtual bool _set_potential(grid_potential1D *) override;
+        virtual qsimbox * simulation_box() override;
 
         /*
          * Boundary properties depend on potential
@@ -55,10 +50,7 @@ namespace godot {
          * Access to wave function
          */
 
-        //void _set_wave(grid_wave *);
-        //grid_wave * _get_wave() const;
-        //
-        void set_wave(Ref<wave_init1D>, double);
+        void set_wave(Ref<wave_init1D>);
 
         // GD constructor
         void _init();

@@ -1,4 +1,6 @@
 #pragma once
+
+#include <Godot.hpp>
 #include <Reference.hpp>
 
 #include "quantumsim/grid/qsystem1D.hpp"
