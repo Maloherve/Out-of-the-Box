@@ -35,15 +35,30 @@ namespace qsim::grid {
 
     public: 
 
+        struct init_pack {
+            std::function<qsim::wave_t (double)> f;
+            size_t N;
+
+            init_pack(const std::function<qsim::wave_t (double)>& _f = std::function<qsim::wave_t (double)>(),
+                      size_t _N = 0
+                     ) : f(_f), N(_N) {}
+
+            inline qsim::wave_t operator*(double x) const {
+                return f(x);
+            }
+
+            wave_vector generate(double dx) const;
+        };
+
         // possible integrators' forward declaration
         typedef evo::explicit_scheme<size_t, wave_vector, grid_H_1D> explicit_evolver;
 
         qsystem1D(double _m, 
-                  const wave_vector& _wave,
                   double dx,
                   std::shared_ptr<potential<size_t>> _V,
-                  std::shared_ptr<evolver<size_t, wave_vector, grid_H_1D>> _evolver,
-                  double hbar = 1
+                  const init_pack& init = init_pack(),
+                  std::shared_ptr<evolver<size_t, wave_vector, grid_H_1D>> _evolver = nullptr,
+                  double hbar = 1.0
                   );
 
         virtual const H_matrix_1D* hemiltonian_ptr() const {
@@ -65,12 +80,21 @@ namespace qsim::grid {
         virtual double norm() const override;
         
         // override these functions
-        void replace_wave(const wave_vector& other);
-        void replace_wave(wave_vector&& other);
+        //void replace_wave(const wave_vector& other);
+        //void replace_wave(wave_vector&& other);
+
+        void replace_wave(const init_pack&);
 
         inline size_t size() const {
             return qgridsystem<H_matrix_1D>::size();
         }
+
+        /*
+         * Discretization setter
+         */
+
+        void set_delta(double);
+        double delta() const;
 
         /*
          * Access to boundaries
@@ -80,6 +104,15 @@ namespace qsim::grid {
         inline double x(size_t i) const {
             return dx * (i+1);
         }
+
+        /*
+         * iteration
+         */
+
+        wave_vector::iterator begin();
+        wave_vector::iterator end();
+        wave_vector::const_iterator begin() const;
+        wave_vector::const_iterator end() const;
     };
 }
 

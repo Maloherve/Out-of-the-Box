@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include "grid/qsystem1D.hpp"
+#include "grid/qsystem2D.hpp"
 #include "grid/wave.hpp"
 #include "potentials/uniform.hpp"
 #include "potentials/stepped.hpp"
@@ -15,7 +15,7 @@ using namespace qsim::grid;
 using namespace std;
 
 wave_vector init_wave(size_t);
-void print(const qsystem1D&, const std::vector<double>&, size_t k);
+void print(const qsystem2D&, const std::vector<double>&, size_t k);
 
 constexpr double mass = 1;
 constexpr double dt = 0.01;
@@ -32,8 +32,6 @@ int main() {
     constexpr double position = 0.75;
 
     // barrier in the middle
-    auto V_barrier = std::make_shared<pot::stepped<size_t>>(5, samples * (position - 1.0/20), samples * (position + 1.0/20));
-
     auto integ = std::make_shared<qsystem1D::explicit_evolver>();
     
     // step 1, initialization

@@ -152,16 +152,8 @@ double qsystem2D::norm() const {
     return out * dx * dy;
 }
 
-//  these functions
-void qsystem2D::replace_wave(const wave_vector& other, size_t M_) {
-    qgridsystem<H_matrix_2D>::replace_wave(other);
-    _M = M_;
-    boundaries_setup();
-    update_H_y(); // update matrix
-}
-
 void qsystem2D::replace_wave(const std::function<qsim::wave_t (double, double)>& init, size_t N_, size_t M_) {
-    wave_vector w((N_+2)*(M_+2), qsim::wave_t(0.0));
+    /*wave_vector w((N_+2)*(M_+2), qsim::wave_t(0.0));
     _N = N_;
     _M = M_;
 
@@ -171,15 +163,17 @@ void qsystem2D::replace_wave(const std::function<qsim::wave_t (double, double)>&
     }
     
     update_H_y(); 
-    wave = std::move(w);
+    wave = std::move(w);*/
+    replace_wave(init_pack(init, N_, M_));
 }
 
-void qsystem2D::replace_wave(wave_vector&& other, size_t M_) {
-    qgridsystem<H_matrix_2D>::replace_wave(other);
-    _M = M_;
-    boundaries_setup();
-    update_H_y(); // update matrix
+void qsystem2D::replace_wave(const init_pack& init) {
+    _N = init.N;
+    _M = init.M;
+    update_H_y(); 
+    wave = init.generate(dx, dy);
 }
+
 
 size_t qsystem2D::N() const {
     return _N;

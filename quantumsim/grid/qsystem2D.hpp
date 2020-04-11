@@ -55,6 +55,10 @@ namespace qsim::grid {
                       size_t _M = 0
                      ) : f(_f), N(_N), M(_M) {}
 
+            inline qsim::wave_t operator()(double x, double y) const {
+                return f(x,y);
+            }
+
             wave_vector generate(double dx, double dy) const;
         };
 
@@ -110,10 +114,8 @@ namespace qsim::grid {
         }
         
         // override these functions
-        void replace_wave(const wave_vector& other, size_t M);
         void replace_wave(const std::function<qsim::wave_t (double, double)>&, size_t N, size_t M);
-
-        void replace_wave(wave_vector&& other, size_t M);
+        void replace_wave(const init_pack&);
 
         /*
          * Causing of boundaries size is decreased of 2
