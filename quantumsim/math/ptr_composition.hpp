@@ -55,6 +55,13 @@ namespace qsim::math {
             identity -= add;
             return *this;
         }
+        
+        // self-inversion operator
+        qsim::math::ptr_composition<T, Obj>& operator~() {
+            identity *= -1.0;
+            gain *= -1.0; 
+            return *this;
+        }
     };
 }
 
@@ -79,7 +86,7 @@ qsim::math::ptr_composition<T, Obj> operator-(qsim::math::ptr_composition<T, Obj
 template<typename T, class Obj>
 qsim::math::ptr_composition<T, Obj> operator-(T add, qsim::math::ptr_composition<T, Obj> input) {
     // add to the first element
-    return input -= add;
+    return ~(input -= add);
 }
 
 template<typename T, class Obj>

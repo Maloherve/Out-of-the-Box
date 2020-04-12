@@ -21,15 +21,14 @@ func _ready():
 	
 	#qsystem.set_physics_process(false) # comment on to evolve
 	
-	simbox.width = 500
-	simbox.height = 500
-	#simbox.position.y = 400
-	
-	packet.k0 = 2 * PI * n / simbox.width 
+	simbox.width = 600
+	simbox.height = 250
+	packet.k0 = 2 * PI * n / simbox.width
 	qsystem.set_wave(packet)
 	
 	for i in range(qsystem.N()):
 		graph.add_point(graph.point(i))
+		#print("point", i, "=", graph.get_point_position(i))
 	
 	print("System N: ", qsystem.N())
 	print("System position: ", qsystem.position())

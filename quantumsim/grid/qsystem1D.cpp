@@ -41,7 +41,7 @@ wave_vector qsystem1D::init_pack::generate(double dx) const {
 }
 
 qsim::math::diagonals<double, 3> qsystem1D::H_zero() const {
-    return math::diagonals<double,3>((- hbar() * hbar() / (2 * mass() * pow(dx, 2))) * A);
+    return math::diagonals<double,3>((-pow(hbar()/dx, 2) / (2 * mass())) * A);
 }
 
 void qsystem1D::update_H() {

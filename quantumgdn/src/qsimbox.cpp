@@ -16,7 +16,7 @@ double qsimbox::y() const {
 
 void qsimbox::set_width(double l) {
     if (rect != nullptr)
-        rect->set_extents(Vector2(l/2, height()));
+        rect->set_extents(Vector2(l/2, height()/2));
 }
 
 double qsimbox::width() const {
@@ -25,11 +25,11 @@ double qsimbox::width() const {
 
 void qsimbox::set_height(double h) {
     if (rect != nullptr)
-        rect->set_extents(Vector2(width(), h/2));
+        rect->set_extents(Vector2(width()/2, h/2));
 }
 
 double qsimbox::height() const {
-    return rect->get_extents().y * 2;
+    return static_cast<double>(rect->get_extents().y) * 2;
 }
 
 void qsimbox::_ready() {

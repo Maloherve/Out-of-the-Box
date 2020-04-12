@@ -8,8 +8,8 @@
 
 [node name="simulator" type="Area2D"]
 script = ExtResource( 3 )
-width = 500.0
-height = 500.0
+width = 200.0
+height = 400.0
 
 [node name="qsystem" type="Node" parent="."]
 script = ExtResource( 1 )
