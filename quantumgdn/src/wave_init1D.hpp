@@ -1,7 +1,7 @@
 #pragma once
 
 #include <Godot.hpp>
-#include <Reference.hpp>
+#include <Resource.hpp>
 
 #include "quantumsim/grid/qsystem1D.hpp"
 
@@ -10,8 +10,8 @@ namespace godot {
    /*
     * Base class for all wave initializers
     */ 
-    class wave_init1D : public qsim::grid::qsystem1D::init_pack, public Reference {
-        GODOT_CLASS(wave_init1D, Reference)
+    class wave_init1D : public qsim::grid::qsystem1D::init_pack, public Resource {
+        GODOT_CLASS(wave_init1D, Resource)
     public:
         wave_init1D(size_t N = 0);
         ~wave_init1D() = default;

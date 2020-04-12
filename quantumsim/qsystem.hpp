@@ -5,6 +5,8 @@
 #include "math/composition.hpp"
 #include "evolver.hpp"
 
+#include "debug.hpp"
+
 namespace qsim {
     
     template <typename Coords>
@@ -86,8 +88,9 @@ namespace qsim {
 
         // evolution in time
         void evolve(double dt) {
-            if (m_evolver != nullptr)
+            if (m_evolver != nullptr) {
                 wave = std::move(m_evolver->evolve(*this, dt));
+            }
 
             post(dt);
         }

@@ -33,6 +33,7 @@ extern "C" void GDN_EXPORT godot_nativescript_init(void *handle)
 
     // grid wave
 	register_class<grid_wave>();
+	register_class<grid_wave1D>();
 
     // 1D initializers
 	register_class<wave_init1D>();

@@ -25,6 +25,7 @@ qsystem1D::qsystem1D(double _m,
                          ), 
                         dx(_dx)
     {
+        normalize();
     }
 
 
@@ -62,31 +63,19 @@ void qsystem1D::set_mass(double _m) {
 }
 
 double qsystem1D::norm() const {
+    double A(0);
 
-    wave_t norm = grid::grid_integrate(wave, [&] (const neighbourhood<>& map, size_t location) {
-                    return map.at(location, 0); // return the value itself
-                }, dx);
+    for (size_t i = 0; i < wave.size(); ++i)
+        A += std::norm(wave[i]);
 
-    if (abs(norm.imag()) > qsim::machine_prec) {
-        npdebug("Value: ", norm)
-        throw std::runtime_error("Norm computation gave invalid input"); 
-    }
+    A *= dx;
 
-    return norm.real();
+    return A;
 }
-
-/*void qsystem1D::replace_wave(const wave_vector& other) {
-    qgridsystem<H_matrix_1D>::replace_wave(other);
-    //update_H(); // update matrix
-}*/
-
-/*void qsystem1D::replace_wave(wave_vector&& other) {
-    qgridsystem<H_matrix_1D>::replace_wave(other);
-    //update_H(); // update matrix
-}*/
 
 void qsystem1D::replace_wave(const init_pack& init) {
     wave = init.generate(dx);
+    normalize();
 }
 
 void qsystem1D::set_delta(double _dx) {
@@ -112,14 +101,14 @@ double qsystem1D::energy() const {
 }
 
 double qsystem1D::position() const {
-    wave_t pos = grid::grid_integrate(wave, [&] (const neighbourhood<>& map, size_t location) {
-                    return map.at(location, 0) * x(location); 
-                }, dx);
+    double pos(0);
 
-    if (abs(pos.imag()) > qsim::machine_prec)
-        throw pos; // TODO, a real error
+    for (size_t i = 0; i < wave.size(); ++i)
+        pos += x(i) * std::norm(wave[i]);
 
-    return pos.real();
+    pos *= dx;
+
+    return pos;
 }
 
 double qsystem1D::momentum() const {

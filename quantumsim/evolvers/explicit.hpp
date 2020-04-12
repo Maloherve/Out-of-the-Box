@@ -3,6 +3,8 @@
 #include "evolver.hpp"
 #include "constants.hpp"
 
+#include "debug.hpp"
+
 namespace qsim::evo {
 
     template <typename Coords, class WaveFunction, class H>

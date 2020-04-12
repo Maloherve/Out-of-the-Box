@@ -105,7 +105,7 @@ namespace qsim::grid {
          */
 
         inline double x(size_t i) const {
-            return dx * (i+1);
+            return dx * i;
         }
 
         /*
