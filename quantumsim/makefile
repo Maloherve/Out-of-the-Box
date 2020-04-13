@@ -18,7 +18,8 @@ LIBS := #add libraries
 
 SRC := \
 	grid/wave.cpp \
-	grid/qsystem1D.cpp
+	grid/qsystem1D.cpp \
+	grid/qsystem2D.cpp
 
 OBJ := $(patsubst %.cpp,$(BUILD)/%.os,$(SRC))
 

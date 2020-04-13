@@ -11,7 +11,6 @@ namespace qsim::grid {
     * Discretized wave function
     */
     class wave_vector : private std::vector<wave_t> {
-        
     public:
         
         // inherit constructors
@@ -28,6 +27,12 @@ namespace qsim::grid {
 
         using std::vector<wave_t>::push_back;
         using std::vector<wave_t>::insert;
+
+        using std::vector<wave_t>::begin;
+        using std::vector<wave_t>::end;
+
+        using iterator = std::vector<wave_t>::iterator;
+        using const_iterator = std::vector<wave_t>::const_iterator;
         
         // define an out-of-bounds different behaviour for the const case
         inline wave_t operator[](int i) const {
@@ -35,9 +40,8 @@ namespace qsim::grid {
                 0 : std::vector<wave_t>::operator[](static_cast<size_t>(i));
         }
 
-        inline wave_t operator[](size_t i) const {
-            return (i >= size()) ? 
-                0 : std::vector<wave_t>::operator[](i);
+        inline const wave_t& operator[](size_t i) const {
+            return std::vector<wave_t>::operator[](i);
         }
 
         inline wave_t& operator[](size_t i) {

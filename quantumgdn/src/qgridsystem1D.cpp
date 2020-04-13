@@ -1,7 +1,9 @@
 #include "qgridsystem1D.hpp"
 
+#include "qsimbox.hpp"
+#include "grid_wave.hpp"
+
 #include "quantumsim/evolvers/explicit.hpp"
-#include "wave_packets.hpp"
 #include "uniform_potential.hpp"
 
 #include "debug.hpp"
@@ -11,46 +13,19 @@ using namespace qsim::grid;
 using namespace qsim::pot;
 
 
-qbounds1D::qbounds1D(qsim::grid::qsystem1D::bound * _ptr)
-    : ptr(_ptr) {}
-
-void qbounds1D::set_pos(double _pos) {
-    ptr->location = _pos;
-}
-
-double qbounds1D::get_pos() const {
-    return ptr->location;
-}
-
-void qbounds1D::set_mode(int _mode) {
-    ptr->mode = static_cast<qsim::boundary_mode>(_mode);
-}
-
-int qbounds1D::get_mode() const {
-    return static_cast<int>(ptr->mode);
-}
-
-void qbounds1D::_register_methods() {
-    register_property<qbounds1D, double>("location", &qbounds1D::set_pos, &qbounds1D::get_pos, 0.0);
-    register_property<qbounds1D, int>("mode", &qbounds1D::set_mode, &qbounds1D::get_mode, int(qsim::boundary_mode::free));
-}
-
 qgridsystem1D::qgridsystem1D() 
-    : qsystem1D(1.0, 
-                {-1.0, 1.0},
-                wave_vector(1, 0.0), // trivial wave function
-                std::make_shared<qsim::pot::uniform<size_t>>(), // zero potential, not a godot reference
-                std::make_shared<qsystem1D::explicit_evolver>()),
-    wave_fct(nullptr), m_potential(nullptr) {}
+    : qsystem1D(1.0, 1.0, std::make_shared<qsim::pot::uniform<size_t>>(), 
+                gauss_init1D(),
+                std::make_shared<qsystem1D::explicit_evolver>())
+{}
 
 void qgridsystem1D::_init() {
-    wave_fct = grid_wave::_new();
-    wave_fct->set_instance(&psi());
-    add_child(wave_fct);
+    _wave = grid_wave1D::_new();
+    _wave->wave_ref = &wave;
 }
 
 qgridsystem1D::~qgridsystem1D() {
-    npdebug("Freeing system")
+    delete _wave;
 }
 
 void qgridsystem1D::_register_methods() {
@@ -62,133 +37,131 @@ void qgridsystem1D::_register_methods() {
     register_method("energy", &qgridsystem1D::_energy);
     register_method("position", &qgridsystem1D::_position);
     register_method("momentum", &qgridsystem1D::_momentum);
-    register_method("normalize", &qgridsystem1D::_normalize);
-    register_method("map", &qgridsystem1D::_map);
-    register_method("size", &qgridsystem1D::_size);
+    register_method("set_wave", &qgridsystem1D::set_wave);
+    register_method("wave", &qgridsystem1D::get_wave);
+    register_method("psi", &qgridsystem1D::psi);
+    register_method("psi_norm", &qgridsystem1D::psi_norm);
+    register_method("psi_real", &qgridsystem1D::psi_real);
+    register_method("psi_imag", &qgridsystem1D::psi_imag);
+    register_method("N", &qgridsystem1D::N);
+    register_method("x", &qgridsystem1D::x);
     
     // properties
     register_property<qgridsystem1D, double>("mass", &qgridsystem1D::set_mass, &qgridsystem1D::mass, 1.0);
-    register_property<qgridsystem1D, Ref<qbounds1D>>("upper_bound", &qgridsystem1D::_set_upper_bound, &qgridsystem1D::_get_upper_bound, nullptr);
-    register_property<qgridsystem1D, Ref<qbounds1D>>("lower_bound", &qgridsystem1D::_set_lower_bound, &qgridsystem1D::_get_lower_bound, nullptr);
-    register_property<qgridsystem1D, grid_potential*>("V", &qgridsystem1D::_set_potential, &qgridsystem1D::_get_potential, nullptr);
-    register_property<qgridsystem1D, grid_wave*>("psi", &qgridsystem1D::_set_wave, &qgridsystem1D::_get_wave, nullptr);
+    register_property<qgridsystem1D, double>("hbar", &qgridsystem1D::set_hbar, &qgridsystem1D::get_hbar, 1.0);
 }
 
 
 double qgridsystem1D::_energy() const {
-    return energy();
+    return qsystem1D::energy();
 }
 
 double qgridsystem1D::_position() const {
-    return position();
+    auto * b = box();
+    double pos = qsystem1D::position();
+    return pos + ((b != nullptr) ? b->x() : 0);
 }
 
 double qgridsystem1D::_momentum() const {
-    return momentum();
+    return qsystem1D::momentum();
 }
 
-double qgridsystem1D::_normalize() {
-    return normalize();
+void qgridsystem1D::set_hbar(double plank) {
+    qsystem1D::set_hbar(plank);
 }
 
-double qgridsystem1D::_map(size_t m) const {
-    return map(m);
+double qgridsystem1D::get_hbar() const {
+    return qsystem1D::hbar();
 }
 
-double qgridsystem1D::_size() const {
+Vector2 qgridsystem1D::psi(int index) const {
+    return Vector2(wave[index].real(), wave[index].imag());
+}
+
+double qgridsystem1D::psi_norm(int index) const {
+    return std::norm(wave[index]);
+}
+
+double qgridsystem1D::psi_real(int index) const {
+    return wave[index].real();
+}
+
+double qgridsystem1D::psi_imag(int index) const {
+    return wave[index].imag();
+}
+
+size_t qgridsystem1D::N() const {
     return size();
 }
 
-void qgridsystem1D::_set_potential(grid_potential * pot) {
+double qgridsystem1D::x(size_t i) const {
+    return qsystem1D::x(i);
+}
 
-    if (!(pot != nullptr && pot->is_safe())) {
-        npdebug("Aptempting to initialize a null pointer or an unsafe reference")
-        npdebug("Godot reference grid potential pointer: ", pot)
-        // TODO throw godot exception
-        return;
+void qgridsystem1D::set_wave(Ref<wave_init1D> init) {
+    if (init != nullptr) {
+
+        qsimbox * b = box();
+        if (b != nullptr) {
+            npdebug("Setting wave: width = ", b->width(), ", N = ", init->N)
+            set_delta(b->width() / static_cast<double>(init->N));
+        }
+
+        replace_wave(*(*init));
+        _wave->wave_ref = &wave;
     }
-
-    m_potential = pot;
-    
-    // finally set the potential 
-    qsim::grid::qsystem1D::set_potential(*pot); 
 }
 
-grid_potential * qgridsystem1D::_get_potential() const {
-    return m_potential;
+grid_wave1D * qgridsystem1D::get_wave() const {
+    return _wave;
 }
 
-
-void qgridsystem1D::_set_wave(grid_wave *manager) {
-
-    if (manager != nullptr)
-        manager->set_instance(&psi());
-
-    wave_fct = manager; 
-}
-
-grid_wave * qgridsystem1D::_get_wave() const {
-    return wave_fct;
-}
-
-void qgridsystem1D::_set_upper_bound(Ref<qbounds1D> up) {
-    if (up != nullptr)
-        up->set_instance(&upper_bound());
-    up_bound = up;
-}
-
-void qgridsystem1D::_set_lower_bound(Ref<qbounds1D> low) {
-    if (low != nullptr)
-        low->set_instance(&lower_bound());
-    low_bound = low;
-}
-
-Ref<qbounds1D> qgridsystem1D::_get_upper_bound() const {
-    return up_bound;
-}
-
-Ref<qbounds1D> qgridsystem1D::_get_lower_bound() const {
-    return low_bound;
-}
-
-/*void set_evolver(Reference* evo) {
-    auto ptr = dynamic_cast<qsim::grid::qsystem1D::evolver*>(evo);
-
-    if (ptr == nullptr) {
-        // TODO throw godot exception
-        return;
+/*grid_potential1D * qgridsystem1D::set_potential(grid_potential1D * pot) {
+    if (pot != nullptr && pot->is_safe()) {
+        qsim::grid::qsystem1D::set_potential(*pot);
+        m_pot = pot;
     }
-
-    if(!evo->reference()) {
-        // TODO cannot bind reference
-        return;
-    }
-
-    if (m_evolver != nullptr && !m_evolver->unreference()) {
-        // TODO cannot unreference old potential
-        return;
-    }
-    
-    // set the old potential 
-    m_evolver = evo; 
-    
-    // finally set the potential 
-    qsim::grid::qsystem1D::set_evolver(ptr);
-}*/
-
-
-/*Reference * get_evolver() const {
-    return m_evolver;
 }*/
 
 void qgridsystem1D::_ready() {
-    npdebug("Normalizing function")
-    qsim::grid::qsystem1D::normalize();
+
+    /*qsimbox * par = Object::cast_to<qsimbox>(get_parent());
+
+    if (par != nullptr) {
+        // obtain boundary information
+        box = area;
+    }*/
+
+
+    //npdebug("Looking for a potential")
+    // look for a potential
+    /*auto list = get_children();
+    for (int i = 0; i < list.size(); ++i) {
+        Variant child = list[i];
+        grid_potential * pot = Object::cast_to<grid_potential>(child);
+
+        if (pot != nullptr && pot->is_safe()) {
+            npdebug("Potential child found!")
+            qsim::grid::qsystem1D::set_potential(*pot);
+            m_pot = pot;
+            break; // found
+        }
+    }*/
 }
+
+bool qgridsystem1D::_set_potential(grid_potential1D * pot) {
+    if (pot->is_safe())
+        qsim::grid::qsystem1D::set_potential(*pot);
+    return pot->is_safe();
+}
+
+qsimbox * qgridsystem1D::box() const {
+    return Object::cast_to<qsimbox>(get_parent());
+}
+
 
 void qgridsystem1D::_fixed_process(double dt) {
     // default values
-    npdebug("Evolving system")
     qsim::grid::qsystem1D::evolve(dt);
     qsim::grid::qsystem1D::normalize();
 }

@@ -5,18 +5,18 @@
 #include "math/composition.hpp"
 #include "evolver.hpp"
 
+#include "debug.hpp"
+
 namespace qsim {
     
     template <typename Coords>
     class potential;
 
     /*
-     * Set the behaviour for boundary conditions
-     */ 
-    enum class boundary_mode : int {
-        free = 0,
-        fixed = 1
-    };
+     * Define the WaveFunction internal type as std::complex<double>
+     */
+    
+    typedef std::complex<double> wave_t;
 
     /*
      * Most general description of quantum system
@@ -38,24 +38,27 @@ namespace qsim {
         // an evolver
         std::shared_ptr<evolver<Coords, WaveFunction, H>> m_evolver;
         
+        // plank constant
+        double plank;
+
     public:
         qsystem(double _m, 
                 const WaveFunction& _wave,
                 std::shared_ptr<potential<Coords>> _V,
-                std::shared_ptr<evolver<Coords, WaveFunction, H>> _evolver
+                std::shared_ptr<evolver<Coords, WaveFunction, H>> _evolver,
+                double _hbar = 1.0
                 )
-            : wave(_wave), m(_m), pot(_V), m_evolver(_evolver) {
+            : wave(_wave), m(_m), pot(_V), m_evolver(_evolver), plank(_hbar) {
 
             if (pot == nullptr) {
-                // TODO, throw error
-            }
-
-            if (m_evolver == nullptr) {
-                // TODO, throw error
+                throw std::invalid_argument("The potential cannot be null");
             }
                 
             if (m < 0)
                 m = -m;
+            
+            if (plank < 0)
+                plank = -plank;
         }
         
         // very important the virtual destructor
@@ -68,12 +71,27 @@ namespace qsim {
         
         // eventually change the behaviour
         virtual void set_mass(double _m) {
+            if (_m == 0)
+                throw std::invalid_argument("Passed a null mass");
             this->m = abs(_m);
+        }
+
+        virtual void set_hbar(double hb) {
+            if (hb == 0)
+                throw std::invalid_argument("Passed a null plank constant");
+            plank = abs(hb);
+        }
+
+        inline double hbar() const {
+            return plank;
         }
 
         // evolution in time
         void evolve(double dt) {
-            wave = std::move(m_evolver->evolve(*this, dt));
+            if (m_evolver != nullptr) {
+                wave = std::move(m_evolver->evolve(*this, dt));
+            }
+
             post(dt);
         }
 
@@ -110,11 +128,13 @@ namespace qsim {
         
         // averanges
         virtual double energy() const = 0;
-        virtual double position() const = 0;
-        virtual double momentum() const = 0;
         
         // normalization
-        virtual double normalize() = 0;
+        virtual double norm() const = 0;
+
+        inline void normalize() {
+            wave /= sqrt(norm());
+        }
 
     protected:
         
