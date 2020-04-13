@@ -21,6 +21,7 @@ use_filter = true
 font_data = ExtResource( 8 )
 
 [node name="Level" type="Node2D"]
+position = Vector2( 97.7675, -145.953 )
 script = ExtResource( 4 )
 
 [node name="World" type="Node2D" parent="."]
@@ -161,4 +162,4 @@ __meta__ = {
 }
 
 [node name="PlayerInitialPosition" type="Node2D" parent="."]
-position = Vector2( 190.233, 476.681 )
+position = Vector2( 438.841, 494.14 )
