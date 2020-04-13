@@ -21,11 +21,11 @@ namespace godot {
     class potential : public Node {
         GODOT_CLASS(potential, Node)
 
+        qsystem<Coords, Degrees> * system;
+
         std::shared_ptr<qsim::potential<Coords>> m_pot;
 
     protected:
-
-        qsystem<Coords, Degrees> * system;
 
         void set_ptr(std::shared_ptr<qsim::potential<Coords>> ptr){
             m_pot = ptr;
@@ -57,13 +57,19 @@ namespace godot {
             return 0;
         }
 
+        qsystem<Coords, Degrees> * get_system() const {
+            return system;
+        }
+
         void _init() {}
 
         void _ready() {
             qsystem<Coords,Degrees> * parent = Object::cast_to<qsystem<Coords,Degrees>>(get_parent());
             if (parent != nullptr) {
-                system = parent;
+                npdebug("System: ", parent)
+                this->system = parent;
                 parent->set_potential(this); 
+                npdebug("Potential set")
             }
         }
 
@@ -90,11 +96,16 @@ namespace godot {
 
     public:
 
+        potential_obj() 
+            : base(nullptr) , m_ptr(std::make_shared<Specific>())
+        {
+            this->set_ptr(std::static_pointer_cast<qsim::potential<Coords>>(m_ptr));
+        }
+
         potential_obj(const Args& ... args) 
             : base(nullptr) , m_ptr(std::make_shared<Specific>(args ...))
         {
             this->set_ptr(std::static_pointer_cast<qsim::potential<Coords>>(m_ptr));
-            std::cerr << "Potential constructro" << std::endl;
         }
 
         void _init() {
@@ -102,11 +113,17 @@ namespace godot {
             //m_pot = nullptr;
         }
 
+        /*void _ready() {
+            npdebug("Called")
+            base::_ready();
+        }*/
+
         virtual std::shared_ptr<qsim::potential<Coords>> get_ptr() const {
             return std::static_pointer_cast<qsim::potential<Coords>>(m_ptr);
         }
 
         static void _register_methods() {
+            //register_method("_ready", &potential_obj::_ready);
         }
     };
 

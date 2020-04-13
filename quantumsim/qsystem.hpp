@@ -77,6 +77,7 @@ namespace qsim {
         }
 
         virtual void set_hbar(double hb) {
+            npdebug("Hbar set: ", hb)
             if (hb == 0)
                 throw std::invalid_argument("Passed a null plank constant");
             plank = abs(hb);

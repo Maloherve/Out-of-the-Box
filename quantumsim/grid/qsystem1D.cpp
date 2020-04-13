@@ -52,8 +52,9 @@ void qsystem1D::update_H() {
     H.get<1>() = H_zero();
 }
 
-void qsystem1D::set_hbar(double plank) {
-     qgridsystem<H_matrix_1D>::set_hbar(plank);
+void qsystem1D::set_hbar(double _plank) {
+     //npdebug("Setting hbar: ", _plank)
+     qgridsystem<H_matrix_1D>::set_hbar(_plank);
      update_H();
 }
 
@@ -63,14 +64,14 @@ void qsystem1D::set_mass(double _m) {
 }
 
 double qsystem1D::norm() const {
-    double A(0);
+    double a(0);
 
     for (size_t i = 0; i < wave.size(); ++i)
-        A += std::norm(wave[i]);
+        a += std::norm(wave[i]);
 
-    A *= dx;
+    a *= dx;
 
-    return A;
+    return a;
 }
 
 void qsystem1D::replace_wave(const init_pack& init) {

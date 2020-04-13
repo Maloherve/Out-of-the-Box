@@ -36,6 +36,10 @@ namespace qsim::grid {
         
         // define an out-of-bounds different behaviour for the const case
         inline wave_t operator[](int i) const {
+            return at(i);
+        }
+
+        inline wave_t at(int i) const {
             return (i < 0 || static_cast<size_t>(i) >= size()) ? 
                 0 : std::vector<wave_t>::operator[](static_cast<size_t>(i));
         }

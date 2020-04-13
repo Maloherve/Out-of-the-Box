@@ -1,6 +1,5 @@
 #include "grid_wave.hpp"
 #include "quantumsim/grid/wave.hpp"
-#include "wave_packets.hpp"
 
 using namespace godot;
 using namespace qsim::grid;
@@ -27,7 +26,7 @@ size_t grid_wave1D::N() const {
 }
 
 void grid_wave1D::_set(int m, Vector2 complx) {
-    (*wave_ref)[m] = qsim::grid::wave_t(complx.x, complx.y);
+    wave_ref->at(m) = qsim::grid::wave_t(complx.x, complx.y);
 }
 
 Vector2 grid_wave1D::_get(int m) const {

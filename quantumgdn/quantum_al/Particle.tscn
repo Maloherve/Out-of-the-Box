@@ -12,6 +12,8 @@ packet = ExtResource( 5 )
 n = 2
 
 [node name="simulator" parent="." instance=ExtResource( 2 )]
+width = 500.0
+height = 300.0
 
 [node name="Wave" parent="simulator" instance=ExtResource( 1 )]
 

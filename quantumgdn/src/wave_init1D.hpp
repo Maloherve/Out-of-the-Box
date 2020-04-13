@@ -14,7 +14,7 @@ namespace godot {
         GODOT_CLASS(wave_init1D, Resource)
     public:
         wave_init1D(size_t N = 0);
-        ~wave_init1D() = default;
+        virtual ~wave_init1D() = default;
 
         // default is the null function
         virtual qsim::wave_t psi(double x) const {

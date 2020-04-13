@@ -15,8 +15,8 @@ namespace godot {
 
     class grid_wave1D;
 
-    class qgridsystem1D : public godot::qsystem, private qsim::grid::qsystem1D {
-        GODOT_SUBCLASS(qgridsystem1D, godot::qsystem)
+    class qgridsystem1D : public qgridsystem1D_base, private qsim::grid::qsystem1D {
+        GODOT_SUBCLASS(qgridsystem1D, qgridsystem1D_base)
         
         grid_wave1D * _wave;
 
@@ -36,7 +36,18 @@ namespace godot {
         double _position() const;
         double _momentum() const;
 
-        virtual Vector2 location(size_t) const override;
+        /*
+         * Coordinate conversion
+         * Unlike position, this function return the convertion
+         * relative to the owner qsimbox
+         */
+        virtual double to_degrees(const size_t&) const override;
+
+        /*
+         * Non-binded access to potential
+         */
+        virtual bool _set_potential(potential<size_t, double> *) override;
+        virtual qsimbox * box() const override;
 
         /*
          * size

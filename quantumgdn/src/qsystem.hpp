@@ -2,44 +2,33 @@
 
 #include <Godot.hpp>
 #include <Node.hpp>
-#include "debug.hpp"
+
+#include <memory>
 
 namespace godot {
-
-    template <class Coords, class Degrees>
-    class potential;
-
+    
+    class curve_potential;
     class qsimbox;
     
-    template <class Coords, class Degrees>
     class qsystem : public Node {
         GODOT_CLASS(qsystem, Node)
-    protected:
-        potential<Coords, Degrees> * m_pot;
+    private:
+         qsimbox * _box;
+         std::shared_ptr<curve_potential> m_pot;
     public:
+         qsystem(std::shared_ptr<curve_potential> ptr = nullptr);
+         virtual ~qsystem() = default;
 
-         void set_potential(potential<Coords, Degrees> * pot) {
-            if (pot != nullptr && _set_potential(pot)) {
-                m_pot = pot;
-            }
-         }
+         virtual Vector2 location(size_t) const;
 
-         /*void _ready() {
-             npdebug("Ready was called")
-             box = simulation_box();
-         }*/
+         qsimbox * box() const;
 
-         void _init() {
-         }
-        
-         // subclass implementation
-         virtual bool _set_potential(potential<Coords, Degrees> *) { return false; }
-         virtual qsimbox * box() const { return nullptr; }
+         std::shared_ptr<curve_potential> potential();
+         curve_potential * potential_ptr();
 
-         static void _register_methods() {
-            //register_method("_ready", &qsystem::_ready);
-         }
+         void _init();
+         void _ready();
+
+         static void _register_methods();
     };
-
-    typedef qsystem<size_t,double> qgridsystem1D_base;
 }

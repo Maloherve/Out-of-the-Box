@@ -1,8 +1,12 @@
 #include <Godot.hpp>
 #include <Node.hpp>
 
-#include "potential.hpp"
-#include "uniform_potential.hpp"
+//#include "potential.hpp"
+//#include "uniform_potential.hpp"
+//#include "composed_potential.hpp"
+#include "potential_field.hpp"
+#include "curve_field.hpp"
+#include "curve_potential.hpp"
 #include "grid_wave.hpp"
 #include "qsimbox.hpp"
 #include "qgridsystem1D.hpp"
@@ -25,11 +29,19 @@ extern "C" void GDN_EXPORT godot_nativescript_init(void *handle)
 {
 	Godot::nativescript_init(handle);
     
-    // potentials
-	register_class<grid_potential1D>();
+    // potentials 1D and super-classes
+	register_class<curve_potential>();
+
+	//register_class<grid_composed_potential1D>();
+
+	//register_class<grid_uniform_potential1D>();
+
 	//register_class<grid_potential2D>();
-	register_class<grid_uniform_potential1D>();
 	//register_class<grid_uniform_potential2D>();
+
+    // potential fields
+	register_class<potential_field>();
+	register_class<curve_field>();
 
     // grid wave
 	register_class<grid_wave>();
@@ -47,8 +59,9 @@ extern "C" void GDN_EXPORT godot_nativescript_init(void *handle)
     register_class<qsimbox>();
     
     // systems
-	register_class<qgridsystem1D_base>();
+    register_class<qsystem>();
 	register_class<qgridsystem1D>();
+    
 	//register_class<qgridsystem2D>();
 }
 
