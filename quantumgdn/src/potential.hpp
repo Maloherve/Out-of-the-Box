@@ -25,6 +25,8 @@ namespace godot {
 
     protected:
 
+        qsystem<Coords, Degrees> * system;
+
         void set_ptr(std::shared_ptr<qsim::potential<Coords>> ptr){
             m_pot = ptr;
         }
@@ -59,8 +61,10 @@ namespace godot {
 
         void _ready() {
             qsystem<Coords,Degrees> * parent = Object::cast_to<qsystem<Coords,Degrees>>(get_parent());
-            if (parent != nullptr)
+            if (parent != nullptr) {
+                system = parent;
                 parent->set_potential(this); 
+            }
         }
 
         static void _register_methods() {

@@ -17,5 +17,5 @@ n = 2
 
 [node name="graph" type="Line2D" parent="simulator"]
 width = 2.0
-default_color = Color( 0.956863, 0.113725, 0.0941176, 1 )
+default_color = Color( 0.262745, 0.956863, 0.0941176, 1 )
 script = ExtResource( 4 )

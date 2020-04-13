@@ -1,17 +1,18 @@
 #pragma once
 
 #include "potential.hpp"
+#include <list>
 
 namespace qsim::pot {
        
     template <typename Coords> 
-    class composed : public std::vector<std::unique_ptr<potential<Coords>>>, virtual public potential<Coords> {
+    class composed : public std::list<std::shared_ptr<potential<Coords>>>, virtual public potential<Coords> {
     public:
 
-        composed(std::initializer_list<potential<Coords>*> list) {
-            reserve(list.size()),
+        composed(std::initializer_list<potential<Coords>*> list = {}) {
+            reserve(list.size());
             for (auto * pot : list)
-                push_back(std::unique_ptr<potential<Coords>>(pot));;
+                push_back(std::shared_ptr<potential<Coords>>(pot));;
         }
         
         virtual double operator()(const Coords& access) const override {

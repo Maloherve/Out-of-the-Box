@@ -17,6 +17,6 @@ scale = Vector2( 1.4, 1.2 )
 transform = Transform2D( 1.4, 0, 0, 1.2, -10, 0 )
 
 [node name="Particle" parent="." instance=ExtResource( 1 )]
-position = Vector2( 412.064, 487.749 )
+position = Vector2( 298.536, 487.749 )
 scale = Vector2( 1, 2 )
 n = 5000
