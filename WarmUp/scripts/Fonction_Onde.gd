@@ -78,15 +78,19 @@ func _get_input():
 
 func _draw():
 	if draw_wave_function:
-		draw_function(player.position, y, false);
+		draw_function(player.position, y, player.is_on_wall);
 
 
 # Find a random point in x axis of the Wave Function, weighted by value of Wave Function
 func random_point() -> Vector2: 
 	var new_pos : Vector2;
 #	Find new x and y
-	new_pos.x = player.position.x + xboost * weighted_choice(x, y.duplicate());
-	new_pos.y = player.position.y;
+	if !player.is_on_wall:
+		new_pos.x = player.position.x + xboost * weighted_choice(x, y.duplicate());
+		new_pos.y = player.position.y;
+	else:
+		new_pos.y = player.position.y + xboost * weighted_choice(x, y.duplicate());
+		new_pos.x = player.position.x;
 	return new_pos;
 
 
@@ -121,11 +125,17 @@ func draw_path(path, color):
 func draw_function(origin, list, vert):
 	var line_width = 3;
 	var color = Color(0,1,0);
+	var yboost = 7;   # Negative because in Godot, positive goes down
 	if !vert:
-		var yboost = 7;   # Negative because in Godot, positive goes down
 		var step = (x_max - x_min)/N;
 		for i in range(N-1):
 			draw_line(origin + Vector2(xboost * x[i], yboost * list[i]), origin + Vector2(xboost * x[i+1], yboost * list[i+1]), color, line_width)
+	else:
+		if !player.animNode.is_flipped_h():
+			yboost = -yboost;
+		var step = (x_max - x_min)/N;
+		for i in range(N-1):
+			draw_line(origin + Vector2(yboost * list[i], xboost * x[i]), origin + Vector2(yboost * list[i+1], xboost * x[i+1]), color, line_width)
 # -----------------------------------
 
 
