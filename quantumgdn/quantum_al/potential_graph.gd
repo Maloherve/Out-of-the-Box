@@ -1,27 +1,28 @@
-extends Particles2D
+extends Line2D
 
 
 # Declare member variables here. Examples:
 # var a = 2
 # var b = "text"
 
-#var img = preload("res://star.png")
-
 var qsystem = null
-
-func _init():
-	#self.Image = img
-	pass
+var area = null
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	# the parent is supposed to be a Simulator
 	qsystem = get_parent().get_node("qsystem")
+	area = get_parent()
 	assert(qsystem != null, "Error: null qsystem instance")
-	set_process(true)
+	pass # Replace with function body.
 
+func point(index):
+	return Vector2(qsystem.x(index), qsystem.potential_at_index(index) * area.height);
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	#print("System position: ", self.position.x)
-	self.position.x = qsystem.mean_position()
+	for i in range(qsystem.N()):
+		self.set_point_position(i, point(i))
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+#func _process(delta):
+#	pass

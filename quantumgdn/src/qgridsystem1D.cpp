@@ -1,6 +1,5 @@
 #include "qgridsystem1D.hpp"
 
-#include "qsimbox.hpp"
 #include "grid_wave.hpp"
 
 #include "quantumsim/evolvers/explicit.hpp"
@@ -13,8 +12,8 @@ using namespace qsim::grid;
 
 qgridsystem1D::qgridsystem1D() 
     : 
-        godot::qsystem(std::make_shared<godot::curve_potential>(this)),
-        qsystem1D(1.0, 1.0, qsystem::potential(), 
+        gdqsystem(std::make_shared<godot::curve_potential>(this)),
+        qsystem1D(1.0, 1.0, gdqsystem::potential(), 
                 gauss_init1D(),
                 std::make_shared<qsystem1D::explicit_evolver>(), 1.0)
 {
@@ -38,8 +37,8 @@ void qgridsystem1D::_register_methods() {
 
     // direct methods
     register_method("energy", &qgridsystem1D::_energy);
-    register_method("position", &qgridsystem1D::_position);
-    register_method("momentum", &qgridsystem1D::_momentum);
+    register_method("mean_position", &qgridsystem1D::_position);
+    register_method("mean_momentum", &qgridsystem1D::_momentum);
     register_method("set_wave", &qgridsystem1D::set_wave);
     register_method("wave", &qgridsystem1D::get_wave);
     register_method("psi", &qgridsystem1D::psi);
@@ -48,6 +47,8 @@ void qgridsystem1D::_register_methods() {
     register_method("psi_imag", &qgridsystem1D::psi_imag);
     register_method("N", &qgridsystem1D::N);
     register_method("x", &qgridsystem1D::x);
+    register_method("potential_at", &qgridsystem1D::potential_at);
+    register_method("potential_at_index", &qgridsystem1D::potential_at_index);
     
     // properties
     register_property<qgridsystem1D, double>("mass", &qgridsystem1D::set_mass, &qgridsystem1D::mass, 1.0);
@@ -60,9 +61,7 @@ double qgridsystem1D::_energy() const {
 }
 
 double qgridsystem1D::_position() const {
-    double pos = qsystem1D::position();
-    //npdebug("Position: ", pos)
-    return pos + ((box() != nullptr) ? box()->x() : 0);
+    return qsystem1D::position() + get_position().x;
 }
 
 double qgridsystem1D::_momentum() const {
@@ -93,23 +92,27 @@ double qgridsystem1D::psi_imag(int index) const {
     return wave[index].imag();
 }
 
+double qgridsystem1D::potential_at(double x) const {
+    return potential()->at(Vector2(x,0));
+}
+
+double qgridsystem1D::potential_at_index(size_t k) const {
+    return (*potential())(k);
+}
+
 size_t qgridsystem1D::N() const {
     return size();
 }
 
 double qgridsystem1D::x(size_t i) const {
-    return qsystem1D::x(i);
+    return qsystem1D::x(i) + get_position().x;
 }
 
 void qgridsystem1D::set_wave(Ref<wave_init1D> init) {
     if (init != nullptr) {
 
-        if (box() != nullptr) {
-            npdebug("Setting wave: width = ", box()->width(), ", N = ", init->N)
-            set_delta(box()->width() / static_cast<double>(init->N));
-        } else {
-            npdebug("Box is null")
-        }
+        npdebug("Setting wave: width = ", get_width(), ", N = ", init->N)
+        set_delta(get_width() / static_cast<double>(init->N));
 
         replace_wave(*(*init));
         _wave->wave_ref = &wave;
@@ -135,5 +138,5 @@ void qgridsystem1D::_fixed_process(double dt) {
 }
 
 void qgridsystem1D::_ready() {
-    qsystem::_ready();
+    gdqsystem::_ready();
 }

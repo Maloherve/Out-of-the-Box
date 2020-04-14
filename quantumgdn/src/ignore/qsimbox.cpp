@@ -59,12 +59,6 @@ void qsimbox::_ready() {
 
 
 void qsimbox::_init() {
-    //npdebug("Initialize")
-    /*shape = CollisionShape2D::_new();
-    add_child(shape);
-    rect = RectangleShape2D::_new();
-    shape->set_shape(rect);*/
-    //npdebug("End initialize")
 }
 
 void qsimbox::_register_methods() {
@@ -72,27 +66,4 @@ void qsimbox::_register_methods() {
     register_property<qsimbox, double>("height", &qsimbox::set_height, &qsimbox::height, 1.0);
     register_method("_ready", &qsimbox::_ready);
 }
-
-/*
- * Grids
- */
-
-/*size_t grid1D::to_index(double x) {
-    return x - get_position().x
-}
-
-double grid1D::to_space(size_t i) {
-}
-
-size_t grid2D::to_index(double x, double x) {
-}
-
-size_t grid2D::to_index(const Vector2& v) {
-}
-
-Vector2 grid2D::to_space(size_t k) {
-}
-
-Vector2 grid2D::to_space(size_t i, size_t j) {
-}*/
 

@@ -4,14 +4,13 @@
 #include <TileMap.hpp>
 
 #include "potential_field.hpp"
-#include "qsystem.hpp"
-#include "qsimbox.hpp"
+#include "gdqsystem.hpp"
 
 #include "debug.hpp"
 
 using namespace godot;
 
-curve_potential::curve_potential(qsystem * _system) 
+curve_potential::curve_potential(gdqsystem * _system) 
     : system(_system)
 {
 }
@@ -26,7 +25,7 @@ double curve_potential::operator()(const size_t& access) const  {
 
     for (const auto& entry : nodes_map) {
         // get location relatively to the system box
-        Transform2D T = entry.first->get_relative_transform_to_parent(system->box());
+        Transform2D T = entry.first->get_relative_transform_to_parent(system);
         out += entry.second->at(T.xform(v));
     }
 
@@ -60,9 +59,3 @@ void curve_potential::on_body_exited(Node * entry) {
         nodes_map.erase(key);
 }
 
-void curve_potential::_init() {}
-
-void curve_potential::_register_methods() {
-    register_method("_qsimbox_on_body_entered", &curve_potential::on_body_entered);
-    register_method("_qsimbox_on_body_exited", &curve_potential::on_body_exited);
-}

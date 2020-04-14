@@ -8,15 +8,15 @@
 
 #include "wave_init1D.hpp"
 
-#include "qsystem.hpp"
+#include "gdqsystem.hpp"
 #include "potential.hpp"
 
 namespace godot {
 
     class grid_wave1D;
 
-    class qgridsystem1D : public godot::qsystem, private qsim::grid::qsystem1D {
-        GODOT_SUBCLASS(qgridsystem1D, godot::qsystem)
+    class qgridsystem1D : public gdqsystem, private qsim::grid::qsystem1D {
+        GODOT_SUBCLASS(qgridsystem1D, gdqsystem)
         
         grid_wave1D * _wave;
 
@@ -56,6 +56,13 @@ namespace godot {
 
         void set_hbar(double);
         double get_hbar() const;
+
+        /*
+         * access to the potential
+         */
+
+        double potential_at(double x) const;
+        double potential_at_index(size_t k) const;
 
         /*
          * Boundary properties depend on potential

@@ -8,7 +8,6 @@
 #include "curve_field.hpp"
 #include "curve_potential.hpp"
 #include "grid_wave.hpp"
-#include "qsimbox.hpp"
 #include "qgridsystem1D.hpp"
 //#include "qgridsystem2D.hpp"
 
@@ -30,7 +29,7 @@ extern "C" void GDN_EXPORT godot_nativescript_init(void *handle)
 	Godot::nativescript_init(handle);
     
     // potentials 1D and super-classes
-	register_class<curve_potential>();
+	//register_class<curve_potential>();
 
 	//register_class<grid_composed_potential1D>();
 
@@ -56,10 +55,10 @@ extern "C" void GDN_EXPORT godot_nativescript_init(void *handle)
 	//register_class<gauss_init2D>();
 
     // layers
-    register_class<qsimbox>();
+    //register_class<qsimbox>();
     
     // systems
-    register_class<qsystem>();
+    register_class<gdqsystem>();
 	register_class<qgridsystem1D>();
     
 	//register_class<qgridsystem2D>();

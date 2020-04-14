@@ -14,6 +14,9 @@ namespace godot {
         RectangleShape2D * rect;
         CollisionShape2D * shape;
 
+        double _width;
+        double _height;
+
     public:
         using Area2D::Area2D;
 
