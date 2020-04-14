@@ -90,6 +90,12 @@ namespace qsim::math {
                 return identity * input;
         }
 
+        template<class V>
+        V operator<<(const V& input) const {
+            // TODO, do it better
+            return composition::operator*(input);
+        }
+
         /*
          * Extend the composition by pushing another element at the end
          */ 

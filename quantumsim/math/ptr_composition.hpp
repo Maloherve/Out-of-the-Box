@@ -32,10 +32,10 @@ namespace qsim::math {
         template<class V>
         V operator*(const V& input) const
         {
-            V out(identity * input);
+            V out((identity / gain) * input);
 
-            for (auto* obj : components)
-                out += (*obj) * input;
+            for (const Obj* obj : components)
+                out += (*obj) << input;
 
             return out *= gain;
         }

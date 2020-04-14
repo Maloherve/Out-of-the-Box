@@ -336,6 +336,12 @@ Vector operator*(const qsim::math::matrix<T>& A, const Vector& x) {
 }
 
 template<typename T, class Vector>
+Vector operator<<(const qsim::math::matrix<T>& A, const Vector& x) {
+    // TODO provvisor solution
+    return A * x;
+}
+
+template<typename T, class Vector>
 Vector operator*(const qsim::math::submatrix<T>& A, const Vector& x) {
     if (A.cols_nb() != x.size())
         throw std::out_of_range("( operator*(matrix<T>, Vector) ) invalid column size");

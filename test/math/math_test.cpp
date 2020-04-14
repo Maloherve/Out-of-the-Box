@@ -3,6 +3,7 @@
 #include "math/diagonal.hpp"
 #include "math/diagonals.hpp"
 #include "math/composition.hpp"
+#include "math/ptr_composition.hpp"
 
 #include "grid/wave.hpp"
 
@@ -185,4 +186,28 @@ int main() {
 
     PRINT_MATRIX(lu_prob.L, 3, cols_3)
     PRINT_MATRIX(lu_prob.U, 3, cols_3)
+
+    // ptr_composition
+    ptr_composition<double, matrix<double>> ptr_comp({&mat}, 1.0, 1.0);
+
+    cout << endl << "Ptr_composition test" << endl << endl;
+
+    PRINT_MATRIX(ptr_comp, 5, cols_5)
+
+    cout << "Multiply by 2" << endl;
+    ptr_comp *= 2.0;
+
+    PRINT_MATRIX(ptr_comp, 5, cols_5)
+
+    cout << "Add 1" << endl;
+    ptr_comp += 1.0;
+
+    PRINT_MATRIX(ptr_comp, 5, cols_5)
+
+    // do the same but in another way
+    cout << endl << "Ptr_composition control test" << endl << endl;
+    ptr_composition<double, matrix<double>> ptr_comp_2({&mat}, 1.0, 1.0);
+
+    PRINT_MATRIX((1.0 + (2.0 * ptr_comp_2)), 5, cols_5)
+
 }
