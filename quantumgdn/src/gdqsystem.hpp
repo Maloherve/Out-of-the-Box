@@ -32,6 +32,9 @@ namespace godot {
          void set_height(double);
          double get_height() const;
 
+         void set_size(Vector2);
+         Vector2 get_size() const;
+
          void _init();
          void _ready();
 

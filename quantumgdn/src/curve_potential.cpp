@@ -29,9 +29,9 @@ double curve_potential::operator()(const size_t& access) const  {
         //npdebug("Request position: (", v.x, ", ", v.y, ")")
         // transform v to global
         // then get relative position to the object
-        Vector2 g = A.xform(v);
+        //Vector2 g = ;
         //npdebug("Global position: (", g.x, ", ", g.y, ")")
-        Vector2 r = B.xform_inv(g);
+        Vector2 r = B.xform_inv(A.xform(v + system->get_size() / 2.0));
         //npdebug("Transformed position: (", r.x, ", ", r.y, ")")
         out += entry.second->at(r);
     }
