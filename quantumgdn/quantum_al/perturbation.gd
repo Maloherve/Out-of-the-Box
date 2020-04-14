@@ -5,8 +5,18 @@ extends KinematicBody2D
 # var a = 2
 # var b = "text"
 
+export var domain = 50.0
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	var field = get_node("field")
+	var influence = get_node("influence")
+	field.scale.x = domain 
+	print("Points: ", field.V_x.get_point_count())
+	for k in range(-10,10,1):
+		var x = 2 * k * domain / 20
+		var Vx = field.at(Vector2(x,0))
+		influence.add_point(Vector2(x, -Vx)) 
 	pass # Replace with function body.
 	
 var pick = false

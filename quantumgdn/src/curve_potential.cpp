@@ -22,34 +22,41 @@ double curve_potential::operator()(const size_t& access) const  {
 
  double curve_potential::at(const Vector2& v) const  {
     double out(0);
-
     for (const auto& entry : nodes_map) {
         // get location relatively to the system box
-        Transform2D T = entry.first->get_relative_transform_to_parent(system);
-        out += entry.second->at(T.xform(v));
+        Transform2D B = entry.first->get_global_transform();
+        Transform2D A = system->get_global_transform();
+        //npdebug("Request position: (", v.x, ", ", v.y, ")")
+        // transform v to global
+        // then get relative position to the object
+        Vector2 g = A.xform(v);
+        //npdebug("Global position: (", g.x, ", ", g.y, ")")
+        Vector2 r = B.xform_inv(g);
+        //npdebug("Transformed position: (", r.x, ", ", r.y, ")")
+        out += entry.second->at(r);
     }
 
     return out;
 }
 
 void curve_potential::on_body_entered(Node * entry) {
-    npdebug("OK entered")
     potential_field * wrap = nullptr;
 
     // look through children the first which matches the condition
     // to a be a potential_field
     auto list = entry->get_children();
-    for (int i = 0; i < list.size(); ++i) {
-        Variant child = list[i];
-        wrap = Object::cast_to<potential_field>(child);
+    for (int i = 0; i < list.size() && (wrap = Object::cast_to<potential_field>(list[i])) == nullptr; ++i) {}
+
+    if (wrap == nullptr) {
+        npdebug("No potential_field child detected in: ", entry)
+        return; // none found
     }
 
-    if (wrap == nullptr)
-        return; // none found
-
     Node2D * key; 
-    if (key = Object::cast_to<Node2D>(entry))
+    if (key = Object::cast_to<Node2D>(entry)) {
+        npdebug("Adding object: ", key)
         nodes_map[key] = wrap;
+    }
 }
 
 void curve_potential::on_body_exited(Node * entry) {

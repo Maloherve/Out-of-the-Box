@@ -19,6 +19,8 @@ namespace godot {
         // override this behavior to form the scalar field
         virtual double at(const Vector2& r) const override;
 
+        double _at(Vector2) const;
+
         void _init();
 
         static void _register_methods();

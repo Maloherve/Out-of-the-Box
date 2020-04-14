@@ -23,5 +23,5 @@ scale = Vector2( 1, 1.3 )
 n = 10
 
 [node name="Perturbation" parent="." instance=ExtResource( 2 )]
-position = Vector2( 79.89, 506.032 )
+position = Vector2( 79.89, 426.918 )
 input_pickable = true
