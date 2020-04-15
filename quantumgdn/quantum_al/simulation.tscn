@@ -16,9 +16,9 @@ modulate = Color( 0.215686, 0.996078, 0.921569, 1 )
 shape = SubResource( 1 )
 
 [node name="qsystem" type="Node2D" parent="."]
-position = Vector2( -150, -50 )
+position = Vector2( -150, 0 )
 script = ExtResource( 1 )
-width = 300.0
+width = 500.0
 height = 100.0
 
 [node name="boundary" type="ReferenceRect" parent="."]

@@ -29,9 +29,6 @@ namespace qsim::grid {
         // centered differentiation application
         static const math::diagonals<wave_t, 2> P_templ;
 
-        // hamiltonian object
-        //H_matrix_1D H; // non-constant, the mass could change
-        
         // determine first hamiltonian term in function of the mass and the discretization step
         qsim::math::diagonals<wave_t, 3> H_zero() const;
 
@@ -59,15 +56,6 @@ namespace qsim::grid {
                   std::shared_ptr<evolver> _evolver = nullptr,
                   double hbar = 1.0
                   );
-
-        // update the hamiltonian matrix
-        //void update_H();
-        
-        // change the hemiltonian expression
-        //virtual void set_mass(double) override;
-
-        // update matrix when setting hbar
-        //virtual void set_hbar(double) override;
 
         // implementations
         virtual double energy() const override;

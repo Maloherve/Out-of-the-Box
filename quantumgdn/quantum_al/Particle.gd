@@ -35,7 +35,9 @@ func _ready():
 	
 	simbox.width = 600
 	simbox.height = 250
-	packet.k0 = 2 * PI * n / simbox.width
+	print("n = ", n)
+	packet.k0 = (2 * PI * n) / simbox.width
+	print("k0 = ", packet.k0)
 	qsystem.set_wave(packet)
 	
 	for i in range(qsystem.N()):
