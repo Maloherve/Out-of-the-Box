@@ -2,6 +2,8 @@
 
 #include <tuple>
 
+#include "debug.hpp"
+
 namespace qsim::math {
     
     /*
@@ -19,49 +21,6 @@ namespace qsim::math {
         
         // storage tuple
         std::tuple<Obj...> components;
-        
-        // identity multiplication wrapper 
-        struct id_t {
-            T value;
-
-            id_t(T a) : value(a) {}
-            operator T() { return value; }
-            
-            template<class V>
-            V operator<<(V v) const {
-                for (auto& elem : v)
-                    elem *= value;
-                return v; // hope it's moved
-            }
-        };
-
-        /*
-         * Chain sum optimizer
-         * It allows to move the result until the end
-         */
-        template<class V>
-        struct optimizer {
-
-            V vector; // TODO, check if rvalue or reference
-
-            optimizer(optimizer&& other) : vector(std::move(other.vector)) {}
-
-            optimizer(V&& v) : vector(std::move(v)) {}
-           
-            // chained sum over the vector 
-            optimizer operator+(optimizer&& next) {
-
-                for (size_t k = 0; k < vector.size(); k++)
-                    vector[k] += next.vector[k];
-
-                return optimizer(std::move(*this));
-            }
-            
-            // move the final result the a definitive vector by static_cast
-            operator V() {
-                return std::move(vector);
-            }
-        };
 
     public:
 
@@ -70,7 +29,13 @@ namespace qsim::math {
          * id: first element, multiple of the identity
          * ...c: list of composing elements
          */
-        composition(T id, Obj&& ...c) : identity(id), components(std::make_tuple(c...)) {}
+        composition(T id, const Obj& ...c) : identity(id), components(std::make_tuple(c...)) {
+            //npdebug("Composition construction")
+        }
+
+        ~composition() {
+            //npdebug("Destroy")
+        }
 
         /*
          * Apply a linear operation over all elements
@@ -81,20 +46,20 @@ namespace qsim::math {
         template<class V>
         V operator*(const V& input) const
         {
-            if constexpr (sizeof...(Obj) > 0)
-                // apply the operation over the sum of all elements, std=c++17 needed
-                //return std::apply([&](Obj const& ...objs) -> V { return optimizer<V>(id_t(identity) << input) + (optimizer<V>(objs << input) + ...); }, components);
-                // TODO, hope in automatic move operation
-                return std::apply([&](Obj const& ...objs) noexcept -> V { return (identity * input) + (... + (objs << input)); }, components);
-            else
-                return identity * input;
+            V out(identity * input);
+
+            if constexpr (sizeof...(Obj) > 0) {
+                out += std::apply([&](const Obj& ...objs) -> V { return ((objs * input) + ...); }, components);
+            }
+
+            return out;
         }
 
-        template<class V>
-        V operator<<(const V& input) const {
+        /*template<class V>
+        inline V operator<<(const V& input) const {
             // TODO, do it better
             return composition::operator*(input);
-        }
+        }*/
 
         /*
          * Extend the composition by pushing another element at the end
@@ -145,6 +110,19 @@ namespace qsim::math {
             identity -= add;
             return *this;
         }
+
+        qsim::math::composition<T, Obj...>& operator~() {
+            return (*this) *= T(-1);
+        }
+
+        /*
+         * Random access
+         */
+
+        T at(size_t i, size_t j) const {
+            T out((i == j) ? identity : T(0));
+            return out += std::apply([&](const Obj& ...obj) noexcept { return (obj.at(i,j) + ...); }, components);
+        }
     };
 }
 
@@ -172,7 +150,7 @@ qsim::math::composition<T, Obj...> operator-(qsim::math::composition<T, Obj...> 
 template<typename T, class ...Obj>
 qsim::math::composition<T, Obj...> operator-(T add, qsim::math::composition<T, Obj...> input) {
     // add to the first element
-    return input -= add;
+    return ~(input -= add);
 }
 
 /*

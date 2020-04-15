@@ -5,7 +5,7 @@ extends KinematicBody2D
 # var a = 2
 # var b = "text"
 
-export var domain = 50.0
+export var domain = 180.0
 
 # Called when the node enters the scene tree for the first time.
 func _ready():

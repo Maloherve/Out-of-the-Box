@@ -6,14 +6,17 @@ BUILD:= build
 BIN := $(BUILD)/$(NAME).a
 CC := g++
 STDCPP := -std=c++17
-FLAGS:= -fPIC -g3 -Og -fPIC
+FLAGS:= -fPIC
+#FLAGS += -O2 
+#FLAGS += -g3
+#FLAGS += -DNDEBUG
 FLAGS += -Wextra -Wcast-align -Wcast-qual -Wctor-dtor-privacy -Wdisabled-optimization -Wformat=2 -Winit-self -Wlogical-op -Wmissing-declarations -Wmissing-include-dirs -Wold-style-cast -Woverloaded-virtual -Wredundant-decls -Wshadow -Wsign-conversion -Wsign-promo -Wstrict-null-sentinel -Wstrict-overflow=5 -Wswitch-default -Wundef -Wno-unused
 FLAGS += -Wnoexcept
 
 BACKUP := backup
 
 INCLUDES:= -I.
-DIRS:= grid
+DIRS:= grid evolvers
 
 # other required libraries
 LIBS := #add libraries
@@ -21,7 +24,9 @@ LIBS := #add libraries
 SRC := \
 	grid/wave.cpp \
 	grid/qsystem1D.cpp \
-	grid/qsystem2D.cpp
+	grid/qsystem2D.cpp \
+	evolvers/explicit.cpp \
+	evolvers/crank_nicholson.cpp
 
 OBJ := $(patsubst %.cpp,$(BUILD)/%.os,$(SRC))
 

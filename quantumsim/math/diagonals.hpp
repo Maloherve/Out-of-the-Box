@@ -31,7 +31,7 @@ namespace qsim::math {
             return this->first;
         }
 
-        inline T value() const {
+        inline const T& value() const {
             return this->second;
         }
     };
@@ -56,8 +56,9 @@ namespace qsim::math {
         std::array<entry,D> data;
         
         // look for a specific value via binary search O(log(D))
-        auto find(long int index) {
-            return std::lower_bound(data.begin(), data.end(), index);
+        auto find(long int index) const {
+            auto it = std::lower_bound(data.begin(), data.end(), index);
+            return (it != data.end() && it->column() == index) ? it : data.end();
         }
 
     public:
@@ -66,6 +67,18 @@ namespace qsim::math {
             : data(values) {
                 // sort by ascending index
                 std::sort(data.begin(), data.end());
+        }
+
+        diagonals(const diagonals&) = default;
+        diagonals(diagonals&&) = default;
+
+        diagonals& operator=(const diagonals&) = default;
+        
+        // random access
+        T at(size_t i, size_t j) const {
+            long int k = static_cast<long int>(j) - static_cast<long int>(i);
+            auto it = find(k);
+            return (it != data.end()) ? it->value() : T(0);
         }
 
         /*
@@ -80,7 +93,7 @@ namespace qsim::math {
                 return this->first;
             }
 
-            inline T value() const {
+            inline const T& value() const {
                 return this->second;
             }
         };
@@ -163,15 +176,15 @@ namespace qsim::math {
         }
         
         // multiplication by scalar O(D)
-        diagonals& operator*=(T a) {
-            for (auto& p : data)
-                p.second *= a;
+        diagonals& operator*=(const T& a) {
+            for (size_t k = 0; k < data.size(); ++k)
+                data[k].second *= a;
 
             return *this;
         }
         
         // add a multiple of the identity matrix O(log(D))
-        diagonals& operator+=(T a) {
+        diagonals& operator+=(const T& a) {
             auto it = this->find(0);
             if (it != data.end()) // not found
                 it->second += a;
@@ -214,33 +227,30 @@ namespace qsim::math {
 /*
  * By scalar multiplication
  */
-template <typename T, size_t D, typename S>
-const qsim::math::diagonals<T,D> operator*(qsim::math::diagonals<T,D> A, S a) {
+template <typename T, size_t D>
+const qsim::math::diagonals<T,D> operator*(qsim::math::diagonals<T,D> A, const T& a) {
     return A *= a;
 }
 
-template <typename T, size_t D, typename S> 
-const qsim::math::diagonals<T,D> operator*(S a, qsim::math::diagonals<T,D> A) {
+template <typename T, size_t D> 
+const qsim::math::diagonals<T,D> operator*(const T& a, qsim::math::diagonals<T,D> A) {
     return A *= a;
 }
-
 
 /*
  * Matrix multiplication/application
  * Enable it for all non-arithmetic types
  */
 template <typename T, size_t D, class V>
-V operator<<(const qsim::math::diagonals<T,D>& mat, const V& v) {
+const V operator*(const qsim::math::diagonals<T,D>& mat, const V& v) {
     
     V out(v); // eventually copy the size, in case it's vector like
 
     for (size_t m = 0; m < v.size(); ++m) {
         out[m] = 0;
         // loop through the column
-        for (auto&& col : mat.get_row(m, v.size())) {
-            //cout << "Column: " << col.column() << " -> Value: " << col.value() << endl; // TODO, remove after debug
+        for (auto&& col : mat.get_row(m, v.size()))
             out[m] += col.value() * v[col.column()];
-        }
     }
     
     return out;

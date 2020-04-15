@@ -1,10 +1,11 @@
 #pragma once
 
 #include "evolver.hpp"
+#include "grid/wave.hpp"
 
 namespace qsim::evo {
 
-    class explicit_scheme : public qsim::evolver {
+    class crank_nicholson : public qsim::evolver {
 
     public:
 

@@ -1,33 +1,30 @@
 #pragma once
 
-#include "grid/qgridsystem.hpp"
+#include "fwd.hpp"
+#include "qsystem.hpp"
 #include "math/composition.hpp"
 #include "math/diagonals.hpp"
 #include "math/diagonal.hpp"
-#include "evolvers/evofw.hpp"
 
 namespace qsim::grid {
 
     typedef qsim::math::composition<
-                              double, 
-                              math::diagonals<double, 3>, //dx
-                              math::diagonals<double, 3>, //dy
-                              math::diag_functor<double>
+                              wave_t, 
+                              math::diagonals<wave_t, 3>, //dx
+                              math::diagonals<wave_t, 3>, //dy
+                              math::diag_functor<wave_t>
                              > H_matrix_2D;
 
-    typedef grid_H<H_matrix_2D> grid_H_2D;
-    
-
     // concretization for a 2D grid
-    class qsystem2D : public qgridsystem<H_matrix_2D> {
+    class qsystem2D : public qgridsystem {
     private:
 
         // hamiltonian object
         H_matrix_2D H; // non-constant, the mass could change
         
         // standard matrix A, y is variable
-        static const math::diagonals<double, 3> A_x;
-        static const math::diagonals<double, 3> A_y(size_t M);
+        static const math::diagonals<wave_t, 3> A_x;
+        static const math::diagonals<wave_t, 3> A_y(size_t M);
 
         double dx; // discretization along x
         double dy; // discretization along y
@@ -36,8 +33,8 @@ namespace qsim::grid {
         size_t _M; // boundary limit
         
         // determine first hamiltonian term in function of the mass and the discretization step
-        qsim::math::diagonals<double, 3> H_zero_x() const;
-        qsim::math::diagonals<double, 3> H_zero_y() const;
+        qsim::math::diagonals<wave_t, 3> H_zero_x() const;
+        qsim::math::diagonals<wave_t, 3> H_zero_y() const;
 
         inline size_t map(size_t i, size_t j) const {
             return (_M - 1) * i + j;
@@ -62,21 +59,14 @@ namespace qsim::grid {
             wave_vector generate(double dx, double dy) const;
         };
 
-        // possible integrators' forward declaration
-        typedef evo::explicit_scheme<size_t, wave_vector, grid_H_2D> explicit_evolver;
-
         qsystem2D(double _m, 
                   double _dx, double _dy,
                   std::shared_ptr<potential<size_t>> _V,
                   const init_pack& init = init_pack(),
-                  std::shared_ptr<evolver<size_t, wave_vector, grid_H_2D>> _evolver = nullptr,
+                  std::shared_ptr<evolver> _evolver = nullptr,
                   double hbar = 1.0
                   );
 
-        virtual const H_matrix_2D* hemiltonian_ptr() const {
-            return &H;
-        }        
-        
         // update the hamiltonian matrix
         void update_H_x();
         void update_H_y();
@@ -95,8 +85,8 @@ namespace qsim::grid {
         // change the hemiltonian expression
         virtual void set_mass(double) override;
 
-        // allow to set boundaries
-        virtual void post(double) override;
+        const H_matrix_2D& hemiltonian() const;        
+        virtual void evolve(double) override;
         
         // integrals
         virtual double norm() const override;

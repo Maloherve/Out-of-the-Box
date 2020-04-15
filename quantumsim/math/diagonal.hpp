@@ -9,7 +9,14 @@ namespace qsim::math {
     template<typename T>
     class diagonal {
     public:
+
+        virtual ~diagonal() = default;
+
         virtual T operator[](size_t m) const = 0;
+
+        T at(size_t i, size_t j) const {
+            return (i == j) ? operator[](i) : T(0);
+        }
     };
 
     template<typename T, size_t N>
@@ -25,7 +32,7 @@ namespace qsim::math {
             return data[m];
         }
 
-        diag_array& operator*=(T g) {
+        diag_array& operator*=(const T& g) {
 
             for (auto& elem : data)
                 elem *= g;
@@ -48,7 +55,7 @@ namespace qsim::math {
             return gain * f(m);
         }
 
-        diag_functor& operator*=(T g) {
+        diag_functor& operator*=(const T& g) {
 
             gain *= g;
             return *this;
@@ -60,23 +67,23 @@ namespace qsim::math {
  * Scalar multiplication
  */
 
-template<typename T, typename Q>
-qsim::math::diag_functor<T> operator*(qsim::math::diag_functor<T> A, Q g) {
+template<typename T>
+const qsim::math::diag_functor<T> operator*(qsim::math::diag_functor<T> A, const T& g) {
     return A *= g;
 }
 
-template<typename T, typename Q>
-qsim::math::diag_functor<T> operator*(Q g, qsim::math::diag_functor<T> A) {
+template<typename T>
+const qsim::math::diag_functor<T> operator*(const T& g, qsim::math::diag_functor<T> A) {
     return A *= g;
 }
 
-template<typename T, typename Q, size_t N>
-qsim::math::diag_array<T,N> operator*(qsim::math::diag_array<T,N> A, Q g) {
+template<typename T, size_t N>
+const qsim::math::diag_array<T,N> operator*(qsim::math::diag_array<T,N> A, const T& g) {
     return A *= g;
 }
 
-template<typename T, typename Q, size_t N>
-qsim::math::diag_array<T,N> operator*(Q g, qsim::math::diag_array<T,N> A) {
+template<typename T, size_t N>
+const qsim::math::diag_array<T,N> operator*(const T& g, qsim::math::diag_array<T,N> A) {
     return A *= g;
 }
 
@@ -84,7 +91,7 @@ qsim::math::diag_array<T,N> operator*(Q g, qsim::math::diag_array<T,N> A) {
  * Matrix multiplication by diagonal
  */
 template<typename T, class V>
-V operator<<(const qsim::math::diagonal<T>& mat, V v) {
+const V operator*(const qsim::math::diagonal<T>& mat, V v) {
 
     for (size_t k = 0; k < v.size(); ++k)
         v[k] *= mat[k];

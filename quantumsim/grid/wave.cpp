@@ -2,7 +2,30 @@
 #include <algorithm>
 #include <ostream>
 
+#include "debug.hpp"
+
 using namespace qsim::grid;
+
+/*wave_vector::wave_vector(size_t N, wave_t value) : std::vector<wave_t>(N, value) {
+    npdebug("Constructing: ", this)
+}*/
+
+wave_vector::wave_vector(const wave_vector& other) : std::vector<wave_t>(other) {
+    //npdebug("Copied ", &other, " into ", this)
+}
+
+wave_vector::wave_vector(wave_vector&& other) : std::vector<wave_t>(std::forward<std::vector<wave_t>>(other)) {
+    //npdebug("Moved ", &other, " into ", this, ", other empty: ", other.empty())
+}
+
+wave_vector& wave_vector::operator=(const wave_vector& other) {
+    std::vector<wave_t>::operator=(other);
+    return *this;
+}
+
+wave_vector::~wave_vector() {
+    //npdebug("Destroy: ", this)
+}
 
 wave_vector& wave_vector::operator+=(const wave_vector& other) {
     
@@ -45,6 +68,11 @@ wave_vector& wave_vector::operator/=(const wave_t& z) {
     return *this;
 }
 
+wave_t wave_vector::at(int i) const {
+    return (i < 0 || static_cast<size_t>(i) >= size()) ? 
+                0 : std::vector<wave_t>::operator[](static_cast<size_t>(i));
+}
+
 wave_vector operator+(wave_vector w, const wave_vector& other) {
     return w += other;
 }
@@ -69,6 +97,7 @@ wave_vector operator/(const wave_t& z, wave_vector w) {
     return w /= z;
 }
 
+
 std::ostream& operator<<(std::ostream& os, const wave_vector& v) {
     using namespace std;
 
@@ -82,3 +111,31 @@ std::ostream& operator<<(std::ostream& os, const wave_vector& v) {
     os << ")";
     return os;
 }
+
+qsim::grid::wave_vector std::conj(qsim::grid::wave_vector v) {
+    for (auto& val : v)
+        val = std::conj(val);
+
+    return v;
+}
+
+qsim::grid::wave_t operator*(qsim::grid::wave_vector x, const qsim::grid::wave_vector& y) {
+    
+    wave_t result(0);
+
+    for (size_t k = 0; k < std::min(x.size(), y.size()); ++k)
+        result += std::conj(x[k]) * y[k];
+
+    return result;
+}
+
+double qsim::grid::wave_vector::square_norm() const {
+
+    double a(0);
+
+    for (size_t i = 0; i < size(); ++i)
+        a += std::norm((*this)[i]);
+
+    return a;
+}
+

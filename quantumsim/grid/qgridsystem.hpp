@@ -11,7 +11,7 @@ namespace qsim::grid {
     
     // hemiltonian class 
     template<class H>
-    using grid_H = qsim::math::ptr_composition<double, H>;
+    using grid_H = qsim::math::ptr_composition<wave_t, H>;
 
     template<class H>
     class qgridsystem : public qsim::qsystem<size_t, wave_vector, grid_H<H>> {

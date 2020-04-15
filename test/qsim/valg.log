@@ -1,0 +1,16 @@
+==69556== Memcheck, a memory error detector
+==69556== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==69556== Using Valgrind-3.15.0 and LibVEX; rerun with -h for copyright info
+==69556== Command: ./qsim_test
+==69556== 
+Step k, norm = 1 , E = 0.485183
+Step k, norm = -nan , E = -nan
+Step k, norm = -nan , E = -nan
+==69556== 
+==69556== HEAP SUMMARY:
+==69556==     in use at exit: 0 bytes in 0 blocks
+==69556==   total heap usage: 374 allocs, 374 frees, 668,856 bytes allocated
+==69556== 
+==69556== All heap blocks were freed -- no leaks are possible
+==69556== 
+==69556== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)

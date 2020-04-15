@@ -2,28 +2,23 @@
 #include "constants.hpp"
 #include "potential.hpp"
 
-#include "grid/integrators.hpp"
-
 #include "debug.hpp"
 
 using namespace qsim::grid;
+using namespace qsim::math;
 
-const qsim::math::diagonals<double, 3> qsystem1D::A = math::diagonals<double, 3>({math::sdiag_entry(-1, 1.0), math::sdiag_entry(0, -2.0), math::sdiag_entry(1, 1.0)});
+const diagonals<wave_t, 3> qsystem1D::A = diagonals<wave_t, 3>({sdiag_entry(-1, 1.0), sdiag_entry(0, -2.0), sdiag_entry(1, 1.0)});
+const diagonals<wave_t, 2> qsystem1D::P_templ = diagonals<wave_t, 2>({sdiag_entry(-1, -1.0), sdiag_entry(1, 1.0)});
 
 qsystem1D::qsystem1D(double _m, 
                      double _dx,
                      std::shared_ptr<potential<size_t>> _V,
                      const init_pack& init,
-                     std::shared_ptr<evolver<size_t, wave_vector, grid_H_1D>> _evolver,
-                     double hbar
-                     ) : qgridsystem<H_matrix_1D>(_m, init.generate(_dx), _V, _evolver, hbar),
-                        // compose the hemiltonian matrix
-                        H(
-                            0.0,
-                            H_zero(), 
-                            std::function<double (size_t)>([&] (size_t k) -> double { return V()(k); }) 
-                         ), 
+                     std::shared_ptr<evolver> _evolver,
+                     double _hbar
+                     ) : qgridsystem(_m, init.generate(_dx), _V, _evolver, _hbar),
                         dx(_dx)
+                        // compose the hemiltonian matrix
     {
         normalize();
     }
@@ -40,38 +35,32 @@ wave_vector qsystem1D::init_pack::generate(double dx) const {
     return w;
 }
 
-qsim::math::diagonals<double, 3> qsystem1D::H_zero() const {
-    return math::diagonals<double,3>((-pow(hbar()/dx, 2) / (2 * mass())) * A);
+diagonals<wave_t, 3> qsystem1D::H_zero() const {
+    wave_t h0 = - pow(hbar()/dx, 2) / (2 * mass());
+    diagonals<wave_t,3> out(h0 * A);
+    return out;
 }
 
-void qsystem1D::update_H() {
-    /*
-     * Regenerate the part of the matrix which corresponds to 
-     * the H_0 hamiltonian
-     */
-    H.get<1>() = H_zero();
+H_matrix_1D qsystem1D::H() const {
+    // generated in-place because it's light-weight
+    return H_matrix_1D(
+                wave_t(0.0), 
+                H_zero(), 
+                std::function<wave_t (size_t)>([&] (size_t k) -> double { return V()(k); }) 
+                      );
 }
 
-void qsystem1D::set_hbar(double _plank) {
-     //npdebug("Setting hbar: ", _plank)
-     qgridsystem<H_matrix_1D>::set_hbar(_plank);
-     update_H();
+P_matrix_1D qsystem1D::P() const {
+    using namespace std::complex_literals;
+    return (-1i * hbar()) * P_templ;
 }
 
-void qsystem1D::set_mass(double _m) {
-    qgridsystem<H_matrix_1D>::set_mass(_m);
-    update_H();
+void qsystem1D::evolve(double dt) {
+    wave = m_evolver->evolve(*this, dt);
 }
 
 double qsystem1D::norm() const {
-    double a(0);
-
-    for (size_t i = 0; i < wave.size(); ++i)
-        a += std::norm(wave[i]);
-
-    a *= dx;
-
-    return a;
+    return wave.square_norm() * dx;
 }
 
 void qsystem1D::replace_wave(const init_pack& init) {
@@ -81,7 +70,6 @@ void qsystem1D::replace_wave(const init_pack& init) {
 
 void qsystem1D::set_delta(double _dx) {
     dx = _dx;
-    update_H();
 }
 
 double qsystem1D::delta() const {
@@ -89,16 +77,17 @@ double qsystem1D::delta() const {
 }
 
 double qsystem1D::energy() const {
-    const double H0 = -hbar() * hbar() / (2*mass());
-    wave_t result = grid::grid_integrate(wave, [&] (const neighbourhood<>& map, size_t location) {
-                    return H0 * (map.at(location, -1) + map.at(location, 1))  
-                        + (V()(location) - 2 * H0) * map.at(location, 0); // return the value itself
-                }, dx);
 
-    if (abs(result.imag()) > qsim::machine_prec)
+    wave_t result = wave * (H() * wave); 
+
+    if (abs(result.imag()) > qsim::machine_prec) {
+        npdebug("psi: ", wave)
+        npdebug("H * psi: ", (H() * wave))
+        npdebug("Complex part of the energy: ", result.imag())
         throw result; // TODO, a real error
+    }
 
-    return result.real();
+    return result.real() * dx;
 }
 
 double qsystem1D::position() const {
@@ -107,20 +96,16 @@ double qsystem1D::position() const {
     for (size_t i = 0; i < wave.size(); ++i)
         pos += x(i) * std::norm(wave[i]);
 
-    pos *= dx;
-
-    return pos;
+    return pos *= dx;
 }
 
 double qsystem1D::momentum() const {
-    wave_t mom = grid::grid_integrate(wave, [&] (const neighbourhood<>& map, size_t location) {
-                    return (map.at(location, 1) - map.at(location, -1)) / (2 * dx); // return the value itself
-                }, dx);
+    wave_t mom = wave * (P() * wave);
 
     if (abs(mom.imag()) > qsim::machine_prec)
-        throw mom; // TODO, a real error
+        throw mom; 
 
-    return mom.real();
+    return mom.real() * dx;
 }
 
 wave_vector::iterator qsystem1D::begin() {

@@ -78,6 +78,12 @@ qsim::math::ptr_composition<T, Obj> operator+(T add, qsim::math::ptr_composition
 }
 
 template<typename T, class Obj>
+qsim::math::ptr_composition<T, Obj> operator+(qsim::math::ptr_composition<T, Obj> input, T add) {
+    // add to the first element
+    return input += add;
+}
+
+template<typename T, class Obj>
 qsim::math::ptr_composition<T, Obj> operator-(qsim::math::ptr_composition<T, Obj> input, T add) {
     // add to the first element
     return input -= add;

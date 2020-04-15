@@ -2,7 +2,7 @@
 
 #include "grid_wave.hpp"
 
-#include "quantumsim/evolvers/explicit.hpp"
+#include "quantumsim/evolvers/crank_nicholson.hpp"
 #include "curve_potential.hpp"
 
 #include "debug.hpp"
@@ -15,7 +15,7 @@ qgridsystem1D::qgridsystem1D()
         gdqsystem(std::make_shared<godot::curve_potential>(this)),
         qsystem1D(1.0, 1.0, gdqsystem::potential(), 
                 gauss_init1D(),
-                std::make_shared<qsystem1D::explicit_evolver>(), 1.0)
+                std::make_shared<qsim::evo::crank_nicholson>(), 1.0)
 {
 }
 

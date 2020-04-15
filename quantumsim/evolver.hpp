@@ -1,17 +1,16 @@
 #pragma once
 
-namespace qsim {
-
-    template <typename Coords, class WaveFunction, class H>
-    class qsystem;
-}
+#include "grid/wave.hpp"
+#include "fwd.hpp"
 
 namespace qsim {
     
-    template <typename Coords, class WaveFunction, class H>
     class evolver {
     public:
 
-        virtual WaveFunction evolve(const qsystem<Coords, WaveFunction, H>& system, double dt) const = 0;
+        virtual ~evolver() = default;
+        
+        virtual grid::wave_vector evolve(const grid::qsystem1D& system, double dt) const = 0;
+        virtual grid::wave_vector evolve(const grid::qsystem2D& system, double dt) const = 0;
     };
 }

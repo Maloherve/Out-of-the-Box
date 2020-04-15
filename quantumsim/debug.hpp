@@ -7,6 +7,7 @@
 #include <sstream>
 
 #ifndef NDEBUG
+    #pragma message "Compiling in debug mode"
     #define __FILENAME__ (\
         __builtin_strrchr(__FILE__, '/') ? \
         __builtin_strrchr(__FILE__, '/') + 1 : __FILE__)

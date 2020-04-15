@@ -52,8 +52,12 @@ func _ready():
 	print("System mass: ", qsystem.mass)
 	pass # Replace with function body.
 
-
+var t = 0
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-	#print("System position: ", qsystem.position())
-	#pass
+func _process(delta):
+	t += delta
+	if (t > 10):
+		print("System energy: ", qsystem.energy())
+		t = 0
+		
+	pass
