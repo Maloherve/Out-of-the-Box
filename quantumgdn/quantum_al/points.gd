@@ -6,17 +6,18 @@ extends Line2D
 # var b = "text"
 
 var qsystem = null
-var area = null
+
+export (float) var gain = 1.0
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	self.scale.y *= -1
 	qsystem = get_parent().get_node("qsystem")
-	area = get_parent()
 	assert(qsystem != null, "Error: null qsystem instance")
 	pass # Replace with function body.
 
 func point(index):
-	return Vector2(qsystem.x(index), qsystem.wave().real(index) * area.height);
+	return Vector2(qsystem.x(index), qsystem.wave().probability(index) * gain);
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
