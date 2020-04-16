@@ -3,10 +3,10 @@
 [ext_resource path="res://assets/Icon/Chat3noir.png" type="Texture" id=1]
 [ext_resource path="res://assets/Fonts/VCR_OSD_MONO_1.001.ttf" type="DynamicFontData" id=2]
 [ext_resource path="res://assets/Background/MenuBackground.png" type="Texture" id=3]
-[ext_resource path="res://scenes/Buttons/OptionsButton.tscn" type="PackedScene" id=4]
-[ext_resource path="res://scenes/Buttons/NewGameButton.tscn" type="PackedScene" id=5]
-[ext_resource path="res://scenes/Buttons/ContinueButton.tscn" type="PackedScene" id=6]
-[ext_resource path="res://scripts/TitleScreen.gd" type="Script" id=7]
+[ext_resource path="res://scenes/Menu/Buttons/Option1.tscn" type="PackedScene" id=4]
+[ext_resource path="res://scenes/Menu/Buttons/VolumeButton.tscn" type="PackedScene" id=5]
+[ext_resource path="res://scenes/Menu/Buttons/MenuButton.tscn" type="PackedScene" id=6]
+[ext_resource path="res://scripts/OptionSreen.gd" type="Script" id=7]
 
 [sub_resource type="DynamicFont" id=1]
 size = 52
@@ -15,7 +15,7 @@ font_data = ExtResource( 2 )
 [sub_resource type="DynamicFont" id=2]
 font_data = ExtResource( 2 )
 
-[node name="TitleScreen" type="Control"]
+[node name="OptionScreen" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 7 )
@@ -23,7 +23,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="TextureRect" type="TextureRect" parent="."]
+[node name="Background" type="TextureRect" parent="."]
 modulate = Color( 0.329412, 0.658824, 0.713726, 1 )
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -81,17 +81,17 @@ size_flags_vertical = 3
 custom_constants/separation = 5
 alignment = 1
 
-[node name="NewGameButton" parent="Menu/CenterRow/Buttons" instance=ExtResource( 5 )]
+[node name="VolumeButton" parent="Menu/CenterRow/Buttons" instance=ExtResource( 5 )]
 margin_top = 15.0
 margin_right = 864.0
 margin_bottom = 95.0
 
-[node name="ContinueButton" parent="Menu/CenterRow/Buttons" instance=ExtResource( 6 )]
+[node name="Option 1" parent="Menu/CenterRow/Buttons" instance=ExtResource( 4 )]
 margin_top = 100.0
 margin_right = 864.0
 margin_bottom = 180.0
 
-[node name="OptionsButton" parent="Menu/CenterRow/Buttons" instance=ExtResource( 4 )]
+[node name="ReturnButton" parent="Menu/CenterRow/Buttons" instance=ExtResource( 6 )]
 margin_top = 185.0
 margin_right = 864.0
 margin_bottom = 265.0
@@ -106,4 +106,5 @@ custom_fonts/font = SubResource( 2 )
 text = "Version 0.0.1
 Quarantum Studios"
 align = 2
-[connection signal="pressed" from="Menu/CenterRow/Buttons/NewGameButton" to="." method="_on_NewGameButton_pressed"]
+[connection signal="pressed" from="Menu/CenterRow/Buttons/ReturnButton" to="." method="_on_MenuButton_pressed"]
+[connection signal="pressed" from="Menu/CenterRow/Buttons/ReturnButton" to="." method="_on_ReturnButton_pressed"]
