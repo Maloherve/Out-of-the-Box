@@ -46,15 +46,6 @@ func _ready():
 	if (animNode != null):
 		animNode.play("_idle");
 
-#	if (!cat):
-#		animNode = get_node("AnimatedSprite_Human");
-#		$AnimatedSprite_Cat.hide();
-#		$CollisionShape2D_Cat.disabled = true;
-#	else:
-#		animNode = get_node("AnimatedSprite_Cat");
-#		$AnimatedSprite_Human.hide();
-#		$CollisionShape2D_Human.disabled = true;
-
 	animNode = get_node("AnimatedSprite")
 	# Connect Signals
 	animNode.connect("animation_finished", self, "_on_AnimatedSprite_animation_finished");
