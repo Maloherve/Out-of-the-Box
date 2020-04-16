@@ -9,6 +9,3 @@ func set_flip(is_flip : bool):
 	else:
 		position.x = -abs(position.x);
 		process_material.direction.x = -abs(process_material.direction.x);
-	
-	
-	

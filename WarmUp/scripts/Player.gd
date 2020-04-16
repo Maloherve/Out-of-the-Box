@@ -196,6 +196,12 @@ func _assign_animation():
 	
 	if (animNode.get_animation() != anim):
 		animNode.play(anim);
+		
+		if (animNode.get_animation() == "_walk"):
+			$Trail.emitting = true;
+		else: $Trail.emitting = false;
+	
+
 
 
 # ----- Node Function ------
