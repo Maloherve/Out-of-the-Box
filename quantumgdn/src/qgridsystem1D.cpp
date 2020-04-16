@@ -15,7 +15,8 @@ qgridsystem1D::qgridsystem1D()
         gdqsystem(std::make_shared<godot::curve_potential>(this)),
         qsystem1D(1.0, 1.0, gdqsystem::potential(), 
                 gauss_init1D(),
-                std::make_shared<qsim::evo::crank_nicholson>(), 1.0)
+                std::make_shared<qsim::evo::crank_nicholson>(), 1.0),
+        steps_per_tick(1), dt_gain(1.0)
 {
 }
 
@@ -54,6 +55,7 @@ void qgridsystem1D::_register_methods() {
     register_property<qgridsystem1D, double>("mass", &qgridsystem1D::set_mass, &qgridsystem1D::mass, 1.0);
     register_property<qgridsystem1D, double>("hbar", &qgridsystem1D::set_hbar, &qgridsystem1D::get_hbar, 1.0);
     register_property<qgridsystem1D, int>("steps_per_tick", &qgridsystem1D::set_steps_per_tick, &qgridsystem1D::get_steps_per_tick, 1);
+    register_property<qgridsystem1D, double>("dt_gain", &qgridsystem1D::set_dt_gain, &qgridsystem1D::get_dt_gain, 1.0);
 }
 
 
@@ -118,6 +120,14 @@ void qgridsystem1D::set_steps_per_tick(int steps) {
     steps_per_tick = steps;
 }
 
+void qgridsystem1D::set_dt_gain(double gain) {
+    dt_gain = gain; 
+}
+
+double qgridsystem1D::get_dt_gain() const {
+    return dt_gain;
+}
+
 double qgridsystem1D::x(int i) const {
     if (i < 0 || i >= size()) {
         // TODO throw godot error
@@ -157,7 +167,7 @@ void qgridsystem1D::_fixed_process(double dt) {
 
     // evolve steps_per_tick times
     for (int k = steps_per_tick; k > 0; k--) {
-        qsim::grid::qsystem1D::evolve(dt);
+        qsim::grid::qsystem1D::evolve(dt * dt_gain);
     }
     
     // normalize after

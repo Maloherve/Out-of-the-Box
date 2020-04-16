@@ -7,4 +7,4 @@ script = ExtResource( 1 )
 k0 = 0.0
 r0 = 150.0
 sigma = 50.0
-N = 64
+N = 150

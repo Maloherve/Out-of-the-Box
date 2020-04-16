@@ -20,6 +20,7 @@ namespace godot {
         grid_wave1D * _wave;
 
         int steps_per_tick;
+        double dt_gain;
 
     public:
         qgridsystem1D();
@@ -71,6 +72,13 @@ namespace godot {
 
         double potential_at(double x) const;
         double potential_at_index(size_t k) const;
+
+        /*
+         * Delta time amplification
+         */
+
+        void set_dt_gain(double);
+        double get_dt_gain() const;
 
         /*
          * Boundary properties depend on potential

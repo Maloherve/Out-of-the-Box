@@ -16,7 +16,8 @@ shape = SubResource( 1 )
 [node name="qsystem" type="Node2D" parent="."]
 position = Vector2( -5, 0 )
 script = ExtResource( 1 )
-steps_per_tick = 50
+steps_per_tick = 8
+dt_gain = 60.0
 width = 10.0
 height = 10.0
 
