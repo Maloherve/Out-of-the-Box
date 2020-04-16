@@ -1,4 +1,4 @@
-[gd_scene load_steps=47 format=2]
+[gd_scene load_steps=54 format=2]
 
 [ext_resource path="res://assets/Character/Cat/Idle_BlackCat5.png" type="Texture" id=1]
 [ext_resource path="res://scripts/Player.gd" type="Script" id=2]
@@ -19,6 +19,7 @@
 [ext_resource path="res://assets/Character/Cat/Jump_BlackCat7.png" type="Texture" id=17]
 [ext_resource path="res://assets/Character/Cat/BlackCat4.png" type="Texture" id=18]
 [ext_resource path="res://assets/Character/Cat/BlackCat2.png" type="Texture" id=19]
+[ext_resource path="res://assets/Tilesets/TileSprite.png" type="Texture" id=20]
 [ext_resource path="res://assets/Character/Cat/Jump_BlackCat5.png" type="Texture" id=21]
 [ext_resource path="res://assets/Character/Cat/Damage6.png" type="Texture" id=22]
 [ext_resource path="res://assets/Character/Cat/Idle_BlackCat9.png" type="Texture" id=23]
@@ -38,12 +39,41 @@
 [ext_resource path="res://assets/Character/Cat/BlackCat1.png" type="Texture" id=37]
 [ext_resource path="res://assets/Character/Cat/BlackCat3.png" type="Texture" id=38]
 [ext_resource path="res://assets/Character/Cat/Damage1.png" type="Texture" id=39]
+[ext_resource path="res://scripts/Trail.gd" type="Script" id=40]
 [ext_resource path="res://scripts/Side_Raycasts.gd" type="Script" id=61]
 [ext_resource path="res://assets/Character/Cat/climb5.png" type="Texture" id=63]
 [ext_resource path="res://assets/Character/Cat/climb3.png" type="Texture" id=64]
 [ext_resource path="res://assets/Character/Cat/climb4.png" type="Texture" id=65]
 [ext_resource path="res://assets/Character/Cat/climb2.png" type="Texture" id=66]
 [ext_resource path="res://assets/Character/Cat/climb1.png" type="Texture" id=67]
+
+[sub_resource type="Gradient" id=3]
+offsets = PoolRealArray( 0.783069, 1 )
+colors = PoolColorArray( 1, 1, 1, 1, 1, 1, 1, 0 )
+
+[sub_resource type="GradientTexture" id=4]
+gradient = SubResource( 3 )
+
+[sub_resource type="Curve" id=5]
+_data = [ Vector2( 0, 0.363636 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=6]
+curve = SubResource( 5 )
+
+[sub_resource type="ParticlesMaterial" id=7]
+emission_shape = 1
+emission_sphere_radius = 2.0
+flag_disable_z = true
+direction = Vector3( 1, -0.5, 0 )
+spread = 22.0
+gravity = Vector3( 0, 0, 0 )
+initial_velocity = 10.0
+initial_velocity_random = 0.3
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+scale = 0.05
+scale_curve = SubResource( 6 )
+color_ramp = SubResource( 4 )
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
@@ -97,18 +127,26 @@ collision_layer = 4
 collision_mask = 2
 script = ExtResource( 2 )
 
+[node name="Trail" type="Particles2D" parent="."]
+position = Vector2( 5.34411, 6.63407 )
+process_material = SubResource( 7 )
+texture = ExtResource( 20 )
+script = ExtResource( 40 )
+
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 light_mask = 2
 scale = Vector2( 0.941242, 0.941242 )
 frames = SubResource( 1 )
-animation = "_endcast"
+animation = "_walk"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
 light_mask = 2
 position = Vector2( -0.500717, 1.39452 )
 shape = SubResource( 2 )
 
 [node name="Bottom_Raycasts" type="Node2D" parent="."]
+visible = false
 light_mask = 2
 __meta__ = {
 "_edit_lock_": true
@@ -146,6 +184,7 @@ __meta__ = {
 }
 
 [node name="Side_Raycasts" type="Node2D" parent="."]
+visible = false
 script = ExtResource( 61 )
 
 [node name="Bottom_Side" type="RayCast2D" parent="Side_Raycasts"]

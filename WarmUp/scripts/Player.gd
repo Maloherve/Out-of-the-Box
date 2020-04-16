@@ -43,10 +43,10 @@ signal finish_casting;
 
 
 func _ready():
+	animNode = get_node("AnimatedSprite")
 	if (animNode != null):
 		animNode.play("_idle");
-
-	animNode = get_node("AnimatedSprite")
+	
 	# Connect Signals
 	animNode.connect("animation_finished", self, "_on_AnimatedSprite_animation_finished");
 	
@@ -63,9 +63,11 @@ func _process(delta):
 		if (move_direction == -1):
 			animNode.set_flip_h(false);
 			Side_Raycasts.set_flip(true);
+			$Trail.set_flip(true);
 		elif (move_direction == 1):
 			animNode.set_flip_h(true);
 			Side_Raycasts.set_flip(false);
+			$Trail.set_flip(false);
 
 
 # Execute Regularly
@@ -211,3 +213,4 @@ func _on_AnimatedSprite_animation_finished():
 		cast = false;
 		if timer.is_paused():
 			timer.set_paused(false);
+
