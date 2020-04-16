@@ -12,6 +12,7 @@ const CLIMB_SPEED : float = 1.5 * 64;
 onready var animNode : AnimatedSprite;
 onready var Bottom_Raycasts : Node2D = get_node("Bottom_Raycasts");
 onready var Side_Raycasts : Node2D = get_node("Side_Raycasts");
+onready var timer : Timer;
 # Movement
 var velocity : Vector2 = Vector2();
 var jump_velocity : int = -388;
@@ -20,6 +21,7 @@ var move_direction : int = 1;
 var vertical_move_direction : int = 1;
 var is_on_wall : bool = false;
 var is_on_ledge : bool = false;
+var climbing_timeout : bool = false; # for the climbing time limit
 # Attack
 var attack_move_direction : int = 1;
 var attack : bool = false;
@@ -56,7 +58,10 @@ func _ready():
 	animNode = get_node("AnimatedSprite")
 	# Connect Signals
 	animNode.connect("animation_finished", self, "_on_AnimatedSprite_animation_finished");
-
+	
+	timer = Timer.new();
+	add_child(timer);
+	timer.connect("timeout", self, "_on_timer_timeout");
 
 # Execute ASAP
 func _process(delta):
@@ -86,15 +91,19 @@ func MoveCharacter(delta):
 		velocity.x = lerp(velocity.x, MOVE_SPEED * move_direction, 0.2);
 	
 #	y-Movement
-	if is_on_wall:
+	if is_on_wall && !climbing_timeout:
 		velocity.y = lerp(velocity.y, CLIMB_SPEED * vertical_move_direction, 0.2);
-		if !_check_is_collided():
-			is_on_wall = false;
+	if is_on_wall && !_check_is_collided():
+		is_on_wall = false;
+		
+	_climbing_timer();
 	
-#	Gravity
+#	Forces
 	if _check_if_apply_gravity():
 		velocity.y += GRAVITY * delta;
-
+		
+	if _check_if_apply_friction():
+		velocity.y -= GRAVITY/2 * delta;
 
 # Check for and execute Input
 func _get_input():
@@ -109,6 +118,8 @@ func _get_input():
 	if (Input.is_action_just_pressed("ui_space") && (!is_casting)):
 		emit_signal('start_casting');
 		cast = true;
+		if !timer.is_stopped():
+			timer.set_paused(true);
 	if (Input.is_action_just_pressed("ui_space") && (is_casting)):
 		emit_signal("stop_casting");
 		finish_cast = true;
@@ -125,6 +136,8 @@ func _get_input():
 func _check_is_grounded():
 	for raycast in Bottom_Raycasts.get_children():
 		if raycast.is_colliding():
+			timer.stop();
+			climbing_timeout = false;
 			return true;
 	return false;
 
@@ -140,16 +153,32 @@ func _check_is_collided():
 			return true;
 	return false;
 
+# Time limit on climbing
+func _on_timer_timeout():
+	climbing_timeout = true;
+	return;
+
+func _climbing_timer():
+	if is_on_wall && timer.is_stopped() && !climbing_timeout:
+		timer.start(1);
+	return;
 
 # Check if the conditions to apply gravity are verified
 func _check_if_apply_gravity():
 	if cast:
 		return false;
-	if (!_check_is_grounded() && _check_is_collided()):
+	if (!_check_is_grounded() && _check_is_collided()) && !climbing_timeout:
 		is_on_wall = true;
 		return false;
 	return true;
 
+# Check if the conditions to apply friction are verified
+func _check_if_apply_friction():
+	if cast:
+		return false;
+	elif is_on_wall && climbing_timeout:
+		return true;
+	return false;
 
 # Assign and play animation
 func _assign_animation():
@@ -189,3 +218,6 @@ func _on_AnimatedSprite_animation_finished():
 		finish_cast = false;
 		is_casting = false;
 		cast = false;
+		if timer.is_paused():
+			timer.set_paused(false);
+		
