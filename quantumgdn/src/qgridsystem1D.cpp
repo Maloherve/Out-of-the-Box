@@ -53,6 +53,7 @@ void qgridsystem1D::_register_methods() {
     // properties
     register_property<qgridsystem1D, double>("mass", &qgridsystem1D::set_mass, &qgridsystem1D::mass, 1.0);
     register_property<qgridsystem1D, double>("hbar", &qgridsystem1D::set_hbar, &qgridsystem1D::get_hbar, 1.0);
+    register_property<qgridsystem1D, int>("steps_per_tick", &qgridsystem1D::set_steps_per_tick, &qgridsystem1D::get_steps_per_tick, 1);
 }
 
 
@@ -100,23 +101,41 @@ double qgridsystem1D::potential_at_index(size_t k) const {
     return (*potential())(k);
 }
 
-size_t qgridsystem1D::N() const {
-    return size();
+int qgridsystem1D::N() const {
+    return static_cast<int>(size());
 }
 
-double qgridsystem1D::x(size_t i) const {
-    return qsystem1D::x(i) + get_position().x;
+int qgridsystem1D::get_steps_per_tick() const {
+    return steps_per_tick;
+}
+
+void qgridsystem1D::set_steps_per_tick(int steps) {
+    if (steps < 1) {
+        // TODO throw godot error
+        steps = 1; // set to default value
+    }
+
+    steps_per_tick = steps;
+}
+
+double qgridsystem1D::x(int i) const {
+    if (i < 0 || i >= size()) {
+        // TODO throw godot error
+        return 0;
+    } else
+        return qsystem1D::x(i) + get_position().x;
 }
 
 void qgridsystem1D::set_wave(Ref<wave_init1D> init) {
     if (init != nullptr) {
 
         npdebug("Setting wave: width = ", get_width(), ", N = ", init->N)
-        set_delta(get_width() / static_cast<double>(init->N));
+        set_delta(get_width() / static_cast<double>(init->N + 1));
 
         replace_wave(*(*init));
         _wave->wave_ref = &wave;
     } else {
+        // TODO throw godot error
         npdebug("Setting a null initialization packet")
     }
 
@@ -132,8 +151,16 @@ Vector2 qgridsystem1D::location(size_t k) const {
 
 
 void qgridsystem1D::_fixed_process(double dt) {
-    // default values
-    qsim::grid::qsystem1D::evolve(dt);
+
+    if (potential()->is_buffering())
+        potential()->freeze(size());
+
+    // evolve steps_per_tick times
+    for (int k = steps_per_tick; k > 0; k--) {
+        qsim::grid::qsystem1D::evolve(dt);
+    }
+    
+    // normalize after
     qsim::grid::qsystem1D::normalize();
 }
 

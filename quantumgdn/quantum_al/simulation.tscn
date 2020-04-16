@@ -14,16 +14,17 @@ modulate = Color( 0.215686, 0.996078, 0.921569, 1 )
 shape = SubResource( 1 )
 
 [node name="qsystem" type="Node2D" parent="."]
-position = Vector2( -150, 0 )
+position = Vector2( -5, 0 )
 script = ExtResource( 1 )
-width = 300.0
-height = 100.0
+steps_per_tick = 50
+width = 10.0
+height = 10.0
 
 [node name="boundary" type="ReferenceRect" parent="."]
-margin_left = -150.0
-margin_top = -50.0
-margin_right = 150.0
-margin_bottom = 50.0
+margin_left = -5.0
+margin_top = -5.0
+margin_right = 5.0
+margin_bottom = 5.0
 mouse_filter = 2
 border_color = Color( 0.839216, 0.952941, 0.054902, 1 )
 editor_only = false
