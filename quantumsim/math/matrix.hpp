@@ -11,6 +11,26 @@ namespace qsim::math {
     template <typename T>
     class matrix;
 
+    template <typename T>
+    class vector_access {
+        public:
+
+            virtual ~vector_access() {}
+            
+            size_t size() const = 0;
+
+            const T& at(size_t j) const = 0;
+            T& at(size_t j) = 0;
+
+            inline const T& operator[](size_t j) const {
+                return at(j);
+            }
+
+            inline T& operator[](size_t j) {
+                return at(j);
+            }
+    };
+
     /*
      * Element-wise sub-matrix wrapper
      */
@@ -21,6 +41,8 @@ namespace qsim::math {
 
         // reference to the matrix
         matrix<T>& ref;
+
+    protected:
         // {begin index, size}
         const std::pair<size_t, size_t> rows, cols;
 
@@ -34,15 +56,16 @@ namespace qsim::math {
 
         // don't allow to move
         submatrix(submatrix&&) = default;
-
-        T at(size_t i, size_t j) const;
+        
+        // with boundary check
+        const T& at(size_t i, size_t j) const;
         T& at(size_t i, size_t j);
-
+        
         inline T& operator()(size_t i, size_t j) {
             return at(i,j);
         }
 
-        inline T operator()(size_t i, size_t j) const {
+        inline const T& operator()(size_t i, size_t j) const {
             return at(i,j);
         }
 
@@ -69,6 +92,58 @@ namespace qsim::math {
 
             }
         }
+    };
+
+    
+
+    template <typename T>
+    class row_vector : public vector_access<T>, public submatrix<T> {
+            friend class matrix<T>;
+
+            row_vector(matrix<T>& _ref, size_t row, std::pair<size_t, size_t> _cols)
+                : submatrix<T>(_ref, std::pair(row, row+1), _cols) {}
+
+            using submatrix<T>::rows_nb;
+            using submatrix<T>::cols_nb;
+            using submatrix<T>::at;
+        public:
+            
+            virtual size_t size() const override {
+                return cols_nb();
+            } 
+
+            virtual const T& at(size_t j) const override {
+                return at(this->rows.first, j);
+            } 
+
+            virtual T& at(size_t j) override {
+                return at(this->rows.first, j);
+            } 
+    };
+
+    template <typename T>
+    class column_vector : public vector_access<T>, public submatrix<T> {
+            friend class matrix<T>;
+
+            column_vector(matrix<T>& _ref, size_t col, std::pair<size_t, size_t> _rows)
+                : submatrix<T>(_ref, _rows, std::pair(col, col+1)) {}
+
+            using submatrix<T>::rows_nb;
+            using submatrix<T>::cols_nb;
+            using submatrix<T>::at;
+        public:
+            
+            virtual size_t size() const override {
+                return rows_nb();
+            } 
+
+            virtual const T& at(size_t i) const override {
+                return at(i, this->cols.first);
+            } 
+
+            virtual T& at(size_t i) override {
+                return at(i, this->cols.first);
+            } 
     };
 
     /*
@@ -141,7 +216,7 @@ namespace qsim::math {
         }
         
         // no, boundary check
-        inline T at(size_t i, size_t j) const {
+        inline const T& at(size_t i, size_t j) const {
             return table[i][j];
         }
 
@@ -160,7 +235,7 @@ namespace qsim::math {
         /*
          * Create a sub-matrix with the given indexes
          */
-        submatrix<T> restrict(std::pair<size_t,size_t> rows, std::pair<size_t, size_t> cols) {
+        submatrix<T> restrict(std::pair<size_t,size_t> rows = all, std::pair<size_t, size_t> cols = all) {
             // convert ::all value to all indices
             if (rows == all)
                 rows.second = rows_nb();
@@ -180,6 +255,38 @@ namespace qsim::math {
             cols.second -= cols.first;
 
             return submatrix<T>(*this, rows, cols);
+        }
+
+        row_vector<T> get_row(size_t i, std::pair<size_t, size_t> cols = all) {
+
+            if (cols == all)
+                cols.second = cols_nb();
+
+            // adjust entries
+            if (cols.first >= cols.second || cols.second > cols_nb()) {
+                throw std::out_of_range("(matrix::restrict) column index exceded");
+            }
+
+            // transform in size
+            cols.second -= cols.first;
+
+            return row_vector<T>(*this, i, cols);
+        }
+
+        column_vector<T> get_column(size_t j, std::pair<size_t,size_t> rows = all) {
+            // convert ::all value to all indices
+            if (rows == all)
+                rows.second = rows_nb();
+
+            // adjust entries
+            if (rows.first >= rows.second || rows.second > rows_nb()) {
+                throw std::out_of_range("(matrix::restrict) row index exceded");
+            }
+
+            // transform in size
+            rows.second -= rows.first;
+
+            return column_vector<T>(*this, j, rows);
         }
 
         /*
@@ -211,7 +318,7 @@ namespace qsim::math {
             return at(i,j);
         }
 
-        inline T operator()(size_t i, size_t j) const {
+        inline const T& operator()(size_t i, size_t j) const {
             return at(i,j);
         }
         
@@ -234,8 +341,11 @@ namespace qsim::math {
      * Sub-matrix functions definitions
      */ 
     template<class T>
-    T submatrix<T>::at(size_t i, size_t j) const {
-        return (i < rows.second && j < cols.second) ? ref.at(i + rows.first, j + cols.first) : 0;
+    const T& submatrix<T>::at(size_t i, size_t j) const {
+        if (i < rows.second && j < cols.second)
+           return ref.at(i + rows.first, j + cols.first);
+        else
+            throw std::out_of_range("Matrix index accedes size (submatrix::at) const");
     }
 
     template<class T>
@@ -245,7 +355,7 @@ namespace qsim::math {
         else
             throw std::out_of_range("Matrix index accedes size (submatrix::at)");
     }
-    
+
     /*
      * Square matrix specialization
      */
@@ -285,6 +395,7 @@ namespace qsim::math {
             return out;
         }
     };
+
 
     template <typename R, typename T>
     matrix<R> convert(const matrix<T>& A, const std::function<R (T)>& operation) {
