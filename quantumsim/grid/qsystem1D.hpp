@@ -29,7 +29,7 @@ namespace qsim::grid {
         // centered differentiation application
         static const math::diagonals<wave_t, 2> P_templ;
 
-        // determine first hamiltonian term in function of the mass and the discretization step
+        // determine first hamiltonian term as function of the mass and the discretization step
         qsim::math::diagonals<wave_t, 3> H_zero() const;
 
     public: 
