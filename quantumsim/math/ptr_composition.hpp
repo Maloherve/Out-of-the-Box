@@ -35,7 +35,7 @@ namespace qsim::math {
             V out((identity / gain) * input);
 
             for (const Obj* obj : components)
-                out += (*obj) << input;
+                out += (*obj) * input;
 
             return out *= gain;
         }
