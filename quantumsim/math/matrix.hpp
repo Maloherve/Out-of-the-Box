@@ -12,15 +12,18 @@ namespace qsim::math {
     class matrix;
 
     template <typename T>
+    class square_matrix;
+
+    template <typename T>
     class vector_access {
         public:
 
             virtual ~vector_access() {}
             
-            size_t size() const = 0;
+            virtual size_t size() const = 0;
 
-            const T& at(size_t j) const = 0;
-            T& at(size_t j) = 0;
+            virtual const T& at(size_t j) const = 0;
+            virtual T& at(size_t j) = 0;
 
             inline const T& operator[](size_t j) const {
                 return at(j);
@@ -40,22 +43,40 @@ namespace qsim::math {
         friend class matrix<T>;
 
         // reference to the matrix
-        matrix<T>& ref;
+        matrix<T>* ref;
+        bool standalone;
 
     protected:
         // {begin index, size}
         const std::pair<size_t, size_t> rows, cols;
 
         // reference, {begin, end}, {begin, end}
-        submatrix(matrix<T>& _ref, std::pair<size_t, size_t> _rows, std::pair<size_t, size_t> _cols)
-                : ref(_ref), rows(_rows), cols(_cols) {}
+        // construct a non-standalone submatrix
+        submatrix(matrix<T>* _ref, std::pair<size_t, size_t> _rows, std::pair<size_t, size_t> _cols)
+                : ref(_ref), standalone(false), rows(_rows), cols(_cols) {}
+        
+        // direct access without boundary check
+        const T& _at(size_t i, size_t j) const;
+        T& _at(size_t i, size_t j);
 
     public:
         submatrix() = delete;
-        submatrix(const submatrix&) = default;
+        
+        // move a submatrix and invalidate the other
+        submatrix(submatrix&&);
+        
+        // construct a standalone copy
+        // notice, this is the only way to construct a standalone submatrix
+        submatrix(const submatrix&);
 
-        // don't allow to move
-        submatrix(submatrix&&) = default;
+        // delete the instance if standalone
+        virtual ~submatrix();
+
+        /*
+         * target index assigning
+         */
+        //submatrix& operator=(const submatrix&);
+        submatrix& operator=(const matrix<T>&);
         
         // with boundary check
         const T& at(size_t i, size_t j) const;
@@ -87,26 +108,46 @@ namespace qsim::math {
 
                 for (size_t i(0); i < rows_nb(); ++i) {
                     for (size_t j(0); j < cols_nb(); ++j)
-                        std::swap(at(i,j), other.at(i,j));
+                        std::swap(at(i,j), other._at(i,j));
                 }
 
             }
         }
+        
+        /*
+         * implicit convertion to a matrix
+         */
+        operator matrix<T>() const;
     };
-
-    
 
     template <typename T>
     class row_vector : public vector_access<T>, public submatrix<T> {
             friend class matrix<T>;
 
-            row_vector(matrix<T>& _ref, size_t row, std::pair<size_t, size_t> _cols)
+            row_vector(matrix<T>* _ref, size_t row, std::pair<size_t, size_t> _cols)
                 : submatrix<T>(_ref, std::pair(row, row+1), _cols) {}
 
             using submatrix<T>::rows_nb;
             using submatrix<T>::cols_nb;
             using submatrix<T>::at;
+            using submatrix<T>::_at;
+
+            const T& _at(size_t j) const {
+                return _at(this->rows.first, j);
+            }
+
+            T& _at(size_t j) {
+                return _at(this->rows.first, j);
+            }
+
         public:
+
+            row_vector(const row_vector& other) : submatrix<T>(other) {}
+            row_vector(row_vector&& other) : submatrix<T>(std::forward<row_vector>(other)) {}
+
+            using submatrix<T>::operator=;
+
+            operator matrix<T>() const;
             
             virtual size_t size() const override {
                 return cols_nb();
@@ -125,13 +166,30 @@ namespace qsim::math {
     class column_vector : public vector_access<T>, public submatrix<T> {
             friend class matrix<T>;
 
-            column_vector(matrix<T>& _ref, size_t col, std::pair<size_t, size_t> _rows)
+            column_vector(matrix<T>* _ref, size_t col, std::pair<size_t, size_t> _rows)
                 : submatrix<T>(_ref, _rows, std::pair(col, col+1)) {}
 
             using submatrix<T>::rows_nb;
             using submatrix<T>::cols_nb;
             using submatrix<T>::at;
+            using submatrix<T>::_at;
+
+            const T& _at(size_t i) const {
+                return _at(i, this->cols.first);
+            }
+
+            T& _at(size_t i) {
+                return _at(i, this->cols.first);
+            }
+
         public:
+
+            column_vector(const column_vector& other) : submatrix<T>(other) {}
+            column_vector(column_vector&& other) : submatrix<T>(std::forward<column_vector>(other)) {}
+
+            using submatrix<T>::operator=;
+
+            operator matrix<T>() const;
             
             virtual size_t size() const override {
                 return rows_nb();
@@ -151,15 +209,18 @@ namespace qsim::math {
      */
     template <typename T>
     class matrix {
-        //using submatrix = qsim::math::submatrix<T>;
-    protected:
+    public:
 
-        struct row : public std::vector<T> {
-            using std::vector<T>::vector;
+        class row : public std::vector<T> {
+            friend class square_matrix<T>;
+            using std::vector<T>::reserve;
             using std::vector<T>::push_back;
             using std::vector<T>::pop_back;
-            using std::vector<T>::reserve;
+        public:
+            using std::vector<T>::vector;
         };
+
+   protected:
 
         struct table_t : public std::vector<row> {
             using std::vector<row>::vector;
@@ -175,6 +236,7 @@ namespace qsim::math {
         matrix() = default;
 
     public:
+
         matrix(size_t N, size_t M, T init = 0) 
             : table(N, row(M, init)) {
                 if (N == 0 || M == 0)
@@ -214,6 +276,8 @@ namespace qsim::math {
                     at(i,j) = sub.at(i,j);
             }
         }
+
+        virtual ~matrix() = default;
         
         // no, boundary check
         inline const T& at(size_t i, size_t j) const {
@@ -254,10 +318,13 @@ namespace qsim::math {
             rows.second -= rows.first;
             cols.second -= cols.first;
 
-            return submatrix<T>(*this, rows, cols);
+            return submatrix<T>(this, rows, cols);
         }
 
-        row_vector<T> get_row(size_t i, std::pair<size_t, size_t> cols = all) {
+        /*
+         * Create a sub-matrix with a column indexing restriction
+         */
+        row_vector<T> get_row(size_t i, std::pair<size_t, size_t> cols) {
 
             if (cols == all)
                 cols.second = cols_nb();
@@ -270,9 +337,23 @@ namespace qsim::math {
             // transform in size
             cols.second -= cols.first;
 
-            return row_vector<T>(*this, i, cols);
+            return row_vector<T>(this, i, cols);
+        }
+        
+        /*
+         * Row descriptor without a column restriction
+         */
+        row& get_row(size_t i) {
+            return table[i];
         }
 
+        const row& get_row(size_t i) const {
+            return table[i];
+        }
+
+        /*
+         * Create a sub-matrix with a row indexing restriction
+         */
         column_vector<T> get_column(size_t j, std::pair<size_t,size_t> rows = all) {
             // convert ::all value to all indices
             if (rows == all)
@@ -286,7 +367,7 @@ namespace qsim::math {
             // transform in size
             rows.second -= rows.first;
 
-            return column_vector<T>(*this, j, rows);
+            return column_vector<T>(this, j, rows);
         }
 
         /*
@@ -332,18 +413,54 @@ namespace qsim::math {
         static constexpr std::pair<size_t, size_t> all = {0, 0};
 
         // return a single line 
-        static std::pair<size_t, size_t> single(size_t k) {
+        static constexpr std::pair<size_t, size_t> single(size_t k) {
             return std::pair<size_t,size_t>(k, k+1);
         }
     };
+
     
     /*
      * Sub-matrix functions definitions
      */ 
+
+    // copy the restriction in a standalone buffer
+    template<class T>
+    submatrix<T>::submatrix(const submatrix<T>& other) 
+        : ref(new matrix<T>(other)), standalone(true), rows(other.rows), cols(other.cols) 
+    {
+    }
+
+    template<class T>
+    submatrix<T>::submatrix(submatrix<T>&& other) 
+        : ref(other), standalone(other.standalone), rows(other.rows), cols(other.cols)
+    {
+        // throw an error on submatrix::at access
+        other.rows = std::pair<size_t,size_t>(0,0); // empty restruction
+        other.cols = std::pair<size_t,size_t>(0,0);
+    }
+
+    template<class T>
+    submatrix<T>::~submatrix() {
+        if (standalone)
+            delete ref;
+    }
+
+    template<class T>
+    const T& submatrix<T>::_at(size_t i, size_t j) const {
+        // careful using this function: no controls at all
+        return ref->at(i + rows.first, j + cols.first);
+    }
+
+    template<class T>
+    T& submatrix<T>::_at(size_t i, size_t j) {
+        // careful using this function: no controls at all
+        return ref->at(i + rows.first, j + cols.first);
+    }
+
     template<class T>
     const T& submatrix<T>::at(size_t i, size_t j) const {
         if (i < rows.second && j < cols.second)
-           return ref.at(i + rows.first, j + cols.first);
+           return _at(i,j);
         else
             throw std::out_of_range("Matrix index accedes size (submatrix::at) const");
     }
@@ -351,9 +468,52 @@ namespace qsim::math {
     template<class T>
     T& submatrix<T>::at(size_t i, size_t j) {
         if (i < rows.second && j < cols.second)
-           return ref.at(i + rows.first, j + cols.first);
+           return _at(i,j);
         else
             throw std::out_of_range("Matrix index accedes size (submatrix::at)");
+    }
+
+    template<class T>
+    submatrix<T>::operator matrix<T>() const {
+        return matrix(*this); 
+    }
+
+    template<class T>
+    row_vector<T>::operator matrix<T>() const {
+        return matrix(*this); 
+    }
+
+    template<class T>
+    column_vector<T>::operator matrix<T>() const {
+        return matrix(*this); 
+    }
+
+    /*template<class T>
+    submatrix<T>& submatrix<T>::operator=(const submatrix<T>& other) {
+        // dimension check 
+        if (rows_nb() != other.rows_nb() || cols_nb() != other.cols_nb())
+            throw std::invalid_argument("Dimension assert failed (submatrix::operator=)(submatrix)");
+
+        for (size_t i(0); i < rows_nb(); ++i) {
+            for (size_t j(0); j < cols_nb(); ++j)
+                _at(i,j) = other._at(i,j);
+        }
+
+        return *this;
+    }*/
+
+    template<class T>
+    submatrix<T>& submatrix<T>::operator=(const matrix<T>& other) {
+        // dimension check 
+        if (rows_nb() != other.rows_nb() || cols_nb() != other.cols_nb())
+            throw std::invalid_argument("Dimension assert failed (submatrix::operator=)(matrix)");
+
+        for (size_t i(0); i < rows_nb(); ++i) {
+            for (size_t j(0); j < cols_nb(); ++j) {
+                _at(i,j) = other.at(i,j);
+            }
+        }
+        return *this;
     }
 
     /*
@@ -556,7 +716,7 @@ namespace qsim::math {
         
         for (size_t k = 0; k < N-1; ++k) {
             // max index
-            auto maxind = helper::max( std::abs( matrix<T>(out.U.restrict({k, N}, matrix<T>::single(k))) ));
+            auto maxind = helper::max( std::abs( matrix<T>(out.U.get_row(k, {k, N})) ));
             size_t r = maxind.first;
 
             if (k > 0) 

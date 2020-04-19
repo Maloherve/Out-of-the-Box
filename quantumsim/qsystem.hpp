@@ -11,7 +11,7 @@
 
 namespace qsim {
     
-    template <typename Coords>
+    template <typename ... Coords>
     class potential;
 
     /*
@@ -23,7 +23,7 @@ namespace qsim {
     /*
      * Most general description of quantum system
      */
-    template <typename Coords, class WaveFunction>
+    template <class WaveFunction, typename ... Coords>
     class qsystem {
     protected:
 
@@ -38,7 +38,7 @@ namespace qsim {
         double m;
 
         // a potential, external management
-        std::shared_ptr<potential<Coords>> pot;
+        std::shared_ptr<potential<Coords...>> pot;
 
         // plank constant
         double plank;
@@ -46,7 +46,7 @@ namespace qsim {
     public:
         qsystem(double _m, 
                 const WaveFunction& _wave,
-                std::shared_ptr<potential<Coords>> _V,
+                std::shared_ptr<potential<Coords...>> _V,
                 std::shared_ptr<evolver> _evolver,
                 double _hbar = 1.0
                 )
@@ -103,7 +103,7 @@ namespace qsim {
             m_evolver = evo;
         }
 
-        void set_potential(std::shared_ptr<potential<Coords>> _V) {
+        void set_potential(std::shared_ptr<potential<Coords...>> _V) {
             pot = _V;
         }
         
@@ -123,8 +123,8 @@ namespace qsim {
             wave = std::move(other);
         }
 
-        inline const potential<Coords>& V() const {
-            return const_cast<const potential<Coords>&>(*pot);
+        inline const potential<Coords...>& V() const {
+            return const_cast<const potential<Coords...>&>(*pot);
         }
         
         // averanges
@@ -139,7 +139,7 @@ namespace qsim {
 
     protected:
         
-        std::shared_ptr<potential<Coords>> potential_ptr() const {
+        std::shared_ptr<potential<Coords...>> potential_ptr() const {
             return pot;
         }
     };

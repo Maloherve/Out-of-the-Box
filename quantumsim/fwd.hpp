@@ -4,10 +4,15 @@
 
 namespace qsim {
 
-    template <class Coords, class WaveFunction>
+    template <class WaveFunction, typename ...Coords>
     class qsystem;
 
     class evolver;
+
+    namespace math {
+        template <typename T>
+        class matrix;
+    }
 
     namespace grid {
 
@@ -15,6 +20,7 @@ namespace qsim {
         class qsystem1D;
         class qsystem2D;
 
-        typedef qsystem<size_t, wave_vector> qgridsystem;
+        typedef qsystem<wave_vector, size_t> qgridsystem;
+        typedef qsystem<math::matrix<wave_t>, size_t, size_t> qbi_gridsystem;
     }
 }

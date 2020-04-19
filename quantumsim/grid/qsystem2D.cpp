@@ -7,95 +7,53 @@
 #include "debug.hpp"
 
 using namespace qsim::grid;
+using namespace qsim::math;
 
-const qsim::math::diagonals<wave_t, 3> qsystem2D::A_x = math::diagonals<wave_t, 3>({math::sdiag_entry(-1, 1.0), math::sdiag_entry(0, -2.0), math::sdiag_entry(1, 1.0)});
-
-const qsim::math::diagonals<wave_t, 3> qsystem2D::A_y(size_t M) {
-    return math::diagonals<wave_t, 3>({math::sdiag_entry(-M, 1.0), math::sdiag_entry(0, -2.0), math::sdiag_entry(M, 1.0)});
-}
-
-qsim::math::diagonals<wave_t, 3> qsystem2D::H_zero_x() const {
-    wave_t h0 = (- hbar() * hbar() / (2 * mass() * pow(dx, 2)));
-    return math::diagonals<wave_t,3>(h0 * A_x);
-}
-
-qsim::math::diagonals<wave_t, 3> qsystem2D::H_zero_y() const {
-    wave_t h0 = (- hbar() * hbar() / (2 * mass() * pow(dy, 2)));
-    return math::diagonals<wave_t,3>(h0 * A_y(_M));
-}
+const qsim::math::diagonals<wave_t, 3> qsystem2D::A = math::diagonals<wave_t, 3>({math::sdiag_entry(-1, 1.0), math::sdiag_entry(0, -2.0), math::sdiag_entry(1, 1.0)});
 
 // init pack
-wave_vector qsystem2D::init_pack::generate(double dx, double dy) const {
-    wave_vector w((N+2)*(M+2), qsim::wave_t(0.0));
+matrix<wave_t> qsystem2D::init_pack::generate(double dx, double dy) const {
+    matrix<wave_t> psi(N, M, wave_t(0.0));
 
     // construct it using the analytic expression
-    for (size_t i = 1; i <= N; ++i) {
-        for (size_t j = 1; j <= M; ++j)
-            w[(M-1)*i+j] = f(i * dx, j * dy);
+    for (size_t i = 0; i < N; ++i) {
+        for (size_t j = 0; j < M; ++j)
+            psi.at(i,j) = f(i * dx, j * dy);
     }
 
-    return w;
+    return psi;
 }
 
 // constructor
 qsystem2D::qsystem2D(double _m, 
                      double _dx, double _dy,
-                     std::shared_ptr<potential<size_t>> _V,
+                     std::shared_ptr<potential<size_t,size_t>> _V,
                      const init_pack& init,
                      std::shared_ptr<evolver> _evolver,
                      double hbar
                     )
-    : qgridsystem(_m, init.generate(_dx,_dy), _V, _evolver, hbar),
-      H(
-          0.0,
-          H_zero_x(), 
-          H_zero_y(), 
-          std::function<wave_t (size_t)>([&] (size_t k) -> wave_t { return this->V()(k); }) 
-      ),
+    : qbi_gridsystem(_m, init.generate(_dx,_dy), _V, _evolver, hbar),
       dx(_dx), dy(_dy), _N(init.N), _M(init.M)
 {
-    boundaries_setup();   
-}
-
-void qsystem2D::update_H_x() {
-    H.get<1>() = H_zero_x();
-}
-
-void qsystem2D::update_H_y() {
-    H.get<2>() = H_zero_y();
-}
-
-void qsystem2D::boundaries_setup() {
-
-    // j = 0, j = M
-    for (size_t i = 0; i <= _N+1; ++i) {
-        wave[map(i,0)] = 0.0;
-        wave[map(i,_M+1)] = 0.0;
-    }
-
-    // i = 0, i = N
-    for (size_t j = 0; j <= _M+1; ++j) {
-        wave[map(0,j)] = 0.0;
-        wave[map(_N+1,j)] = 0.0;
-    }
-}
-
-// change the hemiltonian expression
-void qsystem2D::set_mass(double _m)  {
-    qgridsystem::set_mass(_m);
-    update_H();
-}
-
-const H_matrix_2D& qsystem2D::hemiltonian() const {
-    return H;
+    normalize();
 }
 
 // allow to set boundaries
 void qsystem2D::evolve(double dt) {
-    wave = std::move(m_evolver->evolve(*this, dt));
-    boundaries_setup();
-    normalize();
+    wave = m_evolver->evolve(*this, dt);
 }
+
+math::diag_functor<wave_t> qsystem2D::potential_on_row(size_t i) const {
+    return std::function<wave_t (size_t)>([&] (size_t k) -> double { return V()(i,k); });
+}
+
+math::diag_functor<wave_t> qsystem2D::potential_on_column(size_t j) const {
+    return std::function<wave_t (size_t)>([&] (size_t k) -> double { return V()(k,j); });
+}
+
+/*
+ * TODO, all below this
+ */
 
 // implementations
 double qsystem2D::energy() const {
