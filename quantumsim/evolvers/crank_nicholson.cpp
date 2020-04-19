@@ -42,14 +42,14 @@ typedef qsim::math::composition<
                               math::diag_functor<wave_t>
                              > H_matrix_2D;
 
-wave_vector crank_nicholson::evolve(const qsystem2D& system, double dt) const {
+wave_grid crank_nicholson::evolve(const qsystem2D& system, double dt) const {
     // laplace coefficient
     wave_t l_tau = 1i * system.hbar() * dt / (2 * system.mass());
     // potential coefficient
     wave_t p_tau = 1i * dt / (2 * system.hbar());
     
     // copy the system.psi() buffer
-    matrix<wave_t> psi(system.psi());
+    wave_grid psi(system.psi());
 
     // for each column, compute first matrix multiplication
     for (size_t j = 0; j < psi.cols_nb(); ++j) {

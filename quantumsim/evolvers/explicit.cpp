@@ -11,7 +11,7 @@ wave_vector explicit_scheme::evolve(const qsystem1D& system, double dt) const {
     return (wave_t(1.0) - (1i * dt / system.hbar()) * system.H()) * system.psi();
 }
 
-wave_vector explicit_scheme::evolve(const qsystem2D& system, double dt) const {
+wave_grid explicit_scheme::evolve(const qsystem2D& system, double dt) const {
     // TODO
     return system.psi();
 }

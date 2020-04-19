@@ -1,5 +1,6 @@
 #pragma once
 
+#include "fwd.hpp"
 #include <complex>
 #include <memory>
 #include "math/composition.hpp"
@@ -13,12 +14,6 @@ namespace qsim {
     
     template <typename ... Coords>
     class potential;
-
-    /*
-     * Define the WaveFunction internal type as std::complex<double>
-     */
-    
-    typedef std::complex<double> wave_t;
 
     /*
      * Most general description of quantum system

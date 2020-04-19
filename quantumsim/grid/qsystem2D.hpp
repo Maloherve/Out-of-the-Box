@@ -12,7 +12,7 @@ namespace qsim::grid {
 
     typedef qsim::math::composition<
                               wave_t, 
-                              math::diagonals<wave_t, 3>, //dx
+                              math::diagonals<wave_t, 3> //dx
                              > laplace_t;
 
     // concretization for a 2D grid
@@ -40,7 +40,7 @@ namespace qsim::grid {
                 return f(x,y);
             }
 
-            math::matrix generate(double dx, double dy) const;
+            wave_grid generate(double dx, double dy) const;
         };
 
         qsystem2D(double _m, 
@@ -70,11 +70,11 @@ namespace qsim::grid {
          * Discretization setter
          */
 
-        void set_dx(double);
-        double dx() const;
+        void set_delta_x(double);
+        double delta_x() const;
 
-        void set_dy(double);
-        double dy() const;
+        void set_delta_y(double);
+        double delta_y() const;
         
         // mapping
         inline double x(size_t i) const {

@@ -2,7 +2,18 @@
 
 #include <cstddef>
 
+namespace std {
+    template<typename T>
+    class complex;
+}
+
 namespace qsim {
+
+    /*
+     * Define the WaveFunction internal type as std::complex<double>
+     */
+    
+    typedef std::complex<double> wave_t;
 
     template <class WaveFunction, typename ...Coords>
     class qsystem;
@@ -17,10 +28,12 @@ namespace qsim {
     namespace grid {
 
         class wave_vector;
+        typedef math::matrix<wave_t> wave_grid;
+
         class qsystem1D;
         class qsystem2D;
 
         typedef qsystem<wave_vector, size_t> qgridsystem;
-        typedef qsystem<math::matrix<wave_t>, size_t, size_t> qbi_gridsystem;
+        typedef qsystem<wave_grid, size_t, size_t> qbi_gridsystem;
     }
 }

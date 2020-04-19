@@ -9,6 +9,6 @@ namespace qsim::evo {
     public:
 
         virtual grid::wave_vector evolve(const grid::qsystem1D& system, double dt) const override;
-        virtual grid::wave_vector evolve(const grid::qsystem2D& system, double dt) const override;
+        virtual grid::wave_grid evolve(const grid::qsystem2D& system, double dt) const override;
     };
 }

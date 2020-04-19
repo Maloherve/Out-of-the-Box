@@ -12,7 +12,7 @@ using namespace qsim::math;
 const qsim::math::diagonals<wave_t, 3> qsystem2D::A = math::diagonals<wave_t, 3>({math::sdiag_entry(-1, 1.0), math::sdiag_entry(0, -2.0), math::sdiag_entry(1, 1.0)});
 
 // init pack
-matrix<wave_t> qsystem2D::init_pack::generate(double dx, double dy) const {
+wave_grid qsystem2D::init_pack::generate(double dx, double dy) const {
     matrix<wave_t> psi(N, M, wave_t(0.0));
 
     // construct it using the analytic expression
@@ -33,7 +33,7 @@ qsystem2D::qsystem2D(double _m,
                      double hbar
                     )
     : qbi_gridsystem(_m, init.generate(_dx,_dy), _V, _evolver, hbar),
-      dx(_dx), dy(_dy), _N(init.N), _M(init.M)
+      dx(_dx), dy(_dy)
 {
     normalize();
 }
@@ -43,11 +43,11 @@ void qsystem2D::evolve(double dt) {
     wave = m_evolver->evolve(*this, dt);
 }
 
-math::diag_functor<wave_t> qsystem2D::potential_on_row(size_t i) const {
+diag_functor<wave_t> qsystem2D::potential_on_row(size_t i) const {
     return std::function<wave_t (size_t)>([&] (size_t k) -> double { return V()(i,k); });
 }
 
-math::diag_functor<wave_t> qsystem2D::potential_on_column(size_t j) const {
+diag_functor<wave_t> qsystem2D::potential_on_column(size_t j) const {
     return std::function<wave_t (size_t)>([&] (size_t k) -> double { return V()(k,j); });
 }
 
@@ -56,7 +56,7 @@ math::diag_functor<wave_t> qsystem2D::potential_on_column(size_t j) const {
  */
 
 // implementations
-double qsystem2D::energy() const {
+/*double qsystem2D::energy() const {
     qsim::wave_t E(0);
     double psix = pow(hbar()/dx,2) / (2 * mass());
     double psiy = pow(hbar()/dy,2) / (2 * mass());
@@ -118,29 +118,6 @@ double qsystem2D::norm() const {
     return out * dx * dy;
 }
 
-void qsystem2D::replace_wave(const std::function<qsim::wave_t (double, double)>& init, size_t N_, size_t M_) {
-    /*wave_vector w((N_+2)*(M_+2), qsim::wave_t(0.0));
-    _N = N_;
-    _M = M_;
-
-    // construct it using the analytic expression
-    for (auto it = begin(); it != end(); ++it) {
-        *it = init(it.x(), it.y());
-    }
-    
-    update_H_y(); 
-    wave = std::move(w);*/
-    replace_wave(init_pack(init, N_, M_));
-}
-
-void qsystem2D::replace_wave(const init_pack& init) {
-    _N = init.N;
-    _M = init.M;
-    update_H_y(); 
-    wave = init.generate(dx, dy);
-}
-
-
 size_t qsystem2D::N() const {
     return _N;
 }
@@ -163,12 +140,12 @@ qsystem2D::iterator qsystem2D::end() {
 
 qsystem2D::const_iterator qsystem2D::end() const {
     return const_iterator(*this, _N+1, 1);
-}
+}*/
 
 /*
  * iterator section
  */ 
-
+/*
 qsystem2D::iterator::iterator(qsystem2D& _sys, size_t _i, size_t _j) 
     : sys(_sys), i(_i), j(_j)
 {
@@ -264,5 +241,5 @@ double qsystem2D::const_iterator::x() const {
 
 double qsystem2D::const_iterator::y() const {
     return sys.y(j);
-}
+}*/
 

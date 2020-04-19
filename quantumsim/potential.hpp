@@ -6,6 +6,6 @@ namespace qsim {
     template<typename ... Coords>
     class potential {
     public:
-        virtual double operator()(const Coords... & access) const = 0;
+        virtual double operator()(const Coords&... access) const = 0;
     };
 }

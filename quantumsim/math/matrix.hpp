@@ -3,6 +3,7 @@
 #include <vector>
 #include <limits>
 #include <deque>
+#include <functional>
 
 #include "debug.hpp"
 
@@ -75,7 +76,9 @@ namespace qsim::math {
         /*
          * target index assigning
          */
-        //submatrix& operator=(const submatrix&);
+        submatrix& operator=(const submatrix&);
+        submatrix& operator=(submatrix&&) = delete;
+
         submatrix& operator=(const matrix<T>&);
         
         // with boundary check
@@ -265,7 +268,10 @@ namespace qsim::math {
         matrix(const matrix&) = default;
 
         // move table
-        matrix(matrix&& other) : table(std::move(other.table)) {}
+        //matrix(matrix&& other) : table(std::forward<table_t>(other.table)) {}
+        matrix(matrix&&) = default;
+        matrix& operator=(matrix&&) = default;
+        matrix& operator=(const matrix&) = default;
 
         // construct copying a submatrix
         matrix(const submatrix<T>& sub) 
@@ -488,7 +494,7 @@ namespace qsim::math {
         return matrix(*this); 
     }
 
-    /*template<class T>
+    template<class T>
     submatrix<T>& submatrix<T>::operator=(const submatrix<T>& other) {
         // dimension check 
         if (rows_nb() != other.rows_nb() || cols_nb() != other.cols_nb())
@@ -500,7 +506,7 @@ namespace qsim::math {
         }
 
         return *this;
-    }*/
+    }
 
     template<class T>
     submatrix<T>& submatrix<T>::operator=(const matrix<T>& other) {
