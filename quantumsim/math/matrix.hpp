@@ -215,11 +215,28 @@ namespace qsim::math {
     class matrix : public basic_matrix<T> {
     public:
 
-        class row : public std::vector<T> {
+        class row : public std::vector<T>, public basic_matrix<T> {
             friend class square_matrix<T>;
             using std::vector<T>::reserve;
             using std::vector<T>::push_back;
             using std::vector<T>::pop_back;
+
+            virtual T& operator()(size_t i, size_t) override {
+                return (*this)[i];
+            }
+
+            virtual const T& operator()(size_t i, size_t) const {
+                return (*this)[i];
+            }
+
+            virtual size_t rows_nb() const {
+                return 1u;
+            }
+
+            virtual size_t cols_nb() const {
+                return this->size();
+            }
+
         public:
             using std::vector<T>::vector;
         };
