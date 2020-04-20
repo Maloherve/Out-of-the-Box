@@ -31,17 +31,6 @@ wave_vector crank_nicholson::evolve(const qsystem1D& system, double dt) const {
  * 2D case
  */
 
-typedef qsim::math::composition<
-                              wave_t, 
-                              math::diagonals<wave_t, 3>, //dx
-                             > laplace_t;
-
-typedef qsim::math::composition<
-                              wave_t, 
-                              math::diagonals<wave_t, 3>, //dx
-                              math::diag_functor<wave_t>
-                             > H_matrix_2D;
-
 wave_grid crank_nicholson::evolve(const qsystem2D& system, double dt) const {
     // laplace coefficient
     wave_t l_tau = 1i * system.hbar() * dt / (2 * system.mass());
@@ -64,23 +53,23 @@ wave_grid crank_nicholson::evolve(const qsystem2D& system, double dt) const {
     }
 
     // for each line, compute second matrix multiplication
-    for (size_t i = 0; i < psi.cols_nb(); ++j) {
+    for (size_t i = 0; i < psi.cols_nb(); ++i) {
         // generate the operator
         laplace_t Tx(wave_t(1.0), l_tau * qsystem2D::A);
         
         // re-assign the line only
         // TODO, check if move semantics is applied
-        psi.get_row(j) = Tx * psi.get_row(j);
+        psi.get_row(i) = Tx * psi.get_row(i);
     }
 
     // for each line, compute the half-implicit step
-    for (size_t i = 0; i < psi.cols_nb(); ++j) {
+    for (size_t i = 0; i < psi.cols_nb(); ++i) {
         // generate the operator
         laplace_t Tx(wave_t(1.0), (-l_tau) * qsystem2D::A);
         
         // re-assign the line only
         // TODO, check if move semantics is applied
-        psi.get_row(j) = solve_tridiagonal(Tx, psi.get_row(j));
+        psi.get_row(i) = solve_tridiagonal(Tx, psi.get_row(i));
     }
 
     // for each column, complete the other half-implicit step

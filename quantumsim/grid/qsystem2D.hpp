@@ -15,16 +15,22 @@ namespace qsim::grid {
                               math::diagonals<wave_t, 3> //dx
                              > laplace_t;
 
+    typedef qsim::math::composition<
+                              wave_t, 
+                              qsim::math::diagonals<wave_t, 3>, //dx
+                              qsim::math::diag_functor<wave_t>
+                             > H_matrix_2D;
+
     // concretization for a 2D grid
     class qsystem2D : public qbi_gridsystem {
     private:
-
-        static const math::diagonals<wave_t, 3> A;
  
         double dx; // discretization along x
         double dy; // discretization along y
 
     public: 
+
+        static const math::diagonals<wave_t, 3> A;
 
         struct init_pack {
             std::function<qsim::wave_t (double, double)> f;

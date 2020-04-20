@@ -113,13 +113,15 @@ namespace qsim::math {
         // notice, this is the only way to construct a standalone submatrix
         submatrix(const submatrix&);
 
+        using basic_matrix<T>::operator=;
+
         // delete the instance if standalone
         virtual ~submatrix();
 
         /*
          * target index assigning
          */
-        submatrix& operator=(submatrix&&) = delete;
+        submatrix& operator=(submatrix&&) = default;
         
         virtual T& operator()(size_t i, size_t j) override;
         virtual const T& operator()(size_t i, size_t j) const override;
