@@ -1,6 +1,130 @@
 
 namespace qsim::math {
 
+// with boundary check
+template<class T>
+const T& basic_matrix<T>::at(size_t i, size_t j) const {
+    if (i < rows_nb() && j < cols_nb())
+       return (*this)(i,j);
+    else
+       throw std::out_of_range("Matrix index accedes size (basic_matrix::at) const");
+}
+
+template<class T>
+T& basic_matrix<T>::at(size_t i, size_t j) {
+    if (i < rows_nb() && j < cols_nb())
+       return (*this)(i,j);
+    else
+       throw std::out_of_range("Matrix index accedes size (basic_matrix::at)");
+}
+
+template<class T>
+basic_matrix<T>& basic_matrix<T>::operator=(const basic_matrix<T>& other) {
+    const size_t N = std::min(rows_nb(), other.rows_nb());
+    const size_t M = std::min(cols_nb(), other.cols_nb());
+
+    for (size_t i(0); i < N; ++i) {
+        for (size_t j(0); j < M; ++j)
+            (*this)(i,j) = other(i,j);
+    }
+    return *this;
+}
+
+template<class T>
+basic_matrix<T>& basic_matrix<T>::operator+=(const basic_matrix<T>& other) {
+    const size_t N = std::min(rows_nb(), other.rows_nb());
+    const size_t M = std::min(cols_nb(), other.cols_nb());
+
+    for (size_t i(0); i < N; ++i) {
+        for (size_t j(0); j < M; ++j)
+            (*this)(i,j) += other(i,j);
+    }
+    return *this;
+}
+
+template<class T>
+basic_matrix<T>& basic_matrix<T>::operator-=(const basic_matrix<T>& other) {
+    const size_t N = std::min(rows_nb(), other.rows_nb());
+    const size_t M = std::min(cols_nb(), other.cols_nb());
+
+    for (size_t i(0); i < N; ++i) {
+        for (size_t j(0); j < M; ++j)
+            (*this)(i,j) -= other(i,j);
+    }
+    return *this;
+}
+
+template<class T>
+basic_matrix<T>& basic_matrix<T>::operator*=(const T& scalar) {
+    for (size_t i(0); i < rows_nb(); ++i) {
+        for (size_t j(0); j < cols_nb(); ++j)
+            (*this)(i,j) *= scalar;
+    }
+    return *this;
+}
+
+template<class T>
+basic_matrix<T>& basic_matrix<T>::operator/=(const T& scalar) {
+    for (size_t i(0); i < rows_nb(); ++i) {
+        for (size_t j(0); j < cols_nb(); ++j)
+            (*this)(i,j) /= scalar;
+    }
+    return *this;
+}
+
+template<class T>
+bool basic_matrix<T>::operator==(const basic_matrix<T>& other) const {
+    if(rows_nb() != other.rows_nb() || cols_nb() != other.cols_nb())
+        return false;
+
+    for (size_t i(0); i < rows_nb(); ++i) {
+        for (size_t j(0); j < cols_nb(); ++j) {
+            if ((*this)(i,j) != other(i,j))
+                return false;
+        }
+    }
+    return true;
+}
+
+template<class T>
+bool basic_matrix<T>::operator!=(const basic_matrix<T>& other) const {
+    return !(*this == other);
+}
+
+template<class T>
+void basic_matrix<T>::swap(basic_matrix<T>& other) {
+    // size check
+    if (rows_nb() == other.rows_nb() && cols_nb() == other.cols_nb()) {
+        for (size_t i(0); i < rows_nb(); ++i) {
+            for (size_t j(0); j < cols_nb(); ++j)
+                std::swap((*this)(i,j), other(i,j));
+        }
+    } else {
+        throw std::invalid_argument("Swap is allowed only if the size corresponds (basic_matrix::swap)");
+    }
+}
+
+/*
+ * Vector access implementations
+ */
+
+template<class T>
+const T& vector_access<T>::at(size_t j) const {
+    if (j < size())
+       return (*this)[j];
+    else
+        throw std::out_of_range("Vector index excedes size (vector_access::at) const");
+
+}
+
+template<class T>
+T& vector_access<T>::at(size_t j) {
+    if (j < size())
+       return (*this)[j];
+    else
+        throw std::out_of_range("Vector index excedes size (vector_access::at)");
+}
+
 /*
  * Sub-matrix functions definitions
  */ 
@@ -32,33 +156,18 @@ submatrix<T>::~submatrix() {
 }
 
 template<class T>
-const T& submatrix<T>::_at(size_t i, size_t j) const {
+const T& submatrix<T>::operator()(size_t i, size_t j) const {
     // careful using this function: no controls at all
-    return ref->at(i + rows.first, j + cols.first);
+    return (*ref)(i + rows.first, j + cols.first);
 }
 
 template<class T>
-T& submatrix<T>::_at(size_t i, size_t j) {
+T& submatrix<T>::operator()(size_t i, size_t j) {
     // careful using this function: no controls at all
-    return ref->at(i + rows.first, j + cols.first);
+    return (*ref)(i + rows.first, j + cols.first);
 }
 
-template<class T>
-const T& submatrix<T>::at(size_t i, size_t j) const {
-    if (i < rows.second && j < cols.second)
-       return _at(i,j);
-    else
-        throw std::out_of_range("Matrix index accedes size (submatrix::at) const");
-}
-
-template<class T>
-T& submatrix<T>::at(size_t i, size_t j) {
-    if (i < rows.second && j < cols.second)
-       return _at(i,j);
-    else
-        throw std::out_of_range("Matrix index accedes size (submatrix::at)");
-}
-
+/*
 template<class T>
 submatrix<T>::operator matrix<T>() const {
     return matrix<T>(*this); 
@@ -66,56 +175,15 @@ submatrix<T>::operator matrix<T>() const {
 
 
 template<class T>
-void submatrix<T>::swap(submatrix<T>& other) {
-    // size check
-    if (rows_nb() == other.rows_nb() && 
-        cols_nb() == other.cols_nb()) {
-
-        for (size_t i(0); i < rows_nb(); ++i) {
-            for (size_t j(0); j < cols_nb(); ++j)
-                std::swap(at(i,j), other._at(i,j));
-        }
-
-    }
-}
-
-template<class T>
 row_vector<T>::operator matrix<T>() const {
-    return matrix(*this); 
+    return matrix<T>(*this); 
 }
 
 template<class T>
 column_vector<T>::operator matrix<T>() const {
     return matrix(*this); 
 }
-
-template<class T>
-submatrix<T>& submatrix<T>::operator=(const matrix<T>& other) {
-    // dimension check 
-    if (rows_nb() != other.rows_nb() || cols_nb() != other.cols_nb())
-        throw std::invalid_argument("Dimension assert failed (submatrix::operator=)(matrix)");
-
-    for (size_t i(0); i < rows_nb(); ++i) {
-        for (size_t j(0); j < cols_nb(); ++j) {
-            _at(i,j) = other.at(i,j);
-        }
-    }
-    return *this;
-}
-
-template<class T>
-submatrix<T>& submatrix<T>::operator=(const submatrix<T>& other) {
-    // dimension check 
-    if (rows_nb() != other.rows_nb() || cols_nb() != other.cols_nb())
-        throw std::invalid_argument("Dimension assert failed (submatrix::operator=)(submatrix)");
-
-    for (size_t i(0); i < rows_nb(); ++i) {
-        for (size_t j(0); j < cols_nb(); ++j)
-            _at(i,j) = other._at(i,j);
-    }
-
-    return *this;
-}
+*/
 
 /*
  * matrix class implementations
@@ -150,8 +218,10 @@ template<class T>
 matrix<T>::matrix(const submatrix<T>& sub) 
         : matrix(sub.rows_nb(), sub.cols_nb()) {
     for (size_t i = 0; i < sub.rows_nb(); ++i) {
-        for (size_t j = 0; j < sub.cols_nb(); ++j)
-            at(i,j) = sub.at(i,j);
+        for (size_t j = 0; j < sub.cols_nb(); ++j) {
+            npdebug("i = ", i, ", j = ", j, ", at = ", sub.at(i,j))
+            (*this)(i,j) = sub.at(i,j);
+        }
     }
 }
 
@@ -180,6 +250,9 @@ submatrix<T> matrix<T>::restrict(std::pair<size_t,size_t> rows, std::pair<size_t
 
 template<class T>
 row_vector<T> matrix<T>::get_row(size_t i, std::pair<size_t, size_t> cols) {
+    
+    if (i >= rows_nb())
+        throw std::out_of_range("(matrix::restrict) row index exceded");
 
     if (cols == all)
         cols.second = cols_nb();
@@ -191,12 +264,16 @@ row_vector<T> matrix<T>::get_row(size_t i, std::pair<size_t, size_t> cols) {
 
     // transform in size
     cols.second -= cols.first;
-
+    
     return row_vector<T>(this, i, cols);
 }
 
 template<class T>
 column_vector<T> matrix<T>::get_column(size_t j, std::pair<size_t,size_t> rows) {
+
+    if (j >= cols_nb())
+        throw std::out_of_range("(matrix::restrict) column index exceded");
+
     // convert ::all value to all indices
     if (rows == all)
         rows.second = rows_nb();
@@ -270,12 +347,12 @@ square_matrix<T> square_matrix<T>::eye(size_t N) {
 
 
 template <typename R, typename T>
-matrix<R> convert(const matrix<T>& A, const std::function<R (T)>& operation) {
+matrix<R> convert(const basic_matrix<T>& A, const std::function<R (T)>& operation) {
     matrix<R> out(A.rows_nb(), A.cols_nb());
 
     for (size_t i = 0; i < A.rows_nb(); ++i) {
         for (size_t j = 0; j < A.cols_nb(); ++j) {
-            out.at(i,j) = operation(A.at(i,j));
+            out(i,j) = operation(A(i,j));
         }
     }
 
@@ -294,7 +371,7 @@ helper::LU_output<T, Matrix> LU_decomposition(const Matrix& A) {
     
     for (size_t k = 0; k < N-1; ++k) {
         // max index
-        auto maxind = helper::max( std::abs( matrix<T>(out.U.get_row(k, {k, N})) ));
+        auto maxind = helper::max( std::abs( out.U.get_column(k, {k, N}) ));
         size_t r = maxind.first;
 
         if (k > 0) 
@@ -310,9 +387,9 @@ helper::LU_output<T, Matrix> LU_decomposition(const Matrix& A) {
         }
 
         for (size_t i(k+1); i < N; ++i) {
-            out.L(i,k) = out.U(i,k) / out.U(k,k);
+            out.L.at(i,k) = out.U.at(i,k) / out.U.at(k,k);
             for (size_t j(k); j < N; ++j)
-                out.U(i,j) -= out.L(i,k) * out.U(k,j);
+                out.U.at(i,j) -= out.L.at(i,k) * out.U.at(k,j);
         }
     }
 
@@ -347,25 +424,7 @@ Vector solve(const Matrix& A, Vector b) {
  */
 
 template<typename T, class Vector>
-Vector operator*(const qsim::math::matrix<T>& A, const Vector& x) {
-    if (A.cols_nb() != x.size())
-        throw std::out_of_range("( operator*(matrix<T>, Vector) ) invalid column size");
-    
-    // it's supposed to be an array-like
-    Vector out(x);
-
-    for (size_t k = 0; k < x.size(); ++k) {
-        out[k] = 0;
-        for (size_t j = 0; j < x.size(); ++j) {
-            out[k] += A(k,j) * x[j];
-        }
-    }
-
-    return out;
-}
-
-template<typename T, class Vector>
-Vector operator*(const qsim::math::submatrix<T>& A, const Vector& x) {
+Vector operator*(const qsim::math::basic_matrix<T>& A, const Vector& x) {
     if (A.cols_nb() != x.size())
         throw std::out_of_range("( operator*(matrix<T>, Vector) ) invalid column size");
     
@@ -443,7 +502,7 @@ namespace std {
 
     // element-wise absolute value
     template <typename T>
-    qsim::math::matrix<double> abs(const qsim::math::matrix<T>& A) {
+    qsim::math::matrix<double> abs(const qsim::math::basic_matrix<T>& A) {
         return qsim::math::convert<double,T>(A, [&] (T value) { return std::abs(value); });
     }
 }
