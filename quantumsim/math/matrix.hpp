@@ -67,9 +67,9 @@ namespace qsim::math {
         bool operator==(const basic_matrix&) const;
         bool operator!=(const basic_matrix&) const;
     };
-
 // operator forwarding macro
-#define FORWARD_BASIC_MATRIX(derived)                       \
+#define FORWARD_BASIC_MATRIX(derived, T)                       \
+                                                                \
     inline derived& operator+=(const basic_matrix<T>& other) { \
         basic_matrix<T>::operator+=(other);                 \
         return *this;                                       \
@@ -135,7 +135,10 @@ namespace qsim::math {
         // notice, this is the only way to construct a standalone submatrix
         submatrix(const submatrix&);
 
-        using basic_matrix<T>::operator=;
+        // copy the content
+        submatrix& operator=(const submatrix&);
+
+        // move this object
         submatrix& operator=(submatrix&&);
 
         // delete the instance if standalone
@@ -162,7 +165,7 @@ namespace qsim::math {
         //operator matrix<T>() const;
 
         // operator forwarding
-        FORWARD_BASIC_MATRIX(submatrix)
+        FORWARD_BASIC_MATRIX(submatrix, T)
     };
 
     template <typename T>
@@ -179,14 +182,25 @@ namespace qsim::math {
 
         public:
 
-            row_vector(const row_vector& other) : submatrix<T>(other) {}
-            row_vector(row_vector&& other) : submatrix<T>(std::forward<row_vector>(other)) {}
+            //row_vector(const row_vector& other) : submatrix<T>(other) {}
+            //row_vector(row_vector&& other) : submatrix<T>(std::forward<row_vector>(other)) {}
+
+            // TODO hope it calls superclass
+            //row_vector(const row_vector&) = default;
+            //row_vector(row_vector&&) = default;
 
             using vector_access<T>::at;
             
             // TODO hope it calls superclass
-            row_vector& operator=(const row_vector&) = default;
-            row_vector& operator=(row_vector&&) = default;
+            inline row_vector& operator=(const row_vector& other) {
+                submatrix<T>::operator=(other);
+                return *this;
+            }
+
+            row_vector& operator=(row_vector&& other) {
+                submatrix<T>::operator=(other);
+                return *this;
+            }
 
             //operator matrix<T>() const;
             
@@ -203,7 +217,7 @@ namespace qsim::math {
             } 
 
             // operator forwarding
-            FORWARD_BASIC_MATRIX(row_vector)
+            FORWARD_BASIC_MATRIX(row_vector, T)
     };
 
     template <typename T>
@@ -220,12 +234,22 @@ namespace qsim::math {
 
         public:
 
-            column_vector(const column_vector& other) : submatrix<T>(other) {}
-            column_vector(column_vector&& other) : submatrix<T>(std::forward<column_vector>(other)) {}
+            //column_vector(const column_vector& other) : submatrix<T>(other) {}
+            //column_vector(column_vector&& other) : submatrix<T>(std::forward<column_vector>(other)) {}
 
             // TODO hope it calls superclass
-            column_vector& operator=(const column_vector&) = default;
-            column_vector& operator=(column_vector&&) = default;
+            //column_vector(const column_vector&) = default;
+            //column_vector(column_vector&&) = default;
+
+            /*inline column_vector& operator=(const column_vector& other) {
+                submatrix<T>::operator=(other);
+                return *this;
+            }
+
+            inline column_vector& operator=(column_vector&& other) {
+                submatrix<T>::operator=(other);
+                return *this;
+            }*/
 
             using vector_access<T>::at;
 
@@ -244,7 +268,7 @@ namespace qsim::math {
             } 
 
             // operator forwarding
-            FORWARD_BASIC_MATRIX(column_vector)
+            FORWARD_BASIC_MATRIX(column_vector, T)
     };
     
     template <typename T>
@@ -273,9 +297,23 @@ namespace qsim::math {
 
     public:
         using std::vector<T>::vector;
+        
+        // TODO, hope that superclass is called
+        //table_row(const table_row&) = default;
+        //table_row(table_row&&) = default;
+
+        /*inline table_row& operator=(const table_row& other) {
+            submatrix<T>::operator=(other);
+            return *this;
+        }
+
+        inline table_row& operator=(table_row&& other) {
+            submatrix<T>::operator=(other);
+            return *this;
+        }*/
 
         // operator forwarding
-        FORWARD_BASIC_MATRIX(table_row)
+        FORWARD_BASIC_MATRIX(table_row, T)
     };
 
     /*
@@ -304,12 +342,12 @@ namespace qsim::math {
 
         matrix(std::initializer_list<std::initializer_list<T>> list);
         
-        matrix(const matrix&) = default;
+        //matrix(const matrix&) = default;
 
         // move table
-        matrix(matrix&&) = default;
-        matrix& operator=(matrix&&) = default;
-        matrix& operator=(const matrix&) = default;
+        //matrix(matrix&&) = default;
+        //matrix& operator=(matrix&&) = default;
+        //matrix& operator=(const matrix&) = default;
 
         // construct copying a submatrix
         matrix(const submatrix<T>& sub);
@@ -387,7 +425,7 @@ namespace qsim::math {
         }
         
         // operator forwarding
-        FORWARD_BASIC_MATRIX(matrix)
+        FORWARD_BASIC_MATRIX(matrix, T)
     };
 
     /*
@@ -400,6 +438,12 @@ namespace qsim::math {
 
         square_matrix(std::initializer_list<std::initializer_list<T>> list);
 
+        //square_matrix(const square_matrix&) = default;
+        //square_matrix(square_matrix&&) = default;
+
+        //square_matrix& operator=(const square_matrix&) = default;
+        //square_matrix& operator=(square_matrix&&) = default;
+
         inline size_t size() const {
             return matrix<T>::rows_nb();
         }
@@ -410,7 +454,7 @@ namespace qsim::math {
         static square_matrix eye(size_t N);
 
         // operator forwarding
-        FORWARD_BASIC_MATRIX(square_matrix)
+        FORWARD_BASIC_MATRIX(square_matrix, T)
     };
 
     template <typename R, typename T>

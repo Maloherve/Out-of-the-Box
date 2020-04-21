@@ -152,6 +152,12 @@ submatrix<T>::submatrix(submatrix<T>&& other)
 }
 
 template<class T>
+submatrix<T>& submatrix<T>::operator=(const submatrix<T>& other) {
+    basic_matrix<T>::operator=(other);
+    return *this;
+}
+
+template<class T>
 submatrix<T>& submatrix<T>::operator=(submatrix&& other) {
 
     if (standalone)
@@ -176,8 +182,10 @@ submatrix<T>& submatrix<T>::operator=(submatrix&& other) {
 
 template<class T>
 submatrix<T>::~submatrix() {
-    if (standalone)
+    if (standalone) {
+        npdebug("Deleting reference")
         delete ref;
+    }
 }
 
 template<class T>
@@ -254,9 +262,9 @@ matrix<T>::matrix(std::initializer_list<std::initializer_list<T>> list)
 template<class T>
 matrix<T>::matrix(const submatrix<T>& sub) 
         : matrix(sub.rows_nb(), sub.cols_nb()) {
+    npdebug("Calling matrix constrution using submatrix")
     for (size_t i = 0; i < sub.rows_nb(); ++i) {
         for (size_t j = 0; j < sub.cols_nb(); ++j) {
-            npdebug("i = ", i, ", j = ", j, ", at = ", sub.at(i,j))
             (*this)(i,j) = sub.at(i,j);
         }
     }

@@ -203,4 +203,23 @@ int main() {
     
     cout << "Matrix addiction by (mult * 2): " << endl;
     PRINT_MATRIX(prob_mat_cpy, 3, cols_3)
+
+    // submatrix move and copy
+    cout << "Matrix and submatrix move/copy test: " << endl;
+    {
+        cout << "Dependent submatrix" << endl;
+        auto prob_col = prob_mat.get_column(0); // dependent, no delete
+
+        cout << "Independent submatrix" << endl;
+        column_vector<double> prob_col_copy(prob_col); // dependent, delete
+
+        cout << "Change the independent (* 2.0) clone" << endl;
+        prob_col_copy *= 2.0;
+
+        cout << "Copy assignment submatrix" << endl;
+        prob_col = prob_col_copy;
+
+        cout << "First column should be (* 2.0)" << endl;
+        PRINT_MATRIX(prob_mat, 3, cols_3)
+    }
 }
