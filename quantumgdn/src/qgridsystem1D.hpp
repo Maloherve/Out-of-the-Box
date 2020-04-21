@@ -9,7 +9,6 @@
 #include "wave_init1D.hpp"
 
 #include "gdqsystem.hpp"
-#include "potential.hpp"
 
 namespace godot {
 
@@ -19,6 +18,9 @@ namespace godot {
         GODOT_SUBCLASS(qgridsystem1D, gdqsystem)
         
         grid_wave1D * _wave;
+
+        int steps_per_tick;
+        double dt_gain;
 
     public:
         qgridsystem1D();
@@ -42,13 +44,20 @@ namespace godot {
          * size
          */
 
-        size_t N() const;
+        int N() const;
 
         /*
          * Position indexing
          */
 
-        double x(size_t) const;
+        double x(int) const;
+
+        /*
+         * steps per units of time
+         */
+
+        int get_steps_per_tick() const;
+        void set_steps_per_tick(int);
 
         /*
          *  hbar
@@ -63,6 +72,13 @@ namespace godot {
 
         double potential_at(double x) const;
         double potential_at_index(size_t k) const;
+
+        /*
+         * Delta time amplification
+         */
+
+        void set_dt_gain(double);
+        double get_dt_gain() const;
 
         /*
          * Boundary properties depend on potential

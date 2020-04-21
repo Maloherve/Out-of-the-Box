@@ -6,39 +6,28 @@
 #include "math/diagonals.hpp"
 #include "math/diagonal.hpp"
 
+#include "math/matrix.hpp"
+
 namespace qsim::grid {
 
     typedef qsim::math::composition<
                               wave_t, 
                               math::diagonals<wave_t, 3>, //dx
-                              math::diagonals<wave_t, 3>, //dy
-                              math::diag_functor<wave_t>
-                             > H_matrix_2D;
+                             > laplace_t;
+
 
     // concretization for a 2D grid
-    class qsystem2D : public qgridsystem {
+    class qsystem2D : public qsystem<std::pair<size_t,size_t>, math::matrix<size_t>> {
     private:
 
-        // hamiltonian object
-        H_matrix_2D H; // non-constant, the mass could change
-        
-        // standard matrix A, y is variable
-        static const math::diagonals<wave_t, 3> A_x;
-        static const math::diagonals<wave_t, 3> A_y(size_t M);
-
+        static const math::diagonals<wave_t, 3> A;
+ 
         double dx; // discretization along x
         double dy; // discretization along y
 
-        size_t _N; // boundary limit
-        size_t _M; // boundary limit
-        
-        // determine first hamiltonian term in function of the mass and the discretization step
+        // determine first hamiltonian term as function of the mass and the discretization step
         qsim::math::diagonals<wave_t, 3> H_zero_x() const;
         qsim::math::diagonals<wave_t, 3> H_zero_y() const;
-
-        inline size_t map(size_t i, size_t j) const {
-            return (_M - 1) * i + j;
-        }
 
     public: 
 
@@ -66,26 +55,7 @@ namespace qsim::grid {
                   std::shared_ptr<evolver> _evolver = nullptr,
                   double hbar = 1.0
                   );
-
-        // update the hamiltonian matrix
-        void update_H_x();
-        void update_H_y();
-
-        inline void update_H() {
-            update_H_x();
-            update_H_y();
-        } // do both
-
-        // potential (x,y), TODO define it
-        //double V(double x, double y) const;
-
-        // set 0 on boundaries
-        void boundaries_setup();
         
-        // change the hemiltonian expression
-        virtual void set_mass(double) override;
-
-        const H_matrix_2D& hemiltonian() const;        
         virtual void evolve(double) override;
         
         // integrals
@@ -102,10 +72,6 @@ namespace qsim::grid {
         inline double y(size_t j) const {
             return static_cast<double>(j) * dy;
         }
-        
-        // override these functions
-        void replace_wave(const std::function<qsim::wave_t (double, double)>&, size_t N, size_t M);
-        void replace_wave(const init_pack&);
 
         /*
          * Causing of boundaries size is decreased of 2
@@ -149,10 +115,6 @@ namespace qsim::grid {
 
             double x() const;
             double y() const;
-
-            inline size_t k() const {
-                return sys.map(i,j);
-            }
         };
 
         class const_iterator {
@@ -185,10 +147,6 @@ namespace qsim::grid {
 
             double x() const;
             double y() const;
-
-            inline size_t k() const {
-                return sys.map(i,j);
-            }
         };
 
         /*

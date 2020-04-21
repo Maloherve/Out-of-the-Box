@@ -57,6 +57,14 @@ Vector2 gdqsystem::get_size() const {
     return Vector2(width, height);
 }
 
+void gdqsystem::set_potential_buffering(bool enable) {
+    m_pot->set_buffering(enable);
+}
+
+bool gdqsystem::get_potential_buffering() const {
+    return m_pot->is_buffering();
+}
+
 void gdqsystem::on_body_entered(Node * entry) {
     return m_pot->on_body_entered(entry);
 }
@@ -69,9 +77,12 @@ void gdqsystem::_register_methods() {
 
     register_property<gdqsystem, double>("width", &gdqsystem::set_width, &gdqsystem::get_width, 20);
     register_property<gdqsystem, double>("height", &gdqsystem::set_height, &gdqsystem::get_height, 20);
-    register_property<gdqsystem, Vector2>("size", &gdqsystem::set_size, &gdqsystem::get_size, Vector2(20,20));
+    register_property<gdqsystem, bool>("V buffer", &gdqsystem::set_potential_buffering, &gdqsystem::get_potential_buffering, true);
+    //register_property<gdqsystem, Vector2>("size", &gdqsystem::set_size, &gdqsystem::get_size, Vector2(20,20));
 
     register_method("_qsimbox_on_body_entered", &gdqsystem::on_body_entered);
     register_method("_qsimbox_on_body_exited", &gdqsystem::on_body_exited);
 }
+
+
 

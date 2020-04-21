@@ -11,28 +11,32 @@
 using namespace godot;
 
 curve_potential::curve_potential(gdqsystem * _system) 
-    : system(_system)
+    : system(_system), behaviour(&curve_potential::direct_access)
 {
+}
+
+double curve_potential::buffered_access(const size_t& index) const {
+    return buffer[index]; 
+}
+
+double curve_potential::direct_access(const size_t& index) const {
+    return at(system->location(index));
 }
 
 // interface to grid
 double curve_potential::operator()(const size_t& access) const  {
-    return at(system->location(access));
+    return (this->*behaviour)(access);
 }
 
- double curve_potential::at(const Vector2& v) const  {
+double curve_potential::at(const Vector2& v) const  {
     double out(0);
     for (const auto& entry : nodes_map) {
         // get location relatively to the system box
         Transform2D B = entry.first->get_global_transform();
         Transform2D A = system->get_global_transform();
-        //npdebug("Request position: (", v.x, ", ", v.y, ")")
         // transform v to global
         // then get relative position to the object
-        //Vector2 g = ;
-        //npdebug("Global position: (", g.x, ", ", g.y, ")")
         Vector2 r = B.xform_inv(A.xform(v + system->get_size() / 2.0));
-        //npdebug("Transformed position: (", r.x, ", ", r.y, ")")
         out += entry.second->at(r);
     }
 
@@ -64,5 +68,27 @@ void curve_potential::on_body_exited(Node * entry) {
     Node2D * key;
     if (key = Object::cast_to<Node2D>(entry))
         nodes_map.erase(key);
+}
+
+void curve_potential::freeze(size_t N) {
+
+    for (size_t k = 0; k < buffer.size(); ++k)
+        buffer[k] = direct_access(k); // deduce values in k
+
+    buffer.reserve(N);
+    
+    size_t i(N);
+    while (buffer.size() < N)
+        buffer.push_back(direct_access(i++));
+}
+
+void curve_potential::set_buffering(bool enable) {
+        behaviour = (enable) ? 
+            &curve_potential::buffered_access :
+            &curve_potential::direct_access;
+}
+
+bool curve_potential::is_buffering() const {
+    return behaviour == &curve_potential::buffered_access;
 }
 

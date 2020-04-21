@@ -34,15 +34,15 @@ int main() {
     //diagonals<double,2> D = make_diagonal<double>({0, 5.0}, {2, 3.0}); // TODO, not compiling
 
     // step 3, operate on each of them singularly by multiplication
-    A *= 5; // A = (0, 1, 2, 3, 4, ...)
-    B *= 2; // B = (0, 2, 4, 6, 8)
+    A *= 5.0; // A = (0, 1, 2, 3, 4, ...)
+    B *= 2.0; // B = (0, 2, 4, 6, 8)
     C *= 0.2; // C = subdiag<-1>(-1.0) + subdiag<1>(-1.0)
 
     // step 4, usage of external multiplication
 
-    auto E = A * 2; // E = (0, 2, 4, 6, 8, ...)
+    auto E = A * 2.0; // E = (0, 2, 4, 6, 8, ...)
     auto F = B * 0.5; // F = (1, 2, 3, 4, 5)
-    auto G = C * 10;  // G = subdiag<-1>(-10.0) + subdiag<1>(-10.0)
+    auto G = C * 10.0;  // G = subdiag<-1>(-10.0) + subdiag<1>(-10.0)
 
     // step 5, build a composition using A, B, C
     
@@ -70,9 +70,9 @@ int main() {
 
     cout << "v + v2 = " << (v + v2) << endl;
 
-    cout << "E * v" << (E << v) << endl;
-    cout << "F * v" << (F << v) << endl;
-    cout << "G * v" << (G << v) << endl;
+    cout << "E * v" << (E * v) << endl;
+    cout << "F * v" << (F * v) << endl;
+    cout << "G * v" << (G * v) << endl;
 
     // step 8, runtime test print vectors to various expressions of the identity
     cout << "Step 8" << endl;
@@ -134,12 +134,12 @@ int main() {
 
     // multiple of identity
     for (int i = 0; i < 5; ++i)
-        std::cout << "Column " << i << ": " << (_matrix.get<1>() << cols_5[i]) << endl;
+        std::cout << "Column " << i << ": " << (_matrix.get<1>() * cols_5[i]) << endl;
     cout << endl;
 
     // multiple of identity
     for (int i = 0; i < 5; ++i)
-        std::cout << "Column " << i << ": " << (_matrix.get<2>() << cols_5[i]) << endl;
+        std::cout << "Column " << i << ": " << (_matrix.get<2>() * cols_5[i]) << endl;
     cout << endl;
 
     // expected result: v = (2, -1, 0, 0, 0)

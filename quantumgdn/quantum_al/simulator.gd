@@ -9,13 +9,18 @@ extends Area2D
 
 export var width = 10
 export var height = 10
-
-func _init():
-	pass
+			
+func _on_Area2D_input_event( viewport, event, shape_idx ):
+	if (event is InputEventMouseButton && event.pressed):
+		var T = self.global_transform
+		print("Clicked ", T.xform_inv(event.position))
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	print("simulator _ready")
+	
+	input_pickable = true
+	connect("input_event", self, "_on_Area2D_input_event")
 	
 	var collider = get_node("collider")
 	var rect = collider.shape

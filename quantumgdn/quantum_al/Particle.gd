@@ -33,15 +33,21 @@ func _ready():
 
 	#qsystem.set_physics_process(false) # comment on to evolve
 	
-	simbox.width = 600
-	simbox.height = 250
+	#simbox.width = 600
+	#simbox.height = 250
+	print("System width: ",simbox.width)
+	print("System height: ",simbox.height)
 	print("n = ", n)
 	packet.k0 = (2 * PI * n) / simbox.width
 	print("k0 = ", packet.k0)
 	qsystem.set_wave(packet)
 	
+	graph.gain = simbox.height * 30
+	
 	for i in range(qsystem.N()):
-		graph.add_point(graph.point(i))
+		var p = graph.point(i)
+		#print("Initial point: ", p)
+		graph.add_point(p)
 		
 	for i in range(qsystem.N()):
 		potential.add_point(potential.point(i))

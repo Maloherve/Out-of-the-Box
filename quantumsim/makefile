@@ -24,7 +24,6 @@ LIBS := #add libraries
 SRC := \
 	grid/wave.cpp \
 	grid/qsystem1D.cpp \
-	grid/qsystem2D.cpp \
 	evolvers/explicit.cpp \
 	evolvers/crank_nicholson.cpp
 

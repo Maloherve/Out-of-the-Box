@@ -10,6 +10,7 @@ extents = Vector2( 15, 10 )
 
 [node name="Perturbation" type="KinematicBody2D"]
 script = ExtResource( 3 )
+gain = 500.0
 
 [node name="box" type="CollisionShape2D" parent="."]
 shape = SubResource( 1 )

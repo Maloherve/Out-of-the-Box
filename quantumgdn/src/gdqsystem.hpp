@@ -25,6 +25,10 @@ namespace godot {
          virtual Vector2 location(size_t) const;
 
          std::shared_ptr<curve_potential> potential() const;
+
+         /*
+          * size accessors
+          */
         
          void set_width(double);
          double get_width() const;
@@ -34,6 +38,18 @@ namespace godot {
 
          void set_size(Vector2);
          Vector2 get_size() const;
+
+         /*
+          * Potential buffering state access
+          */
+
+         void set_potential_buffering(bool);
+         bool get_potential_buffering() const;
+
+         /*
+          * GDnative setup with 
+          * Entering CollisionObject2D auto-detection
+          */
 
          void _init();
          void _ready();
