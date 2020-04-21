@@ -147,8 +147,8 @@ submatrix<T>::submatrix(submatrix<T>&& other)
     other.ref = nullptr;
     other.standalone = false;
     // throw an error on submatrix::at access
-    other.rows = std::pair<size_t,size_t>(0,0); // empty restruction
-    other.cols = std::pair<size_t,size_t>(0,0);
+    //other.rows = std::pair<size_t,size_t>(0,0); // empty restruction
+    //other.cols = std::pair<size_t,size_t>(0,0);
 }
 
 template<class T>
@@ -160,15 +160,15 @@ submatrix<T>& submatrix<T>::operator=(submatrix&& other) {
     ref = other.ref;
     standalone = other.standalone;
 
-    rows = other.rows; 
-    cols = other.cols;
+    //rows = other.rows; 
+    //cols = other.cols;
 
     other.ref = nullptr;
      // dont' delete out of scope
     other.standalone = false;
     // empty submatrix
-    other.rows = std::pair<size_t,size_t>(0,0); // empty restruction
-    other.cols = std::pair<size_t,size_t>(0,0);
+    //other.rows = std::pair<size_t,size_t>(0,0); // empty restruction
+    //other.cols = std::pair<size_t,size_t>(0,0);
     return *this;
 }
         
@@ -191,6 +191,18 @@ T& submatrix<T>::operator()(size_t i, size_t j) {
     // careful using this function: no controls at all
     return (*ref)(i + rows.first, j + cols.first);
 }
+
+/*
+ * column vector
+ */
+
+/*template<class T>
+column_vector<T>& column_vector<T>::operator=(const column_vector&) {
+}
+
+template<class T>
+column_vector<T>& column_vector<T>::operator=(column_vector&&) {
+}*/
 
 /*
 template<class T>
@@ -216,7 +228,7 @@ column_vector<T>::operator matrix<T>() const {
 
 template<class T>
 matrix<T>::matrix(size_t N, size_t M, T init) 
-        : table(N, row(M, init)) {
+        : table(N, table_row<T>(M, init)) {
     if (N == 0 || M == 0)
         throw std::out_of_range("(matrix::matrix) size zero");
 }
@@ -558,6 +570,11 @@ const qsim::math::row_vector<T> operator+(qsim::math::row_vector<T> A, const qsi
 }
 
 template<typename T>
+const qsim::math::table_row<T> operator+(qsim::math::table_row<T> A, const qsim::math::basic_matrix<T>& B) {
+    return A += B;
+}
+
+template<typename T>
 const qsim::math::column_vector<T> operator+(qsim::math::column_vector<T> A, const qsim::math::basic_matrix<T>& B) {
     return A += B;
 }
@@ -577,6 +594,11 @@ const qsim::math::submatrix<T> operator-(qsim::math::submatrix<T> A, const qsim:
 
 template<typename T>
 const qsim::math::row_vector<T> operator-(qsim::math::row_vector<T> A, const qsim::math::basic_matrix<T>& B) {
+    return A -= B;
+}
+
+template<typename T>
+const qsim::math::table_row<T> operator-(qsim::math::table_row<T> A, const qsim::math::basic_matrix<T>& B) {
     return A -= B;
 }
 
@@ -620,6 +642,16 @@ const qsim::math::row_vector<T> operator*(const T& scalar, qsim::math::row_vecto
     return A *= scalar;
 }
 
+template<typename T>
+const qsim::math::table_row<T> operator*(qsim::math::table_row<T> A, const T& scalar) {
+    return A *= scalar;
+}
+
+template<typename T>
+const qsim::math::table_row<T> operator*(const T& scalar, qsim::math::table_row<T> A) {
+    return A *= scalar;
+}
+
 
 template<typename T>
 const qsim::math::column_vector<T> operator*(qsim::math::column_vector<T> A, const T& scalar) {
@@ -646,6 +678,11 @@ const qsim::math::submatrix<T> operator/(qsim::math::submatrix<T> A, const T& sc
 
 template<typename T>
 const qsim::math::row_vector<T> operator/(qsim::math::row_vector<T> A, const T& scalar) {
+    return A /= scalar;
+}
+
+template<typename T>
+const qsim::math::table_row<T> operator/(qsim::math::table_row<T> A, const T& scalar) {
     return A /= scalar;
 }
 

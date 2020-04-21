@@ -157,8 +157,11 @@ namespace qsim::math {
             row_vector(const row_vector& other) : submatrix<T>(other) {}
             row_vector(row_vector&& other) : submatrix<T>(std::forward<row_vector>(other)) {}
 
-            using submatrix<T>::operator=;
             using vector_access<T>::at;
+            
+            // TODO hope it calls superclass
+            row_vector& operator=(const row_vector&) = default;
+            row_vector& operator=(row_vector&&) = default;
 
             //operator matrix<T>() const;
             
@@ -192,7 +195,10 @@ namespace qsim::math {
             column_vector(const column_vector& other) : submatrix<T>(other) {}
             column_vector(column_vector&& other) : submatrix<T>(std::forward<column_vector>(other)) {}
 
-            using submatrix<T>::operator=;
+            // TODO hope it calls superclass
+            column_vector& operator=(const column_vector&) = default;
+            column_vector& operator=(column_vector&&) = default;
+
             using vector_access<T>::at;
 
             //operator matrix<T>() const;
@@ -209,47 +215,47 @@ namespace qsim::math {
                 return (*this)(i, this->cols.first);
             } 
     };
+    
+    template <typename T>
+    class table_row : public std::vector<T>, public basic_matrix<T> {
+        friend class matrix<T>;
+        friend class square_matrix<T>;
+        using std::vector<T>::reserve;
+        using std::vector<T>::push_back;
+        using std::vector<T>::pop_back;
+
+        virtual T& operator()(size_t i, size_t) override {
+            return (*this)[i];
+        }
+
+        virtual const T& operator()(size_t i, size_t) const {
+            return (*this)[i];
+        }
+
+        virtual size_t rows_nb() const {
+            return 1u;
+        }
+
+        virtual size_t cols_nb() const {
+            return this->size();
+        }
+
+    public:
+        using std::vector<T>::vector;
+    };
 
     /*
      * General matrix class, dynamically allocated
      */
     template <typename T>
     class matrix : public basic_matrix<T> {
-    public:
+    protected:
 
-        class row : public std::vector<T>, public basic_matrix<T> {
-            friend class square_matrix<T>;
-            using std::vector<T>::reserve;
-            using std::vector<T>::push_back;
-            using std::vector<T>::pop_back;
-
-            virtual T& operator()(size_t i, size_t) override {
-                return (*this)[i];
-            }
-
-            virtual const T& operator()(size_t i, size_t) const {
-                return (*this)[i];
-            }
-
-            virtual size_t rows_nb() const {
-                return 1u;
-            }
-
-            virtual size_t cols_nb() const {
-                return this->size();
-            }
-
-        public:
-            using std::vector<T>::vector;
-        };
-
-   protected:
-
-        struct table_t : public std::vector<row> {
-            using std::vector<row>::vector;
-            using std::vector<row>::push_back;
-            using std::vector<row>::pop_back;
-            using std::vector<row>::reserve;
+        struct table_t : public std::vector<table_row<T>> {
+            using std::vector<table_row<T>>::vector;
+            using std::vector<table_row<T>>::push_back;
+            using std::vector<table_row<T>>::pop_back;
+            using std::vector<table_row<T>>::reserve;
         };
     
         // rows table
@@ -306,11 +312,11 @@ namespace qsim::math {
         /*
          * Row descriptor without a column restriction
          */
-        inline row& get_row(size_t i) {
+        inline table_row<T>& get_row(size_t i) {
             return table[i];
         }
 
-        inline const row& get_row(size_t i) const {
+        inline const table_row<T>& get_row(size_t i) const {
             return table[i];
         }
 
@@ -449,6 +455,9 @@ template<typename T>
 const qsim::math::row_vector<T> operator+(qsim::math::row_vector<T>, const qsim::math::basic_matrix<T>&);
 
 template<typename T>
+const qsim::math::table_row<T> operator+(qsim::math::table_row<T>, const qsim::math::basic_matrix<T>&);
+
+template<typename T>
 const qsim::math::column_vector<T> operator+(qsim::math::column_vector<T>, const qsim::math::basic_matrix<T>&);
 
 /*
@@ -462,6 +471,9 @@ const qsim::math::submatrix<T> operator-(qsim::math::submatrix<T>, const qsim::m
 
 template<typename T>
 const qsim::math::row_vector<T> operator-(qsim::math::row_vector<T>, const qsim::math::basic_matrix<T>&);
+
+template<typename T>
+const qsim::math::table_row<T> operator-(qsim::math::table_row<T>, const qsim::math::basic_matrix<T>&);
 
 template<typename T>
 const qsim::math::column_vector<T> operator-(qsim::math::column_vector<T>, const qsim::math::basic_matrix<T>&);
@@ -491,6 +503,13 @@ const qsim::math::row_vector<T> operator*(const T&, qsim::math::row_vector<T>);
 
 
 template<typename T>
+const qsim::math::table_row<T> operator*(qsim::math::table_row<T>, const T&);
+
+template<typename T>
+const qsim::math::table_row<T> operator*(const T&, qsim::math::table_row<T>);
+
+
+template<typename T>
 const qsim::math::column_vector<T> operator*(qsim::math::column_vector<T>, const T&);
 
 template<typename T>
@@ -507,6 +526,9 @@ const qsim::math::submatrix<T> operator/(qsim::math::submatrix<T>, const T&);
 
 template<typename T>
 const qsim::math::row_vector<T> operator/(qsim::math::row_vector<T>, const T&);
+
+template<typename T>
+const qsim::math::table_row<T> operator/(qsim::math::table_row<T>, const T&);
 
 template<typename T>
 const qsim::math::column_vector<T> operator/(qsim::math::column_vector<T>, const T&);
