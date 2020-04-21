@@ -68,6 +68,28 @@ namespace qsim::math {
         bool operator!=(const basic_matrix&) const;
     };
 
+// operator forwarding macro
+#define FORWARD_BASIC_MATRIX(derived)                       \
+    inline derived& operator+=(const basic_matrix<T>& other) { \
+        basic_matrix<T>::operator+=(other);                 \
+        return *this;                                       \
+    }                                                       \
+                                                            \
+    inline derived& operator-=(const basic_matrix<T>& other) { \
+        basic_matrix<T>::operator-=(other);                 \
+        return *this;                                       \
+    }                                                       \
+                                                            \
+    inline derived& operator*=(const T& scalar) {           \
+        basic_matrix<T>::operator*=(scalar);                \
+        return *this;                                       \
+    }                                                       \
+    inline derived& operator/=(const T& scalar) {           \
+        basic_matrix<T>::operator/=(scalar);                \
+        return *this;                                       \
+    }
+
+
     template <typename T>
     class vector_access {
         public:
@@ -138,6 +160,9 @@ namespace qsim::math {
          * implicit convertion to a matrix
          */
         //operator matrix<T>() const;
+
+        // operator forwarding
+        FORWARD_BASIC_MATRIX(submatrix)
     };
 
     template <typename T>
@@ -176,6 +201,9 @@ namespace qsim::math {
             virtual T& operator[](size_t j) override {
                 return (*this)(this->rows.first, j);
             } 
+
+            // operator forwarding
+            FORWARD_BASIC_MATRIX(row_vector)
     };
 
     template <typename T>
@@ -214,6 +242,9 @@ namespace qsim::math {
             virtual T& operator[](size_t i) override {
                 return (*this)(i, this->cols.first);
             } 
+
+            // operator forwarding
+            FORWARD_BASIC_MATRIX(column_vector)
     };
     
     template <typename T>
@@ -242,6 +273,9 @@ namespace qsim::math {
 
     public:
         using std::vector<T>::vector;
+
+        // operator forwarding
+        FORWARD_BASIC_MATRIX(table_row)
     };
 
     /*
@@ -351,6 +385,9 @@ namespace qsim::math {
         static constexpr std::pair<size_t, size_t> single(size_t k) {
             return std::pair<size_t,size_t>(k, k+1);
         }
+        
+        // operator forwarding
+        FORWARD_BASIC_MATRIX(matrix)
     };
 
     /*
@@ -371,6 +408,9 @@ namespace qsim::math {
          * Generate the identity matrix
          */
         static square_matrix eye(size_t N);
+
+        // operator forwarding
+        FORWARD_BASIC_MATRIX(square_matrix)
     };
 
     template <typename R, typename T>

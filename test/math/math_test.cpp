@@ -187,4 +187,20 @@ int main() {
 
     PRINT_MATRIX(lu_prob.L, 3, cols_3)
     PRINT_MATRIX(lu_prob.U, 3, cols_3)
+
+    // arthmetic operations
+    
+    // copy
+    auto prob_mat_cpy = prob_mat;
+    cout << "Matrix copy: " << endl;
+    PRINT_MATRIX(prob_mat, 3, cols_3)
+
+    prob_mat_cpy += (prob_mat * 2.0);
+
+    square_matrix<double>& prob_mat_ref = (prob_mat *= 3.0);
+    cout << "Matrix multiplication by 3.0: " << endl;
+    PRINT_MATRIX(prob_mat, 3, cols_3)
+    
+    cout << "Matrix addiction by (mult * 2): " << endl;
+    PRINT_MATRIX(prob_mat_cpy, 3, cols_3)
 }

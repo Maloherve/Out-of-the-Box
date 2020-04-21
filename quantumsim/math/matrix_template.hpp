@@ -142,7 +142,7 @@ submatrix<T>::submatrix(const submatrix<T>& other)
 
 template<class T>
 submatrix<T>::submatrix(submatrix<T>&& other) 
-    : ref(other), standalone(other.standalone), rows(other.rows), cols(other.cols)
+    : ref(other.ref), standalone(other.standalone), rows(other.rows), cols(other.cols)
 {
     other.ref = nullptr;
     other.standalone = false;
