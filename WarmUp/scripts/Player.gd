@@ -4,7 +4,6 @@ extends KinematicBody2D
 
 # CONSTANTS
 const TYPE = "PLAYER";
-#export var cat : bool = false;
 const GRAVITY : int = 800;
 const MOVE_SPEED : int = 1 * 64;
 const CLIMB_SPEED : float = 1.5 * 64;
