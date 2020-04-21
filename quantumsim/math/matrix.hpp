@@ -114,6 +114,7 @@ namespace qsim::math {
         submatrix(const submatrix&);
 
         using basic_matrix<T>::operator=;
+        submatrix& operator=(submatrix&&);
 
         // delete the instance if standalone
         virtual ~submatrix();
@@ -121,7 +122,6 @@ namespace qsim::math {
         /*
          * target index assigning
          */
-        submatrix& operator=(submatrix&&) = default;
         
         virtual T& operator()(size_t i, size_t j) override;
         virtual const T& operator()(size_t i, size_t j) const override;
@@ -435,6 +435,81 @@ namespace qsim::math {
     template<typename T, class Matrix, class Vector>
     Vector solve(const Matrix& A, Vector b);
 }
+
+/*
+ * Operator+
+ */ 
+template<typename T>
+const qsim::math::matrix<T> operator+(qsim::math::matrix<T>, const qsim::math::basic_matrix<T>&);
+
+template<typename T>
+const qsim::math::submatrix<T> operator+(qsim::math::submatrix<T>, const qsim::math::basic_matrix<T>&);
+
+template<typename T>
+const qsim::math::row_vector<T> operator+(qsim::math::row_vector<T>, const qsim::math::basic_matrix<T>&);
+
+template<typename T>
+const qsim::math::column_vector<T> operator+(qsim::math::column_vector<T>, const qsim::math::basic_matrix<T>&);
+
+/*
+ * Operator-
+ */
+template<typename T>
+const qsim::math::matrix<T> operator-(qsim::math::matrix<T>, const qsim::math::basic_matrix<T>&);
+
+template<typename T>
+const qsim::math::submatrix<T> operator-(qsim::math::submatrix<T>, const qsim::math::basic_matrix<T>&);
+
+template<typename T>
+const qsim::math::row_vector<T> operator-(qsim::math::row_vector<T>, const qsim::math::basic_matrix<T>&);
+
+template<typename T>
+const qsim::math::column_vector<T> operator-(qsim::math::column_vector<T>, const qsim::math::basic_matrix<T>&);
+
+/*
+ * Operator*
+ */
+template<typename T>
+const qsim::math::matrix<T> operator*(qsim::math::matrix<T>, const T&);
+
+template<typename T>
+const qsim::math::matrix<T> operator*(const T&, qsim::math::matrix<T>);
+
+
+template<typename T>
+const qsim::math::submatrix<T> operator*(qsim::math::submatrix<T>, const T&);
+
+template<typename T>
+const qsim::math::submatrix<T> operator*(const T&, qsim::math::submatrix<T>);
+
+
+template<typename T>
+const qsim::math::row_vector<T> operator*(qsim::math::row_vector<T>, const T&);
+
+template<typename T>
+const qsim::math::row_vector<T> operator*(const T&, qsim::math::row_vector<T>);
+
+
+template<typename T>
+const qsim::math::column_vector<T> operator*(qsim::math::column_vector<T>, const T&);
+
+template<typename T>
+const qsim::math::column_vector<T> operator*(const T&, qsim::math::column_vector<T>);
+
+/*
+ * Operator/
+ */
+template<typename T>
+const qsim::math::matrix<T> operator/(qsim::math::matrix<T>, const T&);
+
+template<typename T>
+const qsim::math::submatrix<T> operator/(qsim::math::submatrix<T>, const T&);
+
+template<typename T>
+const qsim::math::row_vector<T> operator/(qsim::math::row_vector<T>, const T&);
+
+template<typename T>
+const qsim::math::column_vector<T> operator/(qsim::math::column_vector<T>, const T&);
 
 // implementation
 #include "matrix_template.hpp"

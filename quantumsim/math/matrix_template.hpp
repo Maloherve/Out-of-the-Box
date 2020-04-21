@@ -144,10 +144,35 @@ template<class T>
 submatrix<T>::submatrix(submatrix<T>&& other) 
     : ref(other), standalone(other.standalone), rows(other.rows), cols(other.cols)
 {
+    other.ref = nullptr;
+    other.standalone = false;
     // throw an error on submatrix::at access
     other.rows = std::pair<size_t,size_t>(0,0); // empty restruction
     other.cols = std::pair<size_t,size_t>(0,0);
 }
+
+template<class T>
+submatrix<T>& submatrix<T>::operator=(submatrix&& other) {
+
+    if (standalone)
+        delete ref;
+
+    ref = other.ref;
+    standalone = other.standalone;
+
+    rows = other.rows; 
+    cols = other.cols;
+
+    other.ref = nullptr;
+     // dont' delete out of scope
+    other.standalone = false;
+    // empty submatrix
+    other.rows = std::pair<size_t,size_t>(0,0); // empty restruction
+    other.cols = std::pair<size_t,size_t>(0,0);
+    return *this;
+}
+        
+
 
 template<class T>
 submatrix<T>::~submatrix() {
@@ -497,6 +522,9 @@ namespace qsim::math::helper {
     }
 }
 
+/*
+ * std::abs overload
+ */
 
 namespace std {
 
@@ -506,5 +534,125 @@ namespace std {
         return qsim::math::convert<double,T>(A, [&] (T value) { return std::abs(value); });
     }
 }
+
+/*
+ * External operator overloading
+ */
+
+/*
+ * Operator+
+ */ 
+template<typename T>
+const qsim::math::matrix<T> operator+(qsim::math::matrix<T> A, const qsim::math::basic_matrix<T>& B) {
+    return A += B;
+}
+
+template<typename T>
+const qsim::math::submatrix<T> operator+(qsim::math::submatrix<T> A, const qsim::math::basic_matrix<T>& B) {
+    return A += B;
+}
+
+template<typename T>
+const qsim::math::row_vector<T> operator+(qsim::math::row_vector<T> A, const qsim::math::basic_matrix<T>& B) {
+    return A += B;
+}
+
+template<typename T>
+const qsim::math::column_vector<T> operator+(qsim::math::column_vector<T> A, const qsim::math::basic_matrix<T>& B) {
+    return A += B;
+}
+
+/*
+ * Operator-
+ */
+template<typename T>
+const qsim::math::matrix<T> operator-(qsim::math::matrix<T> A, const qsim::math::basic_matrix<T>& B) {
+    return A -= B;
+}
+
+template<typename T>
+const qsim::math::submatrix<T> operator-(qsim::math::submatrix<T> A, const qsim::math::basic_matrix<T>& B) {
+    return A -= B;
+}
+
+template<typename T>
+const qsim::math::row_vector<T> operator-(qsim::math::row_vector<T> A, const qsim::math::basic_matrix<T>& B) {
+    return A -= B;
+}
+
+template<typename T>
+const qsim::math::column_vector<T> operator-(qsim::math::column_vector<T> A, const qsim::math::basic_matrix<T>& B) {
+    return A -= B;
+}
+
+/*
+ * Operator*
+ */
+template<typename T>
+const qsim::math::matrix<T> operator*(qsim::math::matrix<T> A, const T& scalar) {
+    return A *= scalar;
+}
+
+template<typename T>
+const qsim::math::matrix<T> operator*(const T& scalar, qsim::math::matrix<T> A) {
+    return A *= scalar;
+}
+
+
+template<typename T>
+const qsim::math::submatrix<T> operator*(qsim::math::submatrix<T> A, const T& scalar) {
+    return A *= scalar;
+}
+
+template<typename T>
+const qsim::math::submatrix<T> operator*(const T& scalar, qsim::math::submatrix<T> A) {
+    return A *= scalar;
+}
+
+
+template<typename T>
+const qsim::math::row_vector<T> operator*(qsim::math::row_vector<T> A, const T& scalar) {
+    return A *= scalar;
+}
+
+template<typename T>
+const qsim::math::row_vector<T> operator*(const T& scalar, qsim::math::row_vector<T> A) {
+    return A *= scalar;
+}
+
+
+template<typename T>
+const qsim::math::column_vector<T> operator*(qsim::math::column_vector<T> A, const T& scalar) {
+    return A *= scalar;
+}
+
+template<typename T>
+const qsim::math::column_vector<T> operator*(const T& scalar, qsim::math::column_vector<T> A) {
+    return A *= scalar;
+}
+
+/*
+ * Operator/
+ */
+template<typename T>
+const qsim::math::matrix<T> operator/(qsim::math::matrix<T> A, const T& scalar) {
+    return A /= scalar;
+}
+
+template<typename T>
+const qsim::math::submatrix<T> operator/(qsim::math::submatrix<T> A, const T& scalar) {
+    return A /= scalar;
+}
+
+template<typename T>
+const qsim::math::row_vector<T> operator/(qsim::math::row_vector<T> A, const T& scalar) {
+    return A /= scalar;
+}
+
+template<typename T>
+const qsim::math::column_vector<T> operator/(qsim::math::column_vector<T> A, const T& scalar) {
+    return A /= scalar;
+}
+
 
 
