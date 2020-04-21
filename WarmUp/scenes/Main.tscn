@@ -162,4 +162,4 @@ __meta__ = {
 }
 
 [node name="PlayerInitialPosition" type="Node2D" parent="."]
-position = Vector2( 915.684, 497.298 )
+position = Vector2( 836.736, 484.666 )
