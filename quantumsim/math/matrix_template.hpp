@@ -140,20 +140,24 @@ T vector_access<T>::operator*(const vector_access<T>& other) const {
  */ 
 template<class T>
 submatrix<T>::submatrix(matrix<T>* _ref, std::pair<size_t, size_t> _rows, std::pair<size_t, size_t> _cols)
-    : ref(_ref), standalone(false), rows(_rows), cols(_cols) {}
+    : ref(_ref), standalone(false), rows(_rows), cols(_cols) {
+    npdebug("Constructing dependent submatrix, source: ", ref)
+}
  
 
 // copy the restriction in a standalone buffer
 template<class T>
 submatrix<T>::submatrix(const submatrix<T>& other) 
-    : ref(new matrix<T>(other)), standalone(true), rows(other.rows), cols(other.cols) 
+    : ref(new matrix<T>(other)), standalone(true), rows({0, other.rows.second}), cols({0, other.cols.second}) 
 {
+    npdebug("Copying submatrix from ", other.ref, ", new independent instance: ", ref)
 }
 
 template<class T>
 submatrix<T>::submatrix(submatrix<T>&& other) 
     : ref(other.ref), standalone(other.standalone), rows(other.rows), cols(other.cols)
 {
+    npdebug("Moving submatrix: ", ref)
     other.ref = nullptr;
     other.standalone = false;
     // throw an error on submatrix::at access
@@ -163,11 +167,12 @@ submatrix<T>::submatrix(submatrix<T>&& other)
 
 template<class T>
 submatrix<T>& submatrix<T>::operator=(const submatrix<T>& other) {
+    npdebug("Calling copy operator= for submatrix: ", ref)
     basic_matrix<T>::operator=(other);
     return *this;
 }
 
-template<class T>
+/*template<class T>
 submatrix<T>& submatrix<T>::operator=(submatrix&& other) {
 
     if (standalone)
@@ -186,14 +191,14 @@ submatrix<T>& submatrix<T>::operator=(submatrix&& other) {
     //other.rows = std::pair<size_t,size_t>(0,0); // empty restruction
     //other.cols = std::pair<size_t,size_t>(0,0);
     return *this;
-}
+}*/
         
 
 
 template<class T>
 submatrix<T>::~submatrix() {
     if (standalone) {
-        npdebug("Deleting reference")
+        npdebug("Deleting reference: ", ref)
         delete ref;
     }
 }
@@ -272,10 +277,11 @@ matrix<T>::matrix(std::initializer_list<std::initializer_list<T>> list)
 template<class T>
 matrix<T>::matrix(const submatrix<T>& sub) 
         : matrix(sub.rows_nb(), sub.cols_nb()) {
-    npdebug("Calling matrix constrution using submatrix")
+    npdebug("Calling matrix constrution using submatrix of size: ", sub.rows_nb(), ", ", sub.cols_nb())
     for (size_t i = 0; i < sub.rows_nb(); ++i) {
         for (size_t j = 0; j < sub.cols_nb(); ++j) {
-            (*this)(i,j) = sub.at(i,j);
+            npdebug("Copying index: i = ", i, ", j = ", j, ", sub(i,j) = ", sub(i,j))
+            (*this)(i,j) = sub(i,j);
         }
     }
 }
@@ -403,11 +409,14 @@ square_matrix<T> square_matrix<T>::eye(size_t N) {
 
 template <class R, typename T, typename = typename std::enable_if<std::is_base_of<basic_matrix<T>, R>::value>::type >
 R convert(R A, const std::function<T (const T&)>& operation) {
+    npdebug("Converting matrix of size: ", A.rows_nb(), ", ", A.cols_nb())
     for (size_t i = 0; i < A.rows_nb(); ++i) {
         for (size_t j = 0; j < A.cols_nb(); ++j) {
+            npdebug("Acting on i = ", i, ", j = ", j, ", A(i,j) = ", A(i,j))
             A(i,j) = operation(A(i,j));
         }
     }
+    npdebug("End convertion loop")
 
     return A;
 }
@@ -421,10 +430,12 @@ template<typename T, class Matrix>
 helper::LU_output<T, Matrix> LU_decomposition(const Matrix& A) {
     const size_t N = A.size();
     helper::LU_output<T, Matrix> out(A);
+    npdebug("Matrix size: (", out.U.rows_nb(), ", ", out.U.cols_nb(), ")")
     
     for (size_t k = 0; k < N-1; ++k) {
         // max index
         auto maxind = std::max( std::abs( out.U.get_column(k, {k, N}) ));
+        npdebug("Maximum found at index: ", maxind.first, " ", maxind.second)
         size_t r = maxind.first;
 
         if (k > 0) 
@@ -432,6 +443,7 @@ helper::LU_output<T, Matrix> LU_decomposition(const Matrix& A) {
 
         if (r != k) {
             // swap rows
+            npdebug("Swapping: ", k, " ", r)
             out.U.swap_rows({k, r});
             out.P.push_front({k, r});
 
@@ -439,11 +451,13 @@ helper::LU_output<T, Matrix> LU_decomposition(const Matrix& A) {
                 out.L.swap_rows({k, r}, {0, k-1});
         }
 
+        npdebug("Entering loop, k = ", k)
         for (size_t i(k+1); i < N; ++i) {
             out.L.at(i,k) = out.U.at(i,k) / out.U.at(k,k);
             for (size_t j(k); j < N; ++j)
                 out.U.at(i,j) -= out.L.at(i,k) * out.U.at(k,j);
         }
+        npdebug("Exiting loop, k = ", k)
     }
 
     return out;
@@ -559,7 +573,7 @@ namespace std {
 
     // element-wise absolute value
     template <typename T>
-    qsim::math::matrix<double> abs(const qsim::math::matrix<T>& A) {
+    qsim::math::matrix<double> abs(qsim::math::matrix<T> A) {
         return qsim::math::convert<qsim::math::matrix<double>, T>(A, [&] (const T& value) { return std::abs(value); });
     }
 

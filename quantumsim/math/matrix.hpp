@@ -145,7 +145,7 @@ namespace qsim::math {
         submatrix& operator=(const submatrix&);
 
         // move this object
-        submatrix& operator=(submatrix&&);
+        submatrix& operator=(submatrix&&) = delete;
 
         // delete the instance if standalone
         virtual ~submatrix();
@@ -201,15 +201,15 @@ namespace qsim::math {
             using vector_access<T>::at;
             
             // TODO hope it calls superclass
-            inline row_vector& operator=(const row_vector& other) {
+            /*inline row_vector& operator=(const row_vector& other) {
                 submatrix<T>::operator=(other);
                 return *this;
-            }
+            }*/
 
-            row_vector& operator=(row_vector&& other) {
+            /*row_vector& operator=(row_vector&& other) {
                 submatrix<T>::operator=(other);
                 return *this;
-            }
+            }*/
 
             //operator matrix<T>() const;
             
