@@ -43,6 +43,24 @@ void qsystem2D::evolve(double dt) {
     wave = m_evolver->evolve(*this, dt);
 }
 
+math::diagonals<wave_t, 3> qsystem2D::H_zero_x() const {
+    return (-pow(hbar() / dx, 2)) * A;
+}
+
+math::diagonals<wave_t, 3> qsystem2D::H_zero_y() const {
+    return (-pow(hbar() / dy, 2)) * A;
+}
+
+math::diagonals<wave_t, 2> qsystem2D::Px() const {
+    using namespace std::complex_literals;
+    return (-1i * hbar() / (2.0 * dx)) * math::diagonals<wave_t, 2>({-1, -1}, {1, 1});
+}
+
+math::diagonals<wave_t, 2> qsystem2D::Py() const {
+    using namespace std::complex_literals;
+    return (-1i * hbar() / (2.0 * dy)) * math::diagonals<wave_t, 2>({-1, -1}, {1, 1});
+}
+
 diag_functor<wave_t> qsystem2D::potential_on_row(size_t i) const {
     return std::function<wave_t (size_t)>([&] (size_t k) -> double { return V()(i,k); });
 }
@@ -51,10 +69,61 @@ diag_functor<wave_t> qsystem2D::potential_on_column(size_t j) const {
     return std::function<wave_t (size_t)>([&] (size_t k) -> double { return V()(k,j); });
 }
 
+
+// normalize the wave function
+double qsystem2D::norm() const {
+    double out(0);
+    for (size_t i = 0; i < N(); ++i) {
+        for (size_t j = 0; j < M(); ++j) {
+            out += std::norm(wave(i,j));
+        }
+    }
+
+    return out * dx * dy;
+}
+
+std::pair<double,double> qsystem2D::position() const {
+    std::pair<double,double> out(0, 0);
+    for (size_t i = 0; i < N(); ++i) {
+        for (size_t j = 0; j < M(); ++j) {
+            double val = std::norm(wave(i,j));
+            out.first += x(i) * val;
+            out.second += y(j) * val;
+        }
+    }
+
+    out.first *= dx * dy;
+    out.second *= dx * dy;
+    return out;
+}
+
+std::pair<double,double> qsystem2D::momentum() const {
+    qsim::wave_t px(0), py(0);
+    for (size_t i = 0; i < N(); ++i)
+        px += std::conj(wave.get_row(i)) * (P() * wave.get_row(i));
+
+    for (size_t j = 0; j < M(); ++j)
+        py += std::conj(wave.get_column(i)) * (P() * wave.get_column(i));
+
+    using namespace std::complex_literals;
+
+    //px *= - 1i * hbar() * dy / 2.0;
+    //py *= - 1i * hbar() * dx / 2.0;
+    px *= dx * dy;
+    py *= dx * dy;
+
+    if (abs(px.imag()) > qsim::machine_prec || abs(py.imag()) > qsim::machine_prec) {
+        npdebug("Values: (", px, ", ", py, ")")
+        throw std::runtime_error("Momentum computation isn't fully real");
+    }
+
+    return std::pair<double, double>(px.real(), py.real());
+}
+
+
 /*
  * TODO, all below this
  */
-
 // implementations
 /*double qsystem2D::energy() const {
     qsim::wave_t E(0);
@@ -77,169 +146,4 @@ diag_functor<wave_t> qsystem2D::potential_on_column(size_t j) const {
     return E.real();
 }
 
-std::pair<double,double> qsystem2D::position() const {
-    std::pair<double,double> out(0, 0);
-    for (auto it = begin(); it != end(); ++it) {
-        out.first += it.x() * std::norm(*it);
-        out.second += it.y() * std::norm(*it);
-    }
-
-    out.first *= dx * dy;
-    out.second *= dx * dy;
-    return out;
-}
-
-std::pair<double,double> qsystem2D::momentum() const {
-    qsim::wave_t px(0), py(0);
-    for (auto it = begin(); it != end(); ++it) {
-        px += it.right() - it.left();
-        py += it.up() - it.down();
-    }
-
-    using namespace std::complex_literals;
-
-    px *= - 1i * hbar() * dy / 2.0;
-    py *= - 1i * hbar() * dx / 2.0;
-
-    if (abs(px.imag()) > qsim::machine_prec || abs(py.imag()) > qsim::machine_prec) {
-        npdebug("Values: (", px, ", ", py, ")")
-        throw std::runtime_error("Momentum computation isn't fully real");
-    }
-
-    return std::pair<double, double>(px.real(), py.imag());
-}
-
-// normalize the wave function
-double qsystem2D::norm() const {
-    double out(0);
-    for (const qsim::wave_t& val : *this)
-        out += std::norm(val);
-
-    return out * dx * dy;
-}
-
-size_t qsystem2D::N() const {
-    return _N;
-}
-size_t qsystem2D::M() const {
-    return _M;
-}
-
-
-qsystem2D::iterator qsystem2D::begin() {
-    return iterator(*this, 1, 1);
-}
-
-qsystem2D::const_iterator qsystem2D::begin() const {
-    return const_iterator(*this, 1, 1);
-}
-
-qsystem2D::iterator qsystem2D::end() {
-    return iterator(*this, _N+1, 1);
-}
-
-qsystem2D::const_iterator qsystem2D::end() const {
-    return const_iterator(*this, _N+1, 1);
-}*/
-
-/*
- * iterator section
- */ 
-/*
-qsystem2D::iterator::iterator(qsystem2D& _sys, size_t _i, size_t _j) 
-    : sys(_sys), i(_i), j(_j)
-{
-}
-
-void qsystem2D::iterator::increment() {
-    if (j < sys.M())
-        ++j;
-    else {
-        ++i;
-        j = 1;
-    }
-}
-
-
-bool qsystem2D::iterator::operator!=(const iterator& other) const {
-    return i != other.i || j != other.j;
-}
-
-qsim::wave_t& qsystem2D::iterator::operator*() {
-    return sys.wave[sys.map(i,j)];
-}
-
-
-qsim::wave_t& qsystem2D::iterator::up() {
-    return sys.wave[sys.map(i,j+1)];
-}
-
-qsim::wave_t& qsystem2D::iterator::down() {
-    return sys.wave[sys.map(i,j-1)];
-}
-
-qsim::wave_t& qsystem2D::iterator::left() {
-    return sys.wave[sys.map(i-1,j)];
-}
-
-qsim::wave_t& qsystem2D::iterator::right() {
-    return sys.wave[sys.map(i+1,j)];
-}
-
-double qsystem2D::iterator::x() const {
-    return sys.x(i);
-}
-
-double qsystem2D::iterator::y() const {
-    return sys.y(j);
-}
-
-// const iterator
-
-qsystem2D::const_iterator::const_iterator(const qsystem2D& _sys, size_t _i, size_t _j) 
-    : sys(_sys), i(_i), j(_j)
-{
-}
-
-void qsystem2D::const_iterator::increment() {
-    if (j < sys.M())
-        ++j;
-    else {
-        ++i;
-        j = 1;
-    }
-}
-
-bool qsystem2D::const_iterator::operator!=(const const_iterator& other) const {
-    return i != other.i || j != other.j;
-}
-
-const qsim::wave_t& qsystem2D::const_iterator::operator*() const {
-    return sys.wave[sys.map(i,j)];
-}
-
-
-const qsim::wave_t& qsystem2D::const_iterator::up() const {
-    return sys.wave[sys.map(i,j+1)];
-}
-
-const qsim::wave_t& qsystem2D::const_iterator::down() const {
-    return sys.wave[sys.map(i,j-1)];
-}
-
-const qsim::wave_t& qsystem2D::const_iterator::left() const {
-    return sys.wave[sys.map(i-1,j)];
-}
-
-const qsim::wave_t& qsystem2D::const_iterator::right() const {
-    return sys.wave[sys.map(i+1,j)];
-}
-
-double qsystem2D::const_iterator::x() const {
-    return sys.x(i);
-}
-
-double qsystem2D::const_iterator::y() const {
-    return sys.y(j);
-}*/
 

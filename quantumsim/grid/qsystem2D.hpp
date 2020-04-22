@@ -58,6 +58,15 @@ namespace qsim::grid {
                   );
         
         virtual void evolve(double) override;
+
+        /*
+         * Operators
+         */
+        
+        math::diagonals<wave_t, 3> H_zero_y() const;
+        math::diagonals<wave_t, 3> H_zero_x() const;
+        math::diagonals<wave_t, 2> Px() const;
+        math::diagonals<wave_t, 2> Py() const;
         
         // integrals
         virtual double norm() const override;
@@ -92,10 +101,15 @@ namespace qsim::grid {
         }
 
         /*
-         * Causing of boundaries size is decreased of 2
+         * Boundaries
          */
         
-        size_t N() const;
-        size_t M() const;
+        inline size_t N() const {
+            return wave.cols_nb();
+        }
+
+        inline size_t M() const {
+            return wave.rows_nb();
+        }
     };
 }

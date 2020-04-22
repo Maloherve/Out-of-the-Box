@@ -125,6 +125,16 @@ T& vector_access<T>::at(size_t j) {
         throw std::out_of_range("Vector index excedes size (vector_access::at)");
 }
 
+template<class T>
+T vector_access<T>::operator*(const vector_access<T>& other) const {
+    T out(0);
+    const size_t N = std::min(size(), other.size());
+    for (size_t i = 0; i < N; ++i)
+        out += (*this)[i] * other[i];
+
+    return out;
+}
+
 /*
  * Sub-matrix functions definitions
  */ 
@@ -391,17 +401,15 @@ square_matrix<T> square_matrix<T>::eye(size_t N) {
  */ 
 
 
-template <typename R, typename T>
-matrix<R> convert(const basic_matrix<T>& A, const std::function<R (T)>& operation) {
-    matrix<R> out(A.rows_nb(), A.cols_nb());
-
+template <class R, typename T, typename = typename std::enable_if<std::is_base_of<basic_matrix<T>, R>::value>::type >
+R convert(R A, const std::function<T (const T&)>& operation) {
     for (size_t i = 0; i < A.rows_nb(); ++i) {
         for (size_t j = 0; j < A.cols_nb(); ++j) {
-            out(i,j) = operation(A(i,j));
+            A(i,j) = operation(A(i,j));
         }
     }
 
-    return out;
+    return A;
 }
 
 /*
@@ -416,7 +424,7 @@ helper::LU_output<T, Matrix> LU_decomposition(const Matrix& A) {
     
     for (size_t k = 0; k < N-1; ++k) {
         // max index
-        auto maxind = helper::max( std::abs( out.U.get_column(k, {k, N}) ));
+        auto maxind = std::max( std::abs( out.U.get_column(k, {k, N}) ));
         size_t r = maxind.first;
 
         if (k > 0) 
@@ -488,24 +496,6 @@ Vector operator*(const qsim::math::basic_matrix<T>& A, const Vector& x) {
 
 namespace qsim::math::helper {
 
-    template<typename T>
-    std::pair<size_t, size_t> max(const qsim::math::matrix<T>& mat) {
-        // set to the minimal value
-        T m = std::numeric_limits<T>::min();
-        std::pair<size_t, size_t> result;
-
-        // compute the maximum
-        for (size_t i = 0; i < mat.rows_nb(); ++i) {
-            for (size_t j = 0; j < mat.cols_nb(); ++j) {
-                if (mat.at(i,j) > m) {
-                    m = mat.at(i,j);
-                    result = {i,j}; 
-                }
-            }
-        }
-
-        return result;
-    }
     
     // gauss elimination of lower triangular
     template<typename T, class Vector>
@@ -548,10 +538,87 @@ namespace qsim::math::helper {
 
 namespace std {
 
+    template<typename T>
+    std::pair<size_t, size_t> max(const qsim::math::basic_matrix<T>& mat) {
+        // set to the minimal value
+        T m = std::numeric_limits<T>::min();
+        std::pair<size_t, size_t> result;
+
+        // compute the maximum
+        for (size_t i = 0; i < mat.rows_nb(); ++i) {
+            for (size_t j = 0; j < mat.cols_nb(); ++j) {
+                if (mat.at(i,j) > m) {
+                    m = mat.at(i,j);
+                    result = {i,j}; 
+                }
+            }
+        }
+
+        return result;
+    }
+
     // element-wise absolute value
     template <typename T>
-    qsim::math::matrix<double> abs(const qsim::math::basic_matrix<T>& A) {
-        return qsim::math::convert<double,T>(A, [&] (T value) { return std::abs(value); });
+    qsim::math::matrix<double> abs(const qsim::math::matrix<T>& A) {
+        return qsim::math::convert<qsim::math::matrix<double>, T>(A, [&] (const T& value) { return std::abs(value); });
+    }
+
+    // complex case adjoint absolute value
+    template <typename T>
+    qsim::math::submatrix<double> abs(qsim::math::submatrix<T> A) {
+        return qsim::math::convert<qsim::math::submatrix<double>, T>(A, [&] (const T& value) { return std::abs(value); });
+    }
+
+    // complex case adjoint absolute value
+    template <typename T>
+    qsim::math::row_vector<double> abs(qsim::math::row_vector<T> A) {
+        return qsim::math::convert<qsim::math::row_vector<double>, T>(A, [&] (const T& value) { return std::abs(value); });
+    }
+
+    // complex case adjoint absolute value
+    template <typename T>
+    qsim::math::column_vector<double> abs(qsim::math::column_vector<T> A) {
+        return qsim::math::convert<qsim::math::column_vector<double>, T>(A, [&] (const T& value) { return std::abs(value); });
+    }
+
+    // complex case adjoint absolute value
+    template <typename T>
+    qsim::math::table_row<double> abs(qsim::math::table_row<T> A) {
+        return qsim::math::convert<qsim::math::table_row<double>, T>(A, [&] (const T& value) { return std::abs(value); });
+    }
+
+    /*
+     * Element-wise complex conjugate
+     */
+
+    // complex case adjoint absolute value
+    template <typename T>
+    qsim::math::matrix<std::complex<T>> conj(qsim::math::matrix<std::complex<T>> A) {
+        return qsim::math::convert<qsim::math::matrix<std::complex<T>>, T>(A, [&] (const T& value) { return std::conj(value); });
+    }
+
+    // complex case adjoint absolute value
+    template <typename T>
+    qsim::math::submatrix<std::complex<T>> conj(qsim::math::submatrix<std::complex<T>> A) {
+        return qsim::math::convert<qsim::math::submatrix<std::complex<T>>, T>(A, [&] (const T& value) { return std::conj(value); });
+    }
+
+    // complex case adjoint absolute value
+    template <typename T>
+    qsim::math::row_vector<std::complex<T>> conj(qsim::math::row_vector<std::complex<T>> A) {
+        return qsim::math::convert<qsim::math::row_vector<std::complex<T>>, T>(A, [&] (const T& value) { return std::conj(value); });
+    }
+
+    // complex case adjoint absolute value
+    template <typename T>
+    qsim::math::column_vector<std::complex<T>> conj(qsim::math::column_vector<std::complex<T>> A) {
+        return qsim::math::convert<qsim::math::column_vector<std::complex<T>>, T>(A, [&] (const T& value) { return std::conj(value); });
+    }
+
+    // complex case adjoint absolute value
+    template <typename T>
+    qsim::math::table_row<std::complex<T>> conj(qsim::math::table_row<std::complex<T>> A) {
+        return qsim::math::convert<qsim::math::table_row<std::complex<T>>, T>(A, [&] (const T& value) { return std::conj(value); });
     }
 }
 
