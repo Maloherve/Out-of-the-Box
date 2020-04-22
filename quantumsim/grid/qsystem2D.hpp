@@ -31,6 +31,7 @@ namespace qsim::grid {
     public: 
 
         static const math::diagonals<wave_t, 3> A;
+        static const math::diagonals<wave_t, 2> A_P;
 
         struct init_pack {
             std::function<qsim::wave_t (double, double)> f;

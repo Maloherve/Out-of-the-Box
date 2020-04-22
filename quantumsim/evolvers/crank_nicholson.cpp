@@ -44,7 +44,7 @@ wave_grid crank_nicholson::evolve(const qsystem2D& system, double dt) const {
     for (size_t j = 0; j < psi.cols_nb(); ++j) {
         // generate the operator
         H_matrix_2D Ty(wave_t(1.0), 
-                      (l_tau / pow(system.dy,2)) * qsystem2D::A,
+                      (l_tau / pow(system.delta_y() ,2)) * qsystem2D::A,
                       (-p_tau) * system.potential_on_column(j));
         
         // re-assign the column only
@@ -55,7 +55,7 @@ wave_grid crank_nicholson::evolve(const qsystem2D& system, double dt) const {
     // for each line, compute second matrix multiplication
     for (size_t i = 0; i < psi.cols_nb(); ++i) {
         // generate the operator
-        laplace_t Tx(wave_t(1.0), (l_tau / pow(system.dx,2)) * qsystem2D::A);
+        laplace_t Tx(wave_t(1.0), (l_tau / pow(system.delta_x() ,2)) * qsystem2D::A);
         
         // re-assign the line only
         // TODO, check if move semantics is applied
@@ -65,7 +65,7 @@ wave_grid crank_nicholson::evolve(const qsystem2D& system, double dt) const {
     // for each line, compute the half-implicit step
     for (size_t i = 0; i < psi.cols_nb(); ++i) {
         // generate the operator
-        laplace_t Tx(wave_t(1.0), (-l_tau / pow(system.dx,2)) * qsystem2D::A);
+        laplace_t Tx(wave_t(1.0), (-l_tau / pow(system.delta_x() ,2)) * qsystem2D::A);
         
         // re-assign the line only
         // TODO, check if move semantics is applied
@@ -76,7 +76,7 @@ wave_grid crank_nicholson::evolve(const qsystem2D& system, double dt) const {
     for (size_t j = 0; j < psi.cols_nb(); ++j) {
         // generate the operator
         H_matrix_2D Ty(wave_t(1.0), 
-                      (-l_tau / pow(system.dy,2)) * qsystem2D::A,
+                      (-l_tau / pow(system.delta_y() ,2)) * qsystem2D::A,
                       p_tau * system.potential_on_column(j));
         
         // re-assign the column only

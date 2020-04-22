@@ -135,6 +135,11 @@ T vector_access<T>::operator*(const vector_access<T>& other) const {
     return out;
 }
 
+template<class T>
+T vector_access<T>::scalar(const vector_access<T>& other) const {
+    return (*this) * other;
+}
+
 /*
  * Sub-matrix functions definitions
  */ 
@@ -608,31 +613,31 @@ namespace std {
     // complex case adjoint absolute value
     template <typename T>
     qsim::math::matrix<std::complex<T>> conj(qsim::math::matrix<std::complex<T>> A) {
-        return qsim::math::convert<qsim::math::matrix<std::complex<T>>, T>(A, [&] (const T& value) { return std::conj(value); });
+        return qsim::math::convert<qsim::math::matrix<std::complex<T>>, std::complex<T>>(A, [&] (const std::complex<T>& value) { return std::conj(value); });
     }
 
     // complex case adjoint absolute value
     template <typename T>
     qsim::math::submatrix<std::complex<T>> conj(qsim::math::submatrix<std::complex<T>> A) {
-        return qsim::math::convert<qsim::math::submatrix<std::complex<T>>, T>(A, [&] (const T& value) { return std::conj(value); });
+        return qsim::math::convert<qsim::math::submatrix<std::complex<T>>, std::complex<T>>(A, [&] (const std::complex<T>& value) { return std::conj(value); });
     }
 
     // complex case adjoint absolute value
     template <typename T>
     qsim::math::row_vector<std::complex<T>> conj(qsim::math::row_vector<std::complex<T>> A) {
-        return qsim::math::convert<qsim::math::row_vector<std::complex<T>>, T>(A, [&] (const T& value) { return std::conj(value); });
+        return qsim::math::convert<qsim::math::row_vector<std::complex<T>>, std::complex<T>>(A, [&] (const std::complex<T>& value) { return std::conj(value); });
     }
 
     // complex case adjoint absolute value
     template <typename T>
     qsim::math::column_vector<std::complex<T>> conj(qsim::math::column_vector<std::complex<T>> A) {
-        return qsim::math::convert<qsim::math::column_vector<std::complex<T>>, T>(A, [&] (const T& value) { return std::conj(value); });
+        return qsim::math::convert<qsim::math::column_vector<std::complex<T>>, std::complex<T>>(A, [&] (const std::complex<T>& value) { return std::conj(value); });
     }
 
     // complex case adjoint absolute value
     template <typename T>
     qsim::math::table_row<std::complex<T>> conj(qsim::math::table_row<std::complex<T>> A) {
-        return qsim::math::convert<qsim::math::table_row<std::complex<T>>, T>(A, [&] (const T& value) { return std::conj(value); });
+        return qsim::math::convert<qsim::math::table_row<std::complex<T>>, std::complex<T>>(A, [&] (const std::complex<T>& value) { return std::conj(value); });
     }
 }
 

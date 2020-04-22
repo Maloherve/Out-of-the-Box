@@ -109,6 +109,7 @@ namespace qsim::math {
              */
 
             T operator*(const vector_access<T>&) const;
+            T scalar(const vector_access<T>&) const;
     };
 
     /*
@@ -284,12 +285,9 @@ namespace qsim::math {
     };
     
     template <typename T>
-    class table_row : public std::vector<T>, public basic_matrix<T> {
+    class table_row : private std::vector<T>, public basic_matrix<T>, public vector_access<T> {
         friend class matrix<T>;
         friend class square_matrix<T>;
-        using std::vector<T>::reserve;
-        using std::vector<T>::push_back;
-        using std::vector<T>::pop_back;
 
         virtual T& operator()(size_t i, size_t) override {
             return (*this)[i];
@@ -312,20 +310,18 @@ namespace qsim::math {
 
     public:
         using std::vector<T>::vector;
-        
-        // TODO, hope that superclass is called
-        //table_row(const table_row&) = default;
-        //table_row(table_row&&) = default;
 
-        /*inline table_row& operator=(const table_row& other) {
-            submatrix<T>::operator=(other);
-            return *this;
+        virtual T& operator[](size_t i) override {
+            return std::vector<T>::operator[](i);
         }
 
-        inline table_row& operator=(table_row&& other) {
-            submatrix<T>::operator=(other);
-            return *this;
-        }*/
+        virtual const T& operator[](size_t i) const {
+            return std::vector<T>::operator[](i);
+        }
+
+        virtual size_t size() const override {
+            return std::vector<T>::size();
+        }
 
         // operator forwarding
         FORWARD_BASIC_MATRIX(table_row, T)

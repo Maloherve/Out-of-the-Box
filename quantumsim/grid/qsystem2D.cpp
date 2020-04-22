@@ -9,7 +9,8 @@
 using namespace qsim::grid;
 using namespace qsim::math;
 
-const qsim::math::diagonals<wave_t, 3> qsystem2D::A = math::diagonals<wave_t, 3>({math::sdiag_entry(-1, 1.0), math::sdiag_entry(0, -2.0), math::sdiag_entry(1, 1.0)});
+const diagonals<wave_t, 3> qsystem2D::A = diagonals<wave_t, 3>({sdiag_entry(-1, 1.0), sdiag_entry(0, -2.0), sdiag_entry(1, 1.0)});
+const diagonals<wave_t, 2> qsystem2D::A_P = diagonals<wave_t, 2>({sdiag_entry(-1, -1.0), sdiag_entry(1, 1.0)});
 
 // init pack
 wave_grid qsystem2D::init_pack::generate(double dx, double dy) const {
@@ -43,22 +44,22 @@ void qsystem2D::evolve(double dt) {
     wave = m_evolver->evolve(*this, dt);
 }
 
-math::diagonals<wave_t, 3> qsystem2D::H_zero_x() const {
-    return (-pow(hbar() / dx, 2)) * A;
+diagonals<wave_t, 3> qsystem2D::H_zero_x() const {
+    return wave_t(-pow(hbar() / dx, 2) / (2 * mass())) * A;
 }
 
-math::diagonals<wave_t, 3> qsystem2D::H_zero_y() const {
-    return (-pow(hbar() / dy, 2)) * A;
+diagonals<wave_t, 3> qsystem2D::H_zero_y() const {
+    return wave_t(-pow(hbar() / dy, 2) / (2 * mass())) * A;
 }
 
-math::diagonals<wave_t, 2> qsystem2D::Px() const {
+diagonals<wave_t, 2> qsystem2D::Px() const {
     using namespace std::complex_literals;
-    return (-1i * hbar() / (2.0 * dx)) * math::diagonals<wave_t, 2>({-1, -1}, {1, 1});
+    return (-1i * hbar() / (2.0 * dx)) * A_P;
 }
 
-math::diagonals<wave_t, 2> qsystem2D::Py() const {
+diagonals<wave_t, 2> qsystem2D::Py() const {
     using namespace std::complex_literals;
-    return (-1i * hbar() / (2.0 * dy)) * math::diagonals<wave_t, 2>({-1, -1}, {1, 1});
+    return (-1i * hbar() / (2.0 * dy)) * A_P;
 }
 
 diag_functor<wave_t> qsystem2D::potential_on_row(size_t i) const {
@@ -99,11 +100,13 @@ std::pair<double,double> qsystem2D::position() const {
 
 std::pair<double,double> qsystem2D::momentum() const {
     qsim::wave_t px(0), py(0);
+    wave_grid& wav = const_cast<wave_grid&>(wave);
+
     for (size_t i = 0; i < N(); ++i)
-        px += std::conj(wave.get_row(i)) * (P() * wave.get_row(i));
+        px += std::conj(wav.get_row(i)).scalar(Px() * wav.get_row(i));
 
     for (size_t j = 0; j < M(); ++j)
-        py += std::conj(wave.get_column(i)) * (P() * wave.get_column(i));
+        py += std::conj(wav.get_column(j)).scalar(Py() * wav.get_column(j));
 
     using namespace std::complex_literals;
 
@@ -121,21 +124,21 @@ std::pair<double,double> qsystem2D::momentum() const {
 }
 
 
-/*
- * TODO, all below this
- */
 // implementations
-/*double qsystem2D::energy() const {
+double qsystem2D::energy() const {
     qsim::wave_t E(0);
-    double psix = pow(hbar()/dx,2) / (2 * mass());
-    double psiy = pow(hbar()/dy,2) / (2 * mass());
-    double v = 2 * (psix + psiy);
-    
-    // apply the hamiltonian
-    for (auto it = begin(); it != end(); ++it) {
-        E += (this->V()(it.k()) + v) * (*it) 
-           - psix * (it.right() + it.left()) 
-           - psiy * (it.up() + it.down());
+
+    wave_grid& wav = const_cast<wave_grid&>(wave);
+    for (size_t i = 0; i < N(); ++i) {
+        auto conj = std::conj(wav.get_row(i));
+        E += conj.scalar(H_zero_x() * wav.get_row(i));
+        E += conj.scalar(potential_on_row(i) * wav.get_row(i));
+    }
+
+    for (size_t j = 0; j < M(); ++j) {
+        auto conj = std::conj(wav.get_column(j));
+        E += conj.scalar(H_zero_y() * wav.get_column(j));
+        E += conj.scalar(potential_on_column(j) * wav.get_column(j));
     }
 
     if (abs(E.imag()) > qsim::machine_prec) {
