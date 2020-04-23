@@ -4,8 +4,8 @@
 
 namespace qsim::pot {
 
-    template <typename Coords> 
-    class uniform : virtual public potential<Coords> {
+    template <typename ...Coords> 
+    class uniform : virtual public potential<Coords...> {
 
         double value; 
 
@@ -28,7 +28,7 @@ namespace qsim::pot {
             return value;
         }
         
-        virtual double operator()(const Coords&) const override {
+        virtual double operator()(const Coords&...) const override {
             return value;
         }
     };

@@ -219,11 +219,11 @@ namespace qsim::math {
             } 
 
             virtual const T& operator[](size_t j) const override {
-                return (*this)(this->rows.first, j);
+                return (*this)(0, j);
             } 
 
             virtual T& operator[](size_t j) override {
-                return (*this)(this->rows.first, j);
+                return (*this)(0, j);
             } 
 
             // operator forwarding
@@ -273,11 +273,11 @@ namespace qsim::math {
             } 
 
             virtual const T& operator[](size_t i) const override {
-                return (*this)(i, this->cols.first);
+                return (*this)(i, 0);
             } 
 
             virtual T& operator[](size_t i) override {
-                return (*this)(i, this->cols.first);
+                return (*this)(i, 0);
             } 
 
             // operator forwarding

@@ -116,7 +116,7 @@ std::pair<double,double> qsystem2D::momentum() const {
     py *= dx * dy;
 
     if (abs(px.imag()) > qsim::machine_prec || abs(py.imag()) > qsim::machine_prec) {
-        npdebug("Values: (", px, ", ", py, ")")
+        //npdebug("Values: (", px, ", ", py, ")")
         throw std::runtime_error("Momentum computation isn't fully real");
     }
 
@@ -127,26 +127,49 @@ std::pair<double,double> qsystem2D::momentum() const {
 // implementations
 double qsystem2D::energy() const {
     qsim::wave_t E(0);
-
     wave_grid& wav = const_cast<wave_grid&>(wave);
+
+    //npdebug("Constant wave: ", &wave)
+    //npdebug("Non-constant wave: ", &wav)
     for (size_t i = 0; i < N(); ++i) {
+        //npdebug("Operating on row i =", i)
         auto conj = std::conj(wav.get_row(i));
         E += conj.scalar(H_zero_x() * wav.get_row(i));
         E += conj.scalar(potential_on_row(i) * wav.get_row(i));
     }
 
     for (size_t j = 0; j < M(); ++j) {
+        //npdebug("Operating on column j = ", j)
         auto conj = std::conj(wav.get_column(j));
         E += conj.scalar(H_zero_y() * wav.get_column(j));
         E += conj.scalar(potential_on_column(j) * wav.get_column(j));
     }
 
     if (abs(E.imag()) > qsim::machine_prec) {
-        npdebug("Value: ", E)
+        //npdebug("Value: ", E)
         throw std::runtime_error("Energy computation isn't fully real");
     }
 
     return E.real();
 }
 
+void qsystem2D::set_delta_x(double _dx) {
+    if (_dx <= 0)
+        throw std::invalid_argument("dx must be positive");
+    dx = _dx;
+}
 
+double qsystem2D::delta_x() const {
+    return dx;
+}
+
+void qsystem2D::set_delta_y(double _dy) {
+    if (_dy <= 0)
+        throw std::invalid_argument("dy must be positive");
+    dy = _dy;
+}
+
+double qsystem2D::delta_y() const {
+    return dy;
+}
+ 
