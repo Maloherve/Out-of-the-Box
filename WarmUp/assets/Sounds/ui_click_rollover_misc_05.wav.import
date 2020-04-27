@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/ui_click_rollover_misc_05.wav-93e1c7f889fd946eab7c685b608027ce.sample"
+
+[deps]
+
+source_file="res://assets/Sounds/ui_click_rollover_misc_05.wav"
+dest_files=[ "res://.import/ui_click_rollover_misc_05.wav-93e1c7f889fd946eab7c685b608027ce.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0
