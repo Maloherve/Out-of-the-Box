@@ -161,10 +161,21 @@ position = Vector2( -586.008, 333.651 )
 texture = ExtResource( 2 )
 flip_h = true
 
+[node name="SkyLine5" type="Sprite" parent="World/Background"]
+position = Vector2( 536.992, 1109.65 )
+texture = ExtResource( 2 )
+flip_v = true
+
 [node name="SkyLine2" type="Sprite" parent="World/Background"]
 position = Vector2( 1659.99, 333.651 )
 texture = ExtResource( 2 )
 flip_h = true
+
+[node name="SkyLine4" type="Sprite" parent="World/Background"]
+position = Vector2( 1659.99, 1110.65 )
+texture = ExtResource( 2 )
+flip_h = true
+flip_v = true
 
 [node name="Label" type="Label" parent="World/Background"]
 margin_left = 108.757
