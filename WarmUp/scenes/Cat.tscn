@@ -77,24 +77,29 @@ color_ramp = SubResource( 2 )
 
 [sub_resource type="SpriteFrames" id=6]
 animations = [ {
+"frames": [ ExtResource( 33 ), ExtResource( 34 ), ExtResource( 35 ), ExtResource( 36 ), ExtResource( 5 ), ExtResource( 27 ) ],
+"loop": true,
+"name": "_attack",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 29 ), ExtResource( 12 ), ExtResource( 13 ), ExtResource( 24 ), ExtResource( 1 ), ExtResource( 8 ), ExtResource( 3 ), ExtResource( 4 ), ExtResource( 23 ) ],
+"loop": true,
+"name": "_idle",
+"speed": 5.0
+}, {
 "frames": [ ExtResource( 29 ), ExtResource( 12 ), ExtResource( 13 ), ExtResource( 24 ), ExtResource( 1 ), ExtResource( 8 ), ExtResource( 3 ), ExtResource( 4 ), ExtResource( 23 ) ],
 "loop": true,
 "name": "_endcast",
 "speed": 15.0
-}, {
-"frames": [ ExtResource( 67 ), ExtResource( 66 ), ExtResource( 64 ), ExtResource( 65 ), ExtResource( 63 ) ],
-"loop": true,
-"name": "_hold",
-"speed": 5.0
 }, {
 "frames": [ ExtResource( 37 ), ExtResource( 19 ), ExtResource( 38 ), ExtResource( 18 ), ExtResource( 14 ) ],
 "loop": true,
 "name": "_walk",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 29 ), ExtResource( 12 ), ExtResource( 13 ), ExtResource( 24 ), ExtResource( 1 ), ExtResource( 8 ), ExtResource( 3 ), ExtResource( 4 ), ExtResource( 23 ) ],
+"frames": [ ExtResource( 67 ), ExtResource( 66 ), ExtResource( 64 ), ExtResource( 65 ), ExtResource( 63 ) ],
 "loop": true,
-"name": "_idle",
+"name": "_hold",
 "speed": 5.0
 }, {
 "frames": [ ExtResource( 39 ), ExtResource( 28 ), ExtResource( 31 ), ExtResource( 32 ), ExtResource( 16 ), ExtResource( 22 ), ExtResource( 9 ), ExtResource( 26 ), ExtResource( 6 ) ],
@@ -111,11 +116,6 @@ animations = [ {
 "loop": true,
 "name": "_cast",
 "speed": 10.0
-}, {
-"frames": [ ExtResource( 33 ), ExtResource( 34 ), ExtResource( 35 ), ExtResource( 36 ), ExtResource( 5 ), ExtResource( 27 ) ],
-"loop": true,
-"name": "_attack",
-"speed": 5.0
 } ]
 
 [sub_resource type="RectangleShape2D" id=7]

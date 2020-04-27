@@ -9,7 +9,7 @@ var darken : bool = false;
 const WORLD_MODULATE_COLOR : Color = Color(0.5,1,0.5);
 const PLAYER_MODULATE_COLOR : Color = Color(0.3,0.3,0.3)
 # Player 
-var camera_zoom : Vector2 = Vector2(.4, .4)
+var camera_zoom : Vector2 = Vector2(.3, .3)
 export var is_cat : bool = true;
 var teleport_player : bool = false;
 # TMP
