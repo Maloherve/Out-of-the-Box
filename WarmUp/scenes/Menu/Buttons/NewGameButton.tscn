@@ -1,0 +1,28 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://scenes/Menu/Buttons/MenuButton.tscn" type="PackedScene" id=1]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends Button
+
+export (Color,RGB) var text_color
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	pass # Replace with function body.
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+#func _process(delta):
+	
+
+func _on_Label_mouse_entered():
+		print(\"hello\")
+"
+
+[node name="NewGameButton" instance=ExtResource( 1 )]
+script = SubResource( 1 )
+
+[node name="Label" parent="." index="0"]
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+text = "New Game"
+[connection signal="mouse_entered" from="Label" to="." method="_on_Label_mouse_entered"]
