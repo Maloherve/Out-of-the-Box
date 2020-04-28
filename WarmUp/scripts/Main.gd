@@ -78,7 +78,10 @@ func teleport():
 # ----- Node Function ------
 func on_Player_start_casting():
 	darken = true;
+	AudioServer.set_bus_effect_enabled ( 1, 0, true )
 
 func on_Player_stop_casting():
+	$Teleport.play();
 	teleport_player = true;
 	darken = false;
+	AudioServer.set_bus_effect_enabled ( 1, 0, false )

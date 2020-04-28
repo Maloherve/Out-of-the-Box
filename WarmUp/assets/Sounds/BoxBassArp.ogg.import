@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/BoxBassArp.ogg-d811db4635a1bd09f7fc0470478eb566.oggstr"
+
+[deps]
+
+source_file="res://assets/Sounds/BoxBassArp.ogg"
+dest_files=[ "res://.import/BoxBassArp.ogg-d811db4635a1bd09f7fc0470478eb566.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0

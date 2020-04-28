@@ -16,7 +16,7 @@ _global_script_class_icons={
 [application]
 
 config/name="WarmUp"
-run/main_scene="res://scenes/Levels/Introduction.tscn"
+run/main_scene="res://scenes/Menu/TitleScreen.tscn"
 config/icon="res://assets/Icon/imageedit_2_3132616459.png"
 
 [debug]

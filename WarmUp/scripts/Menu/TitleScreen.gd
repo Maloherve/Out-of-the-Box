@@ -14,7 +14,7 @@ func _ready():
 #Pressing NewGameButton takes to main scene
 func _on_NewGameButton_pressed():
 	$Click.play()
-	get_tree().change_scene("res://scenes/Main.tscn")
+	get_tree().change_scene("res://scenes/Levels/Introduction.tscn")
 	
 
 
