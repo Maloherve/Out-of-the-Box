@@ -3,6 +3,7 @@
 **/bin
 **/build
 **/*.os
+**/*.obj
 **/*.o
 qunatumgdn/api.json
 WarmUp/.import
