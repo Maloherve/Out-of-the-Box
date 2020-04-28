@@ -14,15 +14,15 @@ font_data = ExtResource( 2 )
 size = 48
 font_data = ExtResource( 2 )
 
-[sub_resource type="DynamicFont" id=5]
-size = 48
-font_data = ExtResource( 2 )
-
 [sub_resource type="DynamicFont" id=3]
 size = 48
 font_data = ExtResource( 2 )
 
 [sub_resource type="DynamicFont" id=4]
+size = 48
+font_data = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=5]
 font_data = ExtResource( 2 )
 
 [node name="OptionScreen" type="Control"]
@@ -122,7 +122,7 @@ flat = true
 [node name="Label" type="Label" parent="Menu/CenterRow/Buttons/Option2Button"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-custom_fonts/font = SubResource( 5 )
+custom_fonts/font = SubResource( 3 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 custom_constants/shadow_offset_x = -2
 custom_constants/shadow_offset_y = 3
@@ -143,7 +143,7 @@ flat = true
 [node name="Label" type="Label" parent="Menu/CenterRow/Buttons/ReturnButton"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-custom_fonts/font = SubResource( 3 )
+custom_fonts/font = SubResource( 4 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 custom_constants/shadow_offset_x = -2
 custom_constants/shadow_offset_y = 3
@@ -160,7 +160,7 @@ margin_right = 864.0
 margin_bottom = 459.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_fonts/font = SubResource( 4 )
+custom_fonts/font = SubResource( 5 )
 text = "Version 0.0.1
 Quarantum Studios"
 align = 2

@@ -19,7 +19,7 @@ func _enter_tree():
 	# Load in Player
 	var player_scene;
 	if is_cat:
-		player_scene = load("res://scenes/Cat.tscn")
+		player_scene = load("res://scenes/Cat2.tscn")
 	else:
 		player_scene = load("res://scenes/Human.tscn")
 	
