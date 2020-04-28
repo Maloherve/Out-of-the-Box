@@ -1,11 +1,9 @@
 #include <iostream>
 
 #include "grid/qsystem2D.hpp"
-#include "grid/wave.hpp"
+#include "math/matrix.hpp"
 #include "potentials/uniform.hpp"
-#include "potentials/stepped.hpp"
-#include "evolvers/explicit.hpp"
-#include "grid/integrators.hpp"
+#include "evolvers/crank_nicholson.hpp"
 
 #include <fstream>
 #include <sstream>
@@ -14,87 +12,67 @@ using namespace qsim;
 using namespace qsim::grid;
 using namespace std;
 
-wave_vector init_wave(size_t);
-void print(const qsystem2D&, const std::vector<double>&, size_t k);
+qsystem2D::init_pack init_wave(size_t, size_t);
+wave_t gauss(double x, double y);
 
 constexpr double mass = 1;
-constexpr double dt = 0.01;
-constexpr std::pair<double, double> bounds = {-50, 50};
-constexpr size_t steps = 1000;
+constexpr double dt = 0.017;
+constexpr double L = 100;
+constexpr size_t steps = 1;
 
-constexpr size_t samples = 100;
+constexpr size_t N = 25;
+
+constexpr double dx = L / N;
+constexpr double dy = L / N;
 
 int main() {
     
     // flat zero potential
-    auto V_flat = std::make_shared<pot::uniform<size_t>>();
+    auto V_flat = std::make_shared<pot::uniform<size_t, size_t>>();
 
     constexpr double position = 0.75;
 
-    // barrier in the middle
-    auto integ = std::make_shared<qsystem1D::explicit_evolver>();
+    auto integ = std::make_shared<qsim::evo::crank_nicholson>();
     
     // step 1, initialization
-    qsystem1D system(mass, bounds, init_wave(samples), V_barrier, integ);
-    
-    double A;
-    try {
-        A = system.normalize();
-    } catch (wave_t val) {
-        cout << "Normalization: " << val << endl;
-    }
+    qsystem2D system(mass, dx, dy, V_flat, init_wave(N,N), integ);
+    npdebug("System constructed: norm = ", system.norm())
 
-    /*
-     * Print out the discretization 1D map
-     */
-    auto map = system.generate_map(); 
-    
     /*
      * Symulate
      */
     for (size_t k = 0; k < steps; k++) {
         // print out psi
         if (k % 20 == 0) {
-            print(system, map, k);
             double E = system.energy();
+            double A = system.norm();
             cout << "Step k, norm = " << A << " , E = " << E << endl;
         }
 
         // evolve
         system.evolve(dt); 
-        A = system.normalize();
+        //system.normalize();
     }
 }
 
-wave_vector init_wave(size_t size) {
+constexpr double s_norm = 0.05; // peak length
+constexpr double x_0 = L / 2;
+constexpr double y_0 = L / 2;
+constexpr double n = 16;
+constexpr double m = 16;
+constexpr double sigma(s_norm * L / 2);
+constexpr double kx(2 * M_PI * n / L);
+constexpr double ky(2 * M_PI * m / L);
 
+wave_t gauss(double x, double y) {
     using namespace std::complex_literals;
-
-    wave_vector v(size);
-    constexpr double L = bounds.second - bounds.first; // half side
-    constexpr double s_norm = 0.05; // peak length
-    constexpr double x0 = -25;
-    constexpr double n = 16;
-    constexpr double sigma(s_norm * L / 2);
-    constexpr double k0(2 * M_PI * n / L);
-
-    for (size_t k = 0; k < size; ++k) {
-        double x = bounds.first + double(k * L) / size;
-        v[k] = exp(1i * k0 * x - pow((x - x0)/sigma, 2) / 2);
-    }
-
-    return v;
+    const double Dx = x - x_0;
+    const double Dy = y - y_0;
+    return exp(1i * (kx * Dx + ky * Dy) - (pow(Dx, 2) + pow(Dy, 2)) / (2.0 * pow(sigma,2)));
 }
 
-void print(const qsystem1D& system, const std::vector<double>& map, size_t k) {
+qsystem2D::init_pack init_wave(size_t _N, size_t _M) {
 
-    std::ostringstream filename;
-    filename << "outs/wave_test" << k << ".out";
-    ofstream out(filename.str());
- 
-    for (size_t i = 0; i < map.size(); ++i)
-        out << map[i] << "  " << real(system.psi()[i]) << "  " << imag(system.psi()[i]) << "  " << norm(system.psi()[i]) << endl;
-
-    out.close();
+    return qsystem2D::init_pack(&gauss, _N, _M);
 }
 

@@ -69,6 +69,8 @@ void qsystem1D::replace_wave(const init_pack& init) {
 }
 
 void qsystem1D::set_delta(double _dx) {
+    if (_dx <= 0)
+        throw std::invalid_argument("dx must be positive");
     dx = _dx;
 }
 

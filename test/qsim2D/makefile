@@ -5,10 +5,10 @@ FLAGS += -Wnoexcept
 #FLAGS += -Werror 
 all: clean qsim_test
 
-SRC:= ../../quantumsim/build/quantumsim.a
+SRC:= quantumsim/build/quantumsim.a
 
 qsim_test:
-	g++ -o qsim2D_test ${FLAGS} -std=c++17 qsim2D_test.cpp ${SRC} -I../../quantumsim
+	g++ -o qsim_test ${FLAGS} -std=c++17 qsim_test.cpp ${SRC} -I../../quantumsim
 
 .PHONY: clean
 
