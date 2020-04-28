@@ -3,7 +3,6 @@
 #include "math/diagonal.hpp"
 #include "math/diagonals.hpp"
 #include "math/composition.hpp"
-#include "math/ptr_composition.hpp"
 
 #include "grid/wave.hpp"
 
@@ -172,6 +171,8 @@ int main() {
     wave_vector y = {1, 2, 1};
     cout << "Identity non-crash: " << (I3 * y) << endl;
 
+    cout << "LU decomposition test" << endl;
+
     // LU decomposition of the identity
     auto lu = LU_decomposition<double>(I); 
 
@@ -187,27 +188,38 @@ int main() {
     PRINT_MATRIX(lu_prob.L, 3, cols_3)
     PRINT_MATRIX(lu_prob.U, 3, cols_3)
 
-    // ptr_composition
-    ptr_composition<double, matrix<double>> ptr_comp({&mat}, 1.0, 1.0);
+    // arthmetic operations
+    
+    // copy
+    auto prob_mat_cpy = prob_mat;
+    cout << "Matrix copy: " << endl;
+    PRINT_MATRIX(prob_mat, 3, cols_3)
 
-    cout << endl << "Ptr_composition test" << endl << endl;
+    prob_mat_cpy += (prob_mat * 2.0);
 
-    PRINT_MATRIX(ptr_comp, 5, cols_5)
+    square_matrix<double>& prob_mat_ref = (prob_mat *= 3.0);
+    cout << "Matrix multiplication by 3.0: " << endl;
+    PRINT_MATRIX(prob_mat, 3, cols_3)
+    
+    cout << "Matrix addiction by (mult * 2): " << endl;
+    PRINT_MATRIX(prob_mat_cpy, 3, cols_3)
 
-    cout << "Multiply by 2" << endl;
-    ptr_comp *= 2.0;
+    // submatrix move and copy
+    cout << "Matrix and submatrix move/copy test: " << endl;
+    {
+        cout << "Dependent submatrix" << endl;
+        auto prob_col = prob_mat.get_column(0); // dependent, no delete
 
-    PRINT_MATRIX(ptr_comp, 5, cols_5)
+        cout << "Independent submatrix" << endl;
+        column_vector<double> prob_col_copy(prob_col); // dependent, delete
 
-    cout << "Add 1" << endl;
-    ptr_comp += 1.0;
+        cout << "Change the independent (* 2.0) clone" << endl;
+        prob_col_copy *= 2.0;
 
-    PRINT_MATRIX(ptr_comp, 5, cols_5)
+        cout << "Copy assignment submatrix" << endl;
+        prob_col = prob_col_copy;
 
-    // do the same but in another way
-    cout << endl << "Ptr_composition control test" << endl << endl;
-    ptr_composition<double, matrix<double>> ptr_comp_2({&mat}, 1.0, 1.0);
-
-    PRINT_MATRIX((1.0 + (2.0 * ptr_comp_2)), 5, cols_5)
-
+        cout << "First column should be (* 2.0)" << endl;
+        PRINT_MATRIX(prob_mat, 3, cols_3)
+    }
 }

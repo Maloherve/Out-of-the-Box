@@ -28,26 +28,6 @@
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
-"frames": [ ExtResource( 56 ), ExtResource( 57 ), ExtResource( 60 ), ExtResource( 58 ), ExtResource( 59 ) ],
-"loop": false,
-"name": "_cast",
-"speed": 5.0
-}, {
-"frames": [ ExtResource( 53 ), ExtResource( 54 ), ExtResource( 55 ), ExtResource( 51 ), ExtResource( 50 ), ExtResource( 49 ), ExtResource( 48 ), ExtResource( 52 ) ],
-"loop": true,
-"name": "_attack",
-"speed": 5.0
-}, {
-"frames": [ ExtResource( 45 ), ExtResource( 44 ), ExtResource( 20 ), ExtResource( 47 ), ExtResource( 41 ), ExtResource( 46 ), ExtResource( 43 ), ExtResource( 40 ), ExtResource( 42 ) ],
-"loop": true,
-"name": "_jump",
-"speed": 5.0
-}, {
-"frames": [ ExtResource( 45 ) ],
-"loop": true,
-"name": "_idle",
-"speed": 5.0
-}, {
 "frames": [ ExtResource( 59 ), ExtResource( 58 ), ExtResource( 60 ), ExtResource( 57 ), ExtResource( 56 ) ],
 "loop": false,
 "name": "_endcast",
@@ -61,6 +41,26 @@ animations = [ {
 "frames": [ ExtResource( 45 ), ExtResource( 44 ), ExtResource( 20 ), ExtResource( 47 ), ExtResource( 41 ), ExtResource( 46 ), ExtResource( 43 ), ExtResource( 40 ), ExtResource( 42 ) ],
 "loop": true,
 "name": "_walk",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 45 ) ],
+"loop": true,
+"name": "_idle",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 45 ), ExtResource( 44 ), ExtResource( 20 ), ExtResource( 47 ), ExtResource( 41 ), ExtResource( 46 ), ExtResource( 43 ), ExtResource( 40 ), ExtResource( 42 ) ],
+"loop": true,
+"name": "_jump",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 56 ), ExtResource( 57 ), ExtResource( 60 ), ExtResource( 58 ), ExtResource( 59 ) ],
+"loop": false,
+"name": "_cast",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 53 ), ExtResource( 54 ), ExtResource( 55 ), ExtResource( 51 ), ExtResource( 50 ), ExtResource( 49 ), ExtResource( 48 ), ExtResource( 52 ) ],
+"loop": true,
+"name": "_attack",
 "speed": 5.0
 } ]
 

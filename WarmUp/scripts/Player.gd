@@ -4,7 +4,6 @@ extends KinematicBody2D
 
 # CONSTANTS
 const TYPE = "PLAYER";
-#export var cat : bool = false;
 const GRAVITY : int = 800;
 const MOVE_SPEED : int = 1 * 64;
 const CLIMB_SPEED : float = 1.5 * 64;
@@ -43,10 +42,10 @@ signal finish_casting;
 
 
 func _ready():
+	animNode = get_node("AnimatedSprite")
 	if (animNode != null):
 		animNode.play("_idle");
-
-	animNode = get_node("AnimatedSprite")
+	
 	# Connect Signals
 	animNode.connect("animation_finished", self, "_on_AnimatedSprite_animation_finished");
 	
@@ -63,9 +62,11 @@ func _process(delta):
 		if (move_direction == -1):
 			animNode.set_flip_h(false);
 			Side_Raycasts.set_flip(true);
+			$Trail.set_flip(true);
 		elif (move_direction == 1):
 			animNode.set_flip_h(true);
 			Side_Raycasts.set_flip(false);
+			$Trail.set_flip(false);
 
 
 # Execute Regularly
@@ -194,6 +195,12 @@ func _assign_animation():
 	
 	if (animNode.get_animation() != anim):
 		animNode.play(anim);
+		
+		if (animNode.get_animation() == "_walk"):
+			$Trail.emitting = true;
+		else: $Trail.emitting = false;
+	
+
 
 
 # ----- Node Function ------
@@ -211,4 +218,4 @@ func _on_AnimatedSprite_animation_finished():
 		cast = false;
 		if timer.is_paused():
 			timer.set_paused(false);
-		
+
