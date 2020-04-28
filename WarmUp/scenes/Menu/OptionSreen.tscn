@@ -1,0 +1,172 @@
+[gd_scene load_steps=11 format=2]
+
+[ext_resource path="res://assets/Icon/Chat3noir.png" type="Texture" id=1]
+[ext_resource path="res://assets/Fonts/VCR_OSD_MONO_1.001.ttf" type="DynamicFontData" id=2]
+[ext_resource path="res://assets/Background/MenuBackground.png" type="Texture" id=3]
+[ext_resource path="res://assets/Sounds/ui_click_rollover_misc_05.wav" type="AudioStream" id=4]
+[ext_resource path="res://scripts/OptionSreen.gd" type="Script" id=7]
+
+[sub_resource type="DynamicFont" id=1]
+size = 52
+font_data = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=2]
+size = 48
+font_data = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=3]
+size = 48
+font_data = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=4]
+size = 48
+font_data = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=5]
+font_data = ExtResource( 2 )
+
+[node name="OptionScreen" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 7 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Background" type="TextureRect" parent="."]
+modulate = Color( 0.329412, 0.658824, 0.713726, 1 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+rect_clip_content = true
+texture = ExtResource( 3 )
+stretch_mode = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Menu" type="VBoxContainer" parent="."]
+margin_left = 80.0
+margin_top = 80.0
+margin_right = 944.0
+margin_bottom = 520.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Title" type="Label" parent="Menu"]
+margin_right = 864.0
+margin_bottom = 55.0
+rect_min_size = Vector2( 0, 55 )
+custom_fonts/font = SubResource( 1 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+custom_constants/shadow_offset_x = -2
+custom_constants/shadow_offset_y = 3
+text = "OUT OF THE BOX"
+align = 1
+
+[node name="Logo" type="TextureRect" parent="Menu"]
+margin_top = 59.0
+margin_right = 864.0
+margin_bottom = 138.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource( 1 )
+stretch_mode = 4
+
+[node name="CenterRow" type="HBoxContainer" parent="Menu"]
+margin_top = 142.0
+margin_right = 864.0
+margin_bottom = 422.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Buttons" type="VBoxContainer" parent="Menu/CenterRow"]
+margin_right = 864.0
+margin_bottom = 280.0
+rect_min_size = Vector2( 0, 280 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_constants/separation = 5
+alignment = 1
+
+[node name="Option1Button" type="Button" parent="Menu/CenterRow/Buttons"]
+margin_top = 15.0
+margin_right = 864.0
+margin_bottom = 95.0
+rect_min_size = Vector2( 0, 80 )
+flat = true
+
+[node name="Label" type="Label" parent="Menu/CenterRow/Buttons/Option1Button"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_fonts/font = SubResource( 2 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+custom_constants/shadow_offset_x = -2
+custom_constants/shadow_offset_y = 3
+text = "Option 1"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Option2Button" type="Button" parent="Menu/CenterRow/Buttons"]
+margin_top = 100.0
+margin_right = 864.0
+margin_bottom = 180.0
+rect_min_size = Vector2( 0, 80 )
+flat = true
+
+[node name="Label" type="Label" parent="Menu/CenterRow/Buttons/Option2Button"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_fonts/font = SubResource( 3 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+custom_constants/shadow_offset_x = -2
+custom_constants/shadow_offset_y = 3
+text = "Option 2"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ReturnButton" type="Button" parent="Menu/CenterRow/Buttons"]
+margin_top = 185.0
+margin_right = 864.0
+margin_bottom = 265.0
+rect_min_size = Vector2( 0, 80 )
+flat = true
+
+[node name="Label" type="Label" parent="Menu/CenterRow/Buttons/ReturnButton"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_fonts/font = SubResource( 4 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+custom_constants/shadow_offset_x = -2
+custom_constants/shadow_offset_y = 3
+text = "←"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VersionLabel" type="Label" parent="Menu"]
+margin_top = 426.0
+margin_right = 864.0
+margin_bottom = 459.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_fonts/font = SubResource( 5 )
+text = "Version 0.0.1
+Quarantum Studios"
+align = 2
+
+[node name="Click" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 4 )
+[connection signal="mouse_entered" from="Menu/CenterRow/Buttons/ReturnButton" to="." method="_on_ReturnButton_mouse_entered"]
+[connection signal="mouse_exited" from="Menu/CenterRow/Buttons/ReturnButton" to="." method="_on_ReturnButton_mouse_exited"]
+[connection signal="pressed" from="Menu/CenterRow/Buttons/ReturnButton" to="." method="_on_ReturnButton_pressed"]
