@@ -6,6 +6,7 @@ extends Line2D
 # var b = "text"
 
 var qsystem = null
+var curve = null
 
 export (float) var gain = 1.0
 
@@ -14,6 +15,7 @@ func _ready():
 	self.scale.y *= -1
 	qsystem = get_parent().get_node("qsystem")
 	assert(qsystem != null, "Error: null qsystem instance")
+	curve = self.material.shader.get_shader_param("points").curve
 	pass # Replace with function body.
 
 func point(index):

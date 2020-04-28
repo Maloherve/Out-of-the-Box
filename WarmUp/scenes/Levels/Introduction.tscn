@@ -144,7 +144,7 @@ font_data = ExtResource( 12 )
 script = ExtResource( 1 )
 
 [node name="PlayerInitialPosition" type="Node2D" parent="."]
-position = Vector2( -67.9137, 461.297 )
+position = Vector2( 928.155, 675.325 )
 
 [node name="World" type="Node2D" parent="."]
 __meta__ = {
