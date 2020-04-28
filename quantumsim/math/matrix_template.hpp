@@ -497,7 +497,7 @@ Vector solve(const Matrix& A, Vector b) {
  */
 
 template<typename T, class Vector>
-Vector operator*(const qsim::math::basic_matrix<T>& A, const Vector& x) {
+Vector operator*(const qsim::math::square_matrix<T>& A, const Vector& x) {
     if (A.cols_nb() != x.size())
         throw std::out_of_range("( operator*(matrix<T>, Vector) ) invalid column size");
     

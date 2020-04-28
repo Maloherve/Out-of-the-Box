@@ -77,8 +77,11 @@ double qsystem2D::norm() const {
     for (size_t i = 0; i < N(); ++i) {
         for (size_t j = 0; j < M(); ++j) {
             out += std::norm(wave(i,j));
+            //npdebug("norm accumulation: i = ", i, ", j = ", j, ", value = ", out)
         }
     }
+
+    npdebug("norm = ", out * dx * dy)
 
     return out * dx * dy;
 }
@@ -103,10 +106,10 @@ std::pair<double,double> qsystem2D::momentum() const {
     wave_grid& wav = const_cast<wave_grid&>(wave);
 
     for (size_t i = 0; i < N(); ++i)
-        px += std::conj(wav.get_row(i)).scalar(Px() * wav.get_row(i));
+        px += std::conj(wav.get_row(i)) * (Px() * wav.get_row(i));
 
     for (size_t j = 0; j < M(); ++j)
-        py += std::conj(wav.get_column(j)).scalar(Py() * wav.get_column(j));
+        py += std::conj(wav.get_column(j)) * (Py() * wav.get_column(j));
 
     using namespace std::complex_literals;
 
@@ -132,17 +135,17 @@ double qsystem2D::energy() const {
     //npdebug("Constant wave: ", &wave)
     //npdebug("Non-constant wave: ", &wav)
     for (size_t i = 0; i < N(); ++i) {
-        //npdebug("Operating on row i =", i)
         auto conj = std::conj(wav.get_row(i));
-        E += conj.scalar(H_zero_x() * wav.get_row(i));
-        E += conj.scalar(potential_on_row(i) * wav.get_row(i));
+        E += conj * (H_zero_x() * wav.get_row(i));
+        E += conj * (potential_on_row(i) * wav.get_row(i));
     }
 
     for (size_t j = 0; j < M(); ++j) {
-        //npdebug("Operating on column j = ", j)
         auto conj = std::conj(wav.get_column(j));
-        E += conj.scalar(H_zero_y() * wav.get_column(j));
-        E += conj.scalar(potential_on_column(j) * wav.get_column(j));
+        E += conj * (H_zero_y() * wav.get_column(j));
+        npdebug("Operating on column (phase 3) j = ", j, ", A = ", (wav.get_column(j) * wav.get_column(j)))
+        E += conj * (potential_on_column(j) * wav.get_column(j));
+        npdebug("Operating on column (phase 4) j = ", j, ", A = ", (wav.get_column(j) * wav.get_column(j)))
     }
 
     if (abs(E.imag()) > qsim::machine_prec) {

@@ -36,6 +36,7 @@ int main() {
     
     // step 1, initialization
     qsystem2D system(mass, dx, dy, V_flat, init_wave(N,N), integ);
+    npdebug("System constructed: norm = ", system.norm())
 
     /*
      * Symulate

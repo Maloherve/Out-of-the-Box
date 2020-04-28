@@ -540,7 +540,7 @@ namespace std {
  */
 
 template<typename T, class Vector>
-Vector operator*(const qsim::math::basic_matrix<T>& A, const Vector& x);
+Vector operator*(const qsim::math::square_matrix<T>& A, const Vector& x);
 
 /*
  * LU decomposition section
