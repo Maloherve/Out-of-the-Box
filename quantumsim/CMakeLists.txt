@@ -8,4 +8,4 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 add_definitions(-DNDEBUG)
 
 include_directories(. grid evolvers)
-add_library(quantumsim STATIC grid/qsystem1D.cpp grid/wave.cpp evolvers/explicit.cpp evolvers/crank_nicholson.cpp)
+add_library(quantumsim STATIC grid/qsystem1D.cpp grid/qsystem2D.cpp grid/wave.cpp evolvers/explicit.cpp evolvers/crank_nicholson.cpp)
