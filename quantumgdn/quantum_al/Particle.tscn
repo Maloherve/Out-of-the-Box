@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://wave_visual.tscn" type="PackedScene" id=1]
 [ext_resource path="res://simulation.tscn" type="PackedScene" id=2]
@@ -6,24 +6,6 @@
 [ext_resource path="res://points.gd" type="Script" id=4]
 [ext_resource path="res://gauss_init1D.tres" type="Resource" id=5]
 [ext_resource path="res://potential_graph.gd" type="Script" id=6]
-
-[sub_resource type="Shader" id=1]
-code = "shader_type canvas_item;
-
-uniform sampler2D points;
-
-void vertex() {
-	
-}"
-
-[sub_resource type="Curve" id=3]
-
-[sub_resource type="CurveTexture" id=4]
-curve = SubResource( 3 )
-
-[sub_resource type="ShaderMaterial" id=2]
-shader = SubResource( 1 )
-shader_param/points = SubResource( 4 )
 
 [node name="Particle" type="Node2D"]
 script = ExtResource( 3 )
@@ -42,7 +24,5 @@ default_color = Color( 1, 0.129412, 0.0392157, 1 )
 script = ExtResource( 6 )
 
 [node name="graph" type="Line2D" parent="simulator"]
-material = SubResource( 2 )
-width = 2.0
-default_color = Color( 0.262745, 0.956863, 0.0941176, 1 )
+width = 100.0
 script = ExtResource( 4 )
