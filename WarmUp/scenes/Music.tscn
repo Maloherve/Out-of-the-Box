@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://assets/Sounds/LightBox.ogg" type="AudioStream" id=1]
+
+[node name="Music" type="Node"]
+
+[node name="GameSoundtrack" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 1 )
+bus = "Filter"

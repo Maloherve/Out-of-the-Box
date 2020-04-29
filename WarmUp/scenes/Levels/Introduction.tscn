@@ -19,14 +19,14 @@
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
-"frames": [ ExtResource( 8 ), ExtResource( 9 ), ExtResource( 10 ), ExtResource( 7 ) ],
-"loop": true,
-"name": "close",
-"speed": 5.0
-}, {
 "frames": [ ExtResource( 7 ), ExtResource( 10 ), ExtResource( 9 ), ExtResource( 8 ) ],
 "loop": true,
 "name": "open",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 8 ), ExtResource( 9 ), ExtResource( 10 ), ExtResource( 7 ) ],
+"loop": true,
+"name": "close",
 "speed": 5.0
 } ]
 
@@ -370,7 +370,6 @@ script = ExtResource( 5 )
 
 [node name="Soundtrack" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 15 )
-autoplay = true
 bus = "Filter"
 
 [node name="Teleport" type="AudioStreamPlayer" parent="."]
