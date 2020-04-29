@@ -19,6 +19,10 @@ config/name="WarmUp"
 run/main_scene="res://scenes/Menu/TitleScreen.tscn"
 config/icon="res://assets/Icon/imageedit_2_3132616459.png"
 
+[autoload]
+
+Music="*res://scenes/Music.tscn"
+
 [debug]
 
 settings/fps/force_fps=69

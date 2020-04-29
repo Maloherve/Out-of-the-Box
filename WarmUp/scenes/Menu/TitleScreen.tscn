@@ -192,7 +192,6 @@ stream = ExtResource( 9 )
 
 [node name="Soundtrack" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 4 )
-autoplay = true
 [connection signal="mouse_entered" from="Menu/CenterRow/Buttons/NewGameButton" to="." method="_on_NewGameButton_mouse_entered"]
 [connection signal="mouse_exited" from="Menu/CenterRow/Buttons/NewGameButton" to="." method="_on_NewGameButton_mouse_exited"]
 [connection signal="pressed" from="Menu/CenterRow/Buttons/NewGameButton" to="." method="_on_NewGameButton_pressed"]
