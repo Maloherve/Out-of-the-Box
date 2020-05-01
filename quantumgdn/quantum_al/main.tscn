@@ -25,4 +25,4 @@ input_pickable = true
 [node name="Particle" parent="." instance=ExtResource( 1 )]
 position = Vector2( 323.079, 299.752 )
 packet = ExtResource( 5 )
-n = 20
+n = 30

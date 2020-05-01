@@ -6,7 +6,7 @@ extends Line2D
 # var b = "text"
 
 var sim = null
-export var gain = 30.0
+export var gain = 50.0
 export (int) var resolution = 16
 var curve = Curve.new()
 
@@ -21,14 +21,10 @@ func _ready():
 	
 func reset():
 	curve.clear_points()
-	#add_point(plot(-1))
 	for k in range(0,resolution):
 		var t = float(k)/resolution
 		curve.add_point(Vector2(t, plot(k)))
-		if k == resolution:
-			print(sim.x(k))
 		add_point(Vector2(sim.x(k), 0))
-	#add_point(plot(resolution))
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
