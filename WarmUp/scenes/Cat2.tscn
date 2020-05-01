@@ -1,4 +1,4 @@
-[gd_scene load_steps=57 format=2]
+[gd_scene load_steps=54 format=2]
 
 [ext_resource path="res://assets/Character/Cat2/CatIDLE1.png" type="Texture" id=1]
 [ext_resource path="res://assets/Character/Cat2/CatIDLE4.png" type="Texture" id=2]
@@ -12,18 +12,15 @@
 [ext_resource path="res://assets/Character/Cat2/CatWallWalk3.png" type="Texture" id=10]
 [ext_resource path="res://assets/Character/Cat2/CatWalk5.png" type="Texture" id=11]
 [ext_resource path="res://assets/Character/Cat2/CatWalk8.png" type="Texture" id=12]
-[ext_resource path="res://assets/Character/Cat2/CatWallWalk7.png" type="Texture" id=13]
 [ext_resource path="res://assets/Character/Cat2/CatJump5.png" type="Texture" id=14]
 [ext_resource path="res://assets/Character/Cat2/CatWalk6.png" type="Texture" id=15]
 [ext_resource path="res://assets/Character/Cat2/CatWalk9.png" type="Texture" id=16]
-[ext_resource path="res://assets/Character/Cat2/CatWallWalk1.png" type="Texture" id=19]
 [ext_resource path="res://assets/Character/Cat2/CatJump6.png" type="Texture" id=20]
 [ext_resource path="res://assets/Character/Cat2/CatJump7.png" type="Texture" id=21]
 [ext_resource path="res://assets/Character/Cat2/CatWalk3.png" type="Texture" id=22]
 [ext_resource path="res://assets/Character/Cat2/CatWallWalk9.png" type="Texture" id=23]
 [ext_resource path="res://assets/Character/Cat2/CatWallWalk8.png" type="Texture" id=24]
 [ext_resource path="res://assets/Character/Cat2/CatWallWalk5.png" type="Texture" id=25]
-[ext_resource path="res://assets/Character/Cat2/CatWallWalk2.png" type="Texture" id=26]
 [ext_resource path="res://assets/Character/Cat2/CatWallWalk4.png" type="Texture" id=27]
 [ext_resource path="res://assets/Character/Cat2/CatSummon11.png" type="Texture" id=28]
 [ext_resource path="res://assets/Character/Cat2/CatSummon7.png" type="Texture" id=29]
@@ -92,10 +89,10 @@ animations = [ {
 "name": "_walk",
 "speed": 12.0
 }, {
-"frames": [ ExtResource( 19 ), ExtResource( 26 ), ExtResource( 10 ), ExtResource( 27 ), ExtResource( 25 ), ExtResource( 56 ), ExtResource( 13 ), ExtResource( 24 ), ExtResource( 23 ) ],
+"frames": [ ExtResource( 27 ), ExtResource( 10 ), ExtResource( 25 ), ExtResource( 56 ), ExtResource( 24 ), ExtResource( 23 ) ],
 "loop": true,
 "name": "_hold",
-"speed": 5.0
+"speed": 10.0
 } ]
 
 [sub_resource type="RectangleShape2D" id=2]
