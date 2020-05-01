@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Particle.tscn" type="PackedScene" id=1]
 [ext_resource path="res://perturbation.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Background.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Arena.tscn" type="PackedScene" id=4]
+[ext_resource path="res://gauss_init1D.tres" type="Resource" id=5]
 
 [node name="Node2D" type="Node2D"]
 
@@ -17,10 +18,11 @@ offset = Vector2( -10, 0 )
 scale = Vector2( 1.4, 1.2 )
 transform = Transform2D( 1.4, 0, 0, 1.2, -10, 0 )
 
-[node name="Particle" parent="." instance=ExtResource( 1 )]
-position = Vector2( 324.027, 307.792 )
-n = 2000
-
 [node name="Perturbation" parent="." instance=ExtResource( 2 )]
 position = Vector2( 78.1319, 537.678 )
 input_pickable = true
+
+[node name="Particle" parent="." instance=ExtResource( 1 )]
+position = Vector2( 323.079, 299.752 )
+packet = ExtResource( 5 )
+n = 20

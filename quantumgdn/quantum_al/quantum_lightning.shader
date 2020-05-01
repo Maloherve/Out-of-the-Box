@@ -1,11 +1,10 @@
 shader_type canvas_item;
 
 // noise coordinates
-uniform float amplitude = 0.2;
+uniform float amplitude = 0.1;
 uniform float half_width = 0.05;
-uniform vec3 theme = vec3(1.0, 0.0, 1.0);
-
-// curve deformation
+uniform float noise_factor = 1.0;
+uniform vec3 theme = vec3(0.0, 0.0, 1.0);
 
 // hw = half width
 float plot(vec2 st, float pct, float hw) {
@@ -29,7 +28,7 @@ float fbm(vec2 n) {
     for (int i = 0; i < 7; i++) {
         total += noise(n) * ampli;
         n += n;
-        ampli *= 0.7;
+        ampli *= noise_factor;
     }
     return total;
 }
@@ -50,5 +49,4 @@ void fragment() {
 	
 	// apply changes
 	COLOR = color;
-	
 }
