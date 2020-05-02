@@ -6,7 +6,7 @@ extends Node2D
 # var b = "text"
 
 export (Resource) var packet = load("res://bin/gauss_init1D.gdns").new()
-export (int) var n = 1
+#export (int) var n = 1
 export (bool) var debug = false
 
 #onready var player = get_tree().get_root().get_node("Level").get_node("Player")
@@ -19,9 +19,9 @@ func _ready():
 	# update simulator size
 	$simulator.resize()
 	
-	print("n = ", n)
-	packet.k0 = (2 * PI * n) / $simulator.width
-	print("k0 = ", packet.k0)
+	#print("n = ", n)
+	#packet.k0 = (2 * PI * n) / $simulator.width
+	#print("k0 = ", packet.k0)
 	system.set_wave(packet)
 	
 	get_node("simulator/graph").reset()
@@ -30,7 +30,6 @@ func _ready():
 		potential.add_point(potential.point(i))
 	
 	if debug:
-		print("System N: ", n)
 		print("System position: ", system.mean_position())
 		print("System energy: ", system.energy())
 		print("System hbar: ", system.hbar)
