@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=2]
+[gd_scene load_steps=23 format=2]
 
 [ext_resource path="res://scripts/Main.gd" type="Script" id=1]
 [ext_resource path="res://assets/Background/SkyLine.png" type="Texture" id=2]
@@ -16,17 +16,18 @@
 [ext_resource path="res://assets/Environment/coin.png" type="Texture" id=14]
 [ext_resource path="res://assets/Sounds/BoxBassArp.ogg" type="AudioStream" id=15]
 [ext_resource path="res://assets/Sounds/electronic_accent_03.wav" type="AudioStream" id=16]
+[ext_resource path="res://scenes/Wave/wave_function.tscn" type="PackedScene" id=17]
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
-"frames": [ ExtResource( 7 ), ExtResource( 10 ), ExtResource( 9 ), ExtResource( 8 ) ],
-"loop": true,
-"name": "open",
-"speed": 5.0
-}, {
 "frames": [ ExtResource( 8 ), ExtResource( 9 ), ExtResource( 10 ), ExtResource( 7 ) ],
 "loop": true,
 "name": "close",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 7 ), ExtResource( 10 ), ExtResource( 9 ), ExtResource( 8 ) ],
+"loop": true,
+"name": "open",
 "speed": 5.0
 } ]
 
@@ -374,3 +375,5 @@ bus = "Filter"
 
 [node name="Teleport" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 16 )
+
+[node name="wave_function" parent="." instance=ExtResource( 17 )]
