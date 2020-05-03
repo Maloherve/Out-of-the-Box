@@ -7,7 +7,7 @@ var debug_mode : bool = false;
 # Darken Workd
 var darken : bool = false;
 const WORLD_MODULATE_COLOR : Color = Color(0.5,1,0.5);
-const PLAYER_MODULATE_COLOR : Color = Color(0.3,0.3,0.3)
+#const PLAYER_MODULATE_COLOR : Color = Color(0.3,0.3,0.3)
 # Player 
 var camera_zoom : Vector2 = Vector2(.3, .3)
 export var cat_version : int = 1;
@@ -45,10 +45,12 @@ func _process(delta):
 #	Darken Screen When Casting
 	if (darken):
 		$World.modulate = lerp($World.modulate, WORLD_MODULATE_COLOR, 0.01);
-		$Player.modulate = lerp($Player.modulate, PLAYER_MODULATE_COLOR, 0.1);
+		$Player.set_obscurate(true);
+		#$Player.modulate = lerp($Player.modulate, PLAYER_MODULATE_COLOR, 0.1);
 	else:
 		$World.modulate = lerp($World.modulate, Color(1,1,1), 0.05)
-		$Player.modulate = lerp($Player.modulate, Color(1,1,1), 0.01)
+		$Player.set_obscurate(false);
+		#$Player.modulate = lerp($Player.modulate, Color(1,1,1), 0.01)
 	
 #	Toggle Debug Screen
 	if debug_mode:

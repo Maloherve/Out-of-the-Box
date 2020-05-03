@@ -31,6 +31,8 @@ var hitstun : int = 0;
 var cast : bool = false;
 var is_casting : bool = false;
 var finish_cast : bool = false;
+# Obscuring
+const PLAYER_MODULATE_COLOR : Color = Color(0.3,0.3,0.3)
 # Audio
 var myAudio : AudioStreamPlayer2D;
 var myAudioIdle : AudioStreamPlayer2D;
@@ -96,6 +98,13 @@ func MoveCharacter(delta):
 		
 	if _check_if_apply_friction():
 		velocity.y -= GRAVITY/2 * delta;
+		
+# obscurate, TODO create a child of player to be modulate
+func set_obscurate(flag):
+	if flag:
+		animNode.modulate = lerp(animNode.modulate, PLAYER_MODULATE_COLOR, 0.1)
+	else:
+		animNode.modulate = lerp(animNode.modulate, Color(1,1,1), 0.01)
 
 # Check for and execute Input
 func _get_input():

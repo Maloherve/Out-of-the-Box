@@ -159,4 +159,4 @@ collision_mask = 2
 
 [node name="Wave_Generator" type="Node" parent="."]
 script = ExtResource( 52 )
-scale = Vector2( 8, 5 )
+scale = Vector2( 10, 5 )

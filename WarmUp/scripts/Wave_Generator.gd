@@ -23,6 +23,7 @@ func _ready():
 	pass # Replace with function body.
 
 # ----- Player Action ------
+# trigger == null: free teleport mode
 func on_Player_start_casting(trigger):
 	if particle != null:
 		return
