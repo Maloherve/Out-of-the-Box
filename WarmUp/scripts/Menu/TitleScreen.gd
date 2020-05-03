@@ -1,10 +1,13 @@
 extends Control
 
+export var play_music : bool = true;
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	if (Music.get_node("GameSoundtrack").playing == false):
-		Music.get_node("GameSoundtrack").play()
+	
+	if play_music:
+		if (Music.get_node("GameSoundtrack").playing == false):
+			Music.get_node("GameSoundtrack").play()
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
