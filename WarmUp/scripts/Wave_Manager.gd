@@ -1,6 +1,5 @@
 extends Node2D
 
-
 # Declare member variables here. Examples:
 # var a = 2
 # var b = "text"
@@ -20,6 +19,10 @@ func _ready():
 
 # ----- Player Action ------
 func on_Player_start_casting():
+	if particle != null:
+		return
+		
+	# load a new simulation
 	particle = load("res://scenes/Wave/wave_function.tscn")
 	var system = particle.get_node('simulator/qsystem')
 	var pbox = player.get_node("CollisionShape2D_Cat").shape.extents
@@ -48,10 +51,11 @@ func on_Player_is_casting():
 	pass
 
 func on_Player_stop_casting():
-	pass
+	remove_child(particle)
+	particle = null
 
 func on_Player_finish_casting():
-	remove_child(particle)
+	pass
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):

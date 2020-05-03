@@ -1,13 +1,7 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://wave_visual.gd" type="Script" id=1]
 [ext_resource path="res://star.png" type="Texture" id=2]
-
-[sub_resource type="Curve" id=1]
-_data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), 0.0, 0.0, 0, 0 ]
-
-[sub_resource type="CurveTexture" id=2]
-curve = SubResource( 1 )
 
 [sub_resource type="ParticlesMaterial" id=3]
 flag_disable_z = true
@@ -20,10 +14,9 @@ orbit_velocity = 0.0
 orbit_velocity_random = 0.0
 radial_accel = -1.2
 tangential_accel = 4.47
-scale = 0.05
-scale_curve = SubResource( 2 )
 
 [node name="Wave" type="Particles2D"]
+scale = Vector2( 0.01, 0.01 )
 lifetime = 0.8
 explosiveness = 0.13
 randomness = 0.5
