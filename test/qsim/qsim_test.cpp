@@ -12,6 +12,7 @@ using namespace qsim;
 using namespace qsim::grid;
 using namespace std;
 
+
 qsystem1D::init_pack init_wave(size_t);
 
 constexpr double mass = 1;
@@ -23,10 +24,23 @@ constexpr size_t samples = 100;
 
 constexpr double dx = L / (samples+1);
 
+class quadratic : public qsim::potential<size_t> {
+    double x0;
+    double omega;
+public:
+    quadratic(double _x0, double _omega) : x0(_x0), omega(_omega) {}
+
+    double operator()(const size_t& k) const {
+        double x = double(k) / samples - x0;
+        return 0.5 * mass * omega * omega * x * x;
+    }
+};
+
 int main() {
     
     // flat zero potential
-    auto V_flat = std::make_shared<pot::uniform<size_t>>();
+    //auto V_flat = std::make_shared<pot::uniform<size_t>>();
+    auto V_harm = std::make_shared<quadratic>(L/2, 1);
 
     constexpr double position = 0.75;
 
@@ -36,7 +50,7 @@ int main() {
     auto integ = std::make_shared<qsim::evo::crank_nicholson>();
     
     // step 1, initialization
-    qsystem1D system(mass, dx, V_flat, init_wave(samples), integ);
+    qsystem1D system(mass, dx, V_harm, init_wave(samples), integ);
 
     /*
      * Symulate
@@ -46,7 +60,8 @@ int main() {
         if (k % 20 == 0) {
             double A = system.norm();
             double E = system.energy();
-            cout << "Step k, norm = " << A << " , E = " << E << endl;
+            double X = system.position();
+            cout << "Step k, norm = " << A << " , E = " << E << ", Position: " << X << endl;
         }
 
         // evolve
@@ -55,7 +70,7 @@ int main() {
     }
 }
 
-constexpr double x0 = L / 2;
+constexpr double x0 = L / 4;
 constexpr double n = 0;
 constexpr double sigma(L / 10);
 constexpr double k0(2 * M_PI * n / L);
