@@ -59,7 +59,7 @@ func x(t):
 	elif t >= 1.0:
 		return system.width / 2
 	else:
-		return system.x(int(system.N() * t))
+		return system.x(int((system.N()-1) * t) + 1)
 	
 func real(t):
 	if t <= 0 or t >= 1:
