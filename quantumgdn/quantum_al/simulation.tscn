@@ -4,7 +4,7 @@
 [ext_resource path="res://simulator.gd" type="Script" id=2]
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 25, 5 )
+extents = Vector2( 5, 5 )
 
 [node name="simulator" type="Area2D"]
 script = ExtResource( 2 )
@@ -16,7 +16,8 @@ shape = SubResource( 1 )
 [node name="qsystem" type="Node2D" parent="."]
 position = Vector2( -5, 0 )
 script = ExtResource( 1 )
-dt_gain = 40.0
+steps_per_tick = 5
+dt_gain = 0.1
 width = 10.0
 height = 10.0
 

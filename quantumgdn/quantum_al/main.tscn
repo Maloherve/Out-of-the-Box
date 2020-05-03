@@ -19,11 +19,11 @@ scale = Vector2( 1.4, 1.2 )
 transform = Transform2D( 1.4, 0, 0, 1.2, -10, 0 )
 
 [node name="Perturbation" parent="." instance=ExtResource( 2 )]
-position = Vector2( 78.1319, 537.678 )
+position = Vector2( 237.091, 420.074 )
 input_pickable = true
 
 [node name="Particle" parent="." instance=ExtResource( 1 )]
-position = Vector2( 323.079, 299.752 )
-scale = Vector2( 10, 10 )
+position = Vector2( 347.339, 220.509 )
+scale = Vector2( 60, 20 )
 packet = ExtResource( 5 )
-n = 10
+n = 20

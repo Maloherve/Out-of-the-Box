@@ -5,6 +5,6 @@
 [resource]
 script = ExtResource( 1 )
 k0 = 0.0
-r0 = 25.0
-sigma = 0.5
+r0 = 5.0
+sigma = 1.0
 N = 100
