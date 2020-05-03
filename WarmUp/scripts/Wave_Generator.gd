@@ -8,19 +8,24 @@ export (Vector2) var scale = Vector2(1,1)
 onready var player = get_parent()
 var particle = null
 
-onready var main_scene = get_tree().get_root()
-
+# wave function scene preload
 const particle_scene = preload("res://scenes/Wave/wave_function.tscn")
 
-# Called when the node enters the scene tree for the first time.
+# teleport to position
+signal teleport
+
+func teleport_position():
+	# TODO, Look for the most probable place
+	if particle != null:
+		var system = particle.get_node('simulator/qsystem')
+		return system.mean_position() - system.width/2
+	else:
+		return 0
+
 func _ready():
-	
 	player.connect("start_casting", self, "on_Player_start_casting");
-	player.connect("is_casting", self, "on_Player_is_casting")
 	player.connect("stop_casting", self, "on_Player_stop_casting");
 	player.connect("finish_casting", self, "on_Player_finish_casting");
-	
-	pass # Replace with function body.
 
 # ----- Player Action ------
 # trigger == null: free teleport mode
@@ -33,17 +38,15 @@ func on_Player_start_casting(trigger):
 	var system = particle.get_node('simulator/qsystem')
 	var pbox = player.get_node("CollisionShape2D").shape.extents
 	
-	# particle Node2D setup
+	# transform setup
 	var half_width
 	if player.is_on_wall:
 		half_width = pbox.y
-		particle.rotation_degree += 90 # node of 90
+		particle.rotation_degrees += 90 # node of 90
 	else:
 		half_width = pbox.x
 		
 	# boundaries setup, determine them as function of the trigger box
-	
-	# adjust system size in order to fit into the box
 	if trigger != null:
 		# TODO, check if working properly
 		particle.scale = trigger.box.extents / half_width
@@ -54,13 +57,14 @@ func on_Player_start_casting(trigger):
 	# wave setup
 	particle.packet = load("res://assets/Other/gauss_init1D.tres")
 	
-	particle.packet.r0 = system.width/2 # center the wave to the player position
-	particle.packet.sigma = system.width/10
+	particle.packet.r0 = system.width/2 # center the wave onto the player position
+	particle.packet.sigma = system.width/10 # approximate player quantum localization
+	
+	# deduce wave vector
 	particle.packet.k0 = 2 * particle.packet.sigma * system.hbar * player.velocity.x *  system.mass / sqrt(PI)
 	
 	# only for debug purposes
 	particle.packet.k0 = PI * 50 / system.width
-	
 	print("k0 = ", particle.packet.k0)
 	
 	particle.packet.N = samples
@@ -70,6 +74,14 @@ func on_Player_is_casting():
 	pass
 
 func on_Player_stop_casting():
+	# Manage teleporting
+	# Use the last computed quantum state to determine the teleport position
+	var x = teleport_position()
+	var delta = particle.get_relative_transform_to_parent(player).xform_inv(Vector2(x,0))
+	delta.y *= -1 # invert y coordinate
+	player.position += delta
+	
+	# deinit simulation
 	player.remove_child(particle)
 	particle = null
 

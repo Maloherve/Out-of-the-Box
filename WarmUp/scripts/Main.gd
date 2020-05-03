@@ -58,8 +58,9 @@ func _process(delta):
 	else:
 		$InfoScreen.hide();
 	
-	if (teleport_player):
-		teleport();
+	# Temporaly hidden, See Player.Wave_Generator.on_Player_stop_casting()
+	#if (teleport_player):
+	#	teleport();
 
 # Execute Regularly
 func _physics_process(delta):
