@@ -1,98 +1,98 @@
 [gd_scene load_steps=54 format=2]
 
-[ext_resource path="res://assets/Character/Cat2/CatIDLE1.png" type="Texture" id=1]
-[ext_resource path="res://assets/Character/Cat2/CatIDLE4.png" type="Texture" id=2]
-[ext_resource path="res://assets/Character/Cat2/CatIDLE2.png" type="Texture" id=3]
-[ext_resource path="res://assets/Character/Cat2/CatIDLE3.png" type="Texture" id=4]
-[ext_resource path="res://scripts/Player.gd" type="Script" id=5]
-[ext_resource path="res://scripts/Side_Raycasts.gd" type="Script" id=6]
-[ext_resource path="res://assets/Character/Cat2/CatJump9.png" type="Texture" id=7]
-[ext_resource path="res://assets/Character/Cat2/CatJump4.png" type="Texture" id=8]
-[ext_resource path="res://assets/Character/Cat2/CatWalk4.png" type="Texture" id=9]
-[ext_resource path="res://assets/Character/Cat2/CatWallWalk3.png" type="Texture" id=10]
-[ext_resource path="res://assets/Character/Cat2/CatWalk5.png" type="Texture" id=11]
-[ext_resource path="res://assets/Character/Cat2/CatWalk8.png" type="Texture" id=12]
-[ext_resource path="res://assets/Character/Cat2/CatJump5.png" type="Texture" id=14]
-[ext_resource path="res://assets/Character/Cat2/CatWalk6.png" type="Texture" id=15]
-[ext_resource path="res://assets/Character/Cat2/CatWalk9.png" type="Texture" id=16]
-[ext_resource path="res://assets/Character/Cat2/CatJump6.png" type="Texture" id=20]
-[ext_resource path="res://assets/Character/Cat2/CatJump7.png" type="Texture" id=21]
-[ext_resource path="res://assets/Character/Cat2/CatWalk3.png" type="Texture" id=22]
-[ext_resource path="res://assets/Character/Cat2/CatWallWalk9.png" type="Texture" id=23]
-[ext_resource path="res://assets/Character/Cat2/CatWallWalk8.png" type="Texture" id=24]
-[ext_resource path="res://assets/Character/Cat2/CatWallWalk5.png" type="Texture" id=25]
-[ext_resource path="res://assets/Character/Cat2/CatWallWalk4.png" type="Texture" id=27]
-[ext_resource path="res://assets/Character/Cat2/CatSummon11.png" type="Texture" id=28]
-[ext_resource path="res://assets/Character/Cat2/CatSummon7.png" type="Texture" id=29]
-[ext_resource path="res://assets/Character/Cat2/CatSummon4.png" type="Texture" id=30]
-[ext_resource path="res://assets/Character/Cat2/CatSummon6.png" type="Texture" id=31]
-[ext_resource path="res://assets/Character/Cat2/CatSummon8.png" type="Texture" id=32]
-[ext_resource path="res://assets/Character/Cat2/CatSummon12.png" type="Texture" id=33]
-[ext_resource path="res://assets/Character/Cat2/CatSummon9.png" type="Texture" id=34]
-[ext_resource path="res://assets/Character/Cat2/CatSummon2.png" type="Texture" id=35]
-[ext_resource path="res://assets/Character/Cat2/CatSummon5.png" type="Texture" id=36]
-[ext_resource path="res://assets/Character/Cat2/CatSummon3.png" type="Texture" id=37]
-[ext_resource path="res://assets/Character/Cat2/CatSummon10.png" type="Texture" id=38]
-[ext_resource path="res://assets/Character/Cat/Damage9.png" type="Texture" id=39]
-[ext_resource path="res://assets/Character/Cat/Attack_ground5.png" type="Texture" id=40]
-[ext_resource path="res://assets/Character/Cat/Damage7.png" type="Texture" id=41]
-[ext_resource path="res://assets/Character/Cat/Damage2.png" type="Texture" id=42]
-[ext_resource path="res://assets/Character/Cat/Damage3.png" type="Texture" id=43]
-[ext_resource path="res://assets/Character/Cat/Damage5.png" type="Texture" id=44]
-[ext_resource path="res://assets/Character/Cat/Attack_ground6.png" type="Texture" id=45]
-[ext_resource path="res://assets/Character/Cat/Damage4.png" type="Texture" id=46]
-[ext_resource path="res://assets/Character/Cat/Attack_ground3.png" type="Texture" id=47]
-[ext_resource path="res://assets/Character/Cat/Damage8.png" type="Texture" id=48]
-[ext_resource path="res://assets/Character/Cat/Attack_ground4.png" type="Texture" id=49]
-[ext_resource path="res://assets/Character/Cat/Damage6.png" type="Texture" id=50]
-[ext_resource path="res://assets/Character/Cat/Damage1.png" type="Texture" id=51]
-[ext_resource path="res://assets/Character/Cat/Attack_ground2.png" type="Texture" id=52]
-[ext_resource path="res://assets/Character/Cat/Attack_ground1.png" type="Texture" id=53]
-[ext_resource path="res://assets/Particles/trail.tres" type="Material" id=54]
-[ext_resource path="res://scripts/Trail.gd" type="Script" id=55]
-[ext_resource path="res://assets/Character/Cat2/CatWallWalk6.png" type="Texture" id=56]
+[ext_resource path="res://scripts/Player.gd" type="Script" id=1]
+[ext_resource path="res://assets/Particles/trail.tres" type="Material" id=2]
+[ext_resource path="res://scripts/Trail.gd" type="Script" id=3]
+[ext_resource path="res://assets/Character/Cat2/CatWallWalk4.png" type="Texture" id=4]
+[ext_resource path="res://assets/Character/Cat2/CatWallWalk3.png" type="Texture" id=5]
+[ext_resource path="res://assets/Character/Cat2/CatWallWalk5.png" type="Texture" id=6]
+[ext_resource path="res://assets/Character/Cat2/CatWallWalk6.png" type="Texture" id=7]
+[ext_resource path="res://assets/Character/Cat2/CatWallWalk8.png" type="Texture" id=8]
+[ext_resource path="res://assets/Character/Cat2/CatWallWalk9.png" type="Texture" id=9]
+[ext_resource path="res://assets/Character/Cat2/CatSummon2.png" type="Texture" id=10]
+[ext_resource path="res://assets/Character/Cat2/CatSummon3.png" type="Texture" id=11]
+[ext_resource path="res://assets/Character/Cat2/CatSummon4.png" type="Texture" id=12]
+[ext_resource path="res://assets/Character/Cat2/CatSummon5.png" type="Texture" id=13]
+[ext_resource path="res://assets/Character/Cat2/CatSummon6.png" type="Texture" id=14]
+[ext_resource path="res://assets/Character/Cat2/CatSummon7.png" type="Texture" id=15]
+[ext_resource path="res://assets/Character/Cat2/CatSummon8.png" type="Texture" id=16]
+[ext_resource path="res://assets/Character/Cat2/CatSummon9.png" type="Texture" id=17]
+[ext_resource path="res://assets/Character/Cat2/CatSummon10.png" type="Texture" id=18]
+[ext_resource path="res://assets/Character/Cat2/CatSummon11.png" type="Texture" id=19]
+[ext_resource path="res://assets/Character/Cat2/CatSummon12.png" type="Texture" id=20]
+[ext_resource path="res://assets/Character/Cat/Attack_ground1.png" type="Texture" id=21]
+[ext_resource path="res://assets/Character/Cat/Attack_ground2.png" type="Texture" id=22]
+[ext_resource path="res://assets/Character/Cat/Attack_ground3.png" type="Texture" id=23]
+[ext_resource path="res://assets/Character/Cat/Attack_ground4.png" type="Texture" id=24]
+[ext_resource path="res://assets/Character/Cat/Attack_ground5.png" type="Texture" id=25]
+[ext_resource path="res://assets/Character/Cat/Attack_ground6.png" type="Texture" id=26]
+[ext_resource path="res://assets/Character/Cat2/CatWalk4.png" type="Texture" id=27]
+[ext_resource path="res://assets/Character/Cat2/CatWalk3.png" type="Texture" id=28]
+[ext_resource path="res://assets/Character/Cat2/CatWalk5.png" type="Texture" id=29]
+[ext_resource path="res://assets/Character/Cat2/CatWalk6.png" type="Texture" id=30]
+[ext_resource path="res://assets/Character/Cat2/CatWalk8.png" type="Texture" id=31]
+[ext_resource path="res://assets/Character/Cat2/CatWalk9.png" type="Texture" id=32]
+[ext_resource path="res://assets/Character/Cat/Damage1.png" type="Texture" id=33]
+[ext_resource path="res://assets/Character/Cat/Damage2.png" type="Texture" id=34]
+[ext_resource path="res://assets/Character/Cat/Damage3.png" type="Texture" id=35]
+[ext_resource path="res://assets/Character/Cat/Damage4.png" type="Texture" id=36]
+[ext_resource path="res://assets/Character/Cat/Damage5.png" type="Texture" id=37]
+[ext_resource path="res://assets/Character/Cat/Damage6.png" type="Texture" id=38]
+[ext_resource path="res://assets/Character/Cat/Damage7.png" type="Texture" id=39]
+[ext_resource path="res://assets/Character/Cat/Damage8.png" type="Texture" id=40]
+[ext_resource path="res://assets/Character/Cat/Damage9.png" type="Texture" id=41]
+[ext_resource path="res://assets/Character/Cat2/CatIDLE1.png" type="Texture" id=42]
+[ext_resource path="res://assets/Character/Cat2/CatIDLE2.png" type="Texture" id=43]
+[ext_resource path="res://assets/Character/Cat2/CatIDLE3.png" type="Texture" id=44]
+[ext_resource path="res://assets/Character/Cat2/CatIDLE4.png" type="Texture" id=45]
+[ext_resource path="res://assets/Character/Cat2/CatJump4.png" type="Texture" id=46]
+[ext_resource path="res://assets/Character/Cat2/CatJump5.png" type="Texture" id=47]
+[ext_resource path="res://assets/Character/Cat2/CatJump6.png" type="Texture" id=48]
+[ext_resource path="res://assets/Character/Cat2/CatJump9.png" type="Texture" id=49]
+[ext_resource path="res://assets/Character/Cat2/CatJump7.png" type="Texture" id=50]
+[ext_resource path="res://scripts/Side_Raycasts.gd" type="Script" id=51]
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
-"frames": [ ExtResource( 1 ), ExtResource( 3 ), ExtResource( 4 ), ExtResource( 2 ) ],
-"loop": false,
-"name": "_endcast",
-"speed": 5.0
-}, {
-"frames": [ ExtResource( 53 ), ExtResource( 52 ), ExtResource( 47 ), ExtResource( 49 ), ExtResource( 40 ), ExtResource( 45 ) ],
-"loop": true,
-"name": "_attack",
-"speed": 5.0
-}, {
-"frames": [ ExtResource( 27 ), ExtResource( 10 ), ExtResource( 25 ), ExtResource( 56 ), ExtResource( 24 ), ExtResource( 23 ) ],
+"frames": [ ExtResource( 4 ), ExtResource( 5 ), ExtResource( 6 ), ExtResource( 7 ), ExtResource( 8 ), ExtResource( 9 ) ],
 "loop": true,
 "name": "_hold",
 "speed": 10.0
 }, {
-"frames": [ ExtResource( 35 ), ExtResource( 37 ), ExtResource( 30 ), ExtResource( 36 ), ExtResource( 31 ), ExtResource( 29 ), ExtResource( 32 ), ExtResource( 34 ), ExtResource( 38 ), ExtResource( 28 ), ExtResource( 33 ) ],
+"frames": [ ExtResource( 10 ), ExtResource( 11 ), ExtResource( 12 ), ExtResource( 13 ), ExtResource( 14 ), ExtResource( 15 ), ExtResource( 16 ), ExtResource( 17 ), ExtResource( 18 ), ExtResource( 19 ), ExtResource( 20 ) ],
 "loop": false,
 "name": "_cast",
 "speed": 12.0
 }, {
-"frames": [ ExtResource( 9 ), ExtResource( 22 ), ExtResource( 11 ), ExtResource( 15 ), ExtResource( 12 ), ExtResource( 16 ) ],
+"frames": [ ExtResource( 21 ), ExtResource( 22 ), ExtResource( 23 ), ExtResource( 24 ), ExtResource( 25 ), ExtResource( 26 ) ],
+"loop": true,
+"name": "_attack",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 27 ), ExtResource( 28 ), ExtResource( 29 ), ExtResource( 30 ), ExtResource( 31 ), ExtResource( 32 ) ],
 "loop": true,
 "name": "_walk",
 "speed": 12.0
 }, {
-"frames": [ ExtResource( 51 ), ExtResource( 42 ), ExtResource( 43 ), ExtResource( 46 ), ExtResource( 44 ), ExtResource( 50 ), ExtResource( 41 ), ExtResource( 48 ), ExtResource( 39 ) ],
+"frames": [ ExtResource( 33 ), ExtResource( 34 ), ExtResource( 35 ), ExtResource( 36 ), ExtResource( 37 ), ExtResource( 38 ), ExtResource( 39 ), ExtResource( 40 ), ExtResource( 41 ) ],
 "loop": true,
 "name": "_damage",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 8 ), ExtResource( 14 ), ExtResource( 20 ), ExtResource( 20 ), ExtResource( 7 ), ExtResource( 21 ) ],
-"loop": false,
-"name": "_jump",
-"speed": 10.0
-}, {
-"frames": [ ExtResource( 1 ), ExtResource( 3 ), ExtResource( 4 ), ExtResource( 2 ) ],
+"frames": [ ExtResource( 42 ), ExtResource( 43 ), ExtResource( 44 ), ExtResource( 45 ) ],
 "loop": false,
 "name": "_idle",
 "speed": 8.0
+}, {
+"frames": [ ExtResource( 42 ), ExtResource( 43 ), ExtResource( 44 ), ExtResource( 45 ) ],
+"loop": false,
+"name": "_endcast",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 46 ), ExtResource( 47 ), ExtResource( 48 ), ExtResource( 48 ), ExtResource( 49 ), ExtResource( 50 ) ],
+"loop": false,
+"name": "_jump",
+"speed": 10.0
 } ]
 
 [sub_resource type="RectangleShape2D" id=2]
@@ -101,11 +101,11 @@ extents = Vector2( 13.0516, 9.74388 )
 [node name="Player" type="KinematicBody2D"]
 collision_layer = 4
 collision_mask = 2
-script = ExtResource( 5 )
+script = ExtResource( 1 )
 
 [node name="Trail" type="Particles2D" parent="."]
-process_material = ExtResource( 54 )
-script = ExtResource( 55 )
+process_material = ExtResource( 2 )
+script = ExtResource( 3 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 position = Vector2( 0.073101, 0 )
@@ -117,6 +117,7 @@ position = Vector2( -1.90056, 6.13528 )
 shape = SubResource( 2 )
 
 [node name="Bottom_Raycasts" type="Node2D" parent="."]
+editor/display_folded = true
 
 [node name="ray_1" type="RayCast2D" parent="Bottom_Raycasts"]
 light_mask = 7
@@ -140,7 +141,8 @@ cast_to = Vector2( 0, 10 )
 collision_mask = 2
 
 [node name="Side_Raycasts" type="Node2D" parent="."]
-script = ExtResource( 6 )
+editor/display_folded = true
+script = ExtResource( 51 )
 
 [node name="Top_Side" type="RayCast2D" parent="Side_Raycasts"]
 position = Vector2( -0.135277, -1.86472 )
