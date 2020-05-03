@@ -1,11 +1,16 @@
-extends Node2D
+extends Node
 
 # Declare member variables here. Examples:
 # var a = 2
 # var b = "text"
-export (int) var samples = 150
+export (int) var samples = 100
+export (Vector2) var scale = Vector2(1,1)
 onready var player = get_parent()
 var particle = null
+
+onready var main_scene = get_tree().get_root()
+
+const particle_scene = preload("res://scenes/Wave/wave_function.tscn")
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -18,14 +23,14 @@ func _ready():
 	pass # Replace with function body.
 
 # ----- Player Action ------
-func on_Player_start_casting():
+func on_Player_start_casting(trigger):
 	if particle != null:
 		return
 		
 	# load a new simulation
-	particle = load("res://scenes/Wave/wave_function.tscn")
+	particle = particle_scene.instance()
 	var system = particle.get_node('simulator/qsystem')
-	var pbox = player.get_node("CollisionShape2D_Cat").shape.extents
+	var pbox = player.get_node("CollisionShape2D").shape.extents
 	
 	# particle Node2D setup
 	var half_width
@@ -36,22 +41,35 @@ func on_Player_start_casting():
 		half_width = pbox.x
 		
 	# boundaries setup, determine them as function of the trigger box
-	var simbox = particle.get_node("simulator/collider").shape.extents
-	# TODO, pass to the signal
+	
+	# adjust system size in order to fit into the box
+	if trigger != null:
+		# TODO, check if working properly
+		particle.scale = trigger.box.extents / half_width
+	else:
+		# scale to the default box (with respect to the cat box)
+		particle.scale = scale * half_width / (system.width/2)
 		
+	# wave setup
 	particle.packet = load("res://assets/Other/gauss_init1D.tres")
-	# particle setup
-	particle.packet.r0 = 0 # center the wave to the player position
-	particle.packet.sigma = half_width * 2 # determine sigma as function of the character boundaries
+	
+	particle.packet.r0 = system.width/2 # center the wave to the player position
+	particle.packet.sigma = system.width/10
 	particle.packet.k0 = 2 * particle.packet.sigma * system.hbar * player.velocity.x *  system.mass / sqrt(PI)
+	
+	# only for debug purposes
+	particle.packet.k0 = PI * 50 / system.width
+	
+	print("k0 = ", particle.packet.k0)
+	
 	particle.packet.N = samples
-	add_child(particle)
+	player.add_child(particle)
 
 func on_Player_is_casting():
 	pass
 
 func on_Player_stop_casting():
-	remove_child(particle)
+	player.remove_child(particle)
 	particle = null
 
 func on_Player_finish_casting():

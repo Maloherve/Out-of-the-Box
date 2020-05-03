@@ -108,7 +108,7 @@ func _get_input():
 		attack = true;
 		attackstun = meleeTime;
 	if (Input.is_action_just_pressed("ui_space") && (!is_casting)):
-		emit_signal('start_casting');
+		emit_signal('start_casting', null); # no trigger
 		cast = true;
 		if !timer.is_stopped():
 			timer.set_paused(true);

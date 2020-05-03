@@ -79,7 +79,7 @@ func teleport():
 	teleport_player = false;
 
 # ----- Node Function ------
-func on_Player_start_casting():
+func on_Player_start_casting(trigger):
 	darken = true;
 	AudioServer.set_bus_effect_enabled ( 1, 0, true )
 

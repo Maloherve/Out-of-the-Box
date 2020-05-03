@@ -4,7 +4,7 @@
 [ext_resource path="res://scripts/Simulation/simulator.gd" type="Script" id=2]
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 5, 5 )
+extents = Vector2( 25, 25 )
 
 [node name="simulator" type="Area2D"]
 script = ExtResource( 2 )
@@ -14,18 +14,18 @@ modulate = Color( 0.215686, 0.996078, 0.921569, 1 )
 shape = SubResource( 1 )
 
 [node name="qsystem" type="Node2D" parent="."]
-position = Vector2( -5, 0 )
 script = ExtResource( 1 )
-steps_per_tick = 8
-dt_gain = 60.0
-width = 10.0
+hbar = 1.0
+steps_per_tick = 10
+dt_gain = 2.0
+width = 50.0
 height = 10.0
 
 [node name="boundary" type="ReferenceRect" parent="."]
-margin_left = -5.0
-margin_top = -5.0
-margin_right = 5.0
-margin_bottom = 5.0
+margin_left = -50.0
+margin_top = -50.0
+margin_right = 50.0
+margin_bottom = 50.0
 mouse_filter = 2
 border_color = Color( 0.839216, 0.952941, 0.054902, 1 )
 __meta__ = {

@@ -40,7 +40,7 @@ void fragment() {
 
 	vec2 t = UV * vec2(2.0, 1.0) - TIME * 3.0;
 	float y = fbm(t) / 2.0;
-	y = 0.4 + amplitude * (y - 0.5);
+	y = 0.4  + amplitude * (y - 0.5);
 	float pct = plot(UV, y, half_width);
 	color += pct * vec4(1.0, 1.0, 1.0, 1.0);
 	color.rgb += theme.rgb;

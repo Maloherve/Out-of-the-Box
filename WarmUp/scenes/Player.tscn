@@ -67,7 +67,7 @@
 [ext_resource path="res://assets/Character/Cat/climb4.png" type="Texture" id=65]
 [ext_resource path="res://assets/Character/Cat/climb2.png" type="Texture" id=66]
 [ext_resource path="res://assets/Character/Cat/climb1.png" type="Texture" id=67]
-[ext_resource path="res://scripts/Wave_Manager.gd" type="Script" id=68]
+[ext_resource path="res://scripts/Wave_Generator.gd" type="Script" id=68]
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
@@ -76,9 +76,9 @@ animations = [ {
 "name": "_walk",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 45 ) ],
+"frames": [ ExtResource( 53 ), ExtResource( 54 ), ExtResource( 55 ), ExtResource( 51 ), ExtResource( 50 ), ExtResource( 49 ), ExtResource( 48 ), ExtResource( 52 ) ],
 "loop": true,
-"name": "_idle",
+"name": "_attack",
 "speed": 5.0
 }, {
 "frames": [ ExtResource( 56 ), ExtResource( 57 ), ExtResource( 60 ), ExtResource( 58 ), ExtResource( 59 ) ],
@@ -86,9 +86,9 @@ animations = [ {
 "name": "_cast",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 53 ), ExtResource( 54 ), ExtResource( 55 ), ExtResource( 51 ), ExtResource( 50 ), ExtResource( 49 ), ExtResource( 48 ), ExtResource( 52 ) ],
+"frames": [ ExtResource( 45 ) ],
 "loop": true,
-"name": "_attack",
+"name": "_idle",
 "speed": 5.0
 }, {
 "frames": [ ExtResource( 45 ), ExtResource( 44 ), ExtResource( 20 ), ExtResource( 47 ), ExtResource( 41 ), ExtResource( 46 ), ExtResource( 43 ), ExtResource( 40 ), ExtResource( 42 ) ],
@@ -117,16 +117,6 @@ animations = [ {
 "name": "_walk",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 29 ), ExtResource( 12 ), ExtResource( 13 ), ExtResource( 24 ), ExtResource( 1 ), ExtResource( 8 ), ExtResource( 3 ), ExtResource( 4 ), ExtResource( 23 ) ],
-"loop": true,
-"name": "_idle",
-"speed": 5.0
-}, {
-"frames": [ ExtResource( 29 ), ExtResource( 12 ), ExtResource( 13 ), ExtResource( 24 ), ExtResource( 1 ), ExtResource( 8 ), ExtResource( 3 ), ExtResource( 4 ), ExtResource( 23 ) ],
-"loop": true,
-"name": "_cast",
-"speed": 10.0
-}, {
 "frames": [ ExtResource( 33 ), ExtResource( 34 ), ExtResource( 35 ), ExtResource( 36 ), ExtResource( 5 ), ExtResource( 27 ) ],
 "loop": true,
 "name": "_attack",
@@ -135,6 +125,16 @@ animations = [ {
 "frames": [ ExtResource( 39 ), ExtResource( 28 ), ExtResource( 31 ), ExtResource( 32 ), ExtResource( 16 ), ExtResource( 22 ), ExtResource( 9 ), ExtResource( 26 ), ExtResource( 6 ) ],
 "loop": true,
 "name": "_damage",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 29 ), ExtResource( 12 ), ExtResource( 13 ), ExtResource( 24 ), ExtResource( 1 ), ExtResource( 8 ), ExtResource( 3 ), ExtResource( 4 ), ExtResource( 23 ) ],
+"loop": true,
+"name": "_cast",
+"speed": 10.0
+}, {
+"frames": [ ExtResource( 29 ), ExtResource( 12 ), ExtResource( 13 ), ExtResource( 24 ), ExtResource( 1 ), ExtResource( 8 ), ExtResource( 3 ), ExtResource( 4 ), ExtResource( 23 ) ],
+"loop": true,
+"name": "_idle",
 "speed": 5.0
 }, {
 "frames": [ ExtResource( 7 ), ExtResource( 25 ), ExtResource( 30 ), ExtResource( 21 ), ExtResource( 15 ), ExtResource( 17 ), ExtResource( 10 ), ExtResource( 11 ) ],
@@ -241,5 +241,6 @@ shape = SubResource( 4 )
 
 [node name="Node2D2" type="Node2D" parent="."]
 
-[node name="Wave_Manager" type="Node2D" parent="."]
+[node name="Wave_generator" type="Node" parent="."]
 script = ExtResource( 68 )
+scale = Vector2( 20, 1 )
