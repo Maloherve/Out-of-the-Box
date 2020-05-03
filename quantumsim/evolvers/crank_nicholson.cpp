@@ -20,11 +20,11 @@ Vector solve_tridiagonal(const Matrix&, Vector);
 
 wave_vector crank_nicholson::evolve(const qsystem1D& system, double dt) const {
     auto H = system.H();
+    wave_t h = 1i * dt / (2 *system.hbar());
     // deduce y vector
-    wave_vector y = (wave_t(1.0) - (1i * dt / (2 *system.hbar())) * H) * system.psi();
+    wave_vector y = ( (wave_t(1.0) - h) * H) * system.psi();
     // solve y = ( 1 + i * dt / (2 * hbar) * H ) * x 
-    wave_vector x = solve_tridiagonal<H_matrix_1D, wave_vector>((wave_t(1.0) + (1i * dt / (2 *system.hbar())) * H), y);
-    return x;
+    return solve_tridiagonal<H_matrix_1D, wave_vector>( (wave_t(1.0) + h) * H, y);
 }
 
 /*
@@ -99,9 +99,9 @@ Vector solve_tridiagonal(const Matrix& A, Vector x) {
     
     for(std::size_t i(1); i < x.size(); ++i) {
 
-	    wave_t pivot = A.at(i-1, i) / A.at(i-1, i-1);
+	    wave_t pivot = A.at(i, i-1) / new_diag[i-1];
 	    x[i] -= x[i-1] * pivot;
-	    new_diag[i] = A.at(i,i) - A.at(i, i-1) * pivot;
+	    new_diag[i] = A.at(i,i) - A.at(i-1, i) * pivot;
 	}
 
 	for(std::size_t i(x.size()-1); i > 0; --i) {

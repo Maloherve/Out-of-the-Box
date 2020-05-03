@@ -16,12 +16,12 @@ qsystem1D::init_pack init_wave(size_t);
 
 constexpr double mass = 1;
 constexpr double dt = 0.017;
-constexpr double L = 100;
+constexpr double L = 1;
 constexpr size_t steps = 500;
 
 constexpr size_t samples = 100;
 
-constexpr double dx = L / samples;
+constexpr double dx = L / (samples+1);
 
 int main() {
     
@@ -44,8 +44,8 @@ int main() {
     for (size_t k = 0; k < steps; k++) {
         // print out psi
         if (k % 20 == 0) {
-            double E = system.energy();
             double A = system.norm();
+            double E = system.energy();
             cout << "Step k, norm = " << A << " , E = " << E << endl;
         }
 
@@ -55,10 +55,9 @@ int main() {
     }
 }
 
-constexpr double s_norm = 0.05; // peak length
 constexpr double x0 = L / 2;
-constexpr double n = 16;
-constexpr double sigma(s_norm * L / 2);
+constexpr double n = 0;
+constexpr double sigma(L / 10);
 constexpr double k0(2 * M_PI * n / L);
 
 wave_t gauss(double x) {

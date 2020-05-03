@@ -12,6 +12,9 @@ using namespace qsim;
 using namespace qsim::grid;
 using namespace qsim::math;
 
+template <class Matrix, class Vector>
+Vector solve_tridiagonal(const Matrix& A, Vector x);
+
 int main() {
     
     // step 1, initialize diagonal operators, yes
@@ -144,20 +147,19 @@ int main() {
     // expected result: v = (2, -1, 0, 0, 0)
     std::cout << "Final result: w = " << w << endl;
     
+    wave_vector cols_3[3] = {{1, 0, 0},
+                             {0, 1, 0},
+                             {0, 0, 1}};
     /*
      * Matrix test
      */
-    std::cout << endl << "Starting matrix test" << w << endl << endl;
+    /*std::cout << endl << "Starting matrix test" << w << endl << endl;
 
     matrix<double> mat(5, 5);
     auto I = square_matrix<double>::eye(5);
 
     cout << "Null: " << (mat * w) << endl; 
     cout << "Identity: " << (I * w) << endl;
-
-    wave_vector cols_3[3] = {{1, 0, 0},
-                             {0, 1, 0},
-                             {0, 0, 1}};
 
     // submatrix
     auto I3 = I({0, 3}, {0, 3}); // 3x3 block
@@ -222,4 +224,41 @@ int main() {
         cout << "First column should be (* 2.0)" << endl;
         PRINT_MATRIX(prob_mat, 3, cols_3)
     }
+*/
+
+    // tridiagonal test
+    //diagonals<double> tridiag = {{2, -1, 0}, {-1, 2, -1}, {0, -1, 2}};
+    diagonals<double,3> tridiag({
+        sdiag_entry(-1, -1.0), sdiag_entry(0, 2.0), sdiag_entry(1, -1.0)}
+        );
+    PRINT_MATRIX(tridiag, 3, cols_3)
+    wave_vector b = {1, 0, 0};
+    
+    auto xw = solve_tridiagonal(tridiag, b);
+
+    npdebug("x = ", xw)
+}
+
+template <class Matrix, class Vector>
+Vector solve_tridiagonal(const Matrix& A, Vector x) {
+	Vector new_diag(x);
+
+    new_diag[0] = A.at(0,0);
+    
+    // eliminate lower diag    
+    for(std::size_t i(1); i < x.size(); ++i) {
+
+	    wave_t pivot = A.at(i, i-1) / new_diag[i-1];
+	    x[i] -= x[i-1] * pivot;
+	    new_diag[i] = A.at(i,i) - A.at(i-1, i) * pivot;
+	}
+
+    // eliminate upper diag    
+	for(std::size_t i(x.size()-1); i > 0; --i) {
+	    x[i] /= new_diag[i];
+        x[i-1] -= A.at(i-1, i) * x[i];
+	}
+    
+    x[0u] /= new_diag[0u];
+    return x;
 }
