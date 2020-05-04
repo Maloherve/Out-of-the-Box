@@ -92,7 +92,7 @@ elif env['platform'] == "windows":
         env.Append(CCFLAGS=['-EHsc', '-MDd', '-ZI'])
         env.Append(LINKFLAGS=['-DEBUG'])
     else:
-        env.Append(CCFLAGS=['-O2', '-EHsc', '-MD'])
+        env.Append(CCFLAGS=['-O2', '-EHsc', '-MT'])
 
 if env['target'] in ('debug', 'd'):
     cpp_library += '.debug'
