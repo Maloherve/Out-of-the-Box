@@ -50,6 +50,7 @@ func _ready():
 	
 	# Connect Signals
 	animNode.connect("animation_finished", self, "_on_AnimatedSprite_animation_finished");
+	$Wave_Generator.connect("teleport", self, "_on_Node_teleport")
 	
 	timer = Timer.new();
 	add_child(timer);
@@ -70,6 +71,8 @@ func _process(delta):
 			Side_Raycasts.set_flip(false);
 			$Trail.set_flip(false);
 
+func _on_Node_teleport(delta):
+	position += delta
 
 # Execute Regularly
 func _physics_process(delta):

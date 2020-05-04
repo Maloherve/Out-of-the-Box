@@ -79,7 +79,8 @@ func on_Player_stop_casting():
 	var x = teleport_position()
 	var delta = particle.get_relative_transform_to_parent(player).xform_inv(Vector2(x,0))
 	delta.y *= -1 # invert y coordinate
-	player.position += delta
+	emit_signal("teleport", delta)
+	#player.position += delta
 	
 	# deinit simulation
 	player.remove_child(particle)
