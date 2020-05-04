@@ -1,10 +1,7 @@
 **/*.swp
 **/*.out
-**/*.dll
-**/*.a
-**/build
-**/*.os
 **/*.obj
+**/*.os
 **/*.o
 qunatumgdn/api.json
 WarmUp/.import
