@@ -1,41 +1,52 @@
-tool
-extends Area2D
+extends Node
+# Declare member variables here. Examples:
+# var a = 2
+# var b = "text"
 
+var qsystem = null
+var potential = null
+
+enum bound_mode {
+	free = 0,
+	fixed = 1
+}
+
+# Called when the node enters the scene tree for the first time.
 func _ready():
-	input_pickable = true
-	$collider.shape.extents = Vector2(5,5)
-	rescale()
+		
+	# resolve node dependencies
+	qsystem = get_node("qsystem")
+	potential = get_node("potential")
 	
-func rescale():
-	# setup collision box using global scale
-	$collider.shape.extents *= global_scale
-	$collider.global_scale = Vector2(1,1)
+	qsystem.set_physics_process(is_processing())
+	
+	qsystem.V = potential
+	
+	# initialize and customize a wave packet
+	var packet = load("res://bin/gaussian_packet.gdns").new()
+	packet.first = -50
+	packet.second = 50
+	packet.x0 = -25
+	packet.n = 4
+	packet.sigma = 10
+	packet.size = 100
+	
+	# initialize the wave with this packet
+	qsystem.psi.set_packet(packet)
+	
+	qsystem.lower_bound = load("res://bin/qbounds1D.gdns").new()
+	qsystem.upper_bound = load("res://bin/qbounds1D.gdns").new()
+	qsystem.lower_bound.location = -50
+	qsystem.upper_bound.location = 50
+	qsystem.upper_bound.mode = bound_mode.fixed
+	pass
 
-func probability(t):
-	if t <= 0.0 or t >= 1.0:
-		return 0
-	else:
-		return $qsystem.psi_norm(int($qsystem.N() * t))
-	
-func N():
-	return $qsystem.N()
-	
-func x(t):
-	if t <= 0.0:
-		return $qsystem.x(0)
-	elif t >= 1.0:
-		return $qsystem.width / 2
-	else:
-		return $qsystem.x(int((N()-1) * t) + 1)
-	
-func real(t):
-	if t <= 0 or t >= 1:
-		return 0
-	else:
-		return $qsystem.psi_real(int(N() * t))
+var t = 0
+var tlim = 30
 
-func imag(t):
-	if t <= 0 or t >= 1:
-		return 0
-	else:
-		return $qsystem.psi_imag(int(N() * t))
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta):
+	t += delta
+	print("System energy at ", t, ": ", qsystem.energy())
+	if (t > tlim):
+		set_process(false)
