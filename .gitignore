@@ -3,5 +3,7 @@
 **/*.os
 **/*.obj
 **/*.o
-qunatumgdn/api.json
+quantumsim/build/*
+quantumgdn/api.json
+quantumgdn/.sconsign.dblite
 WarmUp/.import
