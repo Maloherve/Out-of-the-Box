@@ -25,8 +25,7 @@ func teleport_position():
 func _ready():
 	player.connect("start_casting", self, "on_Player_start_casting");
 	player.connect("stop_casting", self, "on_Player_stop_casting");
-	player.connect("finish_casting", self, "on_Player_finish_casting");
-
+	
 # ----- Player Action ------
 # trigger == null: free teleport mode
 func on_Player_start_casting(trigger):
@@ -39,12 +38,16 @@ func on_Player_start_casting(trigger):
 	var pbox = player.get_node("CollisionShape2D").shape.extents
 	
 	# transform setup
+	var direction
 	var half_width
 	if player.is_on_wall:
 		half_width = pbox.y
-		particle.rotation_degrees += 90 # node of 90
+		particle.rotation_degrees -= 90 * player.look_direction() # node of 90
+		# fix no move
+		direction = -player.vertical_move_direction
 	else:
 		half_width = pbox.x
+		direction = player.look_direction()
 		
 	# boundaries setup, determine them as function of the trigger box
 	if trigger != null:
@@ -61,10 +64,10 @@ func on_Player_start_casting(trigger):
 	particle.packet.sigma = system.width/10 # approximate player quantum localization
 	
 	# deduce wave vector
-	particle.packet.k0 = 2 * particle.packet.sigma * system.hbar * player.velocity.x *  system.mass / sqrt(PI)
+	#particle.packet.k0 = 2 * particle.packet.sigma * system.hbar * player.velocity.x *  system.mass / sqrt(PI)
 	
 	# only for debug purposes
-	particle.packet.k0 = PI * 50 / system.width
+	particle.packet.k0 = direction * PI * 50 / system.width
 	print("k0 = ", particle.packet.k0)
 	
 	particle.packet.N = samples

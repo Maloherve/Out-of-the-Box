@@ -16,17 +16,20 @@ var fo_x : float = 0;					# x position of the peak
 var can_modify : bool = false;			# Can the wave function be modified by the player
 # Other
 var draw_wave_function : bool = false;
-var fade_wave_function : bool = false;
+#var fade_wave_function : bool = false;
 # Nodes
 onready var player = get_tree().get_root().get_node("Level").get_node("Player")
-
+# Fade mechanism
+var fade_timer : Timer = null;
+export (float) var fade_time = 1;
+var fade_curve = preload("res://assets/Curves/wave_fade.tres"); 
 
 func _ready():
 #	Connect Nodes
 	player.connect("start_casting", self, "on_Player_start_casting");
-	player.connect("is_casting", self, "on_Player_is_casting")
+	#player.connect("is_casting", self, "on_Player_is_casting")
 	player.connect("stop_casting", self, "on_Player_stop_casting");
-	player.connect("finish_casting", self, "on_Player_finish_casting");
+	#player.connect("finish_casting", self, "on_Player_finish_casting");
 #	Make x
 	for i in range(N): x.push_back(x_min + i*step);
 #	Initialize Wave Function
@@ -39,10 +42,13 @@ func _ready():
 func _process(delta):
 #	Make the wave function appear slowly
 	if draw_wave_function:
-		if fade_wave_function:
-			modulate.a = lerp(modulate.a, 0, 0.05);
+		if is_fading():
+			var t = 1.0 - fade_timer.time_left / fade_time;
+			modulate.a = fade_curve.interpolate_baked(t); #lerp(modulate.a, 0, 0.05);
+			#print("Remaining: ", fade_timer.time_left, ", Value: ", modulate.a)
 		else:
 			modulate.a = lerp(modulate.a, 0.5, 0.01);
+
 	
 #	Apply changes to function for gaussian case
 	if change_to_function:
@@ -80,6 +86,8 @@ func _draw():
 	if draw_wave_function:
 		draw_function(player.position, y, player.is_on_wall);
 
+func is_fading():
+	return fade_timer != null;
 
 # Find a random point in x axis of the Wave Function, weighted by value of Wave Function
 func random_point() -> Vector2: 
@@ -97,19 +105,31 @@ func random_point() -> Vector2:
 # ----- Player Action ------
 func on_Player_start_casting(trigger):
 	set_to_gaussian();
+	can_modify = true;
 	draw_wave_function = true;
 
-func on_Player_is_casting():
-	can_modify = true;
+#func on_Player_is_casting():
+#	can_modify = true;
 
 func on_Player_stop_casting():
-	fade_wave_function = true;
+	#fade_wave_function = true;
 	can_modify = false;
+	# sync the fade animation to a timer
+	fade_timer = Timer.new();
+	fade_timer.connect("timeout", self, "_on_Timer_timeout");
+	fade_timer.process_mode = Timer.TIMER_PROCESS_IDLE;
+	fade_timer.one_shot = true;
+	fade_timer.set_wait_time(fade_time);
+	add_child(fade_timer);
+	fade_timer.start();
 
-func on_Player_finish_casting():
+func _on_Timer_timeout():
 #	Make Wave function disapear
 	draw_wave_function = false;
-	fade_wave_function = false;
+	# stop timer
+	remove_child(fade_timer);
+	fade_timer = null; # will it crash or garbage collecting?
+	#fade_wave_function = false;
 	modulate.a = 0;
 	fo_x = 0;
 	amplitude = -10;
