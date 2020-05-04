@@ -6,7 +6,7 @@ QSIM := quantumsim/bin/quantumsim.a
 
 INSTALL_DIR := WarmUp/bin/x11
 
-BIND_THREADS := 2
+BIND_THREADS := 4
 
 all: $(LIB)
 
@@ -15,17 +15,17 @@ all: $(LIB)
 $(QSIM):
 	cd quantumsim && make && cd ..
 
-$(GODOT_CPP):
+$(GODOT_CPP)/SConstruct:
 	git submodule update --init
 
-$(API): $(GODOT_CPP)
+$(API): $(GODOT_CPP)/SConstruct
 	cd $(GODOT_CPP)
 	godot --gdnative-generate-json-api api.json
 	cd ../..
 
 $(BINDINGS): $(API)
 	cd $(GODOT_CPP)
-	scons platform=x11 target=release generate_bindings=yes -j$(BIND_THREADS) use_custom_api_file=yes custom_api_file=../api.json
+	scons platform=linux target=release generate_bindings=yes -j$(BIND_THREADS) use_custom_api_file=yes custom_api_file=../api.json
 	cd ../..
 
 $(LIB): $(QSIM) $(BINDINGS)
