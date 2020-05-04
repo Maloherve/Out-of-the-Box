@@ -19,18 +19,18 @@ $(GODOT_CPP):
 	git submodule update --init
 
 $(API): $(GODOT_CPP)
-	cd $(GODOT_CPP)
-	godot --gdnative-generate-json-api api.json
+	cd $(GODOT_CPP) && \
+	godot --gdnative-generate-json-api api.json && \
 	cd ../..
 
 $(BINDINGS): $(API)
-	cd $(GODOT_CPP)
-	scons platform=x11 target=release generate_bindings=yes -j$(BIND_THREADS) use_custom_api_file=yes custom_api_file=../api.json
+	cd $(GODOT_CPP) && \
+	scons platform=linux target=release generate_bindings=yes -j$(BIND_THREADS) use_custom_api_file=yes custom_api_file=../api.json && \
 	cd ../..
 
 $(LIB): $(QSIM) $(BINDINGS)
-	cd quantumgdn
-	scons platform=x11 target=release
+	cd quantumgdn && \
+	scons platform=x11 target=release && \
 	cd ..
 
 install:
