@@ -17,6 +17,7 @@ $(QSIM):
 
 $(GODOT_CPP)/SConstruct:
 	mkdir -p $(GODOT_CPP)
+	git submodule update --init
 	git submodule foreach git reset --hard
 	cd $(GODOT_CPP) && \
 	git submodule update --init && \
