@@ -7,10 +7,10 @@ var debug_mode : bool = false;
 # Darken Workd
 var darken : bool = false;
 const WORLD_MODULATE_COLOR : Color = Color(0.5,1,0.5);
-const PLAYER_MODULATE_COLOR : Color = Color(0.3,0.3,0.3)
+#const PLAYER_MODULATE_COLOR : Color = Color(0.3,0.3,0.3)
 # Player 
 var camera_zoom : Vector2 = Vector2(.3, .3)
-export var is_cat : bool = true;
+export var cat_version : int = 1;
 var teleport_player : bool = false;
 # TMP
 
@@ -18,10 +18,13 @@ var teleport_player : bool = false;
 func _enter_tree():
 	# Load in Player
 	var player_scene;
-	if is_cat:
-		player_scene = load("res://scenes/Cat2.tscn")
-	else:
-		player_scene = load("res://scenes/Human.tscn")
+	match cat_version:
+		0:
+			player_scene = load("res://scenes/Human.tscn")
+		1:
+			player_scene = load("res://scenes/Cat.tscn")
+		2:
+			player_scene = load("res://scenes/Cat2.tscn")
 	
 	var Player = player_scene.instance()
 	add_child(Player)
@@ -42,10 +45,12 @@ func _process(delta):
 #	Darken Screen When Casting
 	if (darken):
 		$World.modulate = lerp($World.modulate, WORLD_MODULATE_COLOR, 0.01);
-		$Player.modulate = lerp($Player.modulate, PLAYER_MODULATE_COLOR, 0.1);
+		$Player.set_obscurate(true);
+		#$Player.modulate = lerp($Player.modulate, PLAYER_MODULATE_COLOR, 0.1);
 	else:
 		$World.modulate = lerp($World.modulate, Color(1,1,1), 0.05)
-		$Player.modulate = lerp($Player.modulate, Color(1,1,1), 0.01)
+		$Player.set_obscurate(false);
+		#$Player.modulate = lerp($Player.modulate, Color(1,1,1), 0.01)
 	
 #	Toggle Debug Screen
 	if debug_mode:
@@ -53,8 +58,9 @@ func _process(delta):
 	else:
 		$InfoScreen.hide();
 	
-	if (teleport_player):
-		teleport();
+	# Temporaly hidden, See Player.Wave_Generator.on_Player_stop_casting()
+	#if (teleport_player):
+	#	teleport();
 
 # Execute Regularly
 func _physics_process(delta):
@@ -76,7 +82,7 @@ func teleport():
 	teleport_player = false;
 
 # ----- Node Function ------
-func on_Player_start_casting():
+func on_Player_start_casting(trigger):
 	darken = true;
 	AudioServer.set_bus_effect_enabled ( 1, 0, true )
 

@@ -31,6 +31,8 @@ var hitstun : int = 0;
 var cast : bool = false;
 var is_casting : bool = false;
 var finish_cast : bool = false;
+# Obscuring
+const PLAYER_MODULATE_COLOR : Color = Color(0.3,0.3,0.3)
 # Audio
 var myAudio : AudioStreamPlayer2D;
 var myAudioIdle : AudioStreamPlayer2D;
@@ -48,6 +50,7 @@ func _ready():
 	
 	# Connect Signals
 	animNode.connect("animation_finished", self, "_on_AnimatedSprite_animation_finished");
+	$Wave_Generator.connect("teleport", self, "_on_Node_teleport")
 	
 	timer = Timer.new();
 	add_child(timer);
@@ -68,6 +71,8 @@ func _process(delta):
 			Side_Raycasts.set_flip(false);
 			$Trail.set_flip(false);
 
+func _on_Node_teleport(delta):
+	position += delta
 
 # Execute Regularly
 func _physics_process(delta):
@@ -96,6 +101,13 @@ func MoveCharacter(delta):
 		
 	if _check_if_apply_friction():
 		velocity.y -= GRAVITY/2 * delta;
+		
+# obscurate, TODO create a child of player to be modulate
+func set_obscurate(flag):
+	if flag:
+		animNode.modulate = lerp(animNode.modulate, PLAYER_MODULATE_COLOR, 0.1)
+	else:
+		animNode.modulate = lerp(animNode.modulate, Color(1,1,1), 0.01)
 
 # Check for and execute Input
 func _get_input():
@@ -108,7 +120,7 @@ func _get_input():
 		attack = true;
 		attackstun = meleeTime;
 	if (Input.is_action_just_pressed("ui_space") && (!is_casting)):
-		emit_signal('start_casting');
+		emit_signal('start_casting', null); # no trigger
 		cast = true;
 		if !timer.is_stopped():
 			timer.set_paused(true);

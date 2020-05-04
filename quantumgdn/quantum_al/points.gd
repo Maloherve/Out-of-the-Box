@@ -15,7 +15,7 @@ func _ready():
 	self.scale.y *= -1
 	qsystem = get_parent().get_node("qsystem")
 	assert(qsystem != null, "Error: null qsystem instance")
-	curve = self.material.shader.get_shader_param("points").curve
+	#curve = self.material.shader.get_shader_param("points").curve
 	pass # Replace with function body.
 
 func point(index):

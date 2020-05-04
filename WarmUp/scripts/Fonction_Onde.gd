@@ -95,7 +95,7 @@ func random_point() -> Vector2:
 
 
 # ----- Player Action ------
-func on_Player_start_casting():
+func on_Player_start_casting(trigger):
 	set_to_gaussian();
 	draw_wave_function = true;
 
