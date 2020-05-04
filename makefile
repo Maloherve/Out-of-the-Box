@@ -17,11 +17,12 @@ $(QSIM):
 
 $(GODOT_CPP)/SConstruct:
 	mkdir -p $(GODOT_CPP)
-	cd $(GODOT_CPP)
-	git submodule update --init
+	git submodule foreach git reset --hard
+	cd $(GODOT_CPP) && \
+	git submodule update --init && \
 	cd ../..
 
-$(API): $(GODOT_CPP)
+$(API): $(GODOT_CPP)/SConstruct
 	cd $(GODOT_CPP) && \
 	godot --gdnative-generate-json-api ../api.json && \
 	cd ../..
