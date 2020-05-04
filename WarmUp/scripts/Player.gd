@@ -11,7 +11,8 @@ const CLIMB_SPEED : float = 1.5 * 64;
 onready var animNode : AnimatedSprite;
 onready var Bottom_Raycasts : Node2D = get_node("Bottom_Raycasts");
 onready var Side_Raycasts : Node2D = get_node("Side_Raycasts");
-onready var timer : Timer;
+#onready var timer : Timer; # this was before the endurance mechanic, I'm keeping it in case we need it
+onready var Endurance_Bar : ProgressBar = get_node("GUI/Endurance_Bar");
 # Movement
 var velocity : Vector2 = Vector2();
 var jump_velocity : int = -388;
@@ -20,7 +21,7 @@ var move_direction : int = 1;
 var vertical_move_direction : int = 1;
 var is_on_wall : bool = false;
 var is_on_ledge : bool = false;
-var climbing_timeout : bool = false; # for the climbing time limit
+#var climbing_timeout : bool = false; # for the climbing time limit
 # Attack
 var attack_move_direction : int = 1;
 var attack : bool = false;
@@ -31,6 +32,8 @@ var hitstun : int = 0;
 var cast : bool = false;
 var is_casting : bool = false;
 var finish_cast : bool = false;
+# General
+var endurance : float = 100.0;
 # Obscuring
 const PLAYER_MODULATE_COLOR : Color = Color(0.3,0.3,0.3)
 # Audio
@@ -52,9 +55,9 @@ func _ready():
 	animNode.connect("animation_finished", self, "_on_AnimatedSprite_animation_finished");
 	$Wave_Generator.connect("teleport", self, "_on_Node_teleport")
 	
-	timer = Timer.new();
-	add_child(timer);
-	timer.connect("timeout", self, "_on_timer_timeout");
+#	timer = Timer.new();
+#	add_child(timer);
+#	timer.connect("timeout", self, "_on_timer_timeout");
 
 # Execute ASAP
 func _process(delta):
@@ -78,7 +81,7 @@ func _on_Node_teleport(delta):
 func _physics_process(delta):
 	if !cast:
 		velocity = move_and_slide(velocity, Vector2(0,0));
-
+	Endurance_Bar.set_value(update_endurance());
 
 # Move Character
 func MoveCharacter(delta):
@@ -88,12 +91,12 @@ func MoveCharacter(delta):
 		velocity.x = lerp(velocity.x, MOVE_SPEED * move_direction, 0.2);
 	
 #	y-Movement
-	if is_on_wall && !climbing_timeout:
+	if is_on_wall && endurance>0:
 		velocity.y = lerp(velocity.y, CLIMB_SPEED * vertical_move_direction, 0.2);
 	if is_on_wall && !_check_is_collided():
 		is_on_wall = false;
 		
-	_climbing_timer();
+#	_climbing_timer();
 	
 #	Forces
 	if _check_if_apply_gravity():
@@ -122,8 +125,8 @@ func _get_input():
 	if (Input.is_action_just_pressed("ui_space") && (!is_casting)):
 		emit_signal('start_casting', null); # no trigger
 		cast = true;
-		if !timer.is_stopped():
-			timer.set_paused(true);
+#		if !timer.is_stopped():
+#			timer.set_paused(true);
 	if (Input.is_action_just_pressed("ui_space") && (is_casting)):
 		emit_signal("stop_casting");
 		finish_cast = true;
@@ -140,8 +143,8 @@ func _get_input():
 func _check_is_grounded():
 	for raycast in Bottom_Raycasts.get_children():
 		if raycast.is_colliding():
-			timer.stop();
-			climbing_timeout = false;
+#			timer.stop();
+#			climbing_timeout = false;
 			return true;
 	return false;
 
@@ -158,20 +161,27 @@ func _check_is_collided():
 	return false;
 
 # Time limit on climbing
-func _on_timer_timeout():
-	climbing_timeout = true;
-	return;
+#func _on_timer_timeout():
+#	climbing_timeout = true;
+#	return;
 
-func _climbing_timer():
-	if is_on_wall && timer.is_stopped() && !climbing_timeout:
-		timer.start(1);
-	return;
+#func _climbing_timer():
+#	if is_on_wall && timer.is_stopped() && !climbing_timeout:
+#		timer.start(1);
+#	return;
+
+func update_endurance():
+	if is_on_wall && endurance>0:
+		endurance -= 1;
+	if _check_is_grounded() && endurance<100:
+		endurance +=1;
+	return endurance;
 
 # Check if the conditions to apply gravity are verified
 func _check_if_apply_gravity():
 	if cast:
 		return false;
-	if (!_check_is_grounded() && _check_is_collided()) && !climbing_timeout:
+	if (!_check_is_grounded() && _check_is_collided()) && endurance>0:
 		is_on_wall = true;
 		return false;
 	return true;
@@ -180,7 +190,7 @@ func _check_if_apply_gravity():
 func _check_if_apply_friction():
 	if cast:
 		return false;
-	elif is_on_wall && climbing_timeout:
+	elif is_on_wall && endurance==0:
 		return true;
 	return false;
 
@@ -228,6 +238,6 @@ func _on_AnimatedSprite_animation_finished():
 		finish_cast = false;
 		is_casting = false;
 		cast = false;
-		if timer.is_paused():
-			timer.set_paused(false);
+#		if timer.is_paused():
+#			timer.set_paused(false);
 
