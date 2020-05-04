@@ -12,21 +12,19 @@
 //#include "qgridsystem2D.hpp"
 
 
-using namespace godot;
-
 extern "C" void GDN_EXPORT godot_gdnative_init(godot_gdnative_init_options *o)
 {
-	Godot::gdnative_init(o);
+    godot::Godot::gdnative_init(o);
 }
 
 extern "C" void GDN_EXPORT godot_gdnative_terminate(godot_gdnative_terminate_options *o)
 {
-	Godot::gdnative_terminate(o);
+	godot::Godot::gdnative_terminate(o);
 }
 
 extern "C" void GDN_EXPORT godot_nativescript_init(void *handle)
 {
-	Godot::nativescript_init(handle);
+	godot::Godot::nativescript_init(handle);
     
     // potentials 1D and super-classes
 	//register_class<curve_potential>();
@@ -39,16 +37,16 @@ extern "C" void GDN_EXPORT godot_nativescript_init(void *handle)
 	//register_class<grid_uniform_potential2D>();
 
     // potential fields
-	register_class<potential_field>();
-	register_class<curve_field>();
+	godot::register_class<godot::potential_field>();
+	godot::register_class<godot::curve_field>();
 
     // grid wave
-	register_class<grid_wave>();
-	register_class<grid_wave1D>();
+	godot::register_class<godot::grid_wave>();
+	godot::register_class<godot::grid_wave1D>();
 
     // 1D initializers
-	register_class<wave_init1D>();
-	register_class<gauss_init1D>();
+	godot::register_class<godot::wave_init1D>();
+	godot::register_class<godot::gauss_init1D>();
 
     // 2D initializers
 	//register_class<wave_init2D>();
@@ -58,8 +56,8 @@ extern "C" void GDN_EXPORT godot_nativescript_init(void *handle)
     //register_class<qsimbox>();
     
     // systems
-    register_class<gdqsystem>();
-	register_class<qgridsystem1D>();
+    godot::register_class<godot::gdqsystem>();
+	godot::register_class<godot::qgridsystem1D>();
     
 	//register_class<qgridsystem2D>();
 }
