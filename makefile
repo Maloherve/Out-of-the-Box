@@ -10,27 +10,30 @@ BIND_THREADS := 4
 
 all: $(LIB)
 
-.PHONY: install
+.PHONY: install reset
 
 $(QSIM):
 	cd quantumsim && make && cd ..
 
 $(GODOT_CPP)/SConstruct:
-	git submodule update --init
-
-$(API): $(GODOT_CPP)/SConstruct
+	mkdir -p $(GODOT_CPP)
 	cd $(GODOT_CPP)
-	godot --gdnative-generate-json-api api.json
+	git submodule update --init
+	cd ../..
+
+$(API): $(GODOT_CPP)
+	cd $(GODOT_CPP) && \
+	godot --gdnative-generate-json-api ../api.json && \
 	cd ../..
 
 $(BINDINGS): $(API)
-	cd $(GODOT_CPP)
-	scons platform=linux target=release generate_bindings=yes -j$(BIND_THREADS) use_custom_api_file=yes custom_api_file=../api.json
+	cd $(GODOT_CPP) && \
+	scons platform=linux generate_bindings=yes -j$(BIND_THREADS)  target=release use_custom_api_file=yes custom_api_file=../api.json bits=64 && \
 	cd ../..
 
 $(LIB): $(QSIM) $(BINDINGS)
-	cd quantumgdn
-	scons platform=x11 target=release
+	cd quantumgdn && \
+	scons platform=x11 target=release bits=64 && \
 	cd ..
 
 install:
@@ -42,4 +45,7 @@ clean:
 	rm quantumsim/build/evolvers/*.os
 	rm quantumsim/build/grid/*.os
 	rm quantumgdn/src/*.os
+
+reset:
+	$(GODOT_CPP)/SConstruct
 
