@@ -33,7 +33,7 @@ var cast : bool = false;
 var is_casting : bool = false;
 var finish_cast : bool = false;
 # General
-var endurance : float = 100.0;
+var endurance : float = 100;
 # Obscuring
 const PLAYER_MODULATE_COLOR : Color = Color(0.3,0.3,0.3)
 # Audio
@@ -122,9 +122,10 @@ func _get_input():
 	if (Input.is_action_just_pressed("ui_down") && _check_is_grounded() && !cast):
 		attack = true;
 		attackstun = meleeTime;
-	if (Input.is_action_just_pressed("ui_space") && (!is_casting)):
+	if (Input.is_action_just_pressed("ui_space") && (!is_casting) && (endurance>=50)):
 		emit_signal('start_casting', null); # no trigger
 		cast = true;
+		endurance -= 50;
 #		if !timer.is_stopped():
 #			timer.set_paused(true);
 	if (Input.is_action_just_pressed("ui_space") && (is_casting)):
@@ -173,7 +174,7 @@ func _check_is_collided():
 func update_endurance():
 	if is_on_wall && endurance>0:
 		endurance -= 1;
-	if _check_is_grounded() && endurance<100:
+	if (_check_is_grounded() && endurance<100 && (!cast)):
 		endurance +=1;
 	return endurance;
 
