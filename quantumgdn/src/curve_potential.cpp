@@ -38,7 +38,7 @@ double curve_potential::at(const Vector2& v) const  {
         Transform2D A = system->get_global_transform();
         // then get relative position to the object
         // don't know if definitive, vertical mode?
-        Vector2 r = B.xform_inv(A.xform(v)) / system->get_global_scale();
+        Vector2 r = B.xform_inv(A.xform(v));
         out += entry.second->at(r);
     }
 
