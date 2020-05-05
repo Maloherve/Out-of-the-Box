@@ -146,7 +146,8 @@ func _get_input():
 		if grounded || is_on_ledge:
 			velocity.y = jump_velocity;
 	if (Input.is_action_just_pressed("ui_down") && grounded && !cast):
-		attack = true;
+		#attack = true; # temporaly disabled, bugged
+		# TODO, emit attack signal
 		attackstun = meleeTime;
 	if (Input.is_action_just_pressed("ui_space") && (!cast) && (endurance>=50)):
 		emit_signal('start_casting', null); # no trigger
@@ -179,7 +180,7 @@ func _get_input():
 		if (Input.is_action_just_pressed("ui_down")):
 			#attack = true;
 			attackstun = meleeTime;
-			animNode.call("_attack",true)
+			#animNode.call("_attack",true)
 			
 		if is_on_wall: 
 			vertical_move_direction = -int(Input.is_action_pressed("ui_up")) + int(Input.is_action_pressed("ui_down"));
@@ -248,6 +249,6 @@ func _on_AnimatedSprite_animation_finished():
 	#print("Finishing animation: ", animNode.get_animation())
 	if (animNode.get_animation() == "_walk"):
 		animNode.call("_idle"); # restore default
-	if (animNode.get_animation() == "_attack"):
-		attackstun = meleeTime;
+	#if (animNode.get_animation() == "_attack"):
+	#	attackstun = meleeTime;
 
