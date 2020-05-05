@@ -41,8 +41,8 @@ func _ready():
 	$Player.connect("stop_casting", self, "on_Player_stop_casting");
 	# debug potential
 	# why achitemmuort the curve is not loaded from the editor and I should load it manually!!!
-	print($World/Objects/door3/Potential.V_x.interpolate_baked(0.5))
 	$World/Objects/door3/Potential.V_x = load("res://assets/Curves/potential.tres")
+	print($World/Objects/door3/Potential.V_x.interpolate_baked(0.5))
 
 # Execute ASAP
 func _process(delta):
