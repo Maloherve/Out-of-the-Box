@@ -4,18 +4,21 @@ extends Area2D
 func _ready():
 	#input_pickable = true
 	position.x = - $qsystem.width/2
-	$collider.position.x = $qsystem.width/2
+	#$collider.position.x = $qsystem.width/2
 	$collider.shape.extents = Vector2($qsystem.width/2,$qsystem.width/2)
 	rescale()
-	connect("body_entered", self, "_on_area_debug")
+	#connect("body_entered", self, "_on_area_debug")
 	
 func _on_area_debug(node):
-	print("Something entered: ", node)
+	var out_w = node.global_transform.xform_inv($qsystem.global_transform.xform(Vector2($qsystem.width, 0)))
+	var out_0 = node.global_transform.xform_inv($qsystem.global_transform.xform(Vector2(0,0)))
+	print("Something entered: ", node, ", ", out_0 / global_scale, ", ", out_w / global_scale)
 	
 func rescale():
 	# setup collision box using global scale
 	$collider.shape.extents *= global_scale
-	$collider.global_scale = Vector2(1,1)
+	$collider.scale /= global_scale
+	#$qsystem.scale /= global_scale
 
 func probability(t):
 	if t <= 0.0 or t >= 1.0:
