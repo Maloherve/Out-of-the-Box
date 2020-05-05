@@ -22,7 +22,7 @@ onready var player = get_tree().get_root().get_node("Level").get_node("Player")
 # Fade mechanism
 var fade_timer : Timer = null;
 export (float) var fade_time = 1;
-var fade_curve = preload("res://assets/Curves/wave_fade.tres"); 
+export (Curve) var fade_curve = preload("res://assets/Curves/wave_fade.tres"); 
 
 func _ready():
 #	Connect Nodes

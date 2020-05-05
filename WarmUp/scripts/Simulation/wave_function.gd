@@ -17,9 +17,7 @@ func _ready():
 	system.set_wave(packet)
 	
 	graph.reset()
-	
-	for i in range(system.N()):
-		potential.add_point(potential.point(i))
+	potential.reset()
 	
 	if debug:
 		print("System position: ", system.mean_position())

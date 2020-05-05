@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=2]
+[gd_scene load_steps=24 format=2]
 
 [ext_resource path="res://scripts/Main.gd" type="Script" id=1]
 [ext_resource path="res://assets/Background/SkyLine.png" type="Texture" id=2]
@@ -17,6 +17,7 @@
 [ext_resource path="res://assets/Sounds/BoxBassArp.ogg" type="AudioStream" id=15]
 [ext_resource path="res://assets/Sounds/electronic_accent_03.wav" type="AudioStream" id=16]
 [ext_resource path="res://assets/Tilesets/Floor2.tres" type="TileSet" id=17]
+[ext_resource path="res://bin/curve_field.gdns" type="Script" id=18]
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
@@ -32,7 +33,7 @@ animations = [ {
 } ]
 
 [sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 3.34546, 32.2485 )
+extents = Vector2( 3.283, 32.248 )
 
 [sub_resource type="TileSet" id=3]
 0/name = "signs.png 0"
@@ -241,7 +242,7 @@ position = Vector2( 310.259, 448 )
 texture = ExtResource( 5 )
 
 [node name="door1" type="StaticBody2D" parent="World/Objects"]
-collision_layer = 2
+collision_layer = 6
 collision_mask = 0
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="World/Objects/door1"]
@@ -252,6 +253,10 @@ animation = "open"
 [node name="CollisionShape2D" type="CollisionShape2D" parent="World/Objects/door1"]
 position = Vector2( 1027.15, 480.188 )
 shape = SubResource( 2 )
+
+[node name="Potential" type="Node2D" parent="World/Objects/door1"]
+scale = Vector2( 3.283, 1 )
+script = ExtResource( 18 )
 
 [node name="door2" type="StaticBody2D" parent="World/Objects"]
 position = Vector2( 64.4836, 191.553 )
@@ -372,11 +377,13 @@ __meta__ = {
 
 [node name="Fonction_Onde" type="Node2D" parent="."]
 script = ExtResource( 13 )
+fade_time = 1.5
 
 [node name="InfoScreen" parent="." instance=ExtResource( 14 )]
 
 [node name="Soundtrack" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 15 )
+autoplay = true
 bus = "Filter"
 
 [node name="Teleport" type="AudioStreamPlayer" parent="."]
