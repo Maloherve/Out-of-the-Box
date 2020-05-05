@@ -6,4 +6,4 @@
 quantumsim/build/*
 quantumgdn/api.json
 quantumgdn/.sconsign.dblite
-WarmUp/.import
+WarmUp/*.import
