@@ -11,7 +11,8 @@ const CLIMB_SPEED : float = 1.5 * 64;
 onready var animNode : AnimatedSprite;
 onready var Bottom_Raycasts : Node2D = get_node("Bottom_Raycasts");
 onready var Side_Raycasts : Node2D = get_node("Side_Raycasts");
-onready var timer : Timer;
+#onready var timer : Timer; # this was before the endurance mechanic, I'm keeping it in case we need it
+onready var Endurance_Bar : ProgressBar = get_node("GUI/Endurance_Bar");
 # Movement
 var velocity : Vector2 = Vector2();
 var jump_velocity : int = -388;
@@ -20,7 +21,7 @@ var move_direction : int = 1;
 var vertical_move_direction : int = 1;
 var is_on_wall : bool = false;
 var is_on_ledge : bool = false;
-var climbing_timeout : bool = false; # for the climbing time limit
+#var climbing_timeout : bool = false; # for the climbing time limit
 # Attack
 var attack_move_direction : int = 1;
 var attack : bool = false;
@@ -32,6 +33,8 @@ var cast : bool = false;
 var can_finish_cast = false;
 signal start_casting;
 signal stop_casting;
+# General
+var endurance : float = 100;
 # Obscuring
 const PLAYER_MODULATE_COLOR : Color = Color(0.3,0.3,0.3)
 # Audio
@@ -51,9 +54,11 @@ func _ready():
 	animNode.connect("animation_finished", self, "_on_AnimatedSprite_animation_finished");
 	$Wave_Generator.connect("teleport", self, "_on_Node_teleport")
 	
-	timer = Timer.new();
-	add_child(timer);
-	timer.connect("timeout", self, "_on_timer_timeout");
+	#timer = Timer.new();
+	#add_child(timer);
+	#timer.connect("timeout", self, "_on_timer_timeout");
+	
+	connect("start_casting", self, "_on_Player_start_casting")
 	
 	connect("hit_the_ground", self, "_on_hit_the_ground")
 	connect("detach_the_ground", self, "_on_detach_the_ground")
@@ -79,11 +84,15 @@ func look_direction():
 
 func _on_Node_teleport(delta):
 	position += delta
+	
+func _on_Player_start_casting(_trigger):
+	endurance = 0;
 
 # Execute Regularly
 func _physics_process(delta):
 	if !cast:
 		velocity = move_and_slide(velocity, Vector2(0,0));
+	Endurance_Bar.set_value(update_endurance());
 
 # Move Character
 func MoveCharacter(delta):
@@ -93,10 +102,10 @@ func MoveCharacter(delta):
 		velocity.x = lerp(velocity.x, MOVE_SPEED * move_direction, 0.2);
 	
 #	y-Movement
-	if is_on_wall && !climbing_timeout:
+	if is_on_wall && endurance>0:
 		velocity.y = lerp(velocity.y, CLIMB_SPEED * vertical_move_direction, 0.2);
 		
-	_climbing_timer();
+#	_climbing_timer();
 	
 #	Forces
 	if _check_if_apply_gravity():
@@ -114,13 +123,11 @@ func set_obscurate(flag):
 
 func _on_hit_the_ground():
 	is_on_wall = false;
-	grounded = true;
 	animNode.call("_idle");
 	# TODO reset all other possible variables
 	# TODO animate the impact
 	
 func _on_detach_the_ground():
-	grounded = false;
 	animNode.call("_jump");
 
 func _input(event):
@@ -128,24 +135,33 @@ func _input(event):
 		emit_signal('start_casting', null); # no trigger
 		cast = true;
 		animNode.call("_cast",true)
-		if !timer.is_stopped():
-			timer.set_paused(true);
+		#if !timer.is_stopped():
+		#	timer.set_paused(true);
 	if event.is_action_released("ui_space") && cast:
 		can_finish_cast = true
 	
-	
 # Check for and execute Input
 func _get_input():
-	
-		
+	if (Input.is_action_just_pressed("ui_up") && !cast):
+		if grounded || is_on_ledge:
+			velocity.y = jump_velocity;
+	if (Input.is_action_just_pressed("ui_down") && grounded && !cast):
+		attack = true;
+		attackstun = meleeTime;
+	if (Input.is_action_just_pressed("ui_space") && (!cast) && (endurance>=50)):
+		emit_signal('start_casting', null); # no trigger
+		cast = true;
+		endurance -= 50;
+#		if !timer.is_stopped():
+#			timer.set_paused(true);
 	# cast immediate reaction
 	if Input.is_action_pressed("ui_space") && can_finish_cast:
 		emit_signal("stop_casting");
 		animNode.call("_endcast")
 		cast = false;
 		can_finish_cast = false;
-		if timer.is_paused():
-			timer.set_paused(false);
+		#if timer.is_paused():
+		#	timer.set_paused(false);
 	
 	# Update move direction
 	if (!cast):
@@ -175,12 +191,14 @@ func _get_input():
 func _check_is_landed():
 	for raycast in Bottom_Raycasts.get_children():
 		if raycast.is_colliding():
-			timer.stop();
-			climbing_timeout = false;
+			#timer.stop();
+			#climbing_timeout = false;
 			if !grounded:
+				grounded = true;
 				emit_signal("hit_the_ground"); # TODO, pass velocity too
 			return;
 	if grounded:
+		grounded = false;
 		emit_signal("detach_the_ground");
 
 
@@ -196,26 +214,34 @@ func _check_is_collided():
 	return false;
 
 # Time limit on climbing
-func _on_timer_timeout():
-	climbing_timeout = true;
+#func _on_timer_timeout():
+#	climbing_timeout = true;
+#	return;
 
-func _climbing_timer():
-	if is_on_wall && timer.is_stopped() && !climbing_timeout:
-		timer.start(1);
-	return;
+#func _climbing_timer():
+#	if is_on_wall && timer.is_stopped() && !climbing_timeout:
+#		timer.start(1);
+#	return;
+
+func update_endurance():
+	if is_on_wall && endurance>0:
+		endurance -= 1;
+	if (grounded && endurance<100 && (!cast)):
+		endurance +=1;
+	return endurance;
 
 # Check if the conditions to apply gravity are verified
 func _check_if_apply_gravity():
 	if cast:
 		return false;
-	if (!grounded && _check_is_collided()) && !climbing_timeout:
+	if !grounded && _check_is_collided() && endurance > 0:
 		is_on_wall = true;
 		return false;
 	return true;
 
 # Check if the conditions to apply friction are verified
 func _check_if_apply_friction():
-	return !cast && is_on_wall && climbing_timeout
+	return !cast && (is_on_wall && endurance == 0)
 
 # ----- Node Function ------
 func _on_AnimatedSprite_animation_finished():
@@ -224,5 +250,4 @@ func _on_AnimatedSprite_animation_finished():
 		animNode.call("_idle"); # restore default
 	if (animNode.get_animation() == "_attack"):
 		attackstun = meleeTime;
-		
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=56 format=2]
+[gd_scene load_steps=51 format=2]
 
 [ext_resource path="res://scripts/Player.gd" type="Script" id=1]
 [ext_resource path="res://assets/Particles/trail.tres" type="Material" id=2]
@@ -20,12 +20,7 @@
 [ext_resource path="res://assets/Character/Cat2/CatSummon10.png" type="Texture" id=18]
 [ext_resource path="res://assets/Character/Cat2/CatSummon11.png" type="Texture" id=19]
 [ext_resource path="res://assets/Character/Cat2/CatSummon12.png" type="Texture" id=20]
-[ext_resource path="res://assets/Character/Cat/Attack_ground1.png" type="Texture" id=21]
-[ext_resource path="res://assets/Character/Cat/Attack_ground2.png" type="Texture" id=22]
-[ext_resource path="res://assets/Character/Cat/Attack_ground3.png" type="Texture" id=23]
-[ext_resource path="res://assets/Character/Cat/Attack_ground4.png" type="Texture" id=24]
-[ext_resource path="res://assets/Character/Cat/Attack_ground5.png" type="Texture" id=25]
-[ext_resource path="res://assets/Character/Cat/Attack_ground6.png" type="Texture" id=26]
+[ext_resource path="res://scripts/mutex_sprite.gd" type="Script" id=21]
 [ext_resource path="res://assets/Character/Cat2/CatWalk4.png" type="Texture" id=27]
 [ext_resource path="res://assets/Character/Cat2/CatWalk3.png" type="Texture" id=28]
 [ext_resource path="res://assets/Character/Cat2/CatWalk5.png" type="Texture" id=29]
@@ -52,24 +47,19 @@
 [ext_resource path="res://assets/Character/Cat2/CatJump7.png" type="Texture" id=50]
 [ext_resource path="res://scripts/Side_Raycasts.gd" type="Script" id=51]
 [ext_resource path="res://scripts/Wave_Generator.gd" type="Script" id=52]
-[ext_resource path="res://scenes/mutex_sprite.gd" type="Script" id=53]
+[ext_resource path="res://scenes/GUI.tscn" type="PackedScene" id=53]
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
-"frames": [ ExtResource( 21 ), ExtResource( 22 ), ExtResource( 23 ), ExtResource( 24 ), ExtResource( 25 ), ExtResource( 26 ) ],
-"loop": true,
-"name": "_attack",
-"speed": 5.0
-}, {
-"frames": [ ExtResource( 4 ), ExtResource( 5 ), ExtResource( 6 ), ExtResource( 7 ), ExtResource( 8 ), ExtResource( 9 ) ],
-"loop": true,
-"name": "_hold",
-"speed": 10.0
+"frames": [ ExtResource( 10 ), ExtResource( 11 ), ExtResource( 12 ), ExtResource( 13 ), ExtResource( 14 ), ExtResource( 15 ), ExtResource( 16 ), ExtResource( 17 ), ExtResource( 18 ), ExtResource( 19 ), ExtResource( 20 ) ],
+"loop": false,
+"name": "_cast",
+"speed": 12.0
 }, {
 "frames": [ ExtResource( 42 ), ExtResource( 43 ), ExtResource( 44 ), ExtResource( 45 ) ],
 "loop": false,
-"name": "_endcast",
-"speed": 5.0
+"name": "_idle",
+"speed": 8.0
 }, {
 "frames": [ ExtResource( 27 ), ExtResource( 28 ), ExtResource( 29 ), ExtResource( 30 ), ExtResource( 31 ), ExtResource( 32 ) ],
 "loop": true,
@@ -81,20 +71,20 @@ animations = [ {
 "name": "_damage",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 10 ), ExtResource( 11 ), ExtResource( 12 ), ExtResource( 13 ), ExtResource( 14 ), ExtResource( 15 ), ExtResource( 16 ), ExtResource( 17 ), ExtResource( 18 ), ExtResource( 19 ), ExtResource( 20 ) ],
-"loop": false,
-"name": "_cast",
-"speed": 12.0
-}, {
-"frames": [ ExtResource( 42 ), ExtResource( 43 ), ExtResource( 44 ), ExtResource( 45 ) ],
-"loop": false,
-"name": "_idle",
-"speed": 8.0
-}, {
 "frames": [ ExtResource( 46 ), ExtResource( 47 ), ExtResource( 48 ), ExtResource( 48 ), ExtResource( 49 ), ExtResource( 50 ) ],
 "loop": false,
 "name": "_jump",
 "speed": 10.0
+}, {
+"frames": [ ExtResource( 4 ), ExtResource( 5 ), ExtResource( 6 ), ExtResource( 7 ), ExtResource( 8 ), ExtResource( 9 ) ],
+"loop": true,
+"name": "_hold",
+"speed": 10.0
+}, {
+"frames": [ ExtResource( 42 ), ExtResource( 43 ), ExtResource( 44 ), ExtResource( 45 ) ],
+"loop": false,
+"name": "_endcast",
+"speed": 5.0
 } ]
 
 [sub_resource type="RectangleShape2D" id=2]
@@ -113,7 +103,7 @@ script = ExtResource( 3 )
 position = Vector2( 0.073101, 0 )
 frames = SubResource( 1 )
 animation = "_walk"
-script = ExtResource( 53 )
+script = ExtResource( 21 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( -1.90056, 6.13528 )
@@ -162,3 +152,5 @@ collision_mask = 2
 [node name="Wave_Generator" type="Node" parent="."]
 script = ExtResource( 52 )
 scale = Vector2( 10, 5 )
+
+[node name="GUI" parent="." instance=ExtResource( 53 )]
