@@ -1,13 +1,15 @@
 extends Control
 
 export var play_music : bool = true;
+var volume = AudioServer.get_bus_volume_db(0)
+var soundtrack = Music.get_node("GameSoundtrack")
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	
 	if play_music:
-		if (Music.get_node("GameSoundtrack").playing == false):
-			Music.get_node("GameSoundtrack").play()
+		if (soundtrack.playing == false && volume > -24):
+			soundtrack.play()
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -34,7 +36,7 @@ func _on_OptionsButton_pressed():
 	$Click.play()
 	#laisse le temps au son d'etre joué avant de changer de scene
 	yield(get_tree().create_timer(0.1), "timeout") 
-	get_tree().change_scene("res://scenes/Menu/OptionSreen.tscn")
+	get_tree().change_scene("res://scenes/Menu/OptionScreen.tscn")
 
 
 
