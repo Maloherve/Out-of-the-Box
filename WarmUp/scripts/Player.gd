@@ -84,6 +84,8 @@ func look_direction():
 
 func _on_Node_teleport(delta):
 	position += delta
+	if is_on_wall:
+		position -= Vector2(look_direction() * 12,0)
 	
 func _on_Player_start_casting(_trigger):
 	endurance = 0;
