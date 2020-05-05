@@ -1,35 +1,34 @@
 [gd_scene load_steps=11 format=2]
 
-[ext_resource path="res://assets/Icon/Chat3noir.png" type="Texture" id=1]
-[ext_resource path="res://assets/Fonts/VCR_OSD_MONO_1.001.ttf" type="DynamicFontData" id=2]
-[ext_resource path="res://assets/Background/MenuBackground.png" type="Texture" id=3]
-[ext_resource path="res://assets/Sounds/ui_click_rollover_misc_05.wav" type="AudioStream" id=4]
-[ext_resource path="res://scripts/Menu/OptionSreen.gd" type="Script" id=7]
-
+[ext_resource path="res://assets/Fonts/VCR_OSD_MONO_1.001.ttf" type="DynamicFontData" id=1]
+[ext_resource path="res://assets/Background/MenuBackground.png" type="Texture" id=2]
+[ext_resource path="res://scripts/Menu/OptionScreen.gd" type="Script" id=3]
+[ext_resource path="res://assets/Icon/Chat3noir.png" type="Texture" id=4]
+[ext_resource path="res://assets/Sounds/ui_click_rollover_misc_05.wav" type="AudioStream" id=5]
 
 [sub_resource type="DynamicFont" id=1]
 size = 52
-font_data = ExtResource( 2 )
+font_data = ExtResource( 1 )
 
 [sub_resource type="DynamicFont" id=2]
 size = 48
-font_data = ExtResource( 2 )
+font_data = ExtResource( 1 )
 
 [sub_resource type="DynamicFont" id=3]
 size = 48
-font_data = ExtResource( 2 )
+font_data = ExtResource( 1 )
 
 [sub_resource type="DynamicFont" id=4]
 size = 48
-font_data = ExtResource( 2 )
+font_data = ExtResource( 1 )
 
 [sub_resource type="DynamicFont" id=5]
-font_data = ExtResource( 2 )
+font_data = ExtResource( 1 )
 
 [node name="OptionScreen" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-script = ExtResource( 7 )
+script = ExtResource( 3 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -39,7 +38,7 @@ modulate = Color( 0.329412, 0.658824, 0.713726, 1 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 rect_clip_content = true
-texture = ExtResource( 3 )
+texture = ExtResource( 2 )
 stretch_mode = 1
 __meta__ = {
 "_edit_use_anchors_": false
@@ -73,7 +72,7 @@ margin_right = 864.0
 margin_bottom = 138.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-texture = ExtResource( 1 )
+texture = ExtResource( 4 )
 stretch_mode = 4
 
 [node name="CenterRow" type="HBoxContainer" parent="Menu"]
@@ -92,23 +91,35 @@ size_flags_vertical = 3
 custom_constants/separation = 5
 alignment = 1
 
-[node name="Option1Button" type="Button" parent="Menu/CenterRow/Buttons"]
-margin_top = 15.0
+[node name="Label" type="Label" parent="Menu/CenterRow/Buttons"]
+margin_top = 5.0
 margin_right = 864.0
 margin_bottom = 95.0
-rect_min_size = Vector2( 0, 80 )
-flat = true
-
-[node name="Label" type="Label" parent="Menu/CenterRow/Buttons/Option1Button"]
-anchor_right = 1.0
-anchor_bottom = 1.0
+rect_min_size = Vector2( 0, 90 )
 custom_fonts/font = SubResource( 2 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 custom_constants/shadow_offset_x = -2
 custom_constants/shadow_offset_y = 3
-text = "Option 1"
+text = "Master Volume"
 align = 1
 valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Volume" type="HSlider" parent="Menu/CenterRow/Buttons/Label"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -196.447
+margin_top = -21.1935
+margin_right = 194.553
+margin_bottom = 18.8065
+rect_min_size = Vector2( 0, 40 )
+min_value = -24.0
+max_value = 6.0
+scrollable = false
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -116,8 +127,8 @@ __meta__ = {
 [node name="Option2Button" type="Button" parent="Menu/CenterRow/Buttons"]
 margin_top = 100.0
 margin_right = 864.0
-margin_bottom = 180.0
-rect_min_size = Vector2( 0, 80 )
+margin_bottom = 190.0
+rect_min_size = Vector2( 0, 90 )
 flat = true
 
 [node name="Label" type="Label" parent="Menu/CenterRow/Buttons/Option2Button"]
@@ -135,9 +146,9 @@ __meta__ = {
 }
 
 [node name="ReturnButton" type="Button" parent="Menu/CenterRow/Buttons"]
-margin_top = 185.0
+margin_top = 195.0
 margin_right = 864.0
-margin_bottom = 265.0
+margin_bottom = 275.0
 rect_min_size = Vector2( 0, 80 )
 flat = true
 
@@ -167,7 +178,8 @@ Quarantum Studios"
 align = 2
 
 [node name="Click" type="AudioStreamPlayer" parent="."]
-stream = ExtResource( 4 )
+stream = ExtResource( 5 )
+[connection signal="value_changed" from="Menu/CenterRow/Buttons/Label/Volume" to="." method="_on_Volume_value_changed"]
 [connection signal="mouse_entered" from="Menu/CenterRow/Buttons/ReturnButton" to="." method="_on_ReturnButton_mouse_entered"]
 [connection signal="mouse_exited" from="Menu/CenterRow/Buttons/ReturnButton" to="." method="_on_ReturnButton_mouse_exited"]
 [connection signal="pressed" from="Menu/CenterRow/Buttons/ReturnButton" to="." method="_on_ReturnButton_pressed"]
