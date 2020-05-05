@@ -5,6 +5,7 @@ extends Node
 # var b = "text"
 export (int) var samples = 100
 export (Vector2) var scale = Vector2(1,1)
+export (Vector2) var offset = Vector2(0,0)
 onready var player = get_parent()
 var particle = null
 
@@ -56,6 +57,8 @@ func on_Player_start_casting(trigger):
 	else:
 		# scale to the default box (with respect to the cat box)
 		particle.scale = scale * half_width / (system.width/2)
+		
+	particle.position = offset
 		
 	# wave setup
 	particle.packet = load("res://assets/Other/gauss_init1D.tres")
