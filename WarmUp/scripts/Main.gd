@@ -43,6 +43,7 @@ func _ready():
 	# why achitemmuort the curve is not loaded from the editor and I should load it manually!!!
 	$World/Objects/door3/Potential.V_x = load("res://assets/Curves/potential.tres")
 	print($World/Objects/door3/Potential.V_x.interpolate_baked(0.5))
+	print($World/Obstacles/potential.value)
 
 # Execute ASAP
 func _process(delta):
