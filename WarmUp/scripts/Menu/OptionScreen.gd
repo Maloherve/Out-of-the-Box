@@ -8,7 +8,7 @@ extends Control
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
+	$Menu/CenterRow/Buttons/Label/Volume.value = AudioServer.get_bus_volume_db(0)
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -29,3 +29,15 @@ func _on_ReturnButton_mouse_entered():
 
 func _on_ReturnButton_mouse_exited():
 	$Menu/CenterRow/Buttons/ReturnButton/Label.add_color_override("font_color", Color(1,1,1,1))
+
+
+
+
+
+func _on_Volume_value_changed(value):
+	AudioServer.set_bus_volume_db(0, value);
+	if (value == -24):
+		Music.get_node("GameSoundtrack").stop()
+	else:
+		if (Music.get_node("GameSoundtrack").playing == false):
+			Music.get_node("GameSoundtrack").play()
