@@ -254,10 +254,6 @@ animation = "open"
 position = Vector2( 1027.15, 480.188 )
 shape = SubResource( 2 )
 
-[node name="Potential" type="Node2D" parent="World/Objects/door1"]
-scale = Vector2( 3.283, 1 )
-script = ExtResource( 18 )
-
 [node name="door2" type="StaticBody2D" parent="World/Objects"]
 position = Vector2( 64.4836, 191.553 )
 collision_layer = 2
@@ -273,18 +269,21 @@ position = Vector2( 1027.15, 480.188 )
 shape = SubResource( 2 )
 
 [node name="door3" type="StaticBody2D" parent="World/Objects"]
-position = Vector2( -511.761, -31.93 )
+position = Vector2( 520.4, 448.25 )
 collision_layer = 2
 collision_mask = 0
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="World/Objects/door3"]
-position = Vector2( 1043.15, 480.188 )
+position = Vector2( 15, 0 )
 frames = SubResource( 1 )
 animation = "open"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="World/Objects/door3"]
-position = Vector2( 1027.15, 480.188 )
 shape = SubResource( 2 )
+
+[node name="Potential" type="Node2D" parent="World/Objects/door3"]
+scale = Vector2( 3.283, 1 )
+script = ExtResource( 18 )
 
 [node name="Decoration" type="TileMap" parent="World/Objects"]
 tile_set = SubResource( 3 )

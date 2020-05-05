@@ -7,11 +7,13 @@
 extents = Vector2( 25, 25 )
 
 [node name="simulator" type="Area2D"]
+position = Vector2( -25, 0 )
 gravity = 0.0
 script = ExtResource( 2 )
 
 [node name="collider" type="CollisionShape2D" parent="."]
 modulate = Color( 0.215686, 0.996078, 0.921569, 1 )
+position = Vector2( 25, 0 )
 shape = SubResource( 1 )
 
 [node name="qsystem" type="Node2D" parent="."]
