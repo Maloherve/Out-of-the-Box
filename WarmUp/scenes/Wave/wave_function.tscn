@@ -25,8 +25,6 @@ collision_layer = 7
 collision_mask = 7
 
 [node name="potential" type="Line2D" parent="simulator"]
-pause_mode = 1
-visible = false
 scale = Vector2( 1, -10 )
 width = 0.5
 default_color = Color( 1, 0.129412, 0.0392157, 1 )
@@ -36,12 +34,12 @@ resolution = 80
 
 [node name="graph" type="Line2D" parent="simulator"]
 material = SubResource( 1 )
-scale = Vector2( 1, -10 )
+scale = Vector2( 1, -15 )
 width = 1.5
 default_color = Color( 0.4, 0.886275, 1, 1 )
 texture = ExtResource( 5 )
 texture_mode = 2
 joint_mode = 2
 script = ExtResource( 4 )
-gain = 100.0
+gain = 90.0
 resolution = 36

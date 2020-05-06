@@ -204,6 +204,8 @@ func _check_is_landed():
 		grounded = false;
 		emit_signal("detach_the_ground");
 
+func is_front_colliding():
+	return Side_Raycasts.get_node("Top_Side").is_colliding();
 
 # See if the character next to a wall
 func _check_is_collided():

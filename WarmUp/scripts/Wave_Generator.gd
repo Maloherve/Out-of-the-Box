@@ -41,6 +41,7 @@ func on_Player_start_casting(trigger):
 	# transform setup
 	var direction
 	var half_width
+	var dx = 0.0 # small displacement
 	if player.is_on_wall:
 		half_width = pbox.y
 		particle.rotation_degrees -= 90 * player.look_direction() # node of 90
@@ -49,6 +50,8 @@ func on_Player_start_casting(trigger):
 	else:
 		half_width = pbox.x
 		direction = player.look_direction()
+		if player.is_front_colliding():
+			dx = -5
 		
 	# boundaries setup, determine them as function of the trigger box
 	if trigger != null:
@@ -63,8 +66,11 @@ func on_Player_start_casting(trigger):
 	# wave setup
 	particle.packet = load("res://assets/Other/gauss_init1D.tres")
 	
-	particle.packet.r0 = system.width/2 # center the wave onto the player position
-	particle.packet.sigma = system.width/10 # approximate player quantum localization
+	particle.packet.r0 = system.width/2 + dx * direction # center the wave onto the player position
+	
+	# correct r0 as function of the raycasts
+	
+	particle.packet.sigma = system.width/20 # approximate player quantum localization
 	
 	# deduce wave vector
 	#particle.packet.k0 = 2 * particle.packet.sigma * system.hbar * player.velocity.x *  system.mass / sqrt(PI)
