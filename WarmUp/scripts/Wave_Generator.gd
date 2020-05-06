@@ -19,7 +19,7 @@ func teleport_position():
 	# TODO, Look for the most probable place
 	if particle != null:
 		var system = particle.get_node('simulator/qsystem')
-		return system.mean_position() - system.width/2
+		return system.mean_position()
 	else:
 		return 0
 
@@ -83,10 +83,8 @@ func on_Player_stop_casting():
 	# Manage teleporting
 	# Use the last computed quantum state to determine the teleport position
 	var x = teleport_position()
-	var delta = particle.get_relative_transform_to_parent(player).xform_inv(Vector2(x,0))
-	delta.y *= -1 # invert y coordinate
+	var delta = particle.get_node("simulator/qsystem").get_relative_transform_to_parent(player).xform(Vector2(x,0))
 	emit_signal("teleport", delta)
-	#player.position += delta
 	
 	# deinit simulation
 	player.remove_child(particle)

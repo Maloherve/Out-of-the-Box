@@ -83,9 +83,9 @@ func look_direction():
 	return 2 * int(animNode.flip_h) - 1;
 
 func _on_Node_teleport(delta):
-	position += delta
 	if is_on_wall:
-		position -= Vector2(look_direction() * 12,0)
+		delta -= Vector2(look_direction() * 8,0)
+	position += delta
 	
 func _on_Player_start_casting(_trigger):
 	endurance = 0;
