@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=2]
+[gd_scene load_steps=23 format=2]
 
 [ext_resource path="res://scripts/Main.gd" type="Script" id=1]
 [ext_resource path="res://assets/Background/SkyLine.png" type="Texture" id=2]
@@ -141,47 +141,47 @@ extents = Vector2( 15.8712, 18.4255 )
 size = 10
 font_data = ExtResource( 12 )
 
-[sub_resource type="OccluderPolygon2D" id=6]
-polygon = PoolVector2Array( 105.95, 457.565, 99.3985, 468.334, 115.822, 468.693, 119.95, 458.103, 113.489, 450.564 )
-
 [node name="Level" type="Node2D"]
-light_mask = 8
 script = ExtResource( 1 )
 cat_version = 2
 
 [node name="PlayerInitialPosition" type="Node2D" parent="."]
-position = Vector2( 92.4993, 456.369 )
+position = Vector2( -71.3602, 457.344 )
 
 [node name="World" type="Node2D" parent="."]
-light_mask = 8
 __meta__ = {
 "_edit_group_": true,
 "_edit_lock_": true
 }
 
 [node name="Background" type="Node2D" parent="World"]
-light_mask = 8
+light_mask = 1024
 
 [node name="SkyLine" type="Sprite" parent="World/Background"]
+light_mask = 1024
 position = Vector2( 536.992, 333.651 )
 texture = ExtResource( 2 )
 
 [node name="SkyLine3" type="Sprite" parent="World/Background"]
+light_mask = 1024
 position = Vector2( -586.008, 333.651 )
 texture = ExtResource( 2 )
 flip_h = true
 
 [node name="SkyLine5" type="Sprite" parent="World/Background"]
+light_mask = 1024
 position = Vector2( 536.992, 1109.65 )
 texture = ExtResource( 2 )
 flip_v = true
 
 [node name="SkyLine2" type="Sprite" parent="World/Background"]
+light_mask = 1024
 position = Vector2( 1659.99, 333.651 )
 texture = ExtResource( 2 )
 flip_h = true
 
 [node name="SkyLine4" type="Sprite" parent="World/Background"]
+light_mask = 1024
 position = Vector2( 1659.99, 1110.65 )
 texture = ExtResource( 2 )
 flip_h = true
@@ -198,7 +198,17 @@ __meta__ = {
 }
 
 [node name="Lights" type="Node2D" parent="World"]
-light_mask = 0
+
+[node name="Light2D" type="Light2D" parent="World/Lights"]
+position = Vector2( 142.951, 290.611 )
+scale = Vector2( 1.00242, 1.01597 )
+texture = ExtResource( 18 )
+color = Color( 0.98, 0.2646, 0.2646, 1 )
+energy = 1.21
+range_layer_min = -3
+range_item_cull_mask = 1024
+shadow_enabled = true
+shadow_item_cull_mask = 1030
 
 [node name="Obstacles" type="TileMap" parent="World"]
 light_mask = 0
@@ -387,21 +397,3 @@ bus = "Filter"
 
 [node name="Teleport" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 16 )
-
-[node name="Light2D" type="Light2D" parent="."]
-position = Vector2( -117.935, 125.681 )
-scale = Vector2( 1.00242, 1.01597 )
-texture = ExtResource( 18 )
-texture_scale = 0.81
-color = Color( 0.980392, 0, 0, 1 )
-range_layer_min = -3
-range_item_cull_mask = 8
-shadow_enabled = true
-shadow_item_cull_mask = 0
-
-[node name="LightOccluder2D" type="LightOccluder2D" parent="."]
-modulate = Color( 0.996078, 0.992157, 0.992157, 1 )
-light_mask = 2
-position = Vector2( -210.655, -299.828 )
-occluder = SubResource( 6 )
-light_mask = 2
