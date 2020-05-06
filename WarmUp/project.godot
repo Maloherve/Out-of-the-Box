@@ -51,7 +51,12 @@ ui_tab={
 2d_physics/layer_2="Walls"
 2d_render/layer_3="Player"
 2d_physics/layer_3="Player"
+2d_render/layer_4="Enemies"
+2d_physics/layer_4="Enemies"
+2d_render/layer_5="Objects"
+2d_physics/layer_5="Objects"
 2d_render/layer_11="Background"
+2d_physics/layer_11="Background"
 
 [physics]
 
