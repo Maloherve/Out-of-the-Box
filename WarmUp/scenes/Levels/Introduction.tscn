@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=2]
+[gd_scene load_steps=29 format=2]
 
 [ext_resource path="res://scripts/Main.gd" type="Script" id=1]
 [ext_resource path="res://assets/Background/SkyLine.png" type="Texture" id=2]
@@ -19,6 +19,7 @@
 [ext_resource path="res://assets/Tilesets/Floor2.tres" type="TileSet" id=17]
 [ext_resource path="res://bin/curve_field.gdns" type="Script" id=18]
 [ext_resource path="res://bin/uniform_field.gdns" type="Script" id=19]
+[ext_resource path="res://scenes/Objects/Light.tscn" type="PackedScene" id=20]
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
@@ -44,7 +45,7 @@ _data = [ Vector2( 0, 0 ), 0.0, 0.0, 0, 0, Vector2( 0.5, 6 ), 0.0, 0.0, 0, 0, Ve
 max_value = 7.0
 _data = [ Vector2( 0, 0 ), 0.0, 0.0, 0, 0, Vector2( 0.491071, 7 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), 0.0, 0.0, 0, 0 ]
 
-[sub_resource type="Curve" id=9]
+[sub_resource type="Curve" id=5]
 max_value = 4.0
 _data = [ Vector2( 0, 0 ), 0.0, 0.0, 0, 0, Vector2( 0.482143, 4 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), 0.0, 0.0, 0, 0 ]
 
@@ -213,15 +214,20 @@ __meta__ = {
 
 [node name="Lights" type="Node2D" parent="World"]
 
-[node name="Light2D" type="Light2D" parent="World/Lights"]
-position = Vector2( 142.951, 290.611 )
-scale = Vector2( 1.00242, 1.01597 )
-color = Color( 0.98, 0.2646, 0.2646, 1 )
-energy = 1.21
-range_layer_min = -3
-range_item_cull_mask = 1024
-shadow_enabled = true
-shadow_item_cull_mask = 1030
+[node name="Lobby_Light" parent="World/Lights" instance=ExtResource( 20 )]
+position = Vector2( 142.905, 291.173 )
+scale = Vector2( 0.100242, 0.101597 )
+color = Color( 0.392157, 0, 0, 1 )
+can_flicker = true
+flicker_in = 5.0
+
+[node name="Cell_Light" parent="World/Lights" instance=ExtResource( 20 )]
+position = Vector2( -88.4035, 417.682 )
+scale = Vector2( 0.0449791, 0.0296131 )
+color = Color( 0.996078, 0.690196, 0.690196, 1 )
+can_flicker = true
+iterations = 3
+flicker_in = 1.0
 
 [node name="Obstacles" type="TileMap" parent="World"]
 light_mask = 0
@@ -330,7 +336,7 @@ shape = SubResource( 2 )
 [node name="potential" type="Node2D" parent="World/Objects/door3"]
 scale = Vector2( 3, 1 )
 script = ExtResource( 18 )
-V_x = SubResource( 9 )
+V_x = SubResource( 5 )
 
 [node name="Decoration" type="TileMap" parent="World/Objects"]
 tile_set = SubResource( 6 )
