@@ -3,7 +3,7 @@ extends Sprite
 export var energy : float = 2;
 export var color : Color;
 
-export var can_flicker : bool = false;
+export var auto_flicker : bool = false;
 export var flicker_delay : float = .07;
 export var iterations : int = 4;
 export var flicker_in : float = 3.0;
@@ -22,7 +22,7 @@ func _ready():
 
 func _physics_process(delta):
 	clock += delta;
-	if can_flicker and (clock > flicker_in) and (clock < flicker_in + delta) :
+	if auto_flicker and (clock > flicker_in) and (clock < flicker_in + delta) :
 		flicker = true;
 		 
 	
@@ -39,6 +39,6 @@ func flicker_salve(iterations, delay,  delta):
 		
 		current_interations += .5;
 		flicker_timer = flicker_delay;
-		print(current_interations)
 		if (current_interations >= iterations):
 			flicker = false;
+			current_interations = 0;
