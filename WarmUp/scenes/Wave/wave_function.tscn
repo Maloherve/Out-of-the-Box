@@ -21,8 +21,8 @@ packet = ExtResource( 1 )
 debug = true
 
 [node name="simulator" parent="." instance=ExtResource( 2 )]
-collision_layer = 7
-collision_mask = 7
+collision_layer = 32
+collision_mask = 22
 
 [node name="potential" type="Line2D" parent="simulator"]
 scale = Vector2( 1, -10 )

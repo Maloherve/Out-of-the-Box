@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=2]
+[gd_scene load_steps=32 format=2]
 
 [ext_resource path="res://scripts/Main.gd" type="Script" id=1]
 [ext_resource path="res://assets/Background/SkyLine.png" type="Texture" id=2]
@@ -20,6 +20,8 @@
 [ext_resource path="res://bin/curve_field.gdns" type="Script" id=18]
 [ext_resource path="res://bin/uniform_field.gdns" type="Script" id=19]
 [ext_resource path="res://scenes/Objects/Light.tscn" type="PackedScene" id=20]
+[ext_resource path="res://scenes/Wave/detector.tscn" type="PackedScene" id=21]
+[ext_resource path="res://assets/Other/star.png" type="Texture" id=22]
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
@@ -155,6 +157,14 @@ extents = Vector2( 15.8712, 18.4255 )
 [sub_resource type="DynamicFont" id=8]
 size = 10
 font_data = ExtResource( 12 )
+
+[sub_resource type="SpriteFrames" id=9]
+animations = [ {
+"frames": [ ExtResource( 22 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
 
 [node name="Level" type="Node2D"]
 script = ExtResource( 1 )
@@ -426,6 +436,22 @@ autowrap = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="Detectors" type="Node2D" parent="World"]
+
+[node name="door1L" parent="World/Detectors" instance=ExtResource( 21 )]
+position = Vector2( 465, 450 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="World/Detectors/door1L"]
+scale = Vector2( 0.01, 0.01 )
+frames = SubResource( 9 )
+
+[node name="door1R" parent="World/Detectors" instance=ExtResource( 21 )]
+position = Vector2( 580, 450 )
+
+[node name="AnimatedSprite2" type="AnimatedSprite" parent="World/Detectors/door1R"]
+scale = Vector2( 0.01, 0.01 )
+frames = SubResource( 9 )
 
 [node name="Fonction_Onde" type="Node2D" parent="."]
 script = ExtResource( 13 )
