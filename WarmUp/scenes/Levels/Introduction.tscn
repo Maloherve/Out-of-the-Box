@@ -157,7 +157,7 @@ script = ExtResource( 1 )
 cat_version = 2
 
 [node name="PlayerInitialPosition" type="Node2D" parent="."]
-position = Vector2( -84.4139, 463.717 )
+position = Vector2( -63.8193, 463.105 )
 
 [node name="World" type="Node2D" parent="."]
 __meta__ = {
