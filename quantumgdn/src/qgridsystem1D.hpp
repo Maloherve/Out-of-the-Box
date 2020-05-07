@@ -37,6 +37,7 @@ namespace godot {
         double _energy() const;
         double _position() const;
         double _momentum() const;
+        double _probability(double,double) const;
 
         virtual Vector2 location(size_t) const override;
 
