@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=2]
+[gd_scene load_steps=27 format=2]
 
 [ext_resource path="res://scripts/Main.gd" type="Script" id=1]
 [ext_resource path="res://assets/Background/SkyLine.png" type="Texture" id=2]
@@ -17,7 +17,7 @@
 [ext_resource path="res://assets/Sounds/BoxBassArp.ogg" type="AudioStream" id=15]
 [ext_resource path="res://assets/Sounds/electronic_accent_03.wav" type="AudioStream" id=16]
 [ext_resource path="res://scenes/Objects/Light.tscn" type="PackedScene" id=17]
-[ext_resource path="res://scenes/Levels/Trigger_Flicker.gd" type="Script" id=18]
+[ext_resource path="res://scripts/Interactions/Trigger_Flicker.gd" type="Script" id=18]
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
@@ -138,7 +138,15 @@ extents = Vector2( 3.34546, 32.2485 )
 [sub_resource type="RectangleShape2D" id=4]
 extents = Vector2( 15.8712, 18.4255 )
 
-[sub_resource type="DynamicFont" id=5]
+[sub_resource type="DynamicFont" id=7]
+size = 10
+font_data = ExtResource( 12 )
+
+[sub_resource type="DynamicFont" id=8]
+size = 10
+font_data = ExtResource( 12 )
+
+[sub_resource type="DynamicFont" id=9]
 size = 10
 font_data = ExtResource( 12 )
 
@@ -149,7 +157,7 @@ script = ExtResource( 1 )
 cat_version = 2
 
 [node name="PlayerInitialPosition" type="Node2D" parent="."]
-position = Vector2( -59.9994, 461.542 )
+position = Vector2( 1069.29, 465.265 )
 
 [node name="World" type="Node2D" parent="."]
 __meta__ = {
@@ -332,7 +340,6 @@ texture = ExtResource( 10 )
 position = Vector2( 0.951309, -0.951324 )
 
 [node name="ReadSign1" type="Area2D" parent="World/Interactions"]
-visible = false
 position = Vector2( 703.37, 522.304 )
 space_override = 1
 collision_layer = 0
@@ -344,14 +351,15 @@ position = Vector2( 1.74341, 5.61761 )
 shape = SubResource( 4 )
 
 [node name="Label" type="Label" parent="World/Interactions/ReadSign1"]
-margin_left = -17.2262
-margin_top = -57.3851
-margin_right = 138.774
-margin_bottom = -12.3851
-custom_fonts/font = SubResource( 5 )
+margin_left = -28.2969
+margin_top = -52.5529
+margin_right = 102.929
+margin_bottom = -7.55286
+rect_scale = Vector2( 0.993344, 1.01854 )
+custom_fonts/font = SubResource( 7 )
 text = "Miaou, miaou, miaou.
-(You are a cat, have fun climbing walls)."
-autowrap = true
+(You are a cat, have fun climbing
+walls)."
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -368,15 +376,15 @@ position = Vector2( 0.165588, 5.45984 )
 shape = SubResource( 4 )
 
 [node name="Label" type="Label" parent="World/Interactions/ReadSign2"]
+anchor_right = 1.0
 margin_left = -69.9678
 margin_top = -71.7572
-margin_right = 107.032
+margin_right = 107.0
 margin_bottom = -26.7572
-custom_fonts/font = SubResource( 5 )
+custom_fonts/font = SubResource( 8 )
 text = "Mi... Mia ... Miaou ? Miaou. Miaou !!
-(The experiments have left you ... changed...
+(The experiments have left you ... changed... 
 Press (space) to enter quantum mode !! )"
-autowrap = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -395,15 +403,14 @@ shape = SubResource( 4 )
 
 [node name="Label" type="Label" parent="World/Interactions/Victory"]
 modulate = Color( 1, 0, 0, 1 )
-margin_left = 23.7635
-margin_top = -24.1014
-margin_right = 127.764
-margin_bottom = 20.8986
-custom_fonts/font = SubResource( 5 )
+margin_left = 23.2245
+margin_top = -12.3523
+margin_right = 151.09
+margin_bottom = 32.6477
+custom_fonts/font = SubResource( 9 )
 text = "Miaaaaaaaooooooou !!!!!
 (Victoryyyyyyy !!!! )
 "
-autowrap = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
