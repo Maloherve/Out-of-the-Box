@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=2]
+[gd_scene load_steps=25 format=2]
 
 [ext_resource path="res://scripts/Main.gd" type="Script" id=1]
 [ext_resource path="res://assets/Background/SkyLine.png" type="Texture" id=2]
@@ -17,6 +17,7 @@
 [ext_resource path="res://assets/Sounds/BoxBassArp.ogg" type="AudioStream" id=15]
 [ext_resource path="res://assets/Sounds/electronic_accent_03.wav" type="AudioStream" id=16]
 [ext_resource path="res://scenes/Objects/Light.tscn" type="PackedScene" id=17]
+[ext_resource path="res://scenes/Levels/Trigger_Flicker.gd" type="Script" id=18]
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
@@ -141,12 +142,14 @@ extents = Vector2( 15.8712, 18.4255 )
 size = 10
 font_data = ExtResource( 12 )
 
+[sub_resource type="RectangleShape2D" id=6]
+
 [node name="Level" type="Node2D"]
 script = ExtResource( 1 )
 cat_version = 2
 
 [node name="PlayerInitialPosition" type="Node2D" parent="."]
-position = Vector2( -71.3602, 457.344 )
+position = Vector2( -76.6417, 462.626 )
 
 [node name="World" type="Node2D" parent="."]
 __meta__ = {
@@ -202,16 +205,14 @@ __meta__ = {
 [node name="Lobby_Light" parent="World/Lights" instance=ExtResource( 17 )]
 position = Vector2( 142.905, 291.173 )
 scale = Vector2( 0.100242, 0.101597 )
-energy = 2.0
 color = Color( 0.392157, 0, 0, 1 )
-can_flicker = true
+auto_flicker = true
 flicker_in = 5.0
 
 [node name="Cell_Light" parent="World/Lights" instance=ExtResource( 17 )]
 position = Vector2( -88.4035, 417.682 )
 scale = Vector2( 0.0449791, 0.0296131 )
 color = Color( 0.996078, 0.690196, 0.690196, 1 )
-can_flicker = true
 iterations = 3
 flicker_in = 1.0
 
@@ -314,6 +315,7 @@ scale = Vector2( 0.1, 0.1 )
 texture = ExtResource( 10 )
 
 [node name="Interactions" type="Node2D" parent="World"]
+position = Vector2( 0.951309, -0.951324 )
 
 [node name="ReadSign1" type="Area2D" parent="World/Interactions"]
 visible = false
@@ -367,6 +369,7 @@ __meta__ = {
 
 [node name="Victory" type="Area2D" parent="World/Interactions"]
 position = Vector2( 1071.55, 484.973 )
+scale = Vector2( 1.00202, 1.0243 )
 space_override = 1
 collision_layer = 0
 collision_mask = 4
@@ -390,6 +393,18 @@ autowrap = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="Flicker" type="Area2D" parent="World/Interactions"]
+modulate = Color( 1, 1, 1, 0 )
+position = Vector2( -20.8674, 464.551 )
+gravity_point = true
+collision_layer = 0
+collision_mask = 4
+script = ExtResource( 18 )
+light_path = NodePath("../../Lights/Cell_Light")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="World/Interactions/Flicker"]
+shape = SubResource( 6 )
 
 [node name="Fonction_Onde" type="Node2D" parent="."]
 script = ExtResource( 13 )
