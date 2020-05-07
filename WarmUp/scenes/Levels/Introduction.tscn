@@ -48,8 +48,8 @@ max_value = 7.0
 _data = [ Vector2( 0, 0 ), 0.0, 0.0, 0, 0, Vector2( 0.491071, 7 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), 0.0, 0.0, 0, 0 ]
 
 [sub_resource type="Curve" id=5]
-max_value = 4.0
-_data = [ Vector2( 0, 0 ), 0.0, 0.0, 0, 0, Vector2( 0.482143, 4 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), 0.0, 0.0, 0, 0 ]
+max_value = 8.0
+_data = [ Vector2( 0, 0 ), 0.0, 0.0, 0, 0, Vector2( 0.491071, 5.01818 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), 0.0, 0.0, 0, 0 ]
 
 [sub_resource type="TileSet" id=6]
 0/name = "signs.png 0"
@@ -440,14 +440,14 @@ __meta__ = {
 [node name="Detectors" type="Node2D" parent="World"]
 
 [node name="door1L" parent="World/Detectors" instance=ExtResource( 21 )]
-position = Vector2( 465, 450 )
+position = Vector2( 460, 460 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="World/Detectors/door1L"]
 scale = Vector2( 0.01, 0.01 )
 frames = SubResource( 9 )
 
 [node name="door1R" parent="World/Detectors" instance=ExtResource( 21 )]
-position = Vector2( 580, 450 )
+position = Vector2( 580, 460 )
 
 [node name="AnimatedSprite2" type="AnimatedSprite" parent="World/Detectors/door1R"]
 scale = Vector2( 0.01, 0.01 )

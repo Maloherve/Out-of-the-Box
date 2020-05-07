@@ -62,7 +62,7 @@ func get_detector(node):
 		return -1
 		
 func _on_Area2D_Area_entered(node):
-	print("Node Area2D found: ", node, ", valid :", node.has_node("detectable"))
+	#print("Node Area2D found: ", node, ", valid :", node.has_node("detectable"))
 	if particle != null && node is Area2D && node.has_node("detectable"):
 		# check if not already present int the detectors array
 		if get_detector(node) < 0:
@@ -70,7 +70,7 @@ func _on_Area2D_Area_entered(node):
 				node.detector_index = 0
 			else:
 				node.detector_index = detectors.back().detector_index + 1
-			print("Detector found")
+			#print("Detector found")
 			detectors.push_back(node)
 		
 func _on_Area2D_Area_exited(node):
@@ -135,7 +135,7 @@ func on_Player_start_casting(trigger):
 	
 	# only for debug purposes
 	particle.packet.k0 = direction * PI * 50 / system.width
-	print("k0 = ", particle.packet.k0)
+	print("[Wave_Generator.gd] k0 = ", particle.packet.k0)
 	
 	particle.packet.N = samples
 	player.add_child(particle)

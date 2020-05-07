@@ -44,9 +44,9 @@ func _ready():
 	# debug potential
 	# why achitemmuort the curve is not loaded from the editor and I should load it manually!!!
 	#$World/Objects/door3/Potential.V_x = load("res://assets/Curves/potential.tres")
-	print($World/Objects/door1/potential.V_x.interpolate_baked(0.5))
-	print($World/Objects/door2/potential.V_x.interpolate_baked(0.5))
-	print($World/Objects/door3/potential.V_x.interpolate_baked(0.5))
+	#print($World/Objects/door1/potential.V_x.interpolate_baked(0.5))
+	#print($World/Objects/door2/potential.V_x.interpolate_baked(0.5))
+	#print($World/Objects/door3/potential.V_x.interpolate_baked(0.5))
 	#print($World/Obstacles/potential.value)
 
 # Execute ASAP

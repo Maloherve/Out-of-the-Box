@@ -19,7 +19,9 @@ func detect(system):
 	return system.probability(x_beg, x_end);
 	
 func rescale():
-	$domain.shape.extents *= global_scale
+	pass
+	#$domain.shape.extents *= global_scale
+	#scale /= global_scale
 
 # automatic rescale only during initialization
 func _ready():

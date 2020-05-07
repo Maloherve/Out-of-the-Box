@@ -20,8 +20,8 @@ func _ready():
 	potential.reset()
 	
 	if debug:
-		print("System position: ", system.mean_position())
-		print("System energy: ", system.energy())
-		print("System hbar: ", system.hbar)
-		print("System mass: ", system.mass)
+		print("[wave_function.gd] System position: ", system.mean_position())
+		print("[wave_function.gd] System energy: ", system.energy())
+		print("[wave_function.gd] System hbar: ", system.hbar)
+		print("[wave_function.gd] System mass: ", system.mass)
 

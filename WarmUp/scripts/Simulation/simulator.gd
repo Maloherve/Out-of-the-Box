@@ -18,10 +18,10 @@ func _on_area_debug(node):
 	
 func rescale():
 	# setup collision box using global scale
-	$collider.shape.extents *= global_scale
-	$collider.scale /= global_scale
-	#$qsystem.scale /= global_scale
-	print("System transform: ", $qsystem.global_transform)
+	#$collider.shape.extents *= global_scale
+	#$collider.scale /= global_scale
+	#print("System transform: ", $qsystem.global_transform)
+	pass
 	
 
 func probability(t):
