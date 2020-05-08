@@ -2,6 +2,10 @@ extends Node2D
 
 # This node describes the effects in the world, for exemple the darkening when casting
 
+
+
+# Game font
+var GameFont : Font = load('assets/Fonts/abel-regular.ttf');
 # For Debug
 var debug_mode : bool = false;
 # Darken Workd
@@ -36,18 +40,15 @@ func _enter_tree():
 	if activate_camera: camera.current = true;
 	$Player.add_child(camera)
 
+	
+	
 
 func _ready():
 	# Connect Signals
 	$Player.connect("start_casting", self, "on_Player_start_casting");
 	$Player.connect("stop_casting", self, "on_Player_stop_casting");
-	# debug potential
-	# why achitemmuort the curve is not loaded from the editor and I should load it manually!!!
-	#$World/Objects/door3/Potential.V_x = load("res://assets/Curves/potential.tres")
-	#print($World/Objects/door1/potential.V_x.interpolate_baked(0.5))
-	#print($World/Objects/door2/potential.V_x.interpolate_baked(0.5))
-	#print($World/Objects/door3/potential.V_x.interpolate_baked(0.5))
-	#print($World/Obstacles/potential.value)
+	
+
 
 # Execute ASAP
 func _process(delta):
@@ -89,6 +90,7 @@ func teleport():
 	$Player.position = new_pos;
 	$Fonction_Onde.set_to_gaussian();
 	teleport_player = false;
+
 
 # ----- Node Function ------
 func on_Player_start_casting(trigger):
