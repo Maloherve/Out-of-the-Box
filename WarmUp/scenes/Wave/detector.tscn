@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://scripts/Simulation/detector.gd" type="Script" id=2]
+
+[sub_resource type="RectangleShape2D" id=1]
+
+[node name="detector" type="Area2D"]
+collision_layer = 16
+collision_mask = 0
+script = ExtResource( 2 )
+
+[node name="domain" type="CollisionShape2D" parent="."]
+shape = SubResource( 1 )
+
+[node name="detectable" type="Node" parent="."]

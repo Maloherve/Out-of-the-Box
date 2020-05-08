@@ -28,15 +28,17 @@ double curve_potential::operator()(const size_t& access) const  {
     return (this->*behaviour)(access);
 }
 
+#include <iostream>
+
 double curve_potential::at(const Vector2& v) const  {
     double out(0);
     for (const auto& entry : nodes_map) {
         // get location relatively to the system box
         Transform2D B = entry.first->get_global_transform();
         Transform2D A = system->get_global_transform();
-        // transform v to global
         // then get relative position to the object
-        Vector2 r = B.xform_inv(A.xform(v + system->get_size() / 2.0));
+        // don't know if definitive, vertical mode?
+        Vector2 r = B.xform_inv(A.xform(v));
         out += entry.second->at(r);
     }
 
@@ -52,13 +54,13 @@ void curve_potential::on_body_entered(Node * entry) {
     for (int i = 0; i < list.size() && (wrap = Object::cast_to<potential_field>(list[i])) == nullptr; ++i) {}
 
     if (wrap == nullptr) {
-        npdebug("No potential_field child detected in: ", entry)
+        std::cout << "No potential_field child detected in: " << entry << std::endl;
         return; // none found
     }
 
     Node2D * key; 
     if (key = Object::cast_to<Node2D>(entry)) {
-        npdebug("Adding object: ", key)
+        std::cout << "Adding object: " <<  key << std::endl;
         nodes_map[key] = wrap;
     }
 }
