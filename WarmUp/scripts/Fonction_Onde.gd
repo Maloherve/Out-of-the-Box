@@ -84,7 +84,7 @@ func _get_input():
 
 func _draw():
 	if draw_wave_function:
-		draw_function(player.position, y, player.is_on_wall);
+		draw_function(player.position, y, player.is_on_wall());
 
 func is_fading():
 	return fade_timer != null;
