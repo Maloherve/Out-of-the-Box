@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://assets/Background/SkyLine.png" type="Texture" id=1]
 [ext_resource path="res://assets/Tilesets/Floor.tres" type="TileSet" id=2]
@@ -6,12 +6,66 @@
 [ext_resource path="res://scripts/Main.gd" type="Script" id=4]
 [ext_resource path="res://scripts/Fonction_Onde.gd" type="Script" id=5]
 [ext_resource path="res://assets/Environment/box.png" type="Texture" id=6]
+[ext_resource path="res://assets/Environment/Levelsheet.png" type="Texture" id=7]
 [ext_resource path="res://scripts/Objectif.gd" type="Script" id=9]
 
-[sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 9, 9 )
+[sub_resource type="TileSet" id=1]
+0/name = "Walls"
+0/texture = ExtResource( 7 )
+0/tex_offset = Vector2( 0, 0 )
+0/modulate = Color( 1, 1, 1, 1 )
+0/region = Rect2( 0, 0, 256, 128 )
+0/tile_mode = 1
+0/autotile/bitmask_mode = 1
+0/autotile/bitmask_flags = [ Vector2( 0, 4 ), 32, Vector2( 1, 4 ), 60, Vector2( 2, 4 ), 61, Vector2( 3, 4 ), 61, Vector2( 4, 4 ), 57, Vector2( 5, 4 ), 26 ]
+0/autotile/icon_coordinate = Vector2( 2, 2 )
+0/autotile/tile_size = Vector2( 32, 32 )
+0/autotile/spacing = 0
+0/autotile/occluder_map = [  ]
+0/autotile/navpoly_map = [  ]
+0/autotile/priority_map = [  ]
+0/autotile/z_index_map = [  ]
+0/occluder_offset = Vector2( 0, 0 )
+0/navigation_offset = Vector2( 0, 0 )
+0/shape_offset = Vector2( 0, 0 )
+0/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+0/shape_one_way = false
+0/shape_one_way_margin = 0.0
+0/shapes = [  ]
+0/z_index = 0
+1/name = "Levelsheet.png 1"
+1/texture = ExtResource( 7 )
+1/tex_offset = Vector2( 0, 0 )
+1/modulate = Color( 1, 1, 1, 1 )
+1/region = Rect2( 32, 32, 16, 16 )
+1/tile_mode = 0
+1/occluder_offset = Vector2( 0, 0 )
+1/navigation_offset = Vector2( 0, 0 )
+1/shape_offset = Vector2( 0, 0 )
+1/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+1/shape_one_way = false
+1/shape_one_way_margin = 0.0
+1/shapes = [  ]
+1/z_index = 0
+2/name = "Levelsheet.png 2"
+2/texture = ExtResource( 7 )
+2/tex_offset = Vector2( 0, 0 )
+2/modulate = Color( 1, 1, 1, 1 )
+2/region = Rect2( 32, 32, 32, 32 )
+2/tile_mode = 0
+2/occluder_offset = Vector2( 0, 0 )
+2/navigation_offset = Vector2( 0, 0 )
+2/shape_offset = Vector2( 0, 0 )
+2/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+2/shape_one_way = false
+2/shape_one_way_margin = 0.0
+2/shapes = [  ]
+2/z_index = 0
 
 [sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 9, 9 )
+
+[sub_resource type="RectangleShape2D" id=3]
 extents = Vector2( 8, 8 )
 
 [node name="Level" type="Node2D"]
@@ -39,6 +93,11 @@ collision_mask = 0
 format = 1
 tile_data = PoolIntArray( 131074, 0, 0, 131075, 0, 0, 196608, 0, 0, 196609, 0, 0, 196610, 0, 0, 262144, 1610612736, 0, 262151, 1610612736, 0, 262152, -1073741824, 0, 262164, 1610612736, 0, 262165, 1610612736, 0, 327680, 1610612736, 0, 327687, -1073741824, 0, 327694, 1610612736, 0, 327695, 1610612736, 0, 327701, 1610612736, 0, 327702, 1610612736, 0, 393216, 1610612736, 0, 393219, 1610612736, 0, 393221, 1610612736, 0, 393229, 1610612736, 0, 393230, 1610612736, 0, 393231, 1610612736, 0, 393232, 1610612736, 0, 393239, 1610612736, 0, 458752, 1610612736, 0, 458755, 1610612736, 0, 458756, 1610612736, 0, 458757, 1610612736, 0, 458761, -1073741824, 0, 458766, 1610612736, 0, 458767, 1610612736, 0, 458768, 1610612736, 0, 458769, 1610612736, 0, 458775, 1610612736, 0, 524288, 1610612736, 0, 524290, 1610612736, 0, 524291, 1610612736, 0, 524292, 1610612736, 0, 524293, 1610612736, 0, 524297, 0, 0, 524298, -1073741824, 0, 524299, 1610612736, 0, 524304, 1610612736, 0, 524305, 1610612736, 0, 524311, 1610612736, 0, 589824, 1610612736, 0, 589827, 1610612736, 0, 589841, 1610612736, 0, 589842, 1610612736, 0, 589847, 1610612736, 0, 655360, 1610612736, 0, 655383, -1073741824, 0, 720896, 1610612736, 0, 720908, 1610612736, 0, 720909, 1610612736, 0, 720910, 1610612736, 0, 720911, 1610612736, 0, 720919, -1073741824, 0, 786432, 1610612736, 0, 786442, 1610612736, 0, 786443, 1610612736, 0, 786444, 1610612736, 0, 786445, 0, 0, 786447, 0, 0, 786448, 0, 0, 786455, 1610612736, 0, 851968, 536870912, 0, 851978, 1610612736, 0, 851979, 1610612736, 0, 851980, 1610612736, 0, 851984, 1610612736, 0, 851985, 1610612736, 0, 851991, 0, 0, 917504, 536870912, 0, 917514, 1610612736, 0, 917515, 1610612736, 0, 917520, 1610612736, 0, 917521, 1610612736, 0, 917522, 1610612736, 0, 917527, 1610612736, 0, 983040, 536870912, 0, 983041, 1610612736, 0, 983049, 1610612736, 0, 983050, 1610612736, 0, 983057, 1610612736, 0, 983058, 1610612736, 0, 983063, 1610612736, 0, 1048576, -1073741824, 0, 1048577, 0, 0, 1048578, 0, 0, 1048579, 0, 0, 1048580, 0, 0, 1048581, 0, 0, 1048582, 0, 0, 1048583, 1610612736, 0, 1048584, 1610612736, 0, 1048585, 1610612736, 0, 1048593, 1610612736, 0, 1048594, 1610612736, 0, 1048598, 1610612736, 0, 1048599, 0, 0, 1114112, -1073741824, 0, 1114113, -1073741824, 0, 1114114, -1073741824, 0, 1114115, -1073741824, 0, 1114116, -1073741824, 0, 1114117, -1073741824, 0, 1114118, -1073741824, 0, 1114119, -1073741824, 0, 1114120, -1073741824, 0, 1114121, 1610612736, 0, 1114122, 1610612736, 0, 1114127, 1610612736, 0, 1114128, 1610612736, 0, 1114129, 1610612736, 0, 1114130, 1610612736, 0, 1114131, 1610612736, 0, 1114132, 1610612736, 0, 1114133, 1610612736, 0, 1114134, 1610612736, 0, 1114135, -1073741824, 0, 1114136, -1073741824, 0, 1114137, -1073741824, 0, 1114138, -1073741824, 0, 1114139, -1073741824, 0, 1114140, -1073741824, 0, 1114141, 0, 0, 1114142, 0, 0, 1114143, -1073741824, 0, 1114144, -1073741824, 0, 1114145, -1073741824, 0, 1114146, -1073741824, 0, 1114147, -1073741824, 0, 1114148, -1073741824, 0, 1114149, -1073741824, 0, 1114150, -1073741824, 0, 1114151, -1073741824, 0, 1114152, -1073741824, 0, 1114153, -1073741824, 0, 1114154, -1073741824, 0, 1114155, -1073741824, 0, 1114156, -1073741824, 0, 1114157, -1073741824, 0, 1114158, -1073741824, 0, 1114159, -1073741824, 0, 1114160, -1073741824, 0, 1114161, -1073741824, 0, 1179649, -1073741824, 0, 1179650, -1073741824, 0, 1179651, -1073741824, 0, 1179652, -1073741824, 0, 1179653, -1073741824, 0, 1179654, -1073741824, 0, 1179655, -1073741824, 0, 1179657, 1610612736, 0, 1179658, 1610612736, 0, 1179659, 1610612736, 0, 1179660, 1610612736, 0, 1179661, 1610612736, 0, 1179662, 1610612736, 0, 1179663, 1610612736, 0, 1179664, 1610612736, 0 )
 
+[node name="Obstacles2" type="TileMap" parent="World"]
+tile_set = SubResource( 1 )
+cell_size = Vector2( 32, 32 )
+format = 1
+
 [node name="Objectif" type="RigidBody2D" parent="World"]
 position = Vector2( 475.009, 337.483 )
 collision_layer = 2
@@ -59,17 +118,16 @@ texture = ExtResource( 6 )
 [node name="CollisionShape2D" type="CollisionShape2D" parent="World/Objectif/Area2D"]
 visible = false
 light_mask = 0
-shape = SubResource( 1 )
+shape = SubResource( 2 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="World/Objectif"]
-shape = SubResource( 2 )
+shape = SubResource( 3 )
 
 [node name="InfoScreen" parent="." instance=ExtResource( 3 )]
 
 [node name="Fonction_Onde" type="Node2D" parent="."]
 modulate = Color( 1, 1, 1, 0 )
 script = ExtResource( 5 )
-fade_time = 1.0
 
 [node name="PlayerInitialPosition" type="Node2D" parent="."]
 position = Vector2( 170.817, 463.247 )

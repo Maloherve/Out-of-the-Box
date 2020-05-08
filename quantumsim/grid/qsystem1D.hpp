@@ -61,6 +61,7 @@ namespace qsim::grid {
         virtual double energy() const override;
         double position() const;
         double momentum() const;
+        double probability(size_t, size_t) const;
 
         // normalize the wave function
         virtual double norm() const override;
@@ -91,7 +92,7 @@ namespace qsim::grid {
          */
 
         inline double x(size_t i) const {
-            return dx * i;
+            return dx * (i+1);
         }
 
         /*

@@ -17,13 +17,11 @@ func _ready():
 	system.set_wave(packet)
 	
 	graph.reset()
-	
-	for i in range(system.N()):
-		potential.add_point(potential.point(i))
+	potential.reset()
 	
 	if debug:
-		print("System position: ", system.mean_position())
-		print("System energy: ", system.energy())
-		print("System hbar: ", system.hbar)
-		print("System mass: ", system.mass)
+		print("[wave_function.gd] System position: ", system.mean_position())
+		print("[wave_function.gd] System energy: ", system.energy())
+		print("[wave_function.gd] System hbar: ", system.hbar)
+		print("[wave_function.gd] System mass: ", system.mass)
 
