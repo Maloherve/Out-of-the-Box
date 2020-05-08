@@ -27,9 +27,7 @@ func _process(delta):
 
 
 func boost_quality():
-	# Raffaele: changed .size -> .height
-	# cause: .size is not a member of Font
-	$Label.get_font("font").height *= 5;
+	$Label.get_font("font").size *= 5;
 #	$Label.margin_right *= 7;
 	$Label.rect_scale = Vector2(0.2, 0.2);
 	pass

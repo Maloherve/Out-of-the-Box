@@ -7,18 +7,27 @@
 extents = Vector2( 25, 25 )
 
 [node name="simulator" type="Area2D"]
-position = Vector2( -25, 0 )
-gravity = 0.0
 script = ExtResource( 2 )
 
 [node name="collider" type="CollisionShape2D" parent="."]
 modulate = Color( 0.215686, 0.996078, 0.921569, 1 )
-position = Vector2( 25, 0 )
 shape = SubResource( 1 )
 
 [node name="qsystem" type="Node2D" parent="."]
 script = ExtResource( 1 )
+hbar = 1.0
 steps_per_tick = 10
 dt_gain = 2.0
 width = 50.0
 height = 10.0
+
+[node name="boundary" type="ReferenceRect" parent="."]
+margin_left = -50.0
+margin_top = -50.0
+margin_right = 50.0
+margin_bottom = 50.0
+mouse_filter = 2
+border_color = Color( 0.839216, 0.952941, 0.054902, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}

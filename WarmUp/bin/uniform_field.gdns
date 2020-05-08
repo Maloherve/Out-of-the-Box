@@ -1,8 +1,0 @@
-[gd_resource type="NativeScript" load_steps=2 format=2]
-
-[ext_resource path="res://bin/qsim.gdnlib" type="GDNativeLibrary" id=1]
-
-[resource]
-resource_name = "Uniform field potential"
-class_name = "uniform_field"
-library = ExtResource( 1 )

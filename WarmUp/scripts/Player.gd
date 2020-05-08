@@ -83,8 +83,6 @@ func look_direction():
 	return 2 * int(animNode.flip_h) - 1;
 
 func _on_Node_teleport(delta):
-	if is_on_wall:
-		delta -= Vector2(look_direction() * 8,0)
 	position += delta
 	
 func _on_Player_start_casting(_trigger):
@@ -204,8 +202,6 @@ func _check_is_landed():
 		grounded = false;
 		emit_signal("detach_the_ground");
 
-func is_front_colliding():
-	return Side_Raycasts.get_node("Top_Side").is_colliding();
 
 # See if the character next to a wall
 func _check_is_collided():

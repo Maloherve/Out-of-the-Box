@@ -110,24 +110,6 @@ double qsystem1D::momentum() const {
     return mom.real() * dx;
 }
 
-double qsystem1D::probability(size_t beg, size_t end) const {
-    if (end < beg)
-        std::swap(beg, end);
-
-    if (beg >= wave.size())
-        return 0.0;
-
-    if (end > wave.size())
-        end = wave.size();
-
-    double pos(0);
-
-    for (size_t i = beg; i < end; ++i)
-        pos += std::norm(wave[i]);
-
-    return pos *= dx;
-}
-
 wave_vector::iterator qsystem1D::begin() {
     return wave.begin();
 }

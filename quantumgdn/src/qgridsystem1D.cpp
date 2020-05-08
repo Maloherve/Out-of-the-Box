@@ -40,7 +40,6 @@ void qgridsystem1D::_register_methods() {
     register_method("energy", &qgridsystem1D::_energy);
     register_method("mean_position", &qgridsystem1D::_position);
     register_method("mean_momentum", &qgridsystem1D::_momentum);
-    register_method("probability", &qgridsystem1D::_probability);
     register_method("set_wave", &qgridsystem1D::set_wave);
     register_method("wave", &qgridsystem1D::get_wave);
     register_method("psi", &qgridsystem1D::psi);
@@ -70,14 +69,6 @@ double qgridsystem1D::_position() const {
 
 double qgridsystem1D::_momentum() const {
     return qsystem1D::momentum();
-}
-
-double qgridsystem1D::_probability(double beg, double end) const {
-    // make sure of a fine convertion
-    if (beg < 0) beg = 0;
-    if (end < 0) end = 0;
-
-    return qsystem1D::probability(size_t(beg * N() /get_width()), size_t(end * N() /get_width()));
 }
 
 void qgridsystem1D::set_hbar(double _plank) {
