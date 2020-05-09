@@ -6,7 +6,7 @@ extends KinematicBody2D
 const TYPE = "PLAYER";
 const GRAVITY : int = 800;
 const MOVE_SPEED : int = 1 * 64;
-const CLIMB_SPEED : float = 2.0 * 64;
+const CLIMB_SPEED : float = 2.2 * 64;
 # Nodes
 onready var animNode : AnimatedSprite;
 onready var Bottom_Raycasts : Node2D = get_node("Bottom_Raycasts");
@@ -98,7 +98,7 @@ func _trigger_landing():
 
 func _trigger_jump():
 	var ledge = is_on_ledge();
-	if !cast && (pstate != PSTATE.air || ledge):
+	if !cast && (pstate != PSTATE.air || ledge) && endurance > 0:
 		if ledge:
 			print("LEDGE")
 			pstate = PSTATE.ledge; # set temporaly the old state to ground
