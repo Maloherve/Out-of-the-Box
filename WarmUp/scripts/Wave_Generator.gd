@@ -100,7 +100,7 @@ func on_Player_start_casting(trigger):
 	var direction
 	var half_width
 	var dx = 0.0 # small displacement
-	if player.is_on_wall:
+	if player.is_on_wall():
 		half_width = pbox.y
 		particle.rotation_degrees -= 90 * player.look_direction() # node of 90
 		# fix no move
