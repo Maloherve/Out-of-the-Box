@@ -78,6 +78,7 @@ func _process(delta):
 			$Trail.set_flip(false);
 	$Trail.emitting = (animNode.get_animation() == "_walk")
 	_check_is_landed();
+	Endurance_Bar.set_value(update_endurance());
 	
 func look_direction():
 	return 2 * int(animNode.flip_h) - 1;
@@ -94,7 +95,6 @@ func _on_Player_start_casting(_trigger):
 func _physics_process(delta):
 	if !cast:
 		velocity = move_and_slide(velocity, Vector2(0,0));
-	Endurance_Bar.set_value(update_endurance());
 
 # Move Character
 func MoveCharacter(delta):
@@ -230,9 +230,13 @@ func _check_is_collided():
 
 func update_endurance():
 	if is_on_wall && endurance>0:
-		endurance -= 1;
+		endurance -= 2;
 	if (grounded && endurance<100 && (!cast)):
 		endurance +=1;
+	if endurance<0:
+		endurance=0;
+	if endurance>100:
+		endurance=100;	
 	return endurance;
 
 # Check if the conditions to apply gravity are verified
