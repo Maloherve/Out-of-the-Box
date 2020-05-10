@@ -274,10 +274,10 @@ func update_endurance():
 		endurance -= 2;
 	if (pstate == PSTATE.ground && endurance<100 && !cast):
 		endurance +=1;
-    if endurance<0:
-        endurance=0;
-    if endurance>100:
-        endurance=100;
+	if endurance<0:
+		endurance=0;
+	if endurance>100:
+		endurance=100;
 	return endurance;
 
 # Check if the conditions to apply friction are verified
