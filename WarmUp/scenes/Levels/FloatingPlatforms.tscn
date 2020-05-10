@@ -1,9 +1,10 @@
-[gd_scene load_steps=21 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://scripts/Main.gd" type="Script" id=1]
 [ext_resource path="res://assets/Background/SkyLine.png" type="Texture" id=2]
 [ext_resource path="res://assets/Tilesets/Floor.tres" type="TileSet" id=3]
 [ext_resource path="res://assets/Other/Scientist.png" type="Texture" id=4]
+[ext_resource path="res://bin/uniform_field.gdns" type="Script" id=5]
 [ext_resource path="res://assets/Environment/coin.png" type="Texture" id=10]
 [ext_resource path="res://scripts/Level1/ReadSign1.gd" type="Script" id=11]
 [ext_resource path="res://assets/Fonts/abel-regular.ttf" type="DynamicFontData" id=12]
@@ -23,14 +24,14 @@ polygon = PoolVector2Array( 25.0994, 215.423, 25.0163, 220.287, 23.9352, 220.537
 [sub_resource type="OccluderPolygon2D" id=2]
 polygon = PoolVector2Array( -20.2355, -224.689, -19.9445, -222.167, -20.3325, -221.634, -21.1084, -221.44, -21.0599, -216.445, -20.381, -216.009, -20.09, -214.845, -19.1201, -213.875, -19.1201, -211.062, -19.9445, -210.771, -20.381, -209.171, -20.8659, -208.395, -18.4897, -209.801, -18.1017, -214.069, -19.2656, -223.186 )
 
-[sub_resource type="RectangleShape2D" id=6]
+[sub_resource type="RectangleShape2D" id=3]
 extents = Vector2( 15.8712, 18.4255 )
 
-[sub_resource type="DynamicFont" id=9]
+[sub_resource type="DynamicFont" id=4]
 size = 10
 font_data = ExtResource( 12 )
 
-[sub_resource type="RectangleShape2D" id=10]
+[sub_resource type="RectangleShape2D" id=5]
 extents = Vector2( 1.13702, 1.17068 )
 
 [node name="Level" type="Node2D"]
@@ -137,11 +138,15 @@ color = Color( 0.831373, 0.831373, 0.831373, 1 )
 light_mask = 0
 tile_set = ExtResource( 3 )
 cell_size = Vector2( 32, 32 )
-collision_layer = 2
-collision_mask = 0
+collision_layer = 14
+collision_mask = 14
 occluder_light_mask = 2
 format = 1
 tile_data = PoolIntArray( 131061, 3, 65541, 131062, 3, 65542, 131063, 3, 65542, 131064, 3, 65542, 131065, 3, 65542, 131066, 3, 65542, 131067, 3, 65542, 131068, 3, 65542, 131069, 3, 65542, 131070, 3, 65542, 131071, 3, 65542, 65536, 3, 65542, 65537, 3, 65542, 65538, 3, 65542, 65539, 3, 65542, 65540, 3, 65542, 65541, 3, 65542, 65542, 3, 65542, 65543, 3, 65542, 65544, 3, 65542, 65545, 3, 65542, 65546, 3, 65542, 65547, 3, 65542, 65548, 3, 65543, 196597, 3, 131077, 196598, 3, 131078, 196599, 3, 196614, 196600, 3, 196614, 196601, 3, 196614, 196602, 3, 196614, 196603, 3, 196614, 196604, 3, 196614, 196605, 3, 196614, 196606, 3, 196614, 196607, 3, 196614, 131072, 3, 196614, 131073, 3, 196614, 131074, 3, 196614, 131075, 3, 196614, 131076, 3, 196614, 131077, 3, 196614, 131078, 3, 196614, 131079, 3, 196614, 131080, 3, 196614, 131081, 3, 196614, 131082, 3, 196614, 131083, 3, 196614, 131084, 3, 196615, 262133, 3, 131077, 262134, 3, 131079, 327669, 3, 131077, 327670, 3, 131079, 393205, 3, 131077, 393206, 3, 131079, 458741, 3, 131077, 458742, 3, 131079, 524277, 3, 131077, 524278, 3, 131079, 524285, 2, 131075, 524286, 2, 1, 524287, 2, 131076, 589813, 3, 131077, 589814, 3, 131079, 589821, 2, 131072, 589822, 2, 131073, 589823, 2, 131074, 524290, 3, 65541, 524291, 3, 65542, 524292, 3, 65543, 655349, 3, 131077, 655350, 3, 131079, 655353, 2, 131075, 655354, 2, 1, 655355, 2, 131076, 589826, 3, 196613, 589827, 3, 196614, 589828, 3, 196615, 720885, 3, 131077, 720886, 3, 131079, 720889, 2, 65536, 720890, 2, 65537, 720891, 2, 65538, 786421, 3, 131077, 786422, 3, 131079, 786425, 2, 131072, 786426, 2, 131073, 786427, 2, 131074, 851957, 3, 131077, 851958, 3, 131079, 917493, 3, 131077, 917494, 3, 131079, 917496, 3, 131078, 917497, 3, 131078, 917498, 3, 131078, 983029, 3, 131077, 983030, 3, 131079, 917510, 3, 65541, 917511, 3, 65543, 1048565, 3, 131077, 1048566, 3, 131079, 983046, 3, 131077, 983047, 3, 131079, 1114101, 3, 131077, 1114102, 3, 131078, 1114103, 3, 65542, 1114104, 3, 65542, 1114105, 3, 65542, 1114106, 3, 65542, 1114107, 3, 65542, 1114108, 3, 65542, 1114109, 3, 65543, 1048582, 3, 131077, 1048583, 3, 131079, 1179637, 3, 131077, 1179638, 3, 131078, 1179639, 3, 131078, 1179640, 3, 131078, 1179641, 3, 131078, 1179642, 3, 131078, 1179643, 3, 131078, 1179644, 3, 131078, 1179645, 3, 131078, 1179646, 3, 65543, 1114118, 3, 131077, 1114119, 3, 131079, 1245173, 3, 196613, 1245174, 3, 196614, 1245175, 3, 196614, 1245176, 3, 196614, 1245177, 3, 196614, 1245178, 3, 196614, 1245179, 3, 196614, 1245180, 3, 196614, 1245181, 3, 131078, 1245182, 3, 131079, 1179654, 3, 131077, 1179655, 3, 131079, 1310717, 3, 131077, 1310718, 3, 131078, 1310719, 3, 65542, 1245184, 3, 65542, 1245185, 3, 65542, 1245186, 3, 65542, 1245187, 3, 65542, 1245188, 3, 65542, 1245189, 3, 65542, 1245190, 3, 131078, 1245191, 3, 131079, 1376253, 3, 196613, 1376254, 3, 196614, 1376255, 3, 196614, 1310720, 3, 196614, 1310721, 3, 196614, 1310722, 3, 196614, 1310723, 3, 196614, 1310724, 3, 196614, 1310725, 3, 196614, 1310726, 3, 196614, 1310727, 3, 196615 )
+
+[node name="potential" type="Node2D" parent="World/Obstacles"]
+script = ExtResource( 5 )
+value = 10.0
 
 [node name="Enemies" type="Node2D" parent="World"]
 visible = false
@@ -219,7 +224,7 @@ script = ExtResource( 11 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="World/Interactions/Victory"]
 position = Vector2( 0.165588, 5.45984 )
-shape = SubResource( 6 )
+shape = SubResource( 3 )
 
 [node name="Label" type="Label" parent="World/Interactions/Victory"]
 modulate = Color( 1, 0, 0, 1 )
@@ -227,7 +232,7 @@ margin_left = 23.2245
 margin_top = -12.3523
 margin_right = 151.09
 margin_bottom = 32.6477
-custom_fonts/font = SubResource( 9 )
+custom_fonts/font = SubResource( 4 )
 text = "Miaaaaaaaooooooou !!!!!
 (Victoryyyyyyy !!!! )
 "
@@ -245,7 +250,7 @@ light_path = NodePath("../../Lights/Cell_Light")
 flicker_delay = 0.05
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="World/Interactions/Flicker"]
-shape = SubResource( 10 )
+shape = SubResource( 5 )
 
 [node name="Fonction_Onde" type="Node2D" parent="."]
 script = ExtResource( 13 )
