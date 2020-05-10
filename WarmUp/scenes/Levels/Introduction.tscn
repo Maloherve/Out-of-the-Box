@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=2]
+[gd_scene load_steps=31 format=2]
 
 [ext_resource path="res://scripts/Main.gd" type="Script" id=1]
 [ext_resource path="res://assets/Background/SkyLine.png" type="Texture" id=2]
@@ -20,13 +20,12 @@
 [ext_resource path="res://scripts/Interactions/Trigger_Flicker.gd" type="Script" id=18]
 [ext_resource path="res://assets/Character/Cat2/CatSummon3.png" type="Texture" id=19]
 [ext_resource path="res://assets/Character/Cat2/CatSummon4.png" type="Texture" id=20]
-[ext_resource path="res://scenes/Objects/door.tscn" type="PackedScene" id=21]
 
-[sub_resource type="OccluderPolygon2D" id=3]
+[sub_resource type="OccluderPolygon2D" id=9]
 closed = false
 polygon = PoolVector2Array( 25.0994, 215.423, 25.0163, 220.287, 23.9352, 220.537, 23.8105, 222.907, 24.6836, 223.281, 25.0578, 224.196, 26.6794, 224.321, 26.8041, 226.275, 25.8894, 226.358, 25.8062, 234.341, 24.8084, 234.466, 24.7506, 237.432, 23.8992, 237.55, 23.8992, 238.283, 22.7877, 238.496, 22.8114, 239.82, 20.9937, 229.091, 23.3636, 218.584 )
 
-[sub_resource type="OccluderPolygon2D" id=4]
+[sub_resource type="OccluderPolygon2D" id=10]
 polygon = PoolVector2Array( -20.2355, -224.689, -19.9445, -222.167, -20.3325, -221.634, -21.1084, -221.44, -21.0599, -216.445, -20.381, -216.009, -20.09, -214.845, -19.1201, -213.875, -19.1201, -211.062, -19.9445, -210.771, -20.381, -209.171, -20.8659, -208.395, -18.4897, -209.801, -18.1017, -214.069, -19.2656, -223.186 )
 
 [sub_resource type="SpriteFrames" id=1]
@@ -45,7 +44,7 @@ animations = [ {
 [sub_resource type="RectangleShape2D" id=2]
 extents = Vector2( 3.34546, 32.2485 )
 
-[sub_resource type="TileSet" id=5]
+[sub_resource type="TileSet" id=3]
 0/name = "signs.png 0"
 0/texture = ExtResource( 9 )
 0/tex_offset = Vector2( 0, 0 )
@@ -145,22 +144,22 @@ extents = Vector2( 3.34546, 32.2485 )
 6/shapes = [  ]
 6/z_index = 0
 
-[sub_resource type="RectangleShape2D" id=6]
+[sub_resource type="RectangleShape2D" id=4]
 extents = Vector2( 15.8712, 18.4255 )
+
+[sub_resource type="DynamicFont" id=5]
+size = 10
+font_data = ExtResource( 12 )
+
+[sub_resource type="DynamicFont" id=6]
+size = 10
+font_data = ExtResource( 12 )
 
 [sub_resource type="DynamicFont" id=7]
 size = 10
 font_data = ExtResource( 12 )
 
-[sub_resource type="DynamicFont" id=8]
-size = 10
-font_data = ExtResource( 12 )
-
-[sub_resource type="DynamicFont" id=9]
-size = 10
-font_data = ExtResource( 12 )
-
-[sub_resource type="RectangleShape2D" id=10]
+[sub_resource type="RectangleShape2D" id=8]
 extents = Vector2( 1.13702, 1.17068 )
 
 [node name="Level" type="Node2D"]
@@ -312,7 +311,7 @@ texture = ExtResource( 19 )
 [node name="LightOccluder2D" type="LightOccluder2D" parent="World/NPC/Cat1"]
 modulate = Color( 1, 1, 1, 0 )
 light_mask = 1024
-occluder = SubResource( 3 )
+occluder = SubResource( 9 )
 light_mask = 1024
 
 [node name="Cat2" type="Sprite" parent="World/NPC"]
@@ -323,7 +322,7 @@ texture = ExtResource( 20 )
 
 [node name="LightOccluder2D" type="LightOccluder2D" parent="World/NPC/Cat2"]
 light_mask = 1024
-occluder = SubResource( 4 )
+occluder = SubResource( 10 )
 light_mask = 1024
 
 [node name="Objects" type="Node2D" parent="World"]
@@ -333,7 +332,18 @@ modulate = Color( 0.470588, 0.470588, 0.470588, 1 )
 position = Vector2( 310.259, 448 )
 texture = ExtResource( 5 )
 
-[node name="door1" parent="World/Objects" instance=ExtResource( 21 )]
+[node name="door1" type="StaticBody2D" parent="World/Objects"]
+collision_layer = 2
+collision_mask = 0
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="World/Objects/door1"]
+position = Vector2( 1043.15, 480.188 )
+frames = SubResource( 1 )
+animation = "open"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="World/Objects/door1"]
+position = Vector2( 1027.15, 480.188 )
+shape = SubResource( 2 )
 
 [node name="door2" type="StaticBody2D" parent="World/Objects"]
 position = Vector2( 64.4836, 191.553 )
@@ -364,7 +374,7 @@ position = Vector2( 1027.15, 480.188 )
 shape = SubResource( 2 )
 
 [node name="Decoration" type="TileMap" parent="World/Objects"]
-tile_set = SubResource( 5 )
+tile_set = SubResource( 3 )
 cell_size = Vector2( 16, 16 )
 format = 1
 tile_data = PoolIntArray( 2097195, 1610612738, 0, 2687036, 0, 0 )
@@ -386,7 +396,7 @@ script = ExtResource( 11 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="World/Interactions/ReadSign1"]
 position = Vector2( 1.74341, 5.61761 )
-shape = SubResource( 6 )
+shape = SubResource( 4 )
 
 [node name="Label" type="Label" parent="World/Interactions/ReadSign1"]
 margin_left = -28.2969
@@ -394,7 +404,7 @@ margin_top = -52.5529
 margin_right = 102.929
 margin_bottom = -7.55286
 rect_scale = Vector2( 0.993344, 1.01854 )
-custom_fonts/font = SubResource( 7 )
+custom_fonts/font = SubResource( 5 )
 text = "Miaou, miaou, miaou.
 (You are a cat, have fun climbing
 walls)."
@@ -411,7 +421,7 @@ script = ExtResource( 11 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="World/Interactions/ReadSign2"]
 position = Vector2( 0.165588, 5.45984 )
-shape = SubResource( 6 )
+shape = SubResource( 4 )
 
 [node name="Label" type="Label" parent="World/Interactions/ReadSign2"]
 anchor_right = 1.0
@@ -419,7 +429,7 @@ margin_left = -69.9678
 margin_top = -71.7572
 margin_right = 107.0
 margin_bottom = -26.7572
-custom_fonts/font = SubResource( 8 )
+custom_fonts/font = SubResource( 6 )
 text = "Mi... Mia ... Miaou ? Miaou. Miaou !!
 (The experiments have left you ... changed... 
 Press (space) to enter quantum mode !! )"
@@ -437,7 +447,7 @@ script = ExtResource( 11 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="World/Interactions/Victory"]
 position = Vector2( 0.165588, 5.45984 )
-shape = SubResource( 6 )
+shape = SubResource( 4 )
 
 [node name="Label" type="Label" parent="World/Interactions/Victory"]
 modulate = Color( 1, 0, 0, 1 )
@@ -445,7 +455,7 @@ margin_left = 23.2245
 margin_top = -12.3523
 margin_right = 151.09
 margin_bottom = 32.6477
-custom_fonts/font = SubResource( 9 )
+custom_fonts/font = SubResource( 7 )
 text = "Miaaaaaaaooooooou !!!!!
 (Victoryyyyyyy !!!! )
 "
@@ -463,7 +473,7 @@ light_path = NodePath("../../Lights/Cell_Light")
 flicker_delay = 0.05
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="World/Interactions/Flicker"]
-shape = SubResource( 10 )
+shape = SubResource( 8 )
 
 [node name="Fonction_Onde" type="Node2D" parent="."]
 script = ExtResource( 13 )
