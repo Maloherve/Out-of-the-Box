@@ -5,7 +5,7 @@
 [ext_resource path="res://assets/Curves/potential.tres" type="Curve" id=6]
 [ext_resource path="res://scripts/Objects/door.gd" type="Script" id=7]
 
-[sub_resource type="RectangleShape2D" id=2]
+[sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 3.34546, 32.2485 )
 
 [node name="door" type="StaticBody2D"]
@@ -21,7 +21,7 @@ frame = 3
 playing = true
 
 [node name="collider" type="CollisionShape2D" parent="."]
-shape = SubResource( 2 )
+shape = SubResource( 1 )
 
 [node name="potential" type="Node2D" parent="."]
 script = ExtResource( 5 )
