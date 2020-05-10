@@ -116,20 +116,21 @@ func _trigger_hold_wall():
 	
 # PSTATE changed callback
 func _on_Player_pstate_changed(new_state):
-	if new_state == PSTATE.ground:
-		print("[Player] set ground state")
-		animNode.call("_idle");
+	match new_state:
+		PSTATE.ground:
+			print("[Player] set ground state")
+			animNode.call("_idle");
 		
-	elif new_state == PSTATE.air:
-		print("[Player] set air state")
-		animNode.call("_jump");
+		PSTATE.air:
+			print("[Player] set air state")
+			animNode.call("_jump");
 		
-		if pstate == PSTATE.jump || pstate == PSTATE.ledge:
-			velocity.y = jump_velocity;
-			
-	elif new_state == PSTATE.wall:
-		print("[Player] set wall state")
-		animNode.call("_hold");
+			if pstate == PSTATE.jump || pstate == PSTATE.ledge:
+				velocity.y = jump_velocity;
+		
+		PSTATE.wall:
+			print("[Player] set wall state")
+			animNode.call("_hold");
 		
 	if pstate == PSTATE.ledge:
 		print("[Player] on ledge animation")
@@ -174,7 +175,7 @@ func MoveCharacter(delta):
 		velocity.y = lerp(velocity.y, CLIMB_SPEED * vertical_move_direction, 0.2);
 	
 #	Forces
-	if pstate != PSTATE.ground:
+	if pstate != PSTATE.ground && !cast:
 		velocity.y += GRAVITY * delta;
 		
 	if _check_if_apply_friction():

@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://assets/Other/gauss_init1D.tres" type="Resource" id=1]
 [ext_resource path="res://scenes/Wave/simulation.tscn" type="PackedScene" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://assets/Other/lightning.png" type="Texture" id=5]
 [ext_resource path="res://scripts/Simulation/potential_graph.gd" type="Script" id=6]
 [ext_resource path="res://assets/Shaders/quantum_lightning.shader" type="Shader" id=7]
+[ext_resource path="res://bin/curve_field.gdns" type="Script" id=8]
 
 [sub_resource type="ShaderMaterial" id=1]
 shader = ExtResource( 7 )
@@ -14,6 +15,9 @@ shader_param/amplitude = 1.4
 shader_param/half_width = 0.4
 shader_param/noise_factor = 0.55
 shader_param/theme = Vector3( 0, 0, 1 )
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 25, 25 )
 
 [node name="wave_function" type="Node2D"]
 script = ExtResource( 3 )
@@ -43,3 +47,11 @@ joint_mode = 2
 script = ExtResource( 4 )
 gain = 90.0
 resolution = 36
+
+[node name="base_potential" type="StaticBody2D" parent="."]
+
+[node name="collisioner" type="CollisionShape2D" parent="base_potential"]
+shape = SubResource( 2 )
+
+[node name="potential" type="Node2D" parent="base_potential"]
+script = ExtResource( 8 )

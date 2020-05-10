@@ -1,0 +1,28 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://assets/Animations/door.tres" type="SpriteFrames" id=1]
+[ext_resource path="res://bin/curve_field.gdns" type="Script" id=5]
+[ext_resource path="res://assets/Curves/potential.tres" type="Curve" id=6]
+[ext_resource path="res://scripts/Objects/door.gd" type="Script" id=7]
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 3.34546, 32.2485 )
+
+[node name="door" type="StaticBody2D"]
+collision_layer = 2
+collision_mask = 0
+script = ExtResource( 7 )
+
+[node name="animation" type="AnimatedSprite" parent="."]
+position = Vector2( 1043.15, 480.188 )
+frames = ExtResource( 1 )
+animation = "close"
+frame = 3
+playing = true
+
+[node name="collider" type="CollisionShape2D" parent="."]
+shape = SubResource( 2 )
+
+[node name="potential" type="Node2D" parent="."]
+script = ExtResource( 5 )
+V_x = ExtResource( 6 )
