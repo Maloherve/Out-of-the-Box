@@ -271,9 +271,13 @@ func _check_is_collided():
 
 func update_endurance():
 	if pstate == PSTATE.wall && endurance>0:
-		endurance -= 1;
-	if (pstate == PSTATE.ground && endurance<100 && (!cast)):
+		endurance -= 2;
+	if (pstate == PSTATE.ground && endurance<100 && !cast):
 		endurance +=1;
+    if endurance<0:
+        endurance=0;
+    if endurance>100:
+        endurance=100;
 	return endurance;
 
 # Check if the conditions to apply friction are verified
