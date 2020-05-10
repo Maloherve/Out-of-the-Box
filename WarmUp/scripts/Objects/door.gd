@@ -16,10 +16,12 @@ signal closed;
 func set_init_open(flag):
 	if has_node("animation"): # ready
 		set_open(flag);
+	init_open = flag;
 		
 func set_init_V(value):
 	if has_node("potential"): # ready
 		set_potential(value);
+	init_V = value;
 
 # onready setters and getters
 func set_open(flag):
@@ -46,3 +48,4 @@ func get_potential():
 func _ready():
 	set_open(init_open);
 	set_potential(init_V);
+	$potential.scale.x *= $collider.shape.extents.x;

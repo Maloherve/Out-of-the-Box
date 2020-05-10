@@ -9,12 +9,12 @@
 extents = Vector2( 3.34546, 32.2485 )
 
 [node name="door" type="StaticBody2D"]
-collision_layer = 2
-collision_mask = 0
+collision_layer = 14
+collision_mask = 14
 script = ExtResource( 7 )
 
 [node name="animation" type="AnimatedSprite" parent="."]
-position = Vector2( 1043.15, 480.188 )
+position = Vector2( 17, 0 )
 frames = ExtResource( 1 )
 animation = "close"
 frame = 3

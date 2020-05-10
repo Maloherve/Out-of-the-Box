@@ -5,7 +5,7 @@ func _ready():
 	position.x = - $qsystem.width/2
 	$collider.shape.extents = Vector2($qsystem.width/2,$qsystem.width/2)
 	#rescale()
-	#connect("body_entered", self, "_on_area_debug")
+	connect("body_entered", self, "_on_area_debug")
 	
 func _on_area_debug(node):
 	var out_w = node.global_transform.xform_inv($qsystem.global_transform.xform(Vector2($qsystem.width, 0)))
