@@ -155,7 +155,7 @@ func _on_Node_teleport(delta):
 	position += delta
 	
 func _on_Player_start_casting(_trigger):
-	endurance = 0; # TODO, replace this wth something more logic
+	endurance -= 30; # TODO, replace this wth something more logic
 
 # Execute Regularly
 func _physics_process(delta):
@@ -198,7 +198,7 @@ func flip(flag):
 func _input(event):
 	if event.is_action_pressed("ui_space") && !cast:
 		print("Endurance: ", endurance)
-	if event.is_action_pressed("ui_space") && !cast && (endurance>=50):
+	if event.is_action_pressed("ui_space") && !cast && (endurance>=30):
 		emit_signal('start_casting', null); # no trigger
 		cast = true;
 		animNode.call("_cast",true)
@@ -271,7 +271,7 @@ func _check_is_collided():
 
 func update_endurance():
 	if pstate == PSTATE.wall && endurance>0:
-		endurance -= 2;
+		endurance -= 1;
 	if (pstate == PSTATE.ground && endurance<100 && !cast):
 		endurance +=1;
 	if endurance<0:
