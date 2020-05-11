@@ -82,11 +82,11 @@ flip_h = true
 flip_v = true
 
 [node name="Label" type="Label" parent="World/Background"]
-margin_left = -255.012
-margin_top = 465.409
-margin_right = -95.0119
-margin_bottom = 479.409
-text = "Floating Platforms"
+margin_left = 618.277
+margin_top = 725.632
+margin_right = 778.277
+margin_bottom = 739.632
+text = "Walls"
 __meta__ = {
 "_edit_use_anchors_": false
 }
