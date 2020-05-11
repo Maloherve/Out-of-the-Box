@@ -1,0 +1,282 @@
+[gd_scene load_steps=22 format=2]
+
+[ext_resource path="res://scripts/Main.gd" type="Script" id=1]
+[ext_resource path="res://assets/Background/SkyLine.png" type="Texture" id=2]
+[ext_resource path="res://assets/Tilesets/Floor.tres" type="TileSet" id=3]
+[ext_resource path="res://assets/Other/Scientist.png" type="Texture" id=4]
+[ext_resource path="res://bin/uniform_field.gdns" type="Script" id=5]
+[ext_resource path="res://assets/Environment/coin.png" type="Texture" id=10]
+[ext_resource path="res://scripts/Level1/ReadSign1.gd" type="Script" id=11]
+[ext_resource path="res://assets/Fonts/abel-regular.ttf" type="DynamicFontData" id=12]
+[ext_resource path="res://scripts/Fonction_Onde.gd" type="Script" id=13]
+[ext_resource path="res://scenes/InfoScreen.tscn" type="PackedScene" id=14]
+[ext_resource path="res://assets/Sounds/BoxBassArp.ogg" type="AudioStream" id=15]
+[ext_resource path="res://assets/Sounds/electronic_accent_03.wav" type="AudioStream" id=16]
+[ext_resource path="res://scenes/Objects/Light.tscn" type="PackedScene" id=17]
+[ext_resource path="res://scripts/Interactions/Trigger_Flicker.gd" type="Script" id=18]
+[ext_resource path="res://assets/Character/Cat2/CatSummon3.png" type="Texture" id=19]
+[ext_resource path="res://assets/Character/Cat2/CatSummon4.png" type="Texture" id=20]
+
+[sub_resource type="OccluderPolygon2D" id=1]
+closed = false
+polygon = PoolVector2Array( 25.0994, 215.423, 25.0163, 220.287, 23.9352, 220.537, 23.8105, 222.907, 24.6836, 223.281, 25.0578, 224.196, 26.6794, 224.321, 26.8041, 226.275, 25.8894, 226.358, 25.8062, 234.341, 24.8084, 234.466, 24.7506, 237.432, 23.8992, 237.55, 23.8992, 238.283, 22.7877, 238.496, 22.8114, 239.82, 20.9937, 229.091, 23.3636, 218.584 )
+
+[sub_resource type="OccluderPolygon2D" id=2]
+polygon = PoolVector2Array( -20.2355, -224.689, -19.9445, -222.167, -20.3325, -221.634, -21.1084, -221.44, -21.0599, -216.445, -20.381, -216.009, -20.09, -214.845, -19.1201, -213.875, -19.1201, -211.062, -19.9445, -210.771, -20.381, -209.171, -20.8659, -208.395, -18.4897, -209.801, -18.1017, -214.069, -19.2656, -223.186 )
+
+[sub_resource type="RectangleShape2D" id=3]
+extents = Vector2( 15.8712, 18.4255 )
+
+[sub_resource type="DynamicFont" id=4]
+size = 10
+font_data = ExtResource( 12 )
+
+[sub_resource type="RectangleShape2D" id=5]
+extents = Vector2( 1.13702, 1.17068 )
+
+[node name="Level" type="Node2D"]
+script = ExtResource( 1 )
+cat_version = 2
+
+[node name="PlayerInitialPosition" type="Node2D" parent="."]
+position = Vector2( -236.208, 484.792 )
+
+[node name="World" type="Node2D" parent="."]
+__meta__ = {
+"_edit_group_": true,
+"_edit_lock_": true
+}
+
+[node name="Background" type="Node2D" parent="World"]
+light_mask = 1024
+position = Vector2( -879.779, -285.873 )
+
+[node name="SkyLine" type="Sprite" parent="World/Background"]
+light_mask = 1024
+position = Vector2( 536.992, 333.651 )
+texture = ExtResource( 2 )
+
+[node name="SkyLine3" type="Sprite" parent="World/Background"]
+light_mask = 1024
+position = Vector2( -586.008, 333.651 )
+texture = ExtResource( 2 )
+flip_h = true
+
+[node name="SkyLine5" type="Sprite" parent="World/Background"]
+light_mask = 1024
+position = Vector2( 536.992, 1109.65 )
+texture = ExtResource( 2 )
+flip_v = true
+
+[node name="SkyLine2" type="Sprite" parent="World/Background"]
+light_mask = 1024
+position = Vector2( 1659.99, 333.651 )
+texture = ExtResource( 2 )
+flip_h = true
+
+[node name="SkyLine4" type="Sprite" parent="World/Background"]
+light_mask = 1024
+position = Vector2( 1659.99, 1110.65 )
+texture = ExtResource( 2 )
+flip_h = true
+flip_v = true
+
+[node name="Label" type="Label" parent="World/Background"]
+margin_left = -255.012
+margin_top = 465.409
+margin_right = -95.0119
+margin_bottom = 479.409
+text = "Floating Platforms"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Lights" type="Node2D" parent="World"]
+visible = false
+
+[node name="Lobby_Light" parent="World/Lights" instance=ExtResource( 17 )]
+position = Vector2( 15.5309, 260.956 )
+scale = Vector2( 0.100242, 0.141597 )
+color = Color( 0.396078, 0, 0, 1 )
+flicker_in = 5.0
+
+[node name="Cell_Light" parent="World/Lights" instance=ExtResource( 17 )]
+position = Vector2( -285.67, 361.052 )
+rotation = -1.57079
+scale = Vector2( 0.0453607, 0.0299364 )
+color = Color( 0.996078, 0.690196, 0.690196, 1 )
+iterations = 3
+flicker_in = 1.0
+
+[node name="Cell2_Light" parent="World/Lights" instance=ExtResource( 17 )]
+position = Vector2( -273.018, 257.455 )
+rotation = 3.14159
+scale = Vector2( 0.0247742, 0.034564 )
+color = Color( 0.65098, 1, 0.6, 1 )
+
+[node name="Cell3_Light" parent="World/Lights" instance=ExtResource( 17 )]
+position = Vector2( -194.776, 463.156 )
+rotation = 1.57079
+scale = Vector2( 0.0575058, 0.0575058 )
+color = Color( 0.607843, 0.509804, 1, 1 )
+
+[node name="Lab_Light" parent="World/Lights" instance=ExtResource( 17 )]
+position = Vector2( 624.284, 323.781 )
+energy = 1.3
+color = Color( 0.831373, 0.831373, 0.831373, 1 )
+
+[node name="Lab2_Light3" parent="World/Lights" instance=ExtResource( 17 )]
+position = Vector2( 988.244, 547.599 )
+energy = 0.8
+color = Color( 0.831373, 0.831373, 0.831373, 1 )
+
+[node name="ExitDoor_Light2" parent="World/Lights" instance=ExtResource( 17 )]
+position = Vector2( 948.203, 324.295 )
+energy = 1.5
+color = Color( 0.831373, 0.831373, 0.831373, 1 )
+
+[node name="Enemies" type="Node2D" parent="World"]
+visible = false
+
+[node name="Scientist" type="Sprite" parent="World/Enemies"]
+modulate = Color( 0.745098, 0.745098, 0.745098, 1 )
+position = Vector2( 492.72, 453 )
+scale = Vector2( 0.08, 0.08 )
+texture = ExtResource( 4 )
+
+[node name="Scientist2" type="Sprite" parent="World/Enemies"]
+modulate = Color( 1, 0.886275, 0.886275, 1 )
+position = Vector2( 654.551, 453 )
+scale = Vector2( 0.08, 0.08 )
+texture = ExtResource( 4 )
+flip_h = true
+
+[node name="Scientist3" type="Sprite" parent="World/Enemies"]
+modulate = Color( 0.835294, 0.831373, 1, 1 )
+position = Vector2( 1070, 677 )
+scale = Vector2( 0.08, 0.08 )
+texture = ExtResource( 4 )
+flip_h = true
+
+[node name="Scientist4" type="Sprite" parent="World/Enemies"]
+modulate = Color( 0.835294, 0.831373, 1, 1 )
+position = Vector2( 1115.97, 677 )
+scale = Vector2( 0.08, 0.08 )
+texture = ExtResource( 4 )
+flip_h = true
+
+[node name="NPC" type="Node2D" parent="World"]
+visible = false
+
+[node name="Cat1" type="Sprite" parent="World/NPC"]
+modulate = Color( 0.32, 0.32, 0.2432, 1 )
+light_mask = 1024
+position = Vector2( -269.862, 271.971 )
+texture = ExtResource( 19 )
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="World/NPC/Cat1"]
+modulate = Color( 1, 1, 1, 0 )
+light_mask = 1024
+occluder = SubResource( 1 )
+light_mask = 1024
+
+[node name="Cat2" type="Sprite" parent="World/NPC"]
+modulate = Color( 0.631373, 0.545098, 0.478431, 1 )
+light_mask = 1024
+position = Vector2( -239.569, 495.849 )
+texture = ExtResource( 20 )
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="World/NPC/Cat2"]
+light_mask = 1024
+occluder = SubResource( 2 )
+light_mask = 1024
+
+[node name="Objects" type="Node2D" parent="World"]
+
+[node name="coin" type="Sprite" parent="World/Objects"]
+position = Vector2( 603.45, -163.988 )
+scale = Vector2( 0.1, 0.1 )
+texture = ExtResource( 10 )
+
+[node name="Interactions" type="Node2D" parent="World"]
+position = Vector2( 0.951309, -0.951324 )
+
+[node name="Victory" type="Area2D" parent="World/Interactions"]
+position = Vector2( 601.041, -163.581 )
+scale = Vector2( 1.00202, 1.0243 )
+space_override = 1
+collision_layer = 0
+collision_mask = 4
+script = ExtResource( 11 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="World/Interactions/Victory"]
+position = Vector2( 0.165588, 5.45984 )
+shape = SubResource( 3 )
+
+[node name="Label" type="Label" parent="World/Interactions/Victory"]
+modulate = Color( 1, 0, 0, 1 )
+margin_left = 23.2245
+margin_top = -12.3523
+margin_right = 151.09
+margin_bottom = 32.6477
+custom_fonts/font = SubResource( 4 )
+text = "Miaaaaaaaooooooou !!!!!
+(Victoryyyyyyy !!!! )
+"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Flicker" type="Area2D" parent="World/Interactions"]
+position = Vector2( -182.975, 402.552 )
+gravity_point = true
+collision_layer = 0
+collision_mask = 4
+script = ExtResource( 18 )
+light_path = NodePath("../../Lights/Cell_Light")
+flicker_delay = 0.05
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="World/Interactions/Flicker"]
+shape = SubResource( 5 )
+
+[node name="Obstacles" type="Node2D" parent="World"]
+
+[node name="Boundaries" type="TileMap" parent="World/Obstacles"]
+light_mask = 0
+tile_set = ExtResource( 3 )
+cell_size = Vector2( 32, 32 )
+collision_layer = 14
+collision_mask = 14
+occluder_light_mask = 2
+format = 1
+tile_data = PoolIntArray( -262126, 3, 65541, -262125, 3, 65543, -196590, 3, 131077, -196589, 3, 131079, -131054, 3, 131077, -131053, 3, 131079, -65518, 3, 131077, -65517, 3, 131079, 18, 3, 131077, 19, 3, 131079, 65554, 3, 131077, 65555, 3, 131079, 131090, 3, 131077, 131091, 3, 131079, 196626, 3, 131077, 196627, 3, 131079, 262157, 3, 65541, 262158, 3, 65542, 262159, 3, 65542, 262160, 3, 65542, 262161, 3, 65542, 262162, 3, 131078, 262163, 3, 131079, 327686, 3, 65541, 327687, 3, 65542, 327688, 3, 65542, 327689, 3, 65543, 327693, 3, 131077, 327694, 3, 131078, 327695, 3, 131078, 327696, 3, 131078, 327697, 3, 131078, 327698, 3, 131078, 327699, 3, 131079, 393222, 3, 131077, 393223, 3, 131078, 393224, 3, 131078, 393225, 3, 131079, 393229, 3, 131077, 393230, 3, 131078, 393231, 3, 131078, 393232, 3, 131078, 393233, 3, 131078, 393234, 3, 131078, 393235, 3, 131079, 458758, 3, 131077, 458759, 3, 131078, 458760, 3, 131078, 458761, 3, 131079, 458765, 3, 131077, 458766, 3, 131078, 458767, 3, 131078, 458768, 3, 131078, 458769, 3, 131078, 458770, 3, 131078, 458771, 3, 131079, 524294, 3, 131077, 524295, 3, 131078, 524296, 3, 131078, 524297, 3, 131079, 524301, 3, 131077, 524302, 3, 131078, 524303, 3, 131078, 524304, 3, 131078, 524305, 3, 131078, 524306, 3, 131078, 524307, 3, 131079, 589830, 3, 131077, 589831, 3, 131078, 589832, 3, 131078, 589833, 3, 131079, 589837, 3, 131077, 589838, 3, 131078, 589839, 3, 131078, 589840, 3, 131078, 589841, 3, 131078, 589842, 3, 131078, 589843, 3, 131079, 655366, 3, 131077, 655367, 3, 131078, 655368, 3, 131078, 655369, 3, 131079, 655373, 3, 131077, 655374, 3, 131078, 655375, 3, 131078, 655376, 3, 131078, 655377, 3, 196614, 655378, 3, 196614, 655379, 3, 196615, 720902, 3, 131077, 720903, 3, 131078, 720904, 3, 131078, 720905, 3, 131079, 720909, 3, 131077, 720910, 3, 131078, 720911, 3, 131078, 720912, 3, 131079, 786438, 3, 131077, 786439, 3, 131078, 786440, 3, 131078, 786441, 3, 131079, 786445, 3, 131077, 786446, 3, 131078, 786447, 3, 131078, 786448, 3, 131079, 851974, 3, 131077, 851975, 3, 131078, 851976, 3, 131078, 851977, 3, 131079, 851981, 3, 131077, 851982, 3, 131078, 851983, 3, 131078, 851984, 3, 131079, 917510, 3, 131077, 917511, 3, 131078, 917512, 3, 131078, 917513, 3, 131079, 917517, 3, 131077, 917518, 3, 131078, 917519, 3, 131078, 917520, 3, 131079, 983046, 3, 131077, 983047, 3, 131078, 983048, 3, 131078, 983049, 3, 131079, 983053, 3, 131077, 983054, 3, 131078, 983055, 3, 131078, 983056, 3, 131079, 1114101, 3, 65541, 1114102, 3, 65542, 1114103, 3, 65542, 1114104, 3, 65542, 1114105, 3, 65542, 1114106, 3, 65542, 1114107, 3, 65542, 1114108, 3, 65542, 1114109, 3, 65542, 1114110, 3, 65542, 1114111, 3, 65542, 1048576, 3, 65542, 1048577, 3, 65542, 1048578, 3, 65542, 1048579, 3, 65542, 1048580, 3, 65542, 1048581, 3, 65542, 1048582, 3, 131078, 1048583, 3, 131078, 1048584, 3, 131078, 1048585, 3, 131079, 1048589, 3, 131077, 1048590, 3, 131078, 1048591, 3, 131078, 1048592, 3, 131079, 1179637, 3, 131077, 1179638, 3, 131078, 1179639, 3, 131078, 1179640, 3, 131078, 1179641, 3, 131078, 1179642, 3, 131078, 1179643, 3, 131078, 1179644, 3, 131078, 1179645, 3, 131078, 1179646, 3, 131078, 1179647, 3, 131078, 1114112, 3, 131078, 1114113, 3, 131078, 1114114, 3, 131078, 1114115, 3, 131078, 1114116, 3, 131078, 1114117, 3, 131078, 1114118, 3, 131078, 1114119, 3, 131078, 1114120, 3, 131078, 1114121, 3, 131078, 1114122, 3, 65542, 1114123, 3, 65542, 1114124, 3, 65542, 1114125, 3, 131078, 1114126, 3, 131078, 1114127, 3, 131078, 1114128, 3, 131079, 1245173, 3, 196613, 1245174, 3, 196614, 1245175, 3, 196614, 1245176, 3, 196614, 1245177, 3, 196614, 1245178, 3, 196614, 1245179, 3, 196614, 1245180, 3, 196614, 1245181, 3, 196614, 1245182, 3, 196614, 1245183, 3, 196614, 1179648, 3, 196614, 1179649, 3, 196614, 1179650, 3, 196614, 1179651, 3, 196614, 1179652, 3, 196614, 1179653, 3, 196614, 1179654, 3, 196614, 1179655, 3, 196614, 1179656, 3, 196614, 1179657, 3, 196614, 1179658, 3, 196614, 1179659, 3, 196614, 1179660, 3, 196614, 1179661, 3, 196614, 1179662, 3, 196614, 1179663, 3, 196614, 1179664, 3, 196615 )
+
+[node name="potential" type="Node2D" parent="World/Obstacles/Boundaries"]
+script = ExtResource( 5 )
+value = 10.0
+
+[node name="Walls" type="TileMap" parent="World/Obstacles"]
+light_mask = 0
+tile_set = ExtResource( 3 )
+cell_size = Vector2( 32, 32 )
+collision_layer = 14
+collision_mask = 14
+occluder_light_mask = 2
+format = 1
+tile_data = PoolIntArray( -65522, 0, 0, -65521, 0, 0, -65520, 0, 0, -65519, 0, 0, 65550, 0, 0, 65551, 0, 0, 65552, 0, 0, 65553, 0, 0, 458750, 0, 0, 393219, 0, 0, 393220, 0, 0, 393221, 0, 0, 524286, 0, 0, 589822, 0, 0, 655358, 0, 0, 720894, 0, 0, 786430, 0, 0, 851966, 0, 0, 786435, 0, 0, 786436, 0, 0, 786437, 0, 0, 917502, 0, 0, 983038, 0, 0, 1048574, 0, 0 )
+
+[node name="potential" type="Node2D" parent="World/Obstacles/Walls"]
+script = ExtResource( 5 )
+value = 2.5
+
+[node name="Fonction_Onde" type="Node2D" parent="."]
+script = ExtResource( 13 )
+
+[node name="InfoScreen" parent="." instance=ExtResource( 14 )]
+
+[node name="Soundtrack" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 15 )
+bus = "Filter"
+
+[node name="Teleport" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 16 )
