@@ -34,14 +34,14 @@ polygon = PoolVector2Array( -20.2355, -224.689, -19.9445, -222.167, -20.3325, -2
 
 [sub_resource type="SpriteFrames" id=3]
 animations = [ {
-"frames": [ ExtResource( 5 ), ExtResource( 6 ), ExtResource( 7 ), ExtResource( 8 ) ],
-"loop": true,
-"name": "close",
-"speed": 5.0
-}, {
 "frames": [ ExtResource( 8 ), ExtResource( 7 ), ExtResource( 6 ), ExtResource( 5 ) ],
 "loop": true,
 "name": "open",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 5 ), ExtResource( 6 ), ExtResource( 7 ), ExtResource( 8 ) ],
+"loop": true,
+"name": "close",
 "speed": 5.0
 } ]
 
@@ -277,7 +277,6 @@ tile_data = PoolIntArray( 131068, 3, 65541, 131069, 3, 65542, 131070, 3, 65542, 
 
 [node name="potential_wall" type="Node2D" parent="World/Obstacles"]
 script = ExtResource( 21 )
-value = 10.0
 
 [node name="Enemies" type="Node2D" parent="World"]
 

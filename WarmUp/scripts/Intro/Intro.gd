@@ -47,6 +47,9 @@ func _ready():
 	# Connect Signals
 	$Player.connect("start_casting", self, "on_Player_start_casting");
 	$Player.connect("stop_casting", self, "on_Player_stop_casting");
+	$World/NPC/Box.play('eyes')
+	$World/NPC/DialogueBox.visible = false
+
 
 
 # Execute ASAP
@@ -101,3 +104,19 @@ func on_Player_stop_casting():
 	teleport_player = true;
 	darken = false;
 	AudioServer.set_bus_effect_enabled ( 1, 0, false )
+
+
+func _on_EventTimer_timeout():
+	$World/NPC/Box.play('jump')
+
+
+func _on_Box_animation_finished():
+	if ($World/NPC/Box.animation == 'jump'):
+		$World/NPC/DialogueBox.visible = true
+		$World/Enemies/Scientists.play('redTalk')
+
+
+func _on_Box_frame_changed():
+	if ($World/NPC/Box.animation == 'jump'):
+		if ($World/NPC/Box.frame == 3):
+			$BoxJump.play()

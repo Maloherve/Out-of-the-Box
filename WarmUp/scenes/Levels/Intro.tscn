@@ -1,9 +1,9 @@
 [gd_scene load_steps=48 format=2]
 
-[ext_resource path="res://scripts/Main.gd" type="Script" id=1]
+[ext_resource path="res://scripts/Intro/Intro.gd" type="Script" id=1]
 [ext_resource path="res://assets/Background/SkyLine.png" type="Texture" id=2]
 [ext_resource path="res://assets/Tilesets/Floor.tres" type="TileSet" id=3]
-[ext_resource path="res://scenes/Levels/Dialogue.gd" type="Script" id=4]
+[ext_resource path="res://scripts/Intro/Dialogue.gd" type="Script" id=4]
 [ext_resource path="res://bin/uniform_field.gdns" type="Script" id=5]
 [ext_resource path="res://assets/Character/Box/Cat_box1.png" type="Texture" id=6]
 [ext_resource path="res://assets/Character/Box/Cat_box4.png" type="Texture" id=7]
@@ -44,14 +44,14 @@
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
-"frames": [ ExtResource( 38 ), ExtResource( 41 ), ExtResource( 38 ) ],
-"loop": true,
-"name": "blueTalk",
-"speed": 5.0
-}, {
 "frames": [ ExtResource( 30 ), ExtResource( 32 ), ExtResource( 22 ), ExtResource( 34 ), ExtResource( 30 ), ExtResource( 30 ), ExtResource( 32 ) ],
 "loop": true,
 "name": "redTalk",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 38 ), ExtResource( 41 ), ExtResource( 38 ) ],
+"loop": true,
+"name": "blueTalk",
 "speed": 5.0
 }, {
 "frames": [ ExtResource( 25 ), ExtResource( 35 ), ExtResource( 24 ), ExtResource( 26 ), ExtResource( 28 ) ],
@@ -72,15 +72,15 @@ animations = [ {
 
 [sub_resource type="SpriteFrames" id=2]
 animations = [ {
-"frames": [ ExtResource( 8 ), ExtResource( 21 ), ExtResource( 7 ), ExtResource( 9 ), ExtResource( 7 ), ExtResource( 21 ), ExtResource( 8 ) ],
-"loop": false,
-"name": "jump",
-"speed": 10.0
-}, {
 "frames": [ ExtResource( 6 ), ExtResource( 8 ), ExtResource( 8 ) ],
 "loop": true,
 "name": "eyes",
 "speed": 1.0
+}, {
+"frames": [ ExtResource( 8 ), ExtResource( 21 ), ExtResource( 7 ), ExtResource( 9 ), ExtResource( 7 ), ExtResource( 21 ), ExtResource( 8 ) ],
+"loop": false,
+"name": "jump",
+"speed": 10.0
 } ]
 
 [sub_resource type="DynamicFont" id=3]
@@ -102,7 +102,8 @@ script = ExtResource( 1 )
 cat_version = 2
 
 [node name="PlayerInitialPosition" type="Node2D" parent="."]
-position = Vector2( -236.208, 484.792 )
+position = Vector2( -155.449, 495.019 )
+z_index = -1
 
 [node name="World" type="Node2D" parent="."]
 __meta__ = {
@@ -224,6 +225,7 @@ animation = "redTalk"
 [node name="Box" type="AnimatedSprite" parent="World/NPC"]
 position = Vector2( -152, 480 )
 scale = Vector2( 0.2, 0.2 )
+z_index = 1
 frames = SubResource( 2 )
 animation = "jump"
 frame = 4
