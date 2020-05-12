@@ -1,0 +1,197 @@
+[gd_scene load_steps=25 format=2]
+
+[ext_resource path="res://scripts/Main.gd" type="Script" id=1]
+[ext_resource path="res://assets/Background/SkyLine.png" type="Texture" id=2]
+[ext_resource path="res://assets/Tilesets/Floor.tres" type="TileSet" id=3]
+[ext_resource path="res://assets/Other/Scientist.png" type="Texture" id=4]
+[ext_resource path="res://assets/Background/deepcave.jpg" type="Texture" id=5]
+[ext_resource path="res://bin/curve_field.gdns" type="Script" id=6]
+[ext_resource path="res://scripts/Interactions/modulator.gd" type="Script" id=7]
+[ext_resource path="res://scripts/Level1/ReadSign1.gd" type="Script" id=11]
+[ext_resource path="res://assets/Fonts/abel-regular.ttf" type="DynamicFontData" id=12]
+[ext_resource path="res://scripts/Fonction_Onde.gd" type="Script" id=13]
+[ext_resource path="res://scenes/InfoScreen.tscn" type="PackedScene" id=14]
+[ext_resource path="res://assets/Sounds/BoxBassArp.ogg" type="AudioStream" id=15]
+[ext_resource path="res://assets/Sounds/electronic_accent_03.wav" type="AudioStream" id=16]
+[ext_resource path="res://scenes/Objects/Light.tscn" type="PackedScene" id=17]
+[ext_resource path="res://bin/uniform_field.gdns" type="Script" id=21]
+[ext_resource path="res://scenes/Objects/door.tscn" type="PackedScene" id=22]
+[ext_resource path="res://scenes/Wave/detector.tscn" type="PackedScene" id=23]
+[ext_resource path="res://assets/Other/star.png" type="Texture" id=24]
+
+[sub_resource type="Curve" id=5]
+_data = [ Vector2( 0, 0 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 1.4, 0.0, 0, 0 ]
+
+[sub_resource type="Curve" id=6]
+_data = [ Vector2( 0, 0 ), 0.0, 1.4, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 79.0196, 12.6077 )
+
+[sub_resource type="Curve" id=2]
+max_value = 5.0
+_data = [ Vector2( 0, 0 ), 0.0, 0.0, 0, 0, Vector2( 0.5, 5 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="RectangleShape2D" id=3]
+extents = Vector2( 15.8712, 18.4255 )
+
+[sub_resource type="DynamicFont" id=4]
+size = 10
+font_data = ExtResource( 12 )
+
+[node name="Level" type="Node2D"]
+script = ExtResource( 1 )
+cat_version = 2
+
+[node name="PlayerInitialPosition" type="Node2D" parent="."]
+position = Vector2( -220.208, 480.684 )
+
+[node name="World" type="Node2D" parent="."]
+__meta__ = {
+"_edit_group_": true,
+"_edit_lock_": true
+}
+
+[node name="Background" type="Node2D" parent="World"]
+light_mask = 1024
+
+[node name="labo" type="Sprite" parent="World/Background"]
+light_mask = 1024
+position = Vector2( 63.2228, 379.309 )
+scale = Vector2( 0.581637, 0.603091 )
+texture = ExtResource( 2 )
+flip_h = true
+
+[node name="cave" type="Sprite" parent="World/Background"]
+position = Vector2( 1838.23, 527.302 )
+scale = Vector2( 1.42674, 1.86729 )
+texture = ExtResource( 5 )
+
+[node name="Lights" type="Node2D" parent="World"]
+
+[node name="Lobby_Light" parent="World/Lights" instance=ExtResource( 17 )]
+position = Vector2( -100.531, 390.956 )
+scale = Vector2( 0.100242, 0.141597 )
+color = Color( 0.396078, 0, 0, 1 )
+flicker_in = 5.0
+
+[node name="walls" type="TileMap" parent="World"]
+light_mask = 0
+tile_set = ExtResource( 3 )
+cell_size = Vector2( 32, 32 )
+collision_layer = 2
+collision_mask = 0
+occluder_light_mask = 2
+format = 1
+tile_data = PoolIntArray( 458764, 2, 65537, 458765, 2, 65537, 458766, 2, 65537, 458767, 2, 65537, 458768, 2, 65537, 458769, 2, 65537, 458770, 2, 65537, 458771, 2, 65537, 458772, 2, 65537, 458773, 2, 65537, 524300, 2, 65537, 524301, 2, 65537, 524302, 2, 65537, 524310, 2, 65537, 524311, 2, 65537, 524312, 2, 65537, 524313, 2, 65537, 589836, 2, 65537, 589837, 2, 65537, 589838, 2, 65537, 589839, 3, 131078, 589840, 3, 131078, 589841, 3, 131078, 589842, 3, 131078, 589843, 3, 131078, 720885, 2, 131075, 720886, 2, 1, 720887, 2, 1, 720888, 2, 1, 720889, 2, 1, 720890, 2, 1, 720891, 2, 1, 720892, 2, 1, 720893, 2, 1, 720894, 2, 1, 720895, 2, 1, 655360, 2, 1, 655361, 2, 1, 655362, 2, 1, 655363, 2, 1, 655364, 2, 1, 655365, 2, 1, 655366, 2, 1, 655367, 2, 1, 655368, 2, 1, 655369, 2, 1, 655370, 2, 1, 655371, 2, 1, 655372, 2, 65537, 655373, 2, 65537, 655374, 2, 65537, 655375, 3, 131078, 655376, 3, 131078, 655377, 3, 131078, 655378, 3, 131078, 655379, 3, 131078, 786421, 2, 65536, 786422, 2, 65537, 786423, 2, 65537, 786424, 2, 131073, 786425, 2, 131073, 786426, 2, 131073, 786427, 2, 131073, 786428, 2, 131073, 786429, 2, 131073, 786430, 2, 131073, 786431, 2, 65537, 720896, 2, 65537, 720897, 2, 65537, 720898, 2, 131073, 720899, 2, 131073, 720900, 2, 131073, 720901, 2, 131073, 720902, 2, 131073, 720903, 2, 131073, 720904, 2, 131073, 720905, 2, 131073, 720906, 2, 131073, 720907, 2, 131073, 720908, 3, 196614, 720909, 3, 131078, 720910, 3, 131078, 720911, 3, 131078, 720912, 3, 131078, 720913, 3, 131078, 720914, 3, 131078, 720915, 3, 131078, 851957, 3, 131077, 851958, 3, 131078, 851959, 2, 65538, 851967, 2, 65536, 786432, 2, 65537, 786433, 2, 65538, 917493, 3, 131077, 917494, 3, 131078, 917495, 2, 65538, 917503, 2, 131072, 851968, 2, 131073, 851969, 2, 131074, 851980, 2, 65536, 851981, 3, 131078, 851982, 3, 131078, 851983, 3, 131078, 851984, 3, 131078, 851985, 3, 131078, 851986, 3, 131078, 851987, 3, 131078, 983029, 3, 131077, 983030, 3, 131078, 983031, 2, 65538, 917516, 2, 65536, 917517, 2, 65537, 917518, 2, 65537, 917519, 2, 65537, 917520, 2, 65537, 917521, 2, 65537, 917522, 2, 65537, 917523, 2, 65537, 1048565, 3, 131077, 1048566, 3, 131078, 1048567, 2, 65538, 983052, 2, 65536, 983053, 2, 65537, 983054, 2, 65537, 983055, 2, 65537, 983056, 2, 65537, 983057, 2, 65537, 983058, 2, 65537, 983059, 2, 65537, 1114101, 3, 131077, 1114102, 3, 131078, 1114103, 3, 131078, 1114104, 3, 65542, 1114105, 3, 65542, 1114106, 2, 1, 1114107, 3, 65542, 1114108, 3, 65542, 1114109, 3, 65542, 1114110, 3, 65542, 1114111, 3, 65542, 1048576, 3, 65542, 1048577, 3, 65542, 1048578, 3, 65542, 1048579, 3, 65542, 1048580, 3, 65542, 1048581, 3, 65542, 1048582, 3, 65542, 1048583, 2, 1, 1048584, 2, 1, 1048585, 2, 1, 1048586, 2, 1, 1048587, 2, 1, 1048588, 2, 1, 1048589, 2, 65537, 1048590, 2, 65537, 1048591, 2, 65537, 1048592, 2, 65537, 1048593, 2, 65537, 1048594, 2, 65537, 1048595, 2, 65537, 1179637, 3, 131077, 1179638, 3, 131078, 1179639, 3, 131078, 1179640, 3, 131078, 1179641, 3, 131078, 1179642, 3, 131078, 1179643, 3, 131078, 1179644, 3, 131078, 1179645, 3, 131078, 1179646, 3, 131078, 1179647, 3, 131078, 1114112, 3, 131078, 1114113, 3, 131078, 1114114, 3, 131078, 1114115, 3, 131078, 1114116, 3, 131078, 1114117, 3, 131078, 1114118, 3, 131078, 1114119, 3, 131078, 1114120, 3, 131078, 1114121, 3, 131078, 1114122, 3, 131078, 1114123, 3, 131078, 1114124, 2, 65537, 1114125, 2, 65537, 1114126, 2, 65537, 1114127, 2, 65537, 1114128, 2, 65537, 1114129, 2, 65537, 1114130, 2, 65537, 1114131, 2, 65537, 1114132, 2, 65537, 1114133, 2, 65537, 1114134, 2, 65537, 1114135, 2, 65537, 1114136, 2, 65537, 1114137, 2, 65537, 1114138, 2, 65537, 1114139, 2, 65537, 1114140, 2, 65537, 1114141, 2, 65537, 1245173, 3, 196613, 1245174, 3, 196614, 1245175, 3, 196614, 1245176, 3, 196614, 1245177, 3, 196614, 1245178, 3, 196614, 1245179, 3, 196614, 1245180, 3, 196614, 1245181, 3, 196614, 1245182, 3, 196614, 1245183, 3, 196614, 1179648, 3, 196614, 1179649, 3, 196614, 1179650, 3, 196614, 1179651, 3, 196614, 1179652, 3, 196614, 1179653, 3, 196614, 1179654, 3, 196614, 1179655, 3, 196614, 1179656, 3, 196614, 1179657, 3, 196614, 1179658, 3, 196614, 1179659, 3, 196614, 1179660, 3, 196614, 1179661, 3, 196614, 1179662, 3, 196615 )
+
+[node name="potential_wall" type="Node2D" parent="World/walls"]
+script = ExtResource( 21 )
+value = 10.0
+
+[node name="passage" type="TileMap" parent="World"]
+z_index = 1
+tile_set = ExtResource( 3 )
+cell_size = Vector2( 32, 32 )
+collision_layer = 0
+collision_mask = 0
+format = 1
+tile_data = PoolIntArray( 786444, 2, 65536, 786445, 3, 131078, 786446, 3, 131078, 786447, 3, 131078, 786448, 3, 131078 )
+
+[node name="modulator" type="Area2D" parent="World/passage"]
+position = Vector2( 465, 400 )
+collision_layer = 0
+collision_mask = 4
+script = ExtResource( 7 )
+color = Color( 1, 1, 1, 0.392157 )
+fade_in_time = 1.0
+fade_in_curve = SubResource( 5 )
+fade_out_time = 1.0
+fade_out_curve = SubResource( 6 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="World/passage/modulator"]
+shape = SubResource( 1 )
+
+[node name="Enemies" type="Node2D" parent="World"]
+
+[node name="Scientist" type="Sprite" parent="World/Enemies"]
+modulate = Color( 0.745098, 0.745098, 0.745098, 1 )
+position = Vector2( 30.72, 485 )
+scale = Vector2( 0.08, 0.08 )
+texture = ExtResource( 4 )
+
+[node name="NPC" type="Node2D" parent="World"]
+
+[node name="Objects" type="Node2D" parent="World"]
+
+[node name="doorwall" parent="World/Objects" instance=ExtResource( 22 )]
+position = Vector2( 10, 480 )
+
+[node name="right" parent="World/Objects/doorwall" instance=ExtResource( 23 )]
+position = Vector2( 70, 10 )
+collision_mask = 16
+
+[node name="Sprite" type="Sprite" parent="World/Objects/doorwall/right"]
+scale = Vector2( -0.01, -0.01 )
+texture = ExtResource( 24 )
+
+[node name="left" parent="World/Objects/doorwall" instance=ExtResource( 23 )]
+position = Vector2( -70, 10 )
+collision_mask = 16
+
+[node name="Sprite2" type="Sprite" parent="World/Objects/doorwall/left"]
+rotation = 3.14159
+scale = Vector2( 0.01, 0.01 )
+texture = ExtResource( 24 )
+
+[node name="potential" type="Node2D" parent="World/Objects/doorwall"]
+scale = Vector2( 5, 1 )
+script = ExtResource( 6 )
+V_x = SubResource( 2 )
+
+[node name="previous_level" parent="World/Objects" instance=ExtResource( 22 )]
+position = Vector2( -230, 480 )
+collision_layer = 0
+collision_mask = 0
+init_open = true
+
+[node name="Interactions" type="Node2D" parent="World"]
+position = Vector2( 0.951309, -0.951324 )
+
+[node name="intro" type="Area2D" parent="World/Interactions"]
+position = Vector2( -150, 490.304 )
+space_override = 1
+collision_layer = 0
+collision_mask = 4
+script = ExtResource( 11 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="World/Interactions/intro"]
+position = Vector2( 1.74341, 5.61761 )
+shape = SubResource( 3 )
+
+[node name="Label" type="Label" parent="World/Interactions/intro"]
+margin_left = -28.2969
+margin_top = -52.5529
+margin_right = 102.929
+margin_bottom = -7.55286
+rect_scale = Vector2( 0.993344, 1.01854 )
+custom_fonts/font = SubResource( 4 )
+text = "Warning!
+Subject 1926  escaped.
+No one is allowed to leave the building.
+Keep all the doors closed!"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Fonction_Onde" type="Node2D" parent="."]
+script = ExtResource( 13 )
+
+[node name="InfoScreen" parent="." instance=ExtResource( 14 )]
+
+[node name="Soundtrack" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 15 )
+bus = "Filter"
+
+[node name="Teleport" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 16 )
