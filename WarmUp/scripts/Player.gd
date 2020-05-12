@@ -95,19 +95,19 @@ func _trigger_landing():
 			if !is_on_wall() || !_check_is_collided():
 				emit_signal("pstate_changed", PSTATE.air);
 				pstate = PSTATE.air;
-
-func _trigger_jump():
-	var ledge = is_on_ledge();
-	if !cast && (pstate != PSTATE.air || ledge) && endurance > 0:
-		if ledge:
-			print("LEDGE")
-			pstate = PSTATE.ledge; # set temporaly the old state to ground
-		else:
-			pstate = PSTATE.jump;
+				
+func _trigger_ledge():
+	if is_on_wall() && is_on_ledge() && endurance > 0:
+		print("LEDGE")
+		pstate = PSTATE.ledge;
 		emit_signal("pstate_changed", PSTATE.air);
 		pstate = PSTATE.air;
-		return true;
-	return false;
+
+func _trigger_jump():
+	if !cast && pstate == PSTATE.ground && endurance > 0:
+		pstate = PSTATE.jump;
+		emit_signal("pstate_changed", PSTATE.air);
+		pstate = PSTATE.air;
 		
 func _trigger_hold_wall():
 	if !cast && !is_on_wall() && _check_is_collided() && endurance > 0:
@@ -211,6 +211,7 @@ func _input(event):
 func _get_input():
 	if (Input.is_action_just_pressed("ui_up") && !cast):
 		_trigger_jump(); # check if possible to jump
+		_trigger_ledge();
 		
 	if (Input.is_action_just_pressed("ui_down") && pstate == PSTATE.ground && !cast):
 		#attack = true; # temporaly disabled, bugged

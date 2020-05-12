@@ -3,11 +3,11 @@ extends StaticBody2D
 
 # exported variables, only for editor initialization
 export (bool) var init_open = false setget set_init_open;
-export (float) var init_V = 1.0 setget set_init_V;
+#export (float) var init_V = 1.0 setget set_init_V;
 
 # onready variables
 onready var open : bool setget set_open, is_open;
-onready var potential : float setget set_potential, get_potential;
+#onready var potential : float setget set_potential, get_potential;
 
 signal opened;
 signal closed;
@@ -18,10 +18,10 @@ func set_init_open(flag):
 		set_open(flag);
 	init_open = flag;
 		
-func set_init_V(value):
-	if has_node("potential"): # ready
-		set_potential(value);
-	init_V = value;
+#func set_init_V(value):
+#	if has_node("potential"): # ready
+#		set_potential(value);
+#	init_V = value;
 
 # onready setters and getters
 func set_open(flag):
@@ -38,14 +38,15 @@ func set_open(flag):
 func is_open():
 	return get_collision_layer_bit(1);
 	
-func set_potential(value):
-	$potential.V_x.set_point_value(1, value);
+#func set_potential(value):
+#	$potential.V_x.set_point_value(1, value);
 
-func get_potential():
-	return $potential.V_x.get_point_position(1).y
+#func get_potential():
+#	return $potential.V_x.get_point_position(1).y
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	#print("REady ", init_V)
 	set_open(init_open);
-	set_potential(init_V);
-	$potential.scale.x *= $collider.shape.extents.x;
+	#set_potential(init_V);
+	#$potential.scale.x *= $collider.shape.extents.x;
