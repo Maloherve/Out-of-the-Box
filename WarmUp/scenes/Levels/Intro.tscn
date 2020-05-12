@@ -14,7 +14,7 @@
 [ext_resource path="res://assets/Fonts/abel-regular.ttf" type="DynamicFontData" id=12]
 [ext_resource path="res://scripts/Fonction_Onde.gd" type="Script" id=13]
 [ext_resource path="res://scenes/InfoScreen.tscn" type="PackedScene" id=14]
-[ext_resource path="res://assets/Sounds/BoxBassArp.ogg" type="AudioStream" id=15]
+[ext_resource path="res://assets/Sounds/collision_hallow_01.wav" type="AudioStream" id=15]
 [ext_resource path="res://assets/Sounds/electronic_accent_03.wav" type="AudioStream" id=16]
 [ext_resource path="res://scenes/Objects/Light.tscn" type="PackedScene" id=17]
 [ext_resource path="res://scripts/Interactions/Trigger_Flicker.gd" type="Script" id=18]
@@ -42,11 +42,11 @@
 [ext_resource path="res://assets/Character/Scientists/Scientists19.png" type="Texture" id=41]
 [ext_resource path="res://assets/Character/Scientists/Scientists5.png" type="Texture" id=42]
 
-[sub_resource type="SpriteFrames" id=7]
+[sub_resource type="SpriteFrames" id=1]
 animations = [ {
-"frames": [ ExtResource( 33 ), ExtResource( 31 ), ExtResource( 37 ), ExtResource( 27 ), ExtResource( 23 ), ExtResource( 39 ) ],
-"loop": false,
-"name": "blueTalkStart",
+"frames": [ ExtResource( 38 ), ExtResource( 41 ), ExtResource( 38 ) ],
+"loop": true,
+"name": "blueTalk",
 "speed": 5.0
 }, {
 "frames": [ ExtResource( 30 ), ExtResource( 32 ), ExtResource( 22 ), ExtResource( 34 ), ExtResource( 30 ), ExtResource( 30 ), ExtResource( 32 ) ],
@@ -59,9 +59,9 @@ animations = [ {
 "name": "blueTalkEnd",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 38 ), ExtResource( 41 ), ExtResource( 38 ) ],
-"loop": true,
-"name": "blueTalk",
+"frames": [ ExtResource( 33 ), ExtResource( 31 ), ExtResource( 37 ), ExtResource( 27 ), ExtResource( 23 ), ExtResource( 39 ) ],
+"loop": false,
+"name": "blueTalkStart",
 "speed": 5.0
 }, {
 "frames": [ ExtResource( 42 ), ExtResource( 40 ), ExtResource( 29 ), ExtResource( 36 ) ],
@@ -70,31 +70,31 @@ animations = [ {
 "speed": 5.0
 } ]
 
-[sub_resource type="SpriteFrames" id=6]
+[sub_resource type="SpriteFrames" id=2]
 animations = [ {
+"frames": [ ExtResource( 8 ), ExtResource( 21 ), ExtResource( 7 ), ExtResource( 9 ), ExtResource( 7 ), ExtResource( 21 ), ExtResource( 8 ) ],
+"loop": false,
+"name": "jump",
+"speed": 10.0
+}, {
 "frames": [ ExtResource( 6 ), ExtResource( 8 ), ExtResource( 8 ) ],
 "loop": true,
 "name": "eyes",
 "speed": 1.0
-}, {
-"frames": [ ExtResource( 8 ), ExtResource( 21 ), ExtResource( 7 ), ExtResource( 9 ), ExtResource( 7 ), ExtResource( 21 ) ],
-"loop": false,
-"name": "jump",
-"speed": 20.0
 } ]
 
-[sub_resource type="DynamicFont" id=9]
+[sub_resource type="DynamicFont" id=3]
 size = 162
 font_data = ExtResource( 19 )
 
-[sub_resource type="RectangleShape2D" id=3]
+[sub_resource type="RectangleShape2D" id=4]
 extents = Vector2( 15.8712, 18.4255 )
 
-[sub_resource type="DynamicFont" id=4]
+[sub_resource type="DynamicFont" id=5]
 size = 10
 font_data = ExtResource( 12 )
 
-[sub_resource type="RectangleShape2D" id=5]
+[sub_resource type="RectangleShape2D" id=6]
 extents = Vector2( 1.13702, 1.17068 )
 
 [node name="Level" type="Node2D"]
@@ -106,6 +106,7 @@ position = Vector2( -236.208, 484.792 )
 
 [node name="World" type="Node2D" parent="."]
 __meta__ = {
+"_edit_group_": true,
 "_edit_lock_": true
 }
 
@@ -215,7 +216,7 @@ script = ExtResource( 5 )
 [node name="Scientists" type="AnimatedSprite" parent="World/Enemies"]
 position = Vector2( -184, 432 )
 scale = Vector2( 0.3, 0.3 )
-frames = SubResource( 7 )
+frames = SubResource( 1 )
 animation = "redTalk"
 
 [node name="NPC" type="Node2D" parent="World"]
@@ -223,14 +224,15 @@ animation = "redTalk"
 [node name="Box" type="AnimatedSprite" parent="World/NPC"]
 position = Vector2( -152, 480 )
 scale = Vector2( 0.2, 0.2 )
-frames = SubResource( 6 )
-animation = "eyes"
+frames = SubResource( 2 )
+animation = "jump"
+frame = 4
 
 [node name="DialogueBox" type="Polygon2D" parent="World/NPC"]
 position = Vector2( -168, 464 )
 scale = Vector2( 0.2, 0.2 )
 color = Color( 0.278431, 0.298039, 0.294118, 1 )
-polygon = PoolVector2Array( -560, 0, -560, 200, -80, 200, -80, 0, -200, -0.000244141, -237.061, 26.3118, -237.206, 0 )
+polygon = PoolVector2Array( -560, 0, -560, 200, -80, 200, -80, 0, -79.8816, -0.102051, -111.664, 0.11792, -134.648, 20.4172, -135.062, 0.168701 )
 
 [node name="Dialogue" type="RichTextLabel" parent="World/NPC/DialogueBox"]
 margin_left = -520.0
@@ -240,7 +242,7 @@ margin_bottom = 640.0
 rect_scale = Vector2( 0.2, 0.2 )
 size_flags_vertical = 0
 size_flags_stretch_ratio = 0.0
-custom_fonts/normal_font = SubResource( 9 )
+custom_fonts/normal_font = SubResource( 3 )
 bbcode_enabled = true
 tab_size = 1
 scroll_active = false
@@ -250,7 +252,7 @@ __meta__ = {
 }
 
 [node name="Timer" type="Timer" parent="World/NPC/DialogueBox"]
-wait_time = 0.12
+wait_time = 0.1
 autostart = true
 
 [node name="Objects" type="Node2D" parent="World"]
@@ -274,7 +276,7 @@ script = ExtResource( 11 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="World/Interactions/Victory"]
 position = Vector2( 0.165588, 5.45984 )
-shape = SubResource( 3 )
+shape = SubResource( 4 )
 
 [node name="Label" type="Label" parent="World/Interactions/Victory"]
 modulate = Color( 1, 0, 0, 1 )
@@ -282,7 +284,7 @@ margin_left = 23.2245
 margin_top = -12.3523
 margin_right = 151.09
 margin_bottom = 32.6477
-custom_fonts/font = SubResource( 4 )
+custom_fonts/font = SubResource( 5 )
 text = "Miaaaaaaaooooooou !!!!!
 (Victoryyyyyyy !!!! )
 "
@@ -300,17 +302,25 @@ light_path = NodePath("../../Lights/Cell_Light")
 flicker_delay = 0.05
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="World/Interactions/Flicker"]
-shape = SubResource( 5 )
+shape = SubResource( 6 )
+
+[node name="EventTimer" type="Timer" parent="World"]
+wait_time = 4.0
+autostart = true
 
 [node name="Fonction_Onde" type="Node2D" parent="."]
 script = ExtResource( 13 )
 
 [node name="InfoScreen" parent="." instance=ExtResource( 14 )]
 
-[node name="Soundtrack" type="AudioStreamPlayer" parent="."]
+[node name="BoxJump" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 15 )
-bus = "Filter"
+volume_db = -5.0
 
 [node name="Teleport" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 16 )
+[connection signal="animation_finished" from="World/NPC/Box" to="World/NPC/DialogueBox/Dialogue" method="_on_Box_animation_finished"]
+[connection signal="animation_finished" from="World/NPC/Box" to="." method="_on_Box_animation_finished"]
+[connection signal="frame_changed" from="World/NPC/Box" to="." method="_on_Box_frame_changed"]
 [connection signal="timeout" from="World/NPC/DialogueBox/Timer" to="World/NPC/DialogueBox/Dialogue" method="_on_Timer_timeout"]
+[connection signal="timeout" from="World/EventTimer" to="." method="_on_EventTimer_timeout"]
