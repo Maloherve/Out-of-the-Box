@@ -7,11 +7,11 @@
 [ext_resource path="res://assets/Background/deepcave.jpg" type="Texture" id=5]
 [ext_resource path="res://bin/curve_field.gdns" type="Script" id=6]
 [ext_resource path="res://scripts/Interactions/modulator.gd" type="Script" id=7]
+[ext_resource path="res://assets/Sounds/soft_fountain.ogg" type="AudioStream" id=8]
 [ext_resource path="res://scripts/Level1/ReadSign1.gd" type="Script" id=11]
 [ext_resource path="res://assets/Fonts/abel-regular.ttf" type="DynamicFontData" id=12]
 [ext_resource path="res://scripts/Fonction_Onde.gd" type="Script" id=13]
 [ext_resource path="res://scenes/InfoScreen.tscn" type="PackedScene" id=14]
-[ext_resource path="res://assets/Sounds/BoxBassArp.ogg" type="AudioStream" id=15]
 [ext_resource path="res://assets/Sounds/electronic_accent_03.wav" type="AudioStream" id=16]
 [ext_resource path="res://scenes/Objects/Light.tscn" type="PackedScene" id=17]
 [ext_resource path="res://bin/uniform_field.gdns" type="Script" id=21]
@@ -19,23 +19,23 @@
 [ext_resource path="res://scenes/Wave/detector.tscn" type="PackedScene" id=23]
 [ext_resource path="res://assets/Other/star.png" type="Texture" id=24]
 
-[sub_resource type="Curve" id=5]
+[sub_resource type="Curve" id=1]
 _data = [ Vector2( 0, 0 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 1.4, 0.0, 0, 0 ]
 
-[sub_resource type="Curve" id=6]
+[sub_resource type="Curve" id=2]
 _data = [ Vector2( 0, 0 ), 0.0, 1.4, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
 
-[sub_resource type="RectangleShape2D" id=1]
+[sub_resource type="RectangleShape2D" id=3]
 extents = Vector2( 79.0196, 12.6077 )
 
-[sub_resource type="Curve" id=2]
+[sub_resource type="Curve" id=4]
 max_value = 5.0
 _data = [ Vector2( 0, 0 ), 0.0, 0.0, 0, 0, Vector2( 0.5, 5 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), 0.0, 0.0, 0, 0 ]
 
-[sub_resource type="RectangleShape2D" id=3]
+[sub_resource type="RectangleShape2D" id=5]
 extents = Vector2( 15.8712, 18.4255 )
 
-[sub_resource type="DynamicFont" id=4]
+[sub_resource type="DynamicFont" id=6]
 size = 10
 font_data = ExtResource( 12 )
 
@@ -105,12 +105,12 @@ collision_mask = 4
 script = ExtResource( 7 )
 color = Color( 1, 1, 1, 0.392157 )
 fade_in_time = 1.0
-fade_in_curve = SubResource( 5 )
+fade_in_curve = SubResource( 1 )
 fade_out_time = 1.0
-fade_out_curve = SubResource( 6 )
+fade_out_curve = SubResource( 2 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="World/passage/modulator"]
-shape = SubResource( 1 )
+shape = SubResource( 3 )
 
 [node name="Enemies" type="Node2D" parent="World"]
 
@@ -147,7 +147,7 @@ texture = ExtResource( 24 )
 [node name="potential" type="Node2D" parent="World/Objects/doorwall"]
 scale = Vector2( 5, 1 )
 script = ExtResource( 6 )
-V_x = SubResource( 2 )
+V_x = SubResource( 4 )
 
 [node name="previous_level" parent="World/Objects" instance=ExtResource( 22 )]
 position = Vector2( -230, 480 )
@@ -167,7 +167,7 @@ script = ExtResource( 11 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="World/Interactions/intro"]
 position = Vector2( 1.74341, 5.61761 )
-shape = SubResource( 3 )
+shape = SubResource( 5 )
 
 [node name="Label" type="Label" parent="World/Interactions/intro"]
 margin_left = -28.2969
@@ -175,7 +175,7 @@ margin_top = -52.5529
 margin_right = 102.929
 margin_bottom = -7.55286
 rect_scale = Vector2( 0.993344, 1.01854 )
-custom_fonts/font = SubResource( 4 )
+custom_fonts/font = SubResource( 6 )
 text = "Warning!
 Subject 1926  escaped.
 No one is allowed to leave the building.
@@ -190,7 +190,8 @@ script = ExtResource( 13 )
 [node name="InfoScreen" parent="." instance=ExtResource( 14 )]
 
 [node name="Soundtrack" type="AudioStreamPlayer" parent="."]
-stream = ExtResource( 15 )
+stream = ExtResource( 8 )
+autoplay = true
 bus = "Filter"
 
 [node name="Teleport" type="AudioStreamPlayer" parent="."]
