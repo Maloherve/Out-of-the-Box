@@ -1,4 +1,4 @@
-[gd_scene load_steps=37 format=2]
+[gd_scene load_steps=36 format=2]
 
 [ext_resource path="res://scripts/Main.gd" type="Script" id=1]
 [ext_resource path="res://assets/Background/SkyLine.png" type="Texture" id=2]
@@ -149,12 +149,12 @@ extents = Vector2( 3.34546, 32.2485 )
 6/shapes = [  ]
 6/z_index = 0
 
-[sub_resource type="Curve" id=6]
-max_value = 5.0
-_data = [ Vector2( 0, 0 ), 0.0, 0.0, 0, 0, Vector2( 0.5, 5 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), 0.0, 0.0, 0, 0 ]
-
-[sub_resource type="RectangleShape2D" id=7]
+[sub_resource type="RectangleShape2D" id=6]
 extents = Vector2( 15.8712, 18.4255 )
+
+[sub_resource type="DynamicFont" id=7]
+size = 10
+font_data = ExtResource( 12 )
 
 [sub_resource type="DynamicFont" id=8]
 size = 10
@@ -164,11 +164,7 @@ font_data = ExtResource( 12 )
 size = 10
 font_data = ExtResource( 12 )
 
-[sub_resource type="DynamicFont" id=10]
-size = 10
-font_data = ExtResource( 12 )
-
-[sub_resource type="RectangleShape2D" id=11]
+[sub_resource type="RectangleShape2D" id=10]
 extents = Vector2( 1.13702, 1.17068 )
 
 [node name="Level" type="Node2D"]
@@ -283,7 +279,6 @@ tile_data = PoolIntArray( 131067, 3, 0, 131068, 3, 1, 131069, 3, 1, 131070, 3, 1
 
 [node name="potential_wall" type="Node2D" parent="World/Obstacles"]
 script = ExtResource( 21 )
-value = 10.0
 
 [node name="Enemies" type="Node2D" parent="World"]
 
@@ -423,7 +418,6 @@ texture = ExtResource( 24 )
 [node name="potential" type="Node2D" parent="World/Objects/doorwall"]
 scale = Vector2( 3.3, 1 )
 script = ExtResource( 25 )
-V_x = SubResource( 6 )
 
 [node name="Interactions" type="Node2D" parent="World"]
 position = Vector2( 0.951309, -0.951324 )
@@ -437,7 +431,7 @@ script = ExtResource( 11 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="World/Interactions/ReadSign1"]
 position = Vector2( 1.74341, 5.61761 )
-shape = SubResource( 7 )
+shape = SubResource( 6 )
 
 [node name="Label" type="Label" parent="World/Interactions/ReadSign1"]
 margin_left = -28.2969
@@ -445,7 +439,7 @@ margin_top = -52.5529
 margin_right = 102.929
 margin_bottom = -7.55286
 rect_scale = Vector2( 0.993344, 1.01854 )
-custom_fonts/font = SubResource( 8 )
+custom_fonts/font = SubResource( 7 )
 text = "Miaou, miaou, miaou.
 (You are a cat, have fun climbing
 walls)."
@@ -462,7 +456,7 @@ script = ExtResource( 11 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="World/Interactions/ReadSign2"]
 position = Vector2( 0.165588, 5.45984 )
-shape = SubResource( 7 )
+shape = SubResource( 6 )
 
 [node name="Label" type="Label" parent="World/Interactions/ReadSign2"]
 anchor_right = 1.0
@@ -470,7 +464,7 @@ margin_left = -69.9678
 margin_top = -71.7572
 margin_right = 107.0
 margin_bottom = -26.7572
-custom_fonts/font = SubResource( 9 )
+custom_fonts/font = SubResource( 8 )
 text = "Mi... Mia ... Miaou ? Miaou. Miaou !!
 (The experiments have left you ... changed... 
 Press (space) to enter quantum mode !! )"
@@ -488,7 +482,7 @@ script = ExtResource( 11 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="World/Interactions/Victory"]
 position = Vector2( 0.165588, 5.45984 )
-shape = SubResource( 7 )
+shape = SubResource( 6 )
 
 [node name="Label" type="Label" parent="World/Interactions/Victory"]
 modulate = Color( 1, 0, 0, 1 )
@@ -496,7 +490,7 @@ margin_left = 23.2245
 margin_top = -12.3523
 margin_right = 151.09
 margin_bottom = 32.6477
-custom_fonts/font = SubResource( 10 )
+custom_fonts/font = SubResource( 9 )
 text = "Miaaaaaaaooooooou !!!!!
 (Victoryyyyyyy !!!! )
 "
@@ -514,7 +508,7 @@ light_path = NodePath("../../Lights/Cell_Light")
 flicker_delay = 0.05
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="World/Interactions/Flicker"]
-shape = SubResource( 11 )
+shape = SubResource( 10 )
 
 [node name="Fonction_Onde" type="Node2D" parent="."]
 script = ExtResource( 13 )
