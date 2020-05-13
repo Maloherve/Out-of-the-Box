@@ -46,7 +46,8 @@ enum PSTATE { # position state
 	wall,
 	# temporary states
 	jump,
-	ledge
+	ledge,
+	endcast
 };
 # PSTATE related signal and member
 signal pstate_changed;
@@ -92,7 +93,7 @@ func _trigger_landing():
 				emit_signal("pstate_changed", PSTATE.ground); # TODO, pass velocity too
 				pstate = PSTATE.ground;	
 		elif pstate != PSTATE.air:
-			if !is_on_wall() || !_check_is_collided():
+			if !is_on_wall() || !_check_is_collided() || pstate == PSTATE.endcast:
 				emit_signal("pstate_changed", PSTATE.air);
 				pstate = PSTATE.air;
 				
@@ -174,6 +175,7 @@ func MoveCharacter(delta):
 	if pstate == PSTATE.wall && endurance>0:
 		velocity.y = lerp(velocity.y, CLIMB_SPEED * vertical_move_direction, 0.2);
 	
+	#print("Vel y: ", velocity.y)
 #	Forces
 	if pstate != PSTATE.ground && !cast:
 		velocity.y += GRAVITY * delta;
@@ -201,7 +203,7 @@ func _input(event):
 	if event.is_action_pressed("ui_space") && !cast && (endurance>=30):
 		emit_signal('start_casting', null); # no trigger
 		cast = true;
-		animNode.call("_cast",true)
+		animNode.call("_cast",false)
 	if event.is_action_released("ui_space") && cast:
 		can_finish_cast = true
 		
@@ -288,7 +290,11 @@ func _check_if_apply_friction():
 # ----- Node Function ------
 func _on_AnimatedSprite_animation_finished():
 	#print("Finishing animation: ", animNode.get_animation())
-	if (animNode.get_animation() == "_walk"):
-		animNode.call("_idle"); # restore default
-		$Trail.emitting = false;
+	match animNode.get_animation():
+		"_walk":
+			animNode.call("_idle"); # restore default
+			$Trail.emitting = false;
+		"_endcast":
+			pstate = PSTATE.endcast;
+	
 
