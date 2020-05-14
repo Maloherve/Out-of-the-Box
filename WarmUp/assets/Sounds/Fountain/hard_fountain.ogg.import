@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/hard_fountain.ogg-26a106b8a91ddc12ecaa6bb151c333a4.oggstr"
+
+[deps]
+
+source_file="res://assets/Sounds/Fountain/hard_fountain.ogg"
+dest_files=[ "res://.import/hard_fountain.ogg-26a106b8a91ddc12ecaa6bb151c333a4.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0
