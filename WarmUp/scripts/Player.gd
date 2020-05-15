@@ -5,6 +5,7 @@ extends KinematicBody2D
 # CONSTANTS
 const TYPE = "PLAYER";
 const GRAVITY : int = 800;
+const LIMIT_AIR_SPEED : int = 900;
 const MOVE_SPEED : int = 1 * 64;
 const CLIMB_SPEED : float = 2.2 * 64;
 # Nodes
@@ -177,7 +178,7 @@ func MoveCharacter(delta):
 	
 	#print("Vel y: ", velocity.y)
 #	Forces
-	if pstate != PSTATE.ground && !cast:
+	if pstate != PSTATE.ground && !cast && velocity.y < LIMIT_AIR_SPEED:
 		velocity.y += GRAVITY * delta;
 		
 	if _check_if_apply_friction():
