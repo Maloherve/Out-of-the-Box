@@ -1,0 +1,330 @@
+[gd_scene load_steps=47 format=2]
+
+[ext_resource path="res://scripts/Intro/Intro.gd" type="Script" id=1]
+[ext_resource path="res://assets/Background/SkyLine.png" type="Texture" id=2]
+[ext_resource path="res://assets/Tilesets/Floor.tres" type="TileSet" id=3]
+[ext_resource path="res://bin/uniform_field.gdns" type="Script" id=5]
+[ext_resource path="res://assets/Character/Box/Cat_box1.png" type="Texture" id=6]
+[ext_resource path="res://assets/Character/Box/Cat_box4.png" type="Texture" id=7]
+[ext_resource path="res://assets/Character/Box/Cat_box2.png" type="Texture" id=8]
+[ext_resource path="res://assets/Character/Box/Cat_box5.png" type="Texture" id=9]
+[ext_resource path="res://assets/Environment/coin.png" type="Texture" id=10]
+[ext_resource path="res://scripts/Level1/ReadSign1.gd" type="Script" id=11]
+[ext_resource path="res://assets/Fonts/abel-regular.ttf" type="DynamicFontData" id=12]
+[ext_resource path="res://scripts/Fonction_Onde.gd" type="Script" id=13]
+[ext_resource path="res://scenes/InfoScreen.tscn" type="PackedScene" id=14]
+[ext_resource path="res://assets/Sounds/collision_hallow_01.wav" type="AudioStream" id=15]
+[ext_resource path="res://assets/Sounds/electronic_accent_03.wav" type="AudioStream" id=16]
+[ext_resource path="res://scenes/Objects/Light.tscn" type="PackedScene" id=17]
+[ext_resource path="res://scripts/Interactions/Trigger_Flicker.gd" type="Script" id=18]
+[ext_resource path="res://assets/Fonts/VCR_OSD_MONO_1.001.ttf" type="DynamicFontData" id=19]
+[ext_resource path="res://assets/Character/Box/Cat_box3.png" type="Texture" id=21]
+[ext_resource path="res://assets/Character/Scientists/Scientists3.png" type="Texture" id=22]
+[ext_resource path="res://assets/Character/Scientists/Scientists13.png" type="Texture" id=23]
+[ext_resource path="res://assets/Character/Scientists/Scientists25.png" type="Texture" id=24]
+[ext_resource path="res://assets/Character/Scientists/Scientists22.png" type="Texture" id=25]
+[ext_resource path="res://assets/Character/Scientists/Scientists24.png" type="Texture" id=26]
+[ext_resource path="res://assets/Character/Scientists/Scientists12.png" type="Texture" id=27]
+[ext_resource path="res://assets/Character/Scientists/Scientists26.png" type="Texture" id=28]
+[ext_resource path="res://assets/Character/Scientists/Scientists7.png" type="Texture" id=29]
+[ext_resource path="res://assets/Character/Scientists/Scientists1.png" type="Texture" id=30]
+[ext_resource path="res://assets/Character/Scientists/Scientists10.png" type="Texture" id=31]
+[ext_resource path="res://assets/Character/Scientists/Scientists2.png" type="Texture" id=32]
+[ext_resource path="res://assets/Character/Scientists/Scientists9.png" type="Texture" id=33]
+[ext_resource path="res://assets/Character/Scientists/Scientists4.png" type="Texture" id=34]
+[ext_resource path="res://assets/Character/Scientists/Scientists23.png" type="Texture" id=35]
+[ext_resource path="res://assets/Character/Scientists/Scientists8.png" type="Texture" id=36]
+[ext_resource path="res://assets/Character/Scientists/Scientists11.png" type="Texture" id=37]
+[ext_resource path="res://assets/Character/Scientists/Scientists17.png" type="Texture" id=38]
+[ext_resource path="res://assets/Character/Scientists/Scientists14.png" type="Texture" id=39]
+[ext_resource path="res://assets/Character/Scientists/Scientists6.png" type="Texture" id=40]
+[ext_resource path="res://assets/Character/Scientists/Scientists19.png" type="Texture" id=41]
+[ext_resource path="res://assets/Character/Scientists/Scientists5.png" type="Texture" id=42]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [  ],
+"loop": true,
+"name": "talk",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 42 ), ExtResource( 40 ), ExtResource( 29 ), ExtResource( 36 ) ],
+"loop": false,
+"name": "redTalkEnd",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 33 ), ExtResource( 31 ), ExtResource( 37 ), ExtResource( 27 ), ExtResource( 23 ), ExtResource( 39 ) ],
+"loop": false,
+"name": "blueTalkStart",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 25 ), ExtResource( 35 ), ExtResource( 24 ), ExtResource( 26 ), ExtResource( 28 ) ],
+"loop": false,
+"name": "blueTalkEnd",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 38 ), ExtResource( 41 ), ExtResource( 38 ) ],
+"loop": true,
+"name": "blueTalk",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 30 ), ExtResource( 32 ), ExtResource( 22 ), ExtResource( 34 ), ExtResource( 30 ), ExtResource( 30 ), ExtResource( 32 ) ],
+"loop": true,
+"name": "redTalk",
+"speed": 5.0
+} ]
+
+[sub_resource type="SpriteFrames" id=2]
+animations = [ {
+"frames": [ ExtResource( 6 ), ExtResource( 8 ), ExtResource( 8 ) ],
+"loop": true,
+"name": "eyes",
+"speed": 1.0
+}, {
+"frames": [ ExtResource( 8 ), ExtResource( 21 ), ExtResource( 7 ), ExtResource( 9 ), ExtResource( 7 ), ExtResource( 21 ), ExtResource( 8 ) ],
+"loop": false,
+"name": "jump",
+"speed": 10.0
+} ]
+
+[sub_resource type="DynamicFont" id=3]
+size = 162
+font_data = ExtResource( 19 )
+
+[sub_resource type="RectangleShape2D" id=4]
+extents = Vector2( 15.8712, 18.4255 )
+
+[sub_resource type="DynamicFont" id=5]
+size = 10
+font_data = ExtResource( 12 )
+
+[sub_resource type="RectangleShape2D" id=6]
+extents = Vector2( 1.13702, 1.17068 )
+
+[node name="Level" type="Node2D"]
+script = ExtResource( 1 )
+cat_version = 2
+
+[node name="PlayerInitialPosition" type="Node2D" parent="."]
+position = Vector2( -155.449, 495.019 )
+z_index = -1
+
+[node name="World" type="Node2D" parent="."]
+__meta__ = {
+"_edit_group_": true,
+"_edit_lock_": true
+}
+
+[node name="Background" type="Node2D" parent="World"]
+light_mask = 1024
+
+[node name="SkyLine" type="Sprite" parent="World/Background"]
+light_mask = 1024
+position = Vector2( 536.992, 333.651 )
+texture = ExtResource( 2 )
+
+[node name="SkyLine3" type="Sprite" parent="World/Background"]
+light_mask = 1024
+position = Vector2( -584, 336 )
+texture = ExtResource( 2 )
+flip_h = true
+
+[node name="SkyLine5" type="Sprite" parent="World/Background"]
+light_mask = 1024
+position = Vector2( 536.992, 1109.65 )
+texture = ExtResource( 2 )
+flip_v = true
+
+[node name="SkyLine2" type="Sprite" parent="World/Background"]
+light_mask = 1024
+position = Vector2( 1659.99, 333.651 )
+texture = ExtResource( 2 )
+flip_h = true
+
+[node name="SkyLine4" type="Sprite" parent="World/Background"]
+light_mask = 1024
+position = Vector2( 1659.99, 1110.65 )
+texture = ExtResource( 2 )
+flip_h = true
+flip_v = true
+
+[node name="Label" type="Label" parent="World/Background"]
+visible = false
+margin_left = -255.012
+margin_top = 465.409
+margin_right = -95.0119
+margin_bottom = 479.409
+text = "Floating Platforms"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Lights" type="Node2D" parent="World"]
+visible = false
+
+[node name="Lobby_Light" parent="World/Lights" instance=ExtResource( 17 )]
+position = Vector2( 15.5309, 260.956 )
+scale = Vector2( 0.100242, 0.141597 )
+color = Color( 0.396078, 0, 0, 1 )
+flicker_in = 5.0
+
+[node name="Cell_Light" parent="World/Lights" instance=ExtResource( 17 )]
+position = Vector2( -285.67, 361.052 )
+rotation = -1.57079
+scale = Vector2( 0.0453607, 0.0299364 )
+color = Color( 0.996078, 0.690196, 0.690196, 1 )
+iterations = 3
+flicker_in = 1.0
+
+[node name="Cell2_Light" parent="World/Lights" instance=ExtResource( 17 )]
+position = Vector2( -273.018, 257.455 )
+rotation = 3.14159
+scale = Vector2( 0.0247742, 0.034564 )
+color = Color( 0.65098, 1, 0.6, 1 )
+
+[node name="Cell3_Light" parent="World/Lights" instance=ExtResource( 17 )]
+position = Vector2( -194.776, 463.156 )
+rotation = 1.57079
+scale = Vector2( 0.0575058, 0.0575058 )
+color = Color( 0.607843, 0.509804, 1, 1 )
+
+[node name="Lab_Light" parent="World/Lights" instance=ExtResource( 17 )]
+position = Vector2( 624.284, 323.781 )
+energy = 1.3
+color = Color( 0.831373, 0.831373, 0.831373, 1 )
+
+[node name="Lab2_Light3" parent="World/Lights" instance=ExtResource( 17 )]
+position = Vector2( 988.244, 547.599 )
+energy = 0.8
+color = Color( 0.831373, 0.831373, 0.831373, 1 )
+
+[node name="ExitDoor_Light2" parent="World/Lights" instance=ExtResource( 17 )]
+position = Vector2( 948.203, 324.295 )
+energy = 1.5
+color = Color( 0.831373, 0.831373, 0.831373, 1 )
+
+[node name="Obstacles" type="TileMap" parent="World"]
+light_mask = 0
+tile_set = ExtResource( 3 )
+cell_size = Vector2( 32, 32 )
+collision_layer = 14
+collision_mask = 14
+occluder_light_mask = 2
+format = 1
+tile_data = PoolIntArray( 589812, 3, 65541, 589813, 3, 65542, 589814, 3, 65542, 589815, 3, 65542, 589816, 3, 65542, 589817, 3, 65542, 589818, 3, 65542, 589819, 3, 65542, 589820, 3, 65542, 589821, 3, 65542, 589822, 3, 65542, 589823, 3, 65542, 524288, 3, 65543, 655348, 3, 131077, 655349, 3, 131078, 655350, 3, 131078, 655351, 3, 196614, 655352, 3, 196614, 655353, 3, 196614, 655354, 3, 196614, 655355, 3, 196614, 655356, 3, 196614, 655357, 3, 196614, 655358, 3, 196614, 655359, 3, 131078, 589824, 3, 131079, 720884, 3, 131077, 720885, 3, 131078, 720886, 3, 131079, 720895, 3, 131077, 655360, 3, 131079, 786420, 3, 131077, 786421, 3, 131078, 786422, 3, 131079, 786431, 3, 131077, 720896, 3, 131079, 851956, 3, 131077, 851957, 3, 131078, 851958, 3, 131079, 851967, 3, 131077, 786432, 3, 131079, 917492, 3, 131077, 917493, 3, 131078, 917494, 3, 131079, 917503, 3, 131077, 851968, 3, 131079, 983028, 3, 131077, 983029, 3, 131078, 983030, 3, 131079, 983039, 3, 131077, 917504, 3, 131079, 1048564, 3, 131077, 1048565, 3, 131078, 1048566, 3, 131079, 1048575, 3, 131077, 983040, 3, 131079, 1114100, 3, 131077, 1114101, 3, 131078, 1114102, 3, 131078, 1114103, 3, 65542, 1114104, 3, 65542, 1114105, 3, 65542, 1114106, 3, 65542, 1114107, 3, 65542, 1114108, 3, 65542, 1114109, 3, 65542, 1114110, 3, 65542, 1114111, 3, 131078, 1048576, 3, 131079, 1179636, 3, 131077, 1179637, 3, 131078, 1179638, 3, 131078, 1179639, 3, 131078, 1179640, 3, 131078, 1179641, 3, 131078, 1179642, 3, 131078, 1179643, 3, 131078, 1179644, 3, 131078, 1179645, 3, 131078, 1179646, 3, 131078, 1179647, 3, 131078, 1114112, 3, 131079, 1245172, 3, 196613, 1245173, 3, 196614, 1245174, 3, 196614, 1245175, 3, 196614, 1245176, 3, 196614, 1245177, 3, 196614, 1245178, 3, 196614, 1245179, 3, 196614, 1245180, 3, 196614, 1245181, 3, 196614, 1245182, 3, 196614, 1245183, 3, 196614, 1179648, 3, 196615 )
+
+[node name="potential" type="Node2D" parent="World/Obstacles"]
+script = ExtResource( 5 )
+
+[node name="Enemies" type="Node2D" parent="World"]
+
+[node name="Scientists" type="AnimatedSprite" parent="World/Enemies"]
+position = Vector2( -184, 432 )
+scale = Vector2( 0.3, 0.3 )
+frames = SubResource( 1 )
+animation = "redTalk"
+
+[node name="NPC" type="Node2D" parent="World"]
+
+[node name="Box" type="AnimatedSprite" parent="World/NPC"]
+position = Vector2( -152, 480 )
+scale = Vector2( 0.2, 0.2 )
+z_index = 1
+frames = SubResource( 2 )
+animation = "jump"
+frame = 4
+
+[node name="DialogueBox" type="Polygon2D" parent="World/NPC"]
+position = Vector2( -168, 464 )
+scale = Vector2( 0.2, 0.2 )
+color = Color( 0.278431, 0.298039, 0.294118, 1 )
+polygon = PoolVector2Array( -560, 0, -560, 200, -80, 200, -80, 0, -79.8816, -0.102051, -111.664, 0.11792, -134.648, 20.4172, -135.062, 0.168701 )
+
+[node name="Dialogue" type="RichTextLabel" parent="World/NPC/DialogueBox"]
+margin_left = -520.0
+margin_top = 40.0
+margin_right = 1480.0
+margin_bottom = 640.0
+rect_scale = Vector2( 0.2, 0.2 )
+size_flags_vertical = 0
+size_flags_stretch_ratio = 0.0
+custom_fonts/normal_font = SubResource( 3 )
+bbcode_enabled = true
+tab_size = 1
+scroll_active = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Timer" type="Timer" parent="World/NPC/DialogueBox"]
+wait_time = 0.1
+autostart = true
+
+[node name="Objects" type="Node2D" parent="World"]
+visible = false
+
+[node name="coin" type="Sprite" parent="World/Objects"]
+position = Vector2( 113.699, 230.472 )
+scale = Vector2( 0.1, 0.1 )
+texture = ExtResource( 10 )
+
+[node name="Interactions" type="Node2D" parent="World"]
+position = Vector2( 0.951309, -0.951324 )
+
+[node name="Victory" type="Area2D" parent="World/Interactions"]
+position = Vector2( 111.29, 228.663 )
+scale = Vector2( 1.00202, 1.0243 )
+space_override = 1
+collision_layer = 0
+collision_mask = 4
+script = ExtResource( 11 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="World/Interactions/Victory"]
+position = Vector2( 0.165588, 5.45984 )
+shape = SubResource( 4 )
+
+[node name="Label" type="Label" parent="World/Interactions/Victory"]
+modulate = Color( 1, 0, 0, 1 )
+margin_left = 23.2245
+margin_top = -12.3523
+margin_right = 151.09
+margin_bottom = 32.6477
+custom_fonts/font = SubResource( 5 )
+text = "Miaaaaaaaooooooou !!!!!
+(Victoryyyyyyy !!!! )
+"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Flicker" type="Area2D" parent="World/Interactions"]
+position = Vector2( -182.975, 402.552 )
+gravity_point = true
+collision_layer = 0
+collision_mask = 4
+script = ExtResource( 18 )
+light_path = NodePath("../../Lights/Cell_Light")
+flicker_delay = 0.05
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="World/Interactions/Flicker"]
+shape = SubResource( 6 )
+
+[node name="EventTimer" type="Timer" parent="World"]
+wait_time = 4.0
+autostart = true
+
+[node name="Fonction_Onde" type="Node2D" parent="."]
+script = ExtResource( 13 )
+
+[node name="InfoScreen" parent="." instance=ExtResource( 14 )]
+
+[node name="BoxJump" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 15 )
+volume_db = -5.0
+
+[node name="Teleport" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 16 )
+[connection signal="animation_finished" from="World/NPC/Box" to="." method="_on_Box_animation_finished"]
+[connection signal="frame_changed" from="World/NPC/Box" to="." method="_on_Box_frame_changed"]
+[connection signal="timeout" from="World/NPC/DialogueBox/Timer" to="." method="_on_Timer_timeout"]
+[connection signal="timeout" from="World/EventTimer" to="." method="_on_EventTimer_timeout"]
