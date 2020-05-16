@@ -1,9 +1,8 @@
-[gd_scene load_steps=48 format=2]
+[gd_scene load_steps=47 format=2]
 
 [ext_resource path="res://scripts/Intro/Intro.gd" type="Script" id=1]
 [ext_resource path="res://assets/Background/SkyLine.png" type="Texture" id=2]
 [ext_resource path="res://assets/Tilesets/Floor.tres" type="TileSet" id=3]
-[ext_resource path="res://scripts/Intro/Dialogue.gd" type="Script" id=4]
 [ext_resource path="res://bin/uniform_field.gdns" type="Script" id=5]
 [ext_resource path="res://assets/Character/Box/Cat_box1.png" type="Texture" id=6]
 [ext_resource path="res://assets/Character/Box/Cat_box4.png" type="Texture" id=7]
@@ -44,19 +43,14 @@
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
-"frames": [ ExtResource( 30 ), ExtResource( 32 ), ExtResource( 22 ), ExtResource( 34 ), ExtResource( 30 ), ExtResource( 30 ), ExtResource( 32 ) ],
+"frames": [  ],
 "loop": true,
-"name": "redTalk",
+"name": "talk",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 38 ), ExtResource( 41 ), ExtResource( 38 ) ],
-"loop": true,
-"name": "blueTalk",
-"speed": 5.0
-}, {
-"frames": [ ExtResource( 25 ), ExtResource( 35 ), ExtResource( 24 ), ExtResource( 26 ), ExtResource( 28 ) ],
+"frames": [ ExtResource( 42 ), ExtResource( 40 ), ExtResource( 29 ), ExtResource( 36 ) ],
 "loop": false,
-"name": "blueTalkEnd",
+"name": "redTalkEnd",
 "speed": 5.0
 }, {
 "frames": [ ExtResource( 33 ), ExtResource( 31 ), ExtResource( 37 ), ExtResource( 27 ), ExtResource( 23 ), ExtResource( 39 ) ],
@@ -64,9 +58,19 @@ animations = [ {
 "name": "blueTalkStart",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 42 ), ExtResource( 40 ), ExtResource( 29 ), ExtResource( 36 ) ],
+"frames": [ ExtResource( 25 ), ExtResource( 35 ), ExtResource( 24 ), ExtResource( 26 ), ExtResource( 28 ) ],
 "loop": false,
-"name": "redTalkEnd",
+"name": "blueTalkEnd",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 38 ), ExtResource( 41 ), ExtResource( 38 ) ],
+"loop": true,
+"name": "blueTalk",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 30 ), ExtResource( 32 ), ExtResource( 22 ), ExtResource( 34 ), ExtResource( 30 ), ExtResource( 30 ), ExtResource( 32 ) ],
+"loop": true,
+"name": "redTalk",
 "speed": 5.0
 } ]
 
@@ -248,7 +252,6 @@ custom_fonts/normal_font = SubResource( 3 )
 bbcode_enabled = true
 tab_size = 1
 scroll_active = false
-script = ExtResource( 4 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -321,8 +324,7 @@ volume_db = -5.0
 
 [node name="Teleport" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 16 )
-[connection signal="animation_finished" from="World/NPC/Box" to="World/NPC/DialogueBox/Dialogue" method="_on_Box_animation_finished"]
 [connection signal="animation_finished" from="World/NPC/Box" to="." method="_on_Box_animation_finished"]
 [connection signal="frame_changed" from="World/NPC/Box" to="." method="_on_Box_frame_changed"]
-[connection signal="timeout" from="World/NPC/DialogueBox/Timer" to="World/NPC/DialogueBox/Dialogue" method="_on_Timer_timeout"]
+[connection signal="timeout" from="World/NPC/DialogueBox/Timer" to="." method="_on_Timer_timeout"]
 [connection signal="timeout" from="World/EventTimer" to="." method="_on_EventTimer_timeout"]

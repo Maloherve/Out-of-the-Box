@@ -1,9 +1,19 @@
 extends Node2D
 
 # This node describes the effects in the world, for exemple the darkening when casting
+var dialog = [
+	'So... How is it going with Experiment 8?', 
+	'Any progress?',
+	'None so far... We had high hopes for Schrödy- hum, I mean Experiment 8.',
+	'*insert scientific explanations here*',
+	'*insert scientific tests conducted*',
+	'Alright, well, you better get some results and fast!', 
+	'The president himself is counting on you.'
+	]
+var anim = ['redTalk', 'redTalkEnd', 'blueTalkStart', 'blueTalk', 'blueTalk', 'blueTalk', 'blueTalkEnd', ]
+var page = 0
 
-
-
+onready var dialogBox = get_node('World/NPC/DialogueBox/Dialogue')
 # Game font
 var GameFont : Font = load('assets/Fonts/abel-regular.ttf');
 # For Debug
@@ -39,7 +49,6 @@ func _enter_tree():
 	camera.zoom = camera_zoom
 	if activate_camera: camera.current = true;
 	$Player.add_child(camera)
-
 	
 	
 
@@ -73,6 +82,7 @@ func _process(delta):
 	# Temporaly hidden, See Player.Wave_Generator.on_Player_stop_casting()
 	#if (teleport_player):
 	#	teleport();
+	
 
 # Execute Regularly
 func _physics_process(delta):
@@ -104,6 +114,18 @@ func on_Player_stop_casting():
 	teleport_player = true;
 	darken = false;
 	AudioServer.set_bus_effect_enabled ( 1, 0, false )
+	
+func _input(event):
+	if event is InputEventMouseButton && event.is_pressed():
+		if dialogBox.get_visible_characters() > dialogBox.get_total_character_count():
+			if page < dialog.size()-1:
+				page += 1
+				dialogBox.set_bbcode(dialog[page])
+				dialogBox.set_visible_characters(0)
+				$World/Enemies/Scientists.play(anim[page])
+		else:
+			dialogBox.set_visible_characters(dialogBox.get_total_character_count())
+
 
 
 func _on_EventTimer_timeout():
@@ -113,6 +135,9 @@ func _on_EventTimer_timeout():
 func _on_Box_animation_finished():
 	if ($World/NPC/Box.animation == 'jump'):
 		$World/NPC/DialogueBox.visible = true
+		dialogBox.set_bbcode(dialog[page])
+		dialogBox.set_visible_characters(0)
+		dialogBox.set_process_input(true)
 		$World/Enemies/Scientists.play('redTalk')
 
 
@@ -120,3 +145,6 @@ func _on_Box_frame_changed():
 	if ($World/NPC/Box.animation == 'jump'):
 		if ($World/NPC/Box.frame == 3):
 			$BoxJump.play()
+
+func _on_Timer_timeout():
+	dialogBox.set_visible_characters(dialogBox.get_visible_characters()+1)
