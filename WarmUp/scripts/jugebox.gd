@@ -13,21 +13,21 @@ var tick : float = 0;
 var finishing = false;
 
 func change():
-	if queue != null:
-		var t = fadein.interpolate_baked(0);
-		self.volume_db = -80 * (1 - t) + max_volume * t;
+	#if queue != null:
+	var t = fadein.interpolate_baked(0);
+	self.volume_db = -80 * (1 - t) + max_volume * t;
 		
-		if fadeout_time > 0 && self.stream != null:
-			tick = fadeout_time;
-			finishing = true;
-		else:
-			tick = fadein_time;
-			finishing = false;
-			self.stream = queue;
-			queue = null;
-			play();
+	if fadeout_time > 0 && self.stream != null:
+		tick = fadeout_time;
+		finishing = true;
+	else:
+		tick = fadein_time;
+		finishing = false;
+		self.stream = queue;
+		queue = null;
+		play();
 			
-		set_process(true);
+	set_process(true);
 	
 func _init():
 	#connect("finished", self, "_on_AudioStreamPlayer_finished");
@@ -35,7 +35,8 @@ func _init():
 	
 	
 func push_track(track):
-	track.loop = true;
+	if track != null:
+		track.loop = true;
 	queue = track;
 	change() # trigger beginning
 	
