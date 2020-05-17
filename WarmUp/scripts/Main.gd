@@ -82,7 +82,7 @@ func _physics_process(delta):
 # Setup a new zone inside the scene
 func set_zone(zoneinfo, force = false):
 	if zoneinfo != null && (force || zone != zoneinfo):
-		if zoneinfo.soundtrack != null && has_node("mainsound"):
+		if has_node("mainsound"):
 			$mainsound.push_track(zoneinfo.soundtrack);
 		if zoneinfo.modulate != null:
 			self.modulate = zoneinfo.modulate;
