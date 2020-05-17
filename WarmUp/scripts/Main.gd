@@ -19,6 +19,8 @@ export var cat_version : int = 1;
 var teleport_player : bool = false;
 # TMP
 
+# zone wrapper
+export (Resource) var zone setget set_zone;
 
 func _enter_tree():
 	# Load in Player
@@ -75,6 +77,13 @@ func _process(delta):
 func _physics_process(delta):
 	_get_input();
 
+# Setup a new zone inside the scene
+func set_zone(zoneinfo):
+	if zoneinfo != null:
+		if zoneinfo.soundtrack != null:
+			$mainsound.push_track(zoneinfo.soundtrack);
+		if zoneinfo.modulate != null:
+			self.modulate = zoneinfo.modulate;
 
 # Check for and execute input
 func _get_input():
