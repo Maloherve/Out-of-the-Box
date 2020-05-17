@@ -58,13 +58,13 @@ font_data = ExtResource( 12 )
 [sub_resource type="RectangleShape2D" id=11]
 extents = Vector2( 219.813, 8.88477 )
 
-[sub_resource type="RectangleShape2D" id=14]
+[sub_resource type="RectangleShape2D" id=12]
 extents = Vector2( 200, 10 )
 
-[sub_resource type="Curve" id=12]
+[sub_resource type="Curve" id=13]
 _data = [ Vector2( 0, 0 ), 0.0, 0.0, 0, 0, Vector2( 0.0892857, 0.7 ), 0.814545, 0.814545, 0, 0, Vector2( 1, 1 ), 0.0714515, 0.0, 0, 0 ]
 
-[sub_resource type="Curve" id=13]
+[sub_resource type="Curve" id=14]
 _data = [ Vector2( 0, 0 ), 0.0, 1.4, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
 
 [node name="Level" type="Node2D"]
@@ -258,7 +258,7 @@ script = ExtResource( 15 )
 zoneinfo = ExtResource( 18 )
 
 [node name="collider" type="CollisionShape2D" parent="World/Interactions/zone_trigger3"]
-shape = SubResource( 14 )
+shape = SubResource( 12 )
 
 [node name="Fonction_Onde" type="Node2D" parent="."]
 script = ExtResource( 13 )
@@ -271,8 +271,8 @@ bus = "Filter"
 script = ExtResource( 10 )
 fadein_time = 8.0
 fadeout_time = 8.0
-fadein = SubResource( 12 )
-fadeout = SubResource( 13 )
+fadein = SubResource( 13 )
+fadeout = SubResource( 14 )
 
 [node name="Teleport" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 16 )
