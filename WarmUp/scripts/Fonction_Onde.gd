@@ -62,10 +62,11 @@ func _process(delta):
 
 # Execute Regularly
 func _physics_process(delta):
-	_get_input();
+	#_get_input();
 	pass
 
 # Inputs to modify the wave function
+"""
 func _get_input():
 	if Input.is_action_just_pressed("ui_up") && can_modify:
 		amplitude -= 1;
@@ -80,7 +81,7 @@ func _get_input():
 		fo_x += 1;
 		change_to_function = true;
 	pass
-
+"""
 
 func _draw():
 	if draw_wave_function:

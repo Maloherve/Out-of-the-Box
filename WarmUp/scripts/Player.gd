@@ -54,6 +54,12 @@ enum PSTATE { # position state
 signal pstate_changed;
 var pstate = PSTATE.ground;
 
+# input state
+const input_state = preload('res://scripts/input_state.gd');
+var ui_cast = input_state.new("ui_cast");
+var ui_up = input_state.new("ui_up");
+var ui_down = input_state.new("ui_down");
+
 func _ready():
 	animNode = get_node("AnimatedSprite")
 	if (animNode != null):
@@ -196,10 +202,14 @@ func flip(flag):
 	animNode.set_flip_h(flag);
 	Side_Raycasts.set_flip(!flag);
 	$Trail.set_flip(!flag);
+	
+func _input(event):
+	print(event.as_text())
 
 # slow reaction input
+"""
 func _input(event):
-	if event.is_action_pressed("ui_space") && !cast:
+	if event.is_action_pressed("ui_space"):
 		print("Endurance: ", endurance)
 	if event.is_action_pressed("ui_space") && !cast && (endurance>=30):
 		emit_signal('start_casting', null); # no trigger
@@ -207,16 +217,51 @@ func _input(event):
 		animNode.call("_cast",false)
 	if event.is_action_released("ui_space") && cast:
 		can_finish_cast = true
-		
 	
-	
-# Check for and execute Input, fast reaction input
-func _get_input():
-	if (Input.is_action_just_pressed("ui_up") && !cast):
+	if (event.is_action_pressed("ui_up") && !cast):
 		_trigger_jump(); # check if possible to jump
 		_trigger_ledge();
 		
-	if (Input.is_action_just_pressed("ui_down") && pstate == PSTATE.ground && !cast):
+	if (event.is_action_pressed("ui_down") && pstate == PSTATE.ground && !cast):
+		#attack = true; # temporaly disabled, bugged
+		# TODO, emit attack signal
+		attackstun = meleeTime;
+"""
+	
+# Check for and execute Input, fast reaction input
+func _get_input():
+	#if Input.is_action_just_pressed("ui_space"):
+	#	print("Endurance: ", endurance)
+	#if Input.is_action_just_pressed("ui_space") && !cast && (endurance>=30):
+	
+	match ui_cast.check():
+		input_state.ui.pressed:
+			print("Pressed")
+		input_state.ui.just_pressed:
+			print("Just pressed")
+			if !cast && endurance>=30:
+				emit_signal('start_casting', null); # no trigger
+				cast = true;
+				animNode.call("_cast",false);
+			elif can_finish_cast:
+				emit_signal("stop_casting");
+				animNode.call("_endcast")
+				cast = false;
+				can_finish_cast = false;
+		input_state.ui.just_released:
+			if cast:
+				can_finish_cast = true;
+		
+	#if Input.is_action_just_released("ui_space") && cast:
+	#if ui_space.check() == input_state.ui.just_released && cast:
+	#	print("ALURA")
+	#	can_finish_cast = true
+		
+	if (ui_up.check() == input_state.ui.just_pressed && !cast):
+		_trigger_jump(); # check if possible to jump
+		_trigger_ledge();
+		
+	if (ui_down.check() == input_state.ui.just_pressed && pstate == PSTATE.ground && !cast):
 		#attack = true; # temporaly disabled, bugged
 		# TODO, emit attack signal
 		attackstun = meleeTime;
@@ -224,18 +269,18 @@ func _get_input():
 	if Input.is_action_pressed("ui_left") || Input.is_action_pressed("ui_right"):
 		_trigger_hold_wall();
 		
-	if Input.is_action_pressed("ui_space") && can_finish_cast:
-		emit_signal("stop_casting");
-		animNode.call("_endcast")
-		cast = false;
-		can_finish_cast = false;
+	#if Input.is_action_pressed("ui_space") && can_finish_cast:
+	#	emit_signal("stop_casting");
+	#	animNode.call("_endcast")
+	#	cast = false;
+	#	can_finish_cast = false;
 	
 	if !cast:
 		update_move_direction();
 		
-		if (Input.is_action_just_pressed("ui_down")):
+		#if (Input.is_action_just_pressed("ui_down")):
 			#attack = true;
-			attackstun = meleeTime;
+		#	attackstun = meleeTime;
 			#animNode.call("_attack",true)
 	
 func update_move_direction():

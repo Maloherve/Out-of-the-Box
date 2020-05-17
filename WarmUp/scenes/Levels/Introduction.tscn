@@ -35,23 +35,23 @@ polygon = PoolVector2Array( 25.0994, 215.423, 25.0163, 220.287, 23.9352, 220.537
 [sub_resource type="OccluderPolygon2D" id=2]
 polygon = PoolVector2Array( -20.2355, -224.689, -19.9445, -222.167, -20.3325, -221.634, -21.1084, -221.44, -21.0599, -216.445, -20.381, -216.009, -20.09, -214.845, -19.1201, -213.875, -19.1201, -211.062, -19.9445, -210.771, -20.381, -209.171, -20.8659, -208.395, -18.4897, -209.801, -18.1017, -214.069, -19.2656, -223.186 )
 
-[sub_resource type="SpriteFrames" id=4]
+[sub_resource type="SpriteFrames" id=3]
 animations = [ {
-"frames": [ ExtResource( 8 ), ExtResource( 7 ), ExtResource( 6 ), ExtResource( 5 ) ],
-"loop": true,
-"name": "open",
-"speed": 5.0
-}, {
 "frames": [ ExtResource( 5 ), ExtResource( 6 ), ExtResource( 7 ), ExtResource( 8 ) ],
 "loop": true,
 "name": "close",
 "speed": 5.0
+}, {
+"frames": [ ExtResource( 8 ), ExtResource( 7 ), ExtResource( 6 ), ExtResource( 5 ) ],
+"loop": true,
+"name": "open",
+"speed": 5.0
 } ]
 
-[sub_resource type="RectangleShape2D" id=5]
+[sub_resource type="RectangleShape2D" id=4]
 extents = Vector2( 3.34546, 32.2485 )
 
-[sub_resource type="TileSet" id=6]
+[sub_resource type="TileSet" id=5]
 0/name = "signs.png 0"
 0/texture = ExtResource( 9 )
 0/tex_offset = Vector2( 0, 0 )
@@ -151,8 +151,12 @@ extents = Vector2( 3.34546, 32.2485 )
 6/shapes = [  ]
 6/z_index = 0
 
-[sub_resource type="RectangleShape2D" id=7]
+[sub_resource type="RectangleShape2D" id=6]
 extents = Vector2( 15.8712, 18.4255 )
+
+[sub_resource type="DynamicFont" id=7]
+size = 10
+font_data = ExtResource( 12 )
 
 [sub_resource type="DynamicFont" id=8]
 size = 10
@@ -162,11 +166,7 @@ font_data = ExtResource( 12 )
 size = 10
 font_data = ExtResource( 12 )
 
-[sub_resource type="DynamicFont" id=10]
-size = 10
-font_data = ExtResource( 12 )
-
-[sub_resource type="RectangleShape2D" id=11]
+[sub_resource type="RectangleShape2D" id=10]
 extents = Vector2( 1.13702, 1.17068 )
 
 [node name="Level" type="Node2D"]
@@ -363,12 +363,12 @@ collision_mask = 0
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="World/Objects/door1"]
 position = Vector2( 1043.15, 480.188 )
-frames = SubResource( 4 )
+frames = SubResource( 3 )
 animation = "open"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="World/Objects/door1"]
 position = Vector2( 1027.15, 480.188 )
-shape = SubResource( 5 )
+shape = SubResource( 4 )
 
 [node name="door2" type="StaticBody2D" parent="World/Objects"]
 position = Vector2( 64.4836, 191.553 )
@@ -377,12 +377,12 @@ collision_mask = 0
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="World/Objects/door2"]
 position = Vector2( 1043.15, 480.188 )
-frames = SubResource( 4 )
+frames = SubResource( 3 )
 animation = "open"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="World/Objects/door2"]
 position = Vector2( 1027.15, 480.188 )
-shape = SubResource( 5 )
+shape = SubResource( 4 )
 
 [node name="door3" type="StaticBody2D" parent="World/Objects"]
 visible = false
@@ -392,15 +392,15 @@ collision_mask = 0
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="World/Objects/door3"]
 position = Vector2( 1043.15, 480.188 )
-frames = SubResource( 4 )
+frames = SubResource( 3 )
 animation = "open"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="World/Objects/door3"]
 position = Vector2( 1027.15, 480.188 )
-shape = SubResource( 5 )
+shape = SubResource( 4 )
 
 [node name="Decoration" type="TileMap" parent="World/Objects"]
-tile_set = SubResource( 6 )
+tile_set = SubResource( 5 )
 cell_size = Vector2( 16, 16 )
 format = 1
 tile_data = PoolIntArray( 2097195, 1610612738, 0, 2687036, 0, 0 )
@@ -447,7 +447,7 @@ script = ExtResource( 11 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="World/Interactions/ReadSign1"]
 position = Vector2( 1.74341, 5.61761 )
-shape = SubResource( 7 )
+shape = SubResource( 6 )
 
 [node name="Label" type="Label" parent="World/Interactions/ReadSign1"]
 margin_left = -28.2969
@@ -455,7 +455,7 @@ margin_top = -52.5529
 margin_right = 102.929
 margin_bottom = -7.55286
 rect_scale = Vector2( 0.993344, 1.01854 )
-custom_fonts/font = SubResource( 8 )
+custom_fonts/font = SubResource( 7 )
 text = "Miaou, miaou, miaou.
 (You are a cat, have fun climbing
 walls)."
@@ -472,7 +472,7 @@ script = ExtResource( 11 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="World/Interactions/ReadSign2"]
 position = Vector2( 0.165588, 5.45984 )
-shape = SubResource( 7 )
+shape = SubResource( 6 )
 
 [node name="Label" type="Label" parent="World/Interactions/ReadSign2"]
 anchor_right = 1.0
@@ -480,7 +480,7 @@ margin_left = -69.9678
 margin_top = -71.7572
 margin_right = 107.0
 margin_bottom = -26.7572
-custom_fonts/font = SubResource( 9 )
+custom_fonts/font = SubResource( 8 )
 text = "Mi... Mia ... Miaou ? Miaou. Miaou !!
 (The experiments have left you ... changed... 
 Press (space) to enter quantum mode !! )"
@@ -498,7 +498,7 @@ script = ExtResource( 11 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="World/Interactions/Victory"]
 position = Vector2( 0.165588, 5.45984 )
-shape = SubResource( 7 )
+shape = SubResource( 6 )
 
 [node name="Label" type="Label" parent="World/Interactions/Victory"]
 modulate = Color( 1, 0, 0, 1 )
@@ -506,7 +506,7 @@ margin_left = 23.2245
 margin_top = -12.3523
 margin_right = 151.09
 margin_bottom = 32.6477
-custom_fonts/font = SubResource( 10 )
+custom_fonts/font = SubResource( 9 )
 text = "Miaaaaaaaooooooou !!!!!
 (Victoryyyyyyy !!!! )
 "
@@ -524,7 +524,7 @@ light_path = NodePath("../../Lights/Cell_Light")
 flicker_delay = 0.05
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="World/Interactions/Flicker"]
-shape = SubResource( 11 )
+shape = SubResource( 10 )
 
 [node name="Fonction_Onde" type="Node2D" parent="."]
 script = ExtResource( 13 )
