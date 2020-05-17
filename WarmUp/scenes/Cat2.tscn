@@ -1,4 +1,4 @@
-[gd_scene load_steps=53 format=2]
+[gd_scene load_steps=55 format=2]
 
 [ext_resource path="res://scripts/Player.gd" type="Script" id=1]
 [ext_resource path="res://assets/Particles/trail.tres" type="Material" id=2]
@@ -22,6 +22,8 @@
 [ext_resource path="res://assets/Character/Cat2/CatSummon12.png" type="Texture" id=20]
 [ext_resource path="res://scripts/mutex_sprite.gd" type="Script" id=21]
 [ext_resource path="res://assets/Tilesets/TileSprite.png" type="Texture" id=22]
+[ext_resource path="res://scripts/Interactions/topcast.gd" type="Script" id=23]
+[ext_resource path="res://scripts/Interactions/bottomcast.gd" type="Script" id=24]
 [ext_resource path="res://assets/Character/Cat2/CatWalk4.png" type="Texture" id=27]
 [ext_resource path="res://assets/Character/Cat2/CatWalk3.png" type="Texture" id=28]
 [ext_resource path="res://assets/Character/Cat2/CatWalk5.png" type="Texture" id=29]
@@ -52,15 +54,25 @@
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
-"frames": [ ExtResource( 10 ), ExtResource( 11 ), ExtResource( 12 ), ExtResource( 13 ), ExtResource( 14 ), ExtResource( 15 ), ExtResource( 16 ), ExtResource( 17 ), ExtResource( 18 ), ExtResource( 19 ), ExtResource( 20 ) ],
+"frames": [ ExtResource( 42 ), ExtResource( 43 ), ExtResource( 44 ), ExtResource( 45 ) ],
 "loop": false,
-"name": "_cast",
-"speed": 12.0
+"name": "_idle",
+"speed": 8.0
 }, {
 "frames": [ ExtResource( 27 ), ExtResource( 28 ), ExtResource( 29 ), ExtResource( 30 ), ExtResource( 31 ), ExtResource( 32 ) ],
 "loop": true,
 "name": "_walk",
 "speed": 12.0
+}, {
+"frames": [ ExtResource( 10 ), ExtResource( 11 ), ExtResource( 12 ), ExtResource( 13 ), ExtResource( 14 ), ExtResource( 15 ), ExtResource( 16 ), ExtResource( 17 ), ExtResource( 18 ), ExtResource( 19 ), ExtResource( 20 ) ],
+"loop": false,
+"name": "_cast",
+"speed": 12.0
+}, {
+"frames": [ ExtResource( 46 ), ExtResource( 47 ), ExtResource( 48 ), ExtResource( 48 ), ExtResource( 49 ), ExtResource( 50 ) ],
+"loop": false,
+"name": "_jump",
+"speed": 10.0
 }, {
 "frames": [ ExtResource( 33 ), ExtResource( 34 ), ExtResource( 35 ), ExtResource( 36 ), ExtResource( 37 ), ExtResource( 38 ), ExtResource( 39 ), ExtResource( 40 ), ExtResource( 41 ) ],
 "loop": true,
@@ -76,16 +88,6 @@ animations = [ {
 "loop": true,
 "name": "_hold",
 "speed": 10.0
-}, {
-"frames": [ ExtResource( 42 ), ExtResource( 43 ), ExtResource( 44 ), ExtResource( 45 ) ],
-"loop": false,
-"name": "_idle",
-"speed": 8.0
-}, {
-"frames": [ ExtResource( 46 ), ExtResource( 47 ), ExtResource( 48 ), ExtResource( 48 ), ExtResource( 49 ), ExtResource( 50 ) ],
-"loop": false,
-"name": "_jump",
-"speed": 10.0
 } ]
 
 [sub_resource type="RectangleShape2D" id=2]
@@ -96,7 +98,7 @@ polygon = PoolVector2Array( -5.72572, 3.05842, 4.18067, 2.94585, 5.41897, 4.2216
 
 [node name="Player" type="KinematicBody2D"]
 collision_layer = 4
-collision_mask = 2
+collision_mask = 1026
 script = ExtResource( 1 )
 
 [node name="Trail" type="Particles2D" parent="."]
@@ -116,27 +118,29 @@ position = Vector2( 0, 6.135 )
 shape = SubResource( 2 )
 
 [node name="Bottom_Raycasts" type="Node2D" parent="."]
+scale = Vector2( 1, 1.15 )
+script = ExtResource( 24 )
 
 [node name="ray_1" type="RayCast2D" parent="Bottom_Raycasts"]
 light_mask = 7
 position = Vector2( -9.13528, 7 )
 enabled = true
 cast_to = Vector2( 0, 10 )
-collision_mask = 2
+collision_mask = 1026
 
 [node name="ray_2" type="RayCast2D" parent="Bottom_Raycasts"]
 light_mask = 7
 position = Vector2( 0, 7 )
 enabled = true
 cast_to = Vector2( 0, 10 )
-collision_mask = 2
+collision_mask = 1026
 
 [node name="ray_3" type="RayCast2D" parent="Bottom_Raycasts"]
 light_mask = 7
 position = Vector2( 9.135, 7 )
 enabled = true
 cast_to = Vector2( 0, 10 )
-collision_mask = 2
+collision_mask = 1026
 
 [node name="Side_Raycasts" type="Node2D" parent="."]
 scale = Vector2( 1.1, 1 )
@@ -155,6 +159,29 @@ rotation = 4.71239
 enabled = true
 cast_to = Vector2( 0, 15 )
 collision_mask = 2
+
+[node name="Top_Raycasts" type="Node2D" parent="."]
+script = ExtResource( 23 )
+
+[node name="ray_1" type="RayCast2D" parent="Top_Raycasts"]
+rotation = 3.14159
+enabled = true
+cast_to = Vector2( 0, 10 )
+collision_mask = 1024
+
+[node name="ray_2" type="RayCast2D" parent="Top_Raycasts"]
+position = Vector2( 10, 0 )
+rotation = 3.14159
+enabled = true
+cast_to = Vector2( 0, 10 )
+collision_mask = 1024
+
+[node name="ray_3" type="RayCast2D" parent="Top_Raycasts"]
+position = Vector2( -10, 0 )
+rotation = 3.14159
+enabled = true
+cast_to = Vector2( 0, 10 )
+collision_mask = 1024
 
 [node name="Wave_Generator" type="Node" parent="."]
 script = ExtResource( 52 )

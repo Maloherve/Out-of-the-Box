@@ -6,4 +6,4 @@
 [resource]
 script = ExtResource( 2 )
 soundtrack = ExtResource( 1 )
-modulate = Color( 1, 1, 1, 1 )
+modulate = Color( 0.827451, 1, 0.8, 1 )

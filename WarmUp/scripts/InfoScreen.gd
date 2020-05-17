@@ -7,7 +7,7 @@ onready var Fonction_Onde = get_tree().get_root().get_node("Level").get_node("Fo
 #onready var Player = get_tree().get_root().get_node("Level/Player");
 onready var World_Info_Label = $LeftInfo/World_Info_Label;
 onready var Player_Info_Label = $RightInfo/Player_Info_Label;
-onready var Player = get_tree().get_root().get_node("Level").get_node("Player")
+onready var Player : KinematicBody2D = get_tree().get_root().get_node("Level").get_node("Player")
 
 func _ready():
 	rect_size = Player.get_node("Camera2D").zoom * get_tree().get_root().size;
@@ -33,4 +33,5 @@ func _physics_process(delta):
 	Player_Info_Label.text += "Velocity = " + str(Vector2(round(Player.velocity[0]), round(Player.velocity[1]))) + "\n";
 	Player_Info_Label.text += "is on wall : " + str(Player.is_on_wall()) + "\n";
 	Player_Info_Label.text += "is on ledge : " + str(Player.is_on_ledge()) + "\n";
+	Player_Info_Label.text += "Top collision: " + str(Player.get_collision_mask_bit(10)) + "\n";
 
