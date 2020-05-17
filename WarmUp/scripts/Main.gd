@@ -47,7 +47,6 @@ func _ready():
 	# Connect Signals
 	$Player.connect("start_casting", self, "on_Player_start_casting");
 	$Player.connect("stop_casting", self, "on_Player_stop_casting");
-	
 
 
 # Execute ASAP
