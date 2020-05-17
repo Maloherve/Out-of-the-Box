@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=2]
+[gd_scene load_steps=33 format=2]
 
 [ext_resource path="res://scripts/Main.gd" type="Script" id=1]
 [ext_resource path="res://assets/Tilesets/platforms.tres" type="TileSet" id=2]
@@ -7,14 +7,13 @@
 [ext_resource path="res://assets/Background/SkyLine.png" type="Texture" id=5]
 [ext_resource path="res://bin/curve_field.gdns" type="Script" id=6]
 [ext_resource path="res://scripts/Interactions/modulator.gd" type="Script" id=7]
-[ext_resource path="res://assets/Environment/zones/silence.tres" type="Resource" id=8]
+[ext_resource path="res://scripts/Oldlab/boss_trigger.gd" type="Script" id=8]
 [ext_resource path="res://assets/Environment/box.png" type="Texture" id=9]
 [ext_resource path="res://scripts/jugebox.gd" type="Script" id=10]
 [ext_resource path="res://scripts/Level1/ReadSign1.gd" type="Script" id=11]
 [ext_resource path="res://assets/Fonts/abel-regular.ttf" type="DynamicFontData" id=12]
 [ext_resource path="res://scripts/Fonction_Onde.gd" type="Script" id=13]
 [ext_resource path="res://scenes/InfoScreen.tscn" type="PackedScene" id=14]
-[ext_resource path="res://scripts/Interactions/zone_trigger.gd" type="Script" id=15]
 [ext_resource path="res://assets/Sounds/electronic_accent_03.wav" type="AudioStream" id=16]
 [ext_resource path="res://scenes/Objects/Light.tscn" type="PackedScene" id=17]
 [ext_resource path="res://bin/uniform_field.gdns" type="Script" id=21]
@@ -35,29 +34,30 @@ extents = Vector2( 39.9575, 10.608 )
 max_value = 5.0
 _data = [ Vector2( 0, 0 ), 0.0, 0.0, 0, 0, Vector2( 0.5, 5 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), 0.0, 0.0, 0, 0 ]
 
-[sub_resource type="RectangleShape2D" id=10]
+[sub_resource type="RectangleShape2D" id=5]
 extents = Vector2( 14.1475, 28.8404 )
 
-[sub_resource type="Curve" id=11]
+[sub_resource type="Curve" id=6]
 max_value = 4.5
 _data = [ Vector2( 0, 0 ), 0.0, 0.0, 0, 0, Vector2( 0.491071, 4.5 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), 0.0, 0.0, 0, 0 ]
 
-[sub_resource type="RectangleShape2D" id=12]
+[sub_resource type="RectangleShape2D" id=7]
 extents = Vector2( 22.826, 19.6982 )
 
-[sub_resource type="RectangleShape2D" id=5]
+[sub_resource type="RectangleShape2D" id=8]
 extents = Vector2( 15.8712, 18.4255 )
 
-[sub_resource type="DynamicFont" id=6]
+[sub_resource type="DynamicFont" id=9]
 size = 10
 font_data = ExtResource( 12 )
 
-[sub_resource type="RectangleShape2D" id=7]
+[sub_resource type="RectangleShape2D" id=10]
+extents = Vector2( 31.5792, 1.21194 )
 
-[sub_resource type="Curve" id=8]
+[sub_resource type="Curve" id=11]
 _data = [ Vector2( 0, 0 ), 0.0, 0.0, 0, 0, Vector2( 0.0892857, 0.7 ), 0.814545, 0.814545, 0, 0, Vector2( 1, 1 ), 0.0714515, 0.0, 0, 0 ]
 
-[sub_resource type="Curve" id=9]
+[sub_resource type="Curve" id=12]
 _data = [ Vector2( 0, 0 ), 0.0, 1.4, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
 
 [node name="Level" type="Node2D"]
@@ -66,7 +66,7 @@ cat_version = 2
 zone = ExtResource( 4 )
 
 [node name="PlayerInitialPosition" type="Node2D" parent="."]
-position = Vector2( 1500.21, 1890.68 )
+position = Vector2( 2225.21, 1957.68 )
 
 [node name="World" type="Node2D" parent="."]
 __meta__ = {
@@ -144,6 +144,7 @@ tile_data = PoolIntArray( 655413, 2, 0, 655416, 1, 0, 655417, 2, 0, 655421, 1, 0
 
 [node name="doorwall" parent="World/Objects" instance=ExtResource( 22 )]
 position = Vector2( 10, 480 )
+init_open = false
 
 [node name="right" parent="World/Objects/doorwall" instance=ExtResource( 23 )]
 position = Vector2( 70, 10 )
@@ -179,7 +180,7 @@ collision_layer = 18
 collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="World/Objects/boss_boxes"]
-shape = SubResource( 10 )
+shape = SubResource( 5 )
 
 [node name="Sprite" type="Sprite" parent="World/Objects/boss_boxes"]
 position = Vector2( 0, -13.103 )
@@ -194,7 +195,7 @@ texture = ExtResource( 9 )
 [node name="potential" type="Node2D" parent="World/Objects/boss_boxes"]
 scale = Vector2( 14, 1 )
 script = ExtResource( 6 )
-V_x = SubResource( 11 )
+V_x = SubResource( 6 )
 
 [node name="right2" parent="World/Objects/boss_boxes" instance=ExtResource( 23 )]
 position = Vector2( 62, 10 )
@@ -236,7 +237,7 @@ position = Vector2( 1810, 460 )
 collision_layer = 18
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="World/Objects/boss_boxes2"]
-shape = SubResource( 12 )
+shape = SubResource( 7 )
 
 [node name="Sprite" type="Sprite" parent="World/Objects/boss_boxes2"]
 scale = Vector2( 2.74571, 2.48984 )
@@ -262,7 +263,7 @@ script = ExtResource( 11 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="World/Interactions/intro"]
 position = Vector2( 1.74341, 5.61761 )
-shape = SubResource( 5 )
+shape = SubResource( 8 )
 
 [node name="Label" type="Label" parent="World/Interactions/intro"]
 margin_left = -28.2969
@@ -270,7 +271,7 @@ margin_top = -52.5529
 margin_right = 102.929
 margin_bottom = -7.55286
 rect_scale = Vector2( 0.993344, 1.01854 )
-custom_fonts/font = SubResource( 6 )
+custom_fonts/font = SubResource( 9 )
 text = "Warning!
 Subject 1926  escaped.
 No one is allowed to leave the building.
@@ -279,16 +280,15 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="zone_trigger1" type="Area2D" parent="World/Interactions"]
-position = Vector2( 899.049, 470.951 )
+[node name="boss_trigger" type="Area2D" parent="World/Interactions"]
+position = Vector2( 1855, 1975 )
 scale = Vector2( 6, 7 )
 collision_layer = 2
 collision_mask = 2
-script = ExtResource( 15 )
-zoneinfo = ExtResource( 8 )
+script = ExtResource( 8 )
 
-[node name="collider" type="CollisionShape2D" parent="World/Interactions/zone_trigger1"]
-shape = SubResource( 7 )
+[node name="collider" type="CollisionShape2D" parent="World/Interactions/boss_trigger"]
+shape = SubResource( 10 )
 
 [node name="Fonction_Onde" type="Node2D" parent="."]
 script = ExtResource( 13 )
@@ -301,8 +301,8 @@ bus = "Filter"
 script = ExtResource( 10 )
 fadein_time = 2.0
 fadeout_time = 8.0
-fadein = SubResource( 8 )
-fadeout = SubResource( 9 )
+fadein = SubResource( 11 )
+fadeout = SubResource( 12 )
 
 [node name="Teleport" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 16 )
