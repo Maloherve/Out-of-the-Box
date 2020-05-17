@@ -4,13 +4,23 @@ extends Node2D
 var dialog = [
 	'So... How is it going with Experiment 8?', 
 	'Any progress?',
-	'None so far... We had high hopes for Schrödy- hum, I mean Experiment 8.',
-	'*insert scientific explanations here*',
-	'*insert scientific tests conducted*',
-	'Alright, well, you better get some results and fast!', 
+	'None so far... We had high hopes for Schrödy- um, I mean Experiment 8.',
+	'As you know, he is our latest attempt at creating state superposition at a macroscopic scale',
+	'Originally it looked like the artificial enlargement of his de Broglie wavelength had succeeded',
+	'However, so far we haven\'t observed any of the expected quantum phenomena...',
+	'It seems like the superposition state can\'t be triggered by an external source...',
+	'Maybe Schrödy himself needs to will himself into a probability wave?',
+	'Don\'t be ridiculous. Cats don\'t have a consciousness.',
+	'In any case, we don\'t have time to test every outlandish hypothesis you come up with.',
+	'We need some results, and fast.',
+	'Proceed with the Schrödinger experiment.',
+	'What? But we haven\'t even asserted his ability to enter superposition!',
+	'In his current state, there\'s no way of knowing if he would survi-',
+	'It doesn\'t matter, we have plenty of other test subjects ready for you.',
+	'Just do your job.',
 	'The president himself is counting on you.'
 	]
-var anim = ['redTalk', 'redTalkEnd', 'blueTalkStart', 'blueTalk', 'blueTalk', 'blueTalk', 'blueTalkEnd', ]
+var anim = ['redTalk', 'redTalkEnd', 'blueTalkStart', 'blueTalk', 'blueTalk', 'blueTalk', 'blueTalk', 'blueTalkEnd', 'redTalk', 'redTalk', 'redTalk', 'redTalkEnd', 'blueTalk', 'blueTalk', 'redTalk', 'redTalk', 'redTalkEnd' ]
 var page = 0
 
 onready var dialogBox = get_node('World/NPC/DialogueBox/Dialogue')

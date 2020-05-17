@@ -76,15 +76,15 @@ animations = [ {
 
 [sub_resource type="SpriteFrames" id=2]
 animations = [ {
-"frames": [ ExtResource( 6 ), ExtResource( 8 ), ExtResource( 8 ) ],
-"loop": true,
-"name": "eyes",
-"speed": 1.0
-}, {
 "frames": [ ExtResource( 8 ), ExtResource( 21 ), ExtResource( 7 ), ExtResource( 9 ), ExtResource( 7 ), ExtResource( 21 ), ExtResource( 8 ) ],
 "loop": false,
 "name": "jump",
 "speed": 10.0
+}, {
+"frames": [ ExtResource( 6 ), ExtResource( 8 ), ExtResource( 8 ) ],
+"loop": true,
+"name": "eyes",
+"speed": 1.0
 } ]
 
 [sub_resource type="DynamicFont" id=3]
