@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=2]
+[gd_scene load_steps=34 format=2]
 
 [ext_resource path="res://scripts/Main.gd" type="Script" id=1]
 [ext_resource path="res://assets/Tilesets/platforms.tres" type="TileSet" id=2]
@@ -8,6 +8,7 @@
 [ext_resource path="res://bin/curve_field.gdns" type="Script" id=6]
 [ext_resource path="res://scripts/Interactions/modulator.gd" type="Script" id=7]
 [ext_resource path="res://assets/Environment/zones/silence.tres" type="Resource" id=8]
+[ext_resource path="res://assets/Environment/box.png" type="Texture" id=9]
 [ext_resource path="res://scripts/jugebox.gd" type="Script" id=10]
 [ext_resource path="res://scripts/Level1/ReadSign1.gd" type="Script" id=11]
 [ext_resource path="res://assets/Fonts/abel-regular.ttf" type="DynamicFontData" id=12]
@@ -33,6 +34,16 @@ extents = Vector2( 39.9575, 10.608 )
 [sub_resource type="Curve" id=4]
 max_value = 5.0
 _data = [ Vector2( 0, 0 ), 0.0, 0.0, 0, 0, Vector2( 0.5, 5 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="RectangleShape2D" id=10]
+extents = Vector2( 14.1475, 28.8404 )
+
+[sub_resource type="Curve" id=11]
+max_value = 4.5
+_data = [ Vector2( 0, 0 ), 0.0, 0.0, 0, 0, Vector2( 0.491071, 4.5 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="RectangleShape2D" id=12]
+extents = Vector2( 22.826, 19.6982 )
 
 [sub_resource type="RectangleShape2D" id=5]
 extents = Vector2( 15.8712, 18.4255 )
@@ -123,7 +134,7 @@ collision_friction = 0.0
 collision_layer = 1024
 collision_mask = 0
 format = 1
-tile_data = PoolIntArray( 655413, 2, 0, 655416, 1, 0, 655417, 2, 0, 655421, 1, 0, 655422, 2, 0, 786494, 3, 0, 786495, 2, 0, 852019, 2, 0, 852030, 0, 0, 917555, 0, 0, 1114164, 1, 0, 1114165, 2, 0, 1245235, 1, 0, 1245236, 4, 0, 1245247, 1, 0, 1310782, 0, 0, 1441854, 3, 0, 1441855, 2, 0, 1703987, 0, 0, 1703993, 0, 0, 1900595, 0, 0, 2031667, 1, 0, 2031668, 4, 0, 2031679, 3, 0, 2097208, 1, 0, 2097209, 1, 0, 2097210, 1, 0, 2097211, 1, 0, 2097212, 1, 0, 2097213, 1, 0, 2097214, 1, 0, 2162750, 0, 0, 2293822, 3, 0, 2293823, 1, 0, 2359347, 4, 0, 2424894, 0, 0, 2555955, 1, 0, 2555956, 4, 0, 2621499, 0, 0, 2687029, 0, 0, 2687030, 1, 0, 2687036, 1, 0, 2687038, 0, 0, 2818099, 0, 0, 2818104, 3, 0, 2818105, 1, 0, 2818106, 4, 0, 2883639, 0, 0, 2883641, 0, 0, 2949171, 2, 0, 2949176, 1, 0, 2949177, 2, 0, 2949178, 2, 0, 3014712, 2, 0, 3014713, 2, 0, 3014714, 2, 0, 3014718, 3, 0, 3014719, 2, 0, 3080251, 0, 0, 3145779, 1, 0, 3145780, 4, 0, 3211318, 0, 0, 3276856, 2, 0, 3342395, 3, 0, 3342396, 4, 0, 3473463, 0, 0, 3538995, 1, 0, 3538996, 4, 0, 3735607, 3, 0, 3735608, 4, 0, 3997748, 1, 0, 3997749, 2, 0, 3997750, 1, 0, 3997751, 2, 0, 3997752, 1, 0, 3997753, 2, 0, 3997754, 1, 0, 3997755, 2, 0, 3997756, 1, 0, 3997757, 2, 0, 3997758, 1, 0, 3997759, 2, 0 )
+tile_data = PoolIntArray( 655413, 2, 0, 655416, 1, 0, 655417, 2, 0, 655421, 1, 0, 655422, 2, 0, 786494, 3, 0, 786495, 2, 0, 852019, 2, 0, 852030, 0, 0, 917555, 0, 0, 1114164, 1, 0, 1114165, 2, 0, 1245235, 1, 0, 1245236, 4, 0, 1245247, 1, 0, 1310778, 2, 0, 1310782, 0, 0, 1441854, 3, 0, 1441855, 2, 0, 1703987, 0, 0, 1703993, 0, 0, 1900595, 0, 0, 2031667, 1, 0, 2031668, 4, 0, 2031679, 3, 0, 2097208, 1, 0, 2097209, 1, 0, 2097210, 1, 0, 2097211, 1, 0, 2097212, 1, 0, 2097213, 1, 0, 2097214, 1, 0, 2162750, 0, 0, 2293822, 3, 0, 2293823, 1, 0, 2359347, 4, 0, 2424894, 0, 0, 2555955, 1, 0, 2555956, 4, 0, 2621499, 0, 0, 2687029, 0, 0, 2687030, 1, 0, 2687036, 1, 0, 2687038, 0, 0, 2818099, 0, 0, 2818104, 3, 0, 2818105, 1, 0, 2818106, 4, 0, 2883639, 0, 0, 2883641, 0, 0, 2949171, 2, 0, 2949176, 1, 0, 2949177, 2, 0, 2949178, 2, 0, 3014712, 2, 0, 3014713, 2, 0, 3014714, 2, 0, 3014718, 3, 0, 3014719, 2, 0, 3080251, 0, 0, 3145779, 1, 0, 3145780, 4, 0, 3211318, 0, 0, 3276856, 2, 0, 3342395, 3, 0, 3342396, 4, 0, 3473463, 0, 0, 3538995, 1, 0, 3538996, 4, 0, 3735607, 3, 0, 3735608, 4, 0, 3997748, 1, 0, 3997749, 2, 0, 3997750, 1, 0, 3997751, 2, 0, 3997752, 1, 0, 3997753, 2, 0, 3997754, 1, 0, 3997755, 2, 0, 3997756, 1, 0, 3997757, 2, 0, 3997758, 1, 0, 3997759, 2, 0 )
 
 [node name="Enemies" type="Node2D" parent="World"]
 
@@ -161,6 +172,83 @@ position = Vector2( -230, 480 )
 collision_layer = 0
 collision_mask = 0
 init_open = true
+
+[node name="boss_boxes" type="StaticBody2D" parent="World/Objects"]
+position = Vector2( 1808, 610 )
+collision_layer = 18
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="World/Objects/boss_boxes"]
+shape = SubResource( 10 )
+
+[node name="Sprite" type="Sprite" parent="World/Objects/boss_boxes"]
+position = Vector2( 0, -13.103 )
+scale = Vector2( 1.90088, 1.73709 )
+texture = ExtResource( 9 )
+
+[node name="Sprite2" type="Sprite" parent="World/Objects/boss_boxes"]
+position = Vector2( 0, 14.897 )
+scale = Vector2( 1.90088, 1.73709 )
+texture = ExtResource( 9 )
+
+[node name="potential" type="Node2D" parent="World/Objects/boss_boxes"]
+scale = Vector2( 14, 1 )
+script = ExtResource( 6 )
+V_x = SubResource( 11 )
+
+[node name="right2" parent="World/Objects/boss_boxes" instance=ExtResource( 23 )]
+position = Vector2( 62, 10 )
+collision_mask = 16
+
+[node name="Sprite" type="Sprite" parent="World/Objects/boss_boxes/right2"]
+scale = Vector2( -0.01, -0.01 )
+texture = ExtResource( 24 )
+
+[node name="left2" parent="World/Objects/boss_boxes" instance=ExtResource( 23 )]
+position = Vector2( -70, 10 )
+collision_mask = 16
+
+[node name="Sprite2" type="Sprite" parent="World/Objects/boss_boxes/left2"]
+rotation = 3.14159
+scale = Vector2( 0.01, 0.01 )
+texture = ExtResource( 24 )
+
+[node name="left3" parent="World/Objects/boss_boxes" instance=ExtResource( 23 )]
+position = Vector2( 190, 10 )
+collision_mask = 16
+
+[node name="Sprite2" type="Sprite" parent="World/Objects/boss_boxes/left3"]
+rotation = 3.14159
+scale = Vector2( 0.01, 0.01 )
+texture = ExtResource( 24 )
+
+[node name="left4" parent="World/Objects/boss_boxes" instance=ExtResource( 23 )]
+position = Vector2( 30, 10 )
+collision_mask = 16
+
+[node name="Sprite2" type="Sprite" parent="World/Objects/boss_boxes/left4"]
+rotation = 3.14159
+scale = Vector2( 0.01, 0.01 )
+texture = ExtResource( 24 )
+
+[node name="boss_boxes2" type="StaticBody2D" parent="World/Objects"]
+position = Vector2( 1810, 460 )
+collision_layer = 18
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="World/Objects/boss_boxes2"]
+shape = SubResource( 12 )
+
+[node name="Sprite" type="Sprite" parent="World/Objects/boss_boxes2"]
+scale = Vector2( 2.74571, 2.48984 )
+texture = ExtResource( 9 )
+
+[node name="right3" parent="World/Objects/boss_boxes2" instance=ExtResource( 23 )]
+position = Vector2( 30, 50 )
+collision_mask = 16
+
+[node name="Sprite" type="Sprite" parent="World/Objects/boss_boxes2/right3"]
+scale = Vector2( -0.01, -0.01 )
+texture = ExtResource( 24 )
 
 [node name="Interactions" type="Node2D" parent="World"]
 position = Vector2( 0.951309, -0.951324 )
