@@ -2,7 +2,8 @@ extends Node2D
 
 # This node describes the effects in the world, for exemple the darkening when casting
 var dialog = [
-	'So... How is it going with Experiment 8?', 
+	'So...', 
+	'How is it going with Experiment 8?', 
 	'Any progress?',
 	'None so far... We had high hopes for Schrödy- um, I mean Experiment 8.',
 	'As you know, he is our latest attempt at creating state superposition at a macroscopic scale',
@@ -20,7 +21,7 @@ var dialog = [
 	'Just do your job.',
 	'The president himself is counting on you.'
 	]
-var anim = ['redTalk', 'redTalkEnd', 'blueTalkStart', 'blueTalk', 'blueTalk', 'blueTalk', 'blueTalk', 'blueTalkEnd', 'redTalk', 'redTalk', 'redTalk', 'redTalkEnd', 'blueTalk', 'blueTalk', 'redTalk', 'redTalk', 'redTalkEnd' ]
+var anim = ['redTalkStart', 'redTalk', 'redTalkEnd', 'blueTalkStart', 'blueTalk', 'blueTalk', 'blueTalk', 'blueTalk', 'blueTalkEnd', 'talkRed', 'talkRed', 'talkRed', 'talkRed', 'talkBlue', 'talkBlue', 'talkRed', 'talkRed', 'leaving' ]
 var page = 0
 
 onready var dialogBox = get_node('World/NPC/DialogueBox/Dialogue')
@@ -126,7 +127,7 @@ func on_Player_stop_casting():
 	AudioServer.set_bus_effect_enabled ( 1, 0, false )
 	
 func _input(event):
-	if event is InputEventMouseButton && event.is_pressed():
+	if $World/NPC/DialogueBox.visible && event is InputEventMouseButton && event.is_pressed():
 		if dialogBox.get_visible_characters() > dialogBox.get_total_character_count():
 			if page < dialog.size()-1:
 				page += 1
@@ -148,7 +149,7 @@ func _on_Box_animation_finished():
 		dialogBox.set_bbcode(dialog[page])
 		dialogBox.set_visible_characters(0)
 		dialogBox.set_process_input(true)
-		$World/Enemies/Scientists.play('redTalk')
+		$World/Enemies/Scientists.play('redTalkStart')
 
 
 func _on_Box_frame_changed():
@@ -158,3 +159,8 @@ func _on_Box_frame_changed():
 
 func _on_Timer_timeout():
 	dialogBox.set_visible_characters(dialogBox.get_visible_characters()+1)
+
+
+func _on_Scientists_animation_finished():
+	if ($World/Enemies/Scientists.animation == 'leaving'):
+		$World/NPC/DialogueBox.visible = false
