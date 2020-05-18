@@ -1,10 +1,11 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://assets/Fonts/VCR_OSD_MONO_1.001.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://assets/Background/MenuBackground.png" type="Texture" id=2]
 [ext_resource path="res://scripts/Menu/OptionScreen.gd" type="Script" id=3]
 [ext_resource path="res://assets/Icon/Chat3noir.png" type="Texture" id=4]
 [ext_resource path="res://assets/Sounds/ui_click_rollover_misc_05.wav" type="AudioStream" id=5]
+[ext_resource path="res://assets/Background/tv_effect.ogv" type="VideoStream" id=6]
 
 [sub_resource type="DynamicFont" id=1]
 size = 52
@@ -29,6 +30,14 @@ font_data = ExtResource( 1 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VideoPlayer" type="VideoPlayer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+stream = ExtResource( 6 )
 __meta__ = {
 "_edit_use_anchors_": false
 }

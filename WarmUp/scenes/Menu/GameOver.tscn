@@ -1,9 +1,10 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://assets/Icon/Chat3noir.png" type="Texture" id=1]
 [ext_resource path="res://assets/Fonts/VCR_OSD_MONO_1.001.ttf" type="DynamicFontData" id=2]
 [ext_resource path="res://assets/Background/MenuBackground.png" type="Texture" id=3]
 [ext_resource path="res://scripts/Menu/GameOver.gd" type="Script" id=4]
+[ext_resource path="res://assets/Background/tv_effect.ogv" type="VideoStream" id=5]
 [ext_resource path="res://assets/Sounds/ui_click_rollover_misc_05.wav" type="AudioStream" id=9]
 
 [sub_resource type="DynamicFont" id=1]
@@ -25,6 +26,14 @@ font_data = ExtResource( 2 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VideoPlayer" type="VideoPlayer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+stream = ExtResource( 5 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
