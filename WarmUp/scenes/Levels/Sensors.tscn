@@ -148,6 +148,8 @@ shape = SubResource( 3 )
 
 [node name="modulator2" type="Area2D" parent="World/passage"]
 position = Vector2( 1600, 270 )
+collision_layer = 0
+collision_mask = 4
 script = ExtResource( 7 )
 fade_in_time = 1.0
 fade_in_curve = SubResource( 4 )

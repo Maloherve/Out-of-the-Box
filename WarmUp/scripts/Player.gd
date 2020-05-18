@@ -203,37 +203,8 @@ func flip(flag):
 	Side_Raycasts.set_flip(!flag);
 	$Trail.set_flip(!flag);
 	
-func _input(event):
-	print(event.as_text())
-
-# slow reaction input
-"""
-func _input(event):
-	if event.is_action_pressed("ui_space"):
-		print("Endurance: ", endurance)
-	if event.is_action_pressed("ui_space") && !cast && (endurance>=30):
-		emit_signal('start_casting', null); # no trigger
-		cast = true;
-		animNode.call("_cast",false)
-	if event.is_action_released("ui_space") && cast:
-		can_finish_cast = true
-	
-	if (event.is_action_pressed("ui_up") && !cast):
-		_trigger_jump(); # check if possible to jump
-		_trigger_ledge();
-		
-	if (event.is_action_pressed("ui_down") && pstate == PSTATE.ground && !cast):
-		#attack = true; # temporaly disabled, bugged
-		# TODO, emit attack signal
-		attackstun = meleeTime;
-"""
-	
 # Check for and execute Input, fast reaction input
 func _get_input():
-	#if Input.is_action_just_pressed("ui_space"):
-	#	print("Endurance: ", endurance)
-	#if Input.is_action_just_pressed("ui_space") && !cast && (endurance>=30):
-	
 	match ui_cast.check():
 		input_state.ui.pressed:
 			print("Pressed")
@@ -252,11 +223,6 @@ func _get_input():
 			if cast:
 				can_finish_cast = true;
 		
-	#if Input.is_action_just_released("ui_space") && cast:
-	#if ui_space.check() == input_state.ui.just_released && cast:
-	#	print("ALURA")
-	#	can_finish_cast = true
-		
 	if (ui_up.check() == input_state.ui.just_pressed && !cast):
 		_trigger_jump(); # check if possible to jump
 		_trigger_ledge();
@@ -269,19 +235,8 @@ func _get_input():
 	if Input.is_action_pressed("ui_left") || Input.is_action_pressed("ui_right"):
 		_trigger_hold_wall();
 		
-	#if Input.is_action_pressed("ui_space") && can_finish_cast:
-	#	emit_signal("stop_casting");
-	#	animNode.call("_endcast")
-	#	cast = false;
-	#	can_finish_cast = false;
-	
 	if !cast:
 		update_move_direction();
-		
-		#if (Input.is_action_just_pressed("ui_down")):
-			#attack = true;
-		#	attackstun = meleeTime;
-			#animNode.call("_attack",true)
 	
 func update_move_direction():
 	# Update move direction
@@ -302,11 +257,25 @@ func update_move_direction():
 func is_front_colliding():
 	return Side_Raycasts.get_node("Top_Side").is_colliding();
 	
+func front_collisions():
+	var out = [];
+	for raycast in Side_Raycasts.get_children():
+		if raycast.is_colliding():
+			out.append(raycast.get_collider());
+	return out;
+	
 func is_bottom_colliding():
 	for raycast in Bottom_Raycasts.get_children():
 		if raycast.is_colliding():
 			return true;
 	return false;
+	
+func bottom_collisions():
+	var out = [];
+	for raycast in Bottom_Raycasts.get_children():
+		if raycast.is_colliding():
+			out.append(raycast.get_collider());
+	return out;
 	
 func is_on_ledge():
 	return Side_Raycasts.get_node("Bottom_Side").is_colliding() && ! Side_Raycasts.get_node("Top_Side").is_colliding();
