@@ -1,8 +1,9 @@
-[gd_scene load_steps=47 format=2]
+[gd_scene load_steps=115 format=2]
 
 [ext_resource path="res://scripts/Intro/Intro.gd" type="Script" id=1]
 [ext_resource path="res://assets/Background/SkyLine.png" type="Texture" id=2]
 [ext_resource path="res://assets/Tilesets/Floor.tres" type="TileSet" id=3]
+[ext_resource path="res://assets/Character/Scientists/Scientists89.png" type="Texture" id=4]
 [ext_resource path="res://bin/uniform_field.gdns" type="Script" id=5]
 [ext_resource path="res://assets/Character/Box/Cat_box1.png" type="Texture" id=6]
 [ext_resource path="res://assets/Character/Box/Cat_box4.png" type="Texture" id=7]
@@ -18,8 +19,9 @@
 [ext_resource path="res://scenes/Objects/Light.tscn" type="PackedScene" id=17]
 [ext_resource path="res://scripts/Interactions/Trigger_Flicker.gd" type="Script" id=18]
 [ext_resource path="res://assets/Fonts/VCR_OSD_MONO_1.001.ttf" type="DynamicFontData" id=19]
+[ext_resource path="res://assets/Character/Scientists/Scientists51.png" type="Texture" id=20]
 [ext_resource path="res://assets/Character/Box/Cat_box3.png" type="Texture" id=21]
-[ext_resource path="res://assets/Character/Scientists/Scientists3.png" type="Texture" id=22]
+[ext_resource path="res://assets/Character/Scientists/Scientists59.png" type="Texture" id=22]
 [ext_resource path="res://assets/Character/Scientists/Scientists13.png" type="Texture" id=23]
 [ext_resource path="res://assets/Character/Scientists/Scientists25.png" type="Texture" id=24]
 [ext_resource path="res://assets/Character/Scientists/Scientists22.png" type="Texture" id=25]
@@ -29,9 +31,9 @@
 [ext_resource path="res://assets/Character/Scientists/Scientists7.png" type="Texture" id=29]
 [ext_resource path="res://assets/Character/Scientists/Scientists1.png" type="Texture" id=30]
 [ext_resource path="res://assets/Character/Scientists/Scientists10.png" type="Texture" id=31]
-[ext_resource path="res://assets/Character/Scientists/Scientists2.png" type="Texture" id=32]
+[ext_resource path="res://assets/Character/Scientists/Scientists61.png" type="Texture" id=32]
 [ext_resource path="res://assets/Character/Scientists/Scientists9.png" type="Texture" id=33]
-[ext_resource path="res://assets/Character/Scientists/Scientists4.png" type="Texture" id=34]
+[ext_resource path="res://assets/Character/Scientists/Scientists40.png" type="Texture" id=34]
 [ext_resource path="res://assets/Character/Scientists/Scientists23.png" type="Texture" id=35]
 [ext_resource path="res://assets/Character/Scientists/Scientists8.png" type="Texture" id=36]
 [ext_resource path="res://assets/Character/Scientists/Scientists11.png" type="Texture" id=37]
@@ -40,51 +42,147 @@
 [ext_resource path="res://assets/Character/Scientists/Scientists6.png" type="Texture" id=40]
 [ext_resource path="res://assets/Character/Scientists/Scientists19.png" type="Texture" id=41]
 [ext_resource path="res://assets/Character/Scientists/Scientists5.png" type="Texture" id=42]
+[ext_resource path="res://assets/Character/Scientists/Scientists28.png" type="Texture" id=43]
+[ext_resource path="res://assets/Character/Scientists/Scientists31.png" type="Texture" id=44]
+[ext_resource path="res://assets/Character/Scientists/Scientists70.png" type="Texture" id=45]
+[ext_resource path="res://assets/Character/Scientists/Scientists86.png" type="Texture" id=46]
+[ext_resource path="res://assets/Character/Scientists/Scientists58.png" type="Texture" id=47]
+[ext_resource path="res://assets/Character/Scientists/Scientists80.png" type="Texture" id=48]
+[ext_resource path="res://assets/Character/Scientists/Scientists29.png" type="Texture" id=49]
+[ext_resource path="res://assets/Character/Scientists/Scientists52.png" type="Texture" id=50]
+[ext_resource path="res://assets/Character/Scientists/Scientists33.png" type="Texture" id=51]
+[ext_resource path="res://assets/Character/Scientists/Scientists15.png" type="Texture" id=52]
+[ext_resource path="res://assets/Character/Scientists/Scientists18.png" type="Texture" id=53]
+[ext_resource path="res://assets/Character/Scientists/Scientists65.png" type="Texture" id=54]
+[ext_resource path="res://assets/Character/Scientists/Scientists68.png" type="Texture" id=55]
+[ext_resource path="res://assets/Character/Scientists/Scientists87.png" type="Texture" id=56]
+[ext_resource path="res://assets/Character/Scientists/Scientists88.png" type="Texture" id=57]
+[ext_resource path="res://assets/Character/Scientists/Scientists20.png" type="Texture" id=58]
+[ext_resource path="res://assets/Character/Scientists/Scientists83.png" type="Texture" id=59]
+[ext_resource path="res://assets/Character/Scientists/Scientists85.png" type="Texture" id=60]
+[ext_resource path="res://assets/Character/Scientists/Scientists69.png" type="Texture" id=61]
+[ext_resource path="res://assets/Character/Scientists/Scientists62.png" type="Texture" id=62]
+[ext_resource path="res://assets/Character/Scientists/Scientists60.png" type="Texture" id=63]
+[ext_resource path="res://assets/Character/Scientists/Scientists71.png" type="Texture" id=64]
+[ext_resource path="res://assets/Character/Scientists/Scientists73.png" type="Texture" id=65]
+[ext_resource path="res://assets/Character/Scientists/Scientists81.png" type="Texture" id=66]
+[ext_resource path="res://assets/Character/Scientists/Scientists79.png" type="Texture" id=67]
+[ext_resource path="res://assets/Character/Scientists/Scientists67.png" type="Texture" id=68]
+[ext_resource path="res://assets/Character/Scientists/Scientists3.png" type="Texture" id=69]
+[ext_resource path="res://assets/Character/Scientists/Scientists2.png" type="Texture" id=70]
+[ext_resource path="res://assets/Character/Scientists/Scientists38.png" type="Texture" id=71]
+[ext_resource path="res://assets/Character/Scientists/Scientists49.png" type="Texture" id=72]
+[ext_resource path="res://assets/Character/Scientists/Scientists4.png" type="Texture" id=73]
+[ext_resource path="res://assets/Character/Scientists/Scientists27.png" type="Texture" id=74]
+[ext_resource path="res://assets/Character/Scientists/Scientists54.png" type="Texture" id=75]
+[ext_resource path="res://assets/Character/Scientists/Scientists82.png" type="Texture" id=76]
+[ext_resource path="res://assets/Character/Scientists/Scientists34.png" type="Texture" id=77]
+[ext_resource path="res://assets/Character/Scientists/Scientists16.png" type="Texture" id=78]
+[ext_resource path="res://assets/Character/Scientists/Scientists30.png" type="Texture" id=79]
+[ext_resource path="res://assets/Character/Scientists/Scientists55.png" type="Texture" id=80]
+[ext_resource path="res://assets/Character/Scientists/Scientists37.png" type="Texture" id=81]
+[ext_resource path="res://assets/Character/Scientists/Scientists21.png" type="Texture" id=82]
+[ext_resource path="res://assets/Character/Scientists/Scientists84.png" type="Texture" id=83]
+[ext_resource path="res://assets/Character/Scientists/Scientists32.png" type="Texture" id=84]
+[ext_resource path="res://assets/Character/Scientists/Scientists45.png" type="Texture" id=85]
+[ext_resource path="res://assets/Character/Scientists/Scientists36.png" type="Texture" id=86]
+[ext_resource path="res://assets/Character/Scientists/Scientists66.png" type="Texture" id=87]
+[ext_resource path="res://assets/Character/Scientists/Scientists56.png" type="Texture" id=88]
+[ext_resource path="res://assets/Character/Scientists/Scientists74.png" type="Texture" id=89]
+[ext_resource path="res://assets/Character/Scientists/Scientists77.png" type="Texture" id=90]
+[ext_resource path="res://assets/Character/Scientists/Scientists78.png" type="Texture" id=91]
+[ext_resource path="res://assets/Character/Scientists/Scientists39.png" type="Texture" id=92]
+[ext_resource path="res://assets/Character/Scientists/Scientists63.png" type="Texture" id=93]
+[ext_resource path="res://assets/Character/Scientists/Scientists53.png" type="Texture" id=94]
+[ext_resource path="res://assets/Character/Scientists/Scientists44.png" type="Texture" id=95]
+[ext_resource path="res://assets/Character/Scientists/Scientists72.png" type="Texture" id=96]
+[ext_resource path="res://assets/Character/Scientists/Scientists57.png" type="Texture" id=97]
+[ext_resource path="res://assets/Character/Scientists/Scientists43.png" type="Texture" id=98]
+[ext_resource path="res://assets/Character/Scientists/Scientists75.png" type="Texture" id=99]
+[ext_resource path="res://assets/Character/Scientists/Scientists76.png" type="Texture" id=100]
+[ext_resource path="res://assets/Character/Scientists/Scientists35.png" type="Texture" id=101]
+[ext_resource path="res://assets/Character/Scientists/Scientists47.png" type="Texture" id=102]
+[ext_resource path="res://assets/Character/Scientists/Scientists48.png" type="Texture" id=103]
+[ext_resource path="res://assets/Character/Scientists/Scientists41.png" type="Texture" id=104]
+[ext_resource path="res://assets/Character/Scientists/Scientists50.png" type="Texture" id=105]
+[ext_resource path="res://assets/Character/Scientists/Scientists42.png" type="Texture" id=106]
+[ext_resource path="res://assets/Character/Scientists/Scientists46.png" type="Texture" id=107]
+[ext_resource path="res://assets/Character/Scientists/Scientists64.png" type="Texture" id=108]
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
-"frames": [  ],
+"frames": [ ExtResource( 30 ), ExtResource( 70 ), ExtResource( 73 ) ],
 "loop": true,
-"name": "talk",
+"name": "redTalk",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 42 ), ExtResource( 40 ), ExtResource( 29 ), ExtResource( 36 ) ],
-"loop": false,
-"name": "redTalkEnd",
+"frames": [ ExtResource( 82 ), ExtResource( 58 ), ExtResource( 58 ) ],
+"loop": true,
+"name": "phoneTalk",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 33 ), ExtResource( 31 ), ExtResource( 37 ), ExtResource( 27 ), ExtResource( 23 ), ExtResource( 39 ) ],
+"frames": [ ExtResource( 25 ), ExtResource( 104 ), ExtResource( 25 ), ExtResource( 104 ), ExtResource( 25 ), ExtResource( 104 ), ExtResource( 25 ), ExtResource( 35 ), ExtResource( 26 ), ExtResource( 24 ), ExtResource( 28 ), ExtResource( 74 ), ExtResource( 43 ), ExtResource( 79 ), ExtResource( 49 ) ],
 "loop": false,
 "name": "blueTalkStart",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 25 ), ExtResource( 35 ), ExtResource( 24 ), ExtResource( 26 ), ExtResource( 28 ) ],
+"frames": [ ExtResource( 104 ), ExtResource( 25 ), ExtResource( 25 ) ],
+"loop": true,
+"name": "talkBlue",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 82 ), ExtResource( 58 ), ExtResource( 82 ), ExtResource( 82 ), ExtResource( 58 ), ExtResource( 41 ), ExtResource( 53 ), ExtResource( 38 ), ExtResource( 78 ), ExtResource( 52 ), ExtResource( 39 ), ExtResource( 23 ), ExtResource( 27 ), ExtResource( 37 ), ExtResource( 25 ) ],
+"loop": false,
+"name": "phoneEnd",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 106 ), ExtResource( 106 ), ExtResource( 34 ), ExtResource( 106 ), ExtResource( 106 ), ExtResource( 34 ), ExtResource( 106 ), ExtResource( 98 ), ExtResource( 95 ), ExtResource( 85 ), ExtResource( 107 ), ExtResource( 102 ), ExtResource( 103 ), ExtResource( 72 ), ExtResource( 105 ), ExtResource( 20 ), ExtResource( 50 ), ExtResource( 94 ), ExtResource( 75 ), ExtResource( 80 ), ExtResource( 88 ), ExtResource( 97 ), ExtResource( 47 ), ExtResource( 22 ), ExtResource( 63 ), ExtResource( 32 ), ExtResource( 62 ), ExtResource( 93 ), ExtResource( 108 ), ExtResource( 54 ), ExtResource( 87 ), ExtResource( 68 ), ExtResource( 55 ), ExtResource( 61 ), ExtResource( 45 ), ExtResource( 64 ), ExtResource( 96 ), ExtResource( 65 ), ExtResource( 89 ), ExtResource( 99 ), ExtResource( 100 ), ExtResource( 90 ), ExtResource( 91 ), ExtResource( 67 ), ExtResource( 48 ), ExtResource( 66 ), ExtResource( 76 ), ExtResource( 59 ), ExtResource( 83 ), ExtResource( 60 ), ExtResource( 46 ), ExtResource( 56 ), ExtResource( 57 ), ExtResource( 4 ) ],
+"loop": false,
+"name": "leaving",
+"speed": 8.0
+}, {
+"frames": [ ExtResource( 25 ), ExtResource( 106 ), ExtResource( 106 ) ],
+"loop": true,
+"name": "talkRed",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 33 ), ExtResource( 31 ), ExtResource( 37 ), ExtResource( 27 ), ExtResource( 23 ), ExtResource( 39 ), ExtResource( 52 ), ExtResource( 78 ), ExtResource( 38 ), ExtResource( 53 ), ExtResource( 41 ), ExtResource( 82 ), ExtResource( 58 ) ],
+"loop": false,
+"name": "phoneStart",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 73 ), ExtResource( 69 ), ExtResource( 73 ), ExtResource( 69 ), ExtResource( 42 ), ExtResource( 40 ), ExtResource( 29 ), ExtResource( 36 ) ],
+"loop": false,
+"name": "redTalkEnd",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 77 ), ExtResource( 101 ), ExtResource( 77 ), ExtResource( 77 ), ExtResource( 101 ), ExtResource( 86 ), ExtResource( 81 ), ExtResource( 71 ), ExtResource( 92 ), ExtResource( 34 ) ],
 "loop": false,
 "name": "blueTalkEnd",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 38 ), ExtResource( 41 ), ExtResource( 38 ) ],
+"frames": [ ExtResource( 44 ), ExtResource( 84 ), ExtResource( 51 ) ],
 "loop": true,
 "name": "blueTalk",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 30 ), ExtResource( 32 ), ExtResource( 22 ), ExtResource( 34 ), ExtResource( 30 ), ExtResource( 30 ), ExtResource( 32 ) ],
-"loop": true,
-"name": "redTalk",
+"frames": [ ExtResource( 36 ), ExtResource( 29 ), ExtResource( 40 ), ExtResource( 42 ), ExtResource( 30 ) ],
+"loop": false,
+"name": "redTalkStart",
 "speed": 5.0
 } ]
 
 [sub_resource type="SpriteFrames" id=2]
 animations = [ {
-"frames": [ ExtResource( 6 ), ExtResource( 8 ), ExtResource( 8 ) ],
-"loop": true,
-"name": "eyes",
-"speed": 1.0
-}, {
 "frames": [ ExtResource( 8 ), ExtResource( 21 ), ExtResource( 7 ), ExtResource( 9 ), ExtResource( 7 ), ExtResource( 21 ), ExtResource( 8 ) ],
 "loop": false,
 "name": "jump",
 "speed": 10.0
+}, {
+"frames": [ ExtResource( 6 ), ExtResource( 8 ), ExtResource( 8 ) ],
+"loop": true,
+"name": "eyes",
+"speed": 1.0
 } ]
 
 [sub_resource type="DynamicFont" id=3]
@@ -211,7 +309,7 @@ collision_layer = 14
 collision_mask = 14
 occluder_light_mask = 2
 format = 1
-tile_data = PoolIntArray( 589812, 3, 65541, 589813, 3, 65542, 589814, 3, 65542, 589815, 3, 65542, 589816, 3, 65542, 589817, 3, 65542, 589818, 3, 65542, 589819, 3, 65542, 589820, 3, 65542, 589821, 3, 65542, 589822, 3, 65542, 589823, 3, 65542, 524288, 3, 65543, 655348, 3, 131077, 655349, 3, 131078, 655350, 3, 131078, 655351, 3, 196614, 655352, 3, 196614, 655353, 3, 196614, 655354, 3, 196614, 655355, 3, 196614, 655356, 3, 196614, 655357, 3, 196614, 655358, 3, 196614, 655359, 3, 131078, 589824, 3, 131079, 720884, 3, 131077, 720885, 3, 131078, 720886, 3, 131079, 720895, 3, 131077, 655360, 3, 131079, 786420, 3, 131077, 786421, 3, 131078, 786422, 3, 131079, 786431, 3, 131077, 720896, 3, 131079, 851956, 3, 131077, 851957, 3, 131078, 851958, 3, 131079, 851967, 3, 131077, 786432, 3, 131079, 917492, 3, 131077, 917493, 3, 131078, 917494, 3, 131079, 917503, 3, 131077, 851968, 3, 131079, 983028, 3, 131077, 983029, 3, 131078, 983030, 3, 131079, 983039, 3, 131077, 917504, 3, 131079, 1048564, 3, 131077, 1048565, 3, 131078, 1048566, 3, 131079, 1048575, 3, 131077, 983040, 3, 131079, 1114100, 3, 131077, 1114101, 3, 131078, 1114102, 3, 131078, 1114103, 3, 65542, 1114104, 3, 65542, 1114105, 3, 65542, 1114106, 3, 65542, 1114107, 3, 65542, 1114108, 3, 65542, 1114109, 3, 65542, 1114110, 3, 65542, 1114111, 3, 131078, 1048576, 3, 131079, 1179636, 3, 131077, 1179637, 3, 131078, 1179638, 3, 131078, 1179639, 3, 131078, 1179640, 3, 131078, 1179641, 3, 131078, 1179642, 3, 131078, 1179643, 3, 131078, 1179644, 3, 131078, 1179645, 3, 131078, 1179646, 3, 131078, 1179647, 3, 131078, 1114112, 3, 131079, 1245172, 3, 196613, 1245173, 3, 196614, 1245174, 3, 196614, 1245175, 3, 196614, 1245176, 3, 196614, 1245177, 3, 196614, 1245178, 3, 196614, 1245179, 3, 196614, 1245180, 3, 196614, 1245181, 3, 196614, 1245182, 3, 196614, 1245183, 3, 196614, 1179648, 3, 196615 )
+tile_data = PoolIntArray( 589813, 3, 0, 589814, 3, 1, 589815, 3, 1, 589816, 3, 1, 589817, 3, 1, 589818, 3, 1, 589819, 3, 1, 589820, 3, 1, 589821, 3, 1, 589822, 3, 1, 589823, 3, 1, 524288, 3, 2, 655349, 3, 65536, 655350, 3, 524293, 655351, 3, 131073, 655352, 3, 131073, 655353, 3, 131073, 655354, 3, 131073, 655355, 3, 131073, 655356, 3, 131073, 655357, 3, 131073, 655358, 3, 131073, 655359, 3, 524294, 589824, 3, 65538, 720885, 3, 65536, 720886, 3, 65538, 720895, 3, 65536, 655360, 3, 65538, 786421, 3, 65536, 786422, 3, 65538, 786431, 3, 65536, 720896, 3, 65538, 851957, 3, 65536, 851958, 3, 65538, 851967, 3, 65536, 786432, 3, 65538, 917493, 3, 65536, 917494, 3, 65538, 917503, 3, 65536, 851968, 3, 65538, 983029, 3, 65536, 983030, 3, 65538, 983039, 3, 65536, 917504, 3, 65538, 1048565, 3, 65536, 1048566, 3, 65538, 1048575, 3, 65536, 983040, 3, 65538, 1114101, 3, 65536, 1114102, 3, 589829, 1114103, 3, 1, 1114104, 3, 1, 1114105, 3, 1, 1114106, 3, 1, 1114107, 3, 1, 1114108, 3, 1, 1114109, 3, 1, 1114110, 3, 1, 1114111, 3, 589830, 1048576, 3, 65538, 1179637, 3, 65536, 1179638, 3, 65537, 1179639, 3, 65537, 1179640, 3, 65537, 1179641, 3, 65537, 1179642, 3, 65537, 1179643, 3, 65537, 1179644, 3, 65537, 1179645, 3, 65537, 1179646, 3, 65537, 1179647, 3, 65537, 1114112, 3, 65538, 1245173, 3, 131072, 1245174, 3, 131073, 1245175, 3, 131073, 1245176, 3, 131073, 1245177, 3, 131073, 1245178, 3, 131073, 1245179, 3, 131073, 1245180, 3, 131073, 1245181, 3, 131073, 1245182, 3, 131073, 1245183, 3, 131073, 1179648, 3, 131074 )
 
 [node name="potential" type="Node2D" parent="World/Obstacles"]
 script = ExtResource( 5 )
@@ -222,7 +320,7 @@ script = ExtResource( 5 )
 position = Vector2( -184, 432 )
 scale = Vector2( 0.3, 0.3 )
 frames = SubResource( 1 )
-animation = "redTalk"
+animation = "redTalkStart"
 
 [node name="NPC" type="Node2D" parent="World"]
 
@@ -246,12 +344,12 @@ margin_top = 40.0
 margin_right = 1480.0
 margin_bottom = 640.0
 rect_scale = Vector2( 0.2, 0.2 )
+rect_clip_content = false
 size_flags_vertical = 0
 size_flags_stretch_ratio = 0.0
 custom_fonts/normal_font = SubResource( 3 )
 bbcode_enabled = true
 tab_size = 1
-scroll_active = false
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -324,6 +422,7 @@ volume_db = -5.0
 
 [node name="Teleport" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 16 )
+[connection signal="animation_finished" from="World/Enemies/Scientists" to="." method="_on_Scientists_animation_finished"]
 [connection signal="animation_finished" from="World/NPC/Box" to="." method="_on_Box_animation_finished"]
 [connection signal="frame_changed" from="World/NPC/Box" to="." method="_on_Box_frame_changed"]
 [connection signal="timeout" from="World/NPC/DialogueBox/Timer" to="." method="_on_Timer_timeout"]
