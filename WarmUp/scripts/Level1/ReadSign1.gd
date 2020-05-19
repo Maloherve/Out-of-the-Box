@@ -1,4 +1,4 @@
-extends 'res://scripts/Interactions/scene_transition.gd'
+extends Area2D
 
 var target : float = 0.0;
 onready var GameFont = get_tree().get_root().get_node('Level').GameFont;

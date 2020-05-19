@@ -208,7 +208,7 @@ init_open = true
 position = Vector2( 0.951309, -0.951324 )
 
 [node name="intro" type="Area2D" parent="World/Interactions"]
-position = Vector2( -150, 490.304 )
+position = Vector2( -140, 490.304 )
 space_override = 1
 collision_layer = 0
 collision_mask = 4
