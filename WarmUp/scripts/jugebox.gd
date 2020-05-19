@@ -42,13 +42,13 @@ func push_track(track):
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
+	var t;
 	if finishing:
-		var t = fadeout.interpolate_baked(1 - tick / fadeout_time);
-		self.volume_db =  -80 * (1-t) + max_volume * t;
+		t = 1 - fadeout.interpolate_baked(1 - tick / fadeout_time);
 	else:
-		var t = fadein.interpolate_baked(1 - tick / fadein_time);
-		self.volume_db =  -80 * (1-t) + max_volume * t;
+		t = fadein.interpolate_baked(1 - tick / fadein_time);
 
+	self.volume_db = -80 * (1-t) + max_volume * t;
 	tick -= delta;
 	
 	if tick < 0:
@@ -62,6 +62,7 @@ func _process(delta):
 			else:
 				tick = 0;
 				set_process(false);
+			print("FINISH")
 		else: # fade in end
 			tick = 0;
 			set_process(false);

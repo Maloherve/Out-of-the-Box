@@ -37,7 +37,7 @@ _data = [ Vector2( 0, 0 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 1.4, 0.0, 0, 0 ]
 _data = [ Vector2( 0, 0 ), 0.0, 1.4, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
 
 [sub_resource type="RectangleShape2D" id=3]
-extents = Vector2( 39.9575, 10.608 )
+extents = Vector2( 21.2639, 10.9307 )
 
 [sub_resource type="Curve" id=4]
 max_value = 5.0
@@ -61,7 +61,7 @@ size = 10
 font_data = ExtResource( 12 )
 
 [sub_resource type="RectangleShape2D" id=10]
-extents = Vector2( 4.60239, 1.31372 )
+extents = Vector2( 0.89978, 0.245422 )
 
 [sub_resource type="Curve" id=11]
 _data = [ Vector2( 0, 0 ), 0.0, 0.0, 0, 0, Vector2( 0.0892857, 0.7 ), 0.814545, 0.814545, 0, 0, Vector2( 1, 1 ), 0.0714515, 0.0, 0, 0 ]
@@ -124,10 +124,10 @@ cell_size = Vector2( 32, 32 )
 collision_layer = 0
 collision_mask = 0
 format = 1
-tile_data = PoolIntArray( 3997760, 3, 262149, 3997761, 3, 262150, 3997762, 3, 458759 )
+tile_data = PoolIntArray( 3997761, 3, 262149, 3997762, 3, 458759 )
 
 [node name="modulator" type="Area2D" parent="World/passage"]
-position = Vector2( 2100, 1968 )
+position = Vector2( 2111, 1968 )
 collision_layer = 0
 collision_mask = 4
 script = ExtResource( 7 )
@@ -294,7 +294,7 @@ __meta__ = {
 }
 
 [node name="boss_trigger" type="Area2D" parent="World/Interactions"]
-position = Vector2( 2075, 1974 )
+position = Vector2( 2009, 1973 )
 scale = Vector2( 6, 7 )
 collision_layer = 2
 collision_mask = 2
@@ -302,6 +302,7 @@ script = ExtResource( 8 )
 zoneinfo = ExtResource( 28 )
 
 [node name="collider" type="CollisionShape2D" parent="World/Interactions/boss_trigger"]
+position = Vector2( 3.66672, 1.14285 )
 shape = SubResource( 10 )
 
 [node name="Fonction_Onde" type="Node2D" parent="."]
@@ -328,6 +329,7 @@ script = ExtResource( 19 )
 to_be_played = ExtResource( 29 )
 
 [node name="melma" type="Sprite" parent="boss"]
+visible = false
 material = ExtResource( 18 )
 position = Vector2( 46.6732, 139.287 )
 scale = Vector2( 1.09494, 4.54395 )
