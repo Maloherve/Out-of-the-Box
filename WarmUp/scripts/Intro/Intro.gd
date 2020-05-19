@@ -164,3 +164,5 @@ func _on_Timer_timeout():
 func _on_Scientists_animation_finished():
 	if ($World/Enemies/Scientists.animation == 'leaving'):
 		$World/NPC/DialogueBox.visible = false
+		SceneChanger.change_scene("res://scenes/Levels/Introduction.tscn")
+#		get_tree().change_scene("res://scenes/Levels/Introduction.tscn")

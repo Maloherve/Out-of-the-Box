@@ -22,6 +22,7 @@ config/icon="res://assets/Icon/imageedit_2_3132616459.png"
 [autoload]
 
 Music="*res://scenes/Music.tscn"
+SceneChanger="*res://scenes/SceneChanger.tscn"
 
 [debug]
 
