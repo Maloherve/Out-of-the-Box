@@ -1,4 +1,4 @@
-[gd_scene load_steps=38 format=2]
+[gd_scene load_steps=39 format=2]
 
 [ext_resource path="res://scripts/Main.gd" type="Script" id=1]
 [ext_resource path="res://assets/Background/SkyLine.png" type="Texture" id=2]
@@ -27,6 +27,7 @@
 [ext_resource path="res://bin/curve_field.gdns" type="Script" id=25]
 [ext_resource path="res://assets/Tilesets/Decoration_Tileser.tres" type="TileSet" id=26]
 [ext_resource path="res://assets/Tilesets/Obstacles_Tileset.tres" type="TileSet" id=27]
+[ext_resource path="res://scenes/Objects/Exit.tscn" type="PackedScene" id=28]
 
 [sub_resource type="OccluderPolygon2D" id=1]
 closed = false
@@ -175,7 +176,7 @@ cat_version = 2
 level_number = 1
 
 [node name="PlayerInitialPosition" type="Node2D" parent="."]
-position = Vector2( -236.208, 403.684 )
+position = Vector2( 1185.79, 458.637 )
 
 [node name="World" type="Node2D" parent="."]
 __meta__ = {
@@ -435,6 +436,9 @@ texture = ExtResource( 24 )
 [node name="potential" type="Node2D" parent="World/Objects/doorwall"]
 scale = Vector2( 3.3, 1 )
 script = ExtResource( 25 )
+
+[node name="Exit" parent="World/Objects" instance=ExtResource( 28 )]
+position = Vector2( 1073.42, 458.489 )
 
 [node name="Interactions" type="Node2D" parent="World"]
 position = Vector2( 0.951309, -0.951324 )
