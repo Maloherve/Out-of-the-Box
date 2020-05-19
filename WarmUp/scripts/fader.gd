@@ -58,17 +58,20 @@ func _process(delta):
 	match mode:
 		fmode.enter:
 			t = fader_in.interpolate_baked(1 - tick / total_time);
+			#print("Entering: ", t);
 		fmode.exit:
-			t = fader_out.interpolate_baked(1 - tick / total_time);
+			t = 1 - fader_out.interpolate_baked(1 - tick / total_time);
+			#print("Exiting: ", t);
 		fmode.enter_and_exit:
 			t = fader_in_out.interpolate_baked(1 - tick / total_time);
 		
-	modulate.a = 255 * t;
+	modulate.a = t;
 	
 	tick -= delta;
 		
 	if tick < 0:
 		tick = 0.0;
 		set_process(false);
+		#print("STOP")
 		if mode != fmode.enter:
 			visible = false; # optimise

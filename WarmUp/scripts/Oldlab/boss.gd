@@ -7,7 +7,7 @@ var casting : bool = false;
 signal start_casting;
 
 const CASTING_TIME : float = 3.0;
-const NON_CASTING_TIME : float = 10.0;
+const NON_CASTING_TIME : float = 6.0;
 
 const INTRO_WAIT : float = 8.0;
 
@@ -40,11 +40,13 @@ func cast():
 	$melma.fade_in(0.5); # fade in and stay
 	$damage_area.set_collision_mask_bit(MELMA_COLLISION_BIT, true);
 	$timer.start(CASTING_TIME);
+	#print("Cast")
 	
 func uncast():
 	$melma.fade_out(0.5); # fade in and stay
 	$damage_area.set_collision_mask_bit(MELMA_COLLISION_BIT, false);
 	$timer.start(NON_CASTING_TIME);
+	#print("Uncast")
 	
 func _on_Player_safezone_enter(body):
 	if body == player:
@@ -77,7 +79,7 @@ func intro():
 	$intro.start(INTRO_WAIT);
 	player.locked = true;  # disable user input
 	$melma.fade_in_out(5.0, 2.0); # enter and exit for 5 sec, with a delay of 1 sec
-	print("Intro")
+	
 
 func start():
 	intro();

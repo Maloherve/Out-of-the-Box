@@ -69,7 +69,7 @@ _data = [ Vector2( 0, 0 ), 0.0, 0.0, 0, 0, Vector2( 0.0892857, 0.7 ), 0.814545, 
 [sub_resource type="Curve" id=12]
 _data = [ Vector2( 0, 0 ), 0.0, 1.4, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
 
-[sub_resource type="RectangleShape2D" id=14]
+[sub_resource type="RectangleShape2D" id=13]
 extents = Vector2( 239.812, 802.198 )
 
 [node name="Level" type="Node2D"]
@@ -355,4 +355,4 @@ collision_mask = 2048
 
 [node name="collider" type="CollisionShape2D" parent="boss/damage_area"]
 position = Vector2( 4.48767, 4.48779 )
-shape = SubResource( 14 )
+shape = SubResource( 13 )
