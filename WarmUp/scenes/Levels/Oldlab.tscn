@@ -1,4 +1,4 @@
-[gd_scene load_steps=33 format=2]
+[gd_scene load_steps=43 format=2]
 
 [ext_resource path="res://scripts/Main.gd" type="Script" id=1]
 [ext_resource path="res://assets/Tilesets/platforms.tres" type="TileSet" id=2]
@@ -14,12 +14,21 @@
 [ext_resource path="res://assets/Fonts/abel-regular.ttf" type="DynamicFontData" id=12]
 [ext_resource path="res://scripts/Fonction_Onde.gd" type="Script" id=13]
 [ext_resource path="res://scenes/InfoScreen.tscn" type="PackedScene" id=14]
+[ext_resource path="res://assets/Environment/effects/water.jpg" type="Texture" id=15]
 [ext_resource path="res://assets/Sounds/electronic_accent_03.wav" type="AudioStream" id=16]
 [ext_resource path="res://scenes/Objects/Light.tscn" type="PackedScene" id=17]
+[ext_resource path="res://assets/Materials/melma.tres" type="Material" id=18]
+[ext_resource path="res://scripts/Oldlab/boss.gd" type="Script" id=19]
+[ext_resource path="res://scripts/fader.gd" type="Script" id=20]
 [ext_resource path="res://bin/uniform_field.gdns" type="Script" id=21]
 [ext_resource path="res://scenes/Objects/door.tscn" type="PackedScene" id=22]
 [ext_resource path="res://scenes/Wave/detector.tscn" type="PackedScene" id=23]
 [ext_resource path="res://assets/Other/star.png" type="Texture" id=24]
+[ext_resource path="res://assets/Curves/fader_in.tres" type="Curve" id=25]
+[ext_resource path="res://assets/Curves/fader_out.tres" type="Curve" id=26]
+[ext_resource path="res://assets/Curves/fader_in_out.tres" type="Curve" id=27]
+[ext_resource path="res://assets/Environment/zones/oldlab_boss.tres" type="Resource" id=28]
+[ext_resource path="res://assets/Sounds/BoxBassArp.ogg" type="AudioStream" id=29]
 
 [sub_resource type="Curve" id=1]
 _data = [ Vector2( 0, 0 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 1.4, 0.0, 0, 0 ]
@@ -52,13 +61,16 @@ size = 10
 font_data = ExtResource( 12 )
 
 [sub_resource type="RectangleShape2D" id=10]
-extents = Vector2( 31.5792, 1.21194 )
+extents = Vector2( 4.60239, 1.31372 )
 
 [sub_resource type="Curve" id=11]
 _data = [ Vector2( 0, 0 ), 0.0, 0.0, 0, 0, Vector2( 0.0892857, 0.7 ), 0.814545, 0.814545, 0, 0, Vector2( 1, 1 ), 0.0714515, 0.0, 0, 0 ]
 
 [sub_resource type="Curve" id=12]
 _data = [ Vector2( 0, 0 ), 0.0, 1.4, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="RectangleShape2D" id=14]
+extents = Vector2( 239.812, 802.198 )
 
 [node name="Level" type="Node2D"]
 script = ExtResource( 1 )
@@ -76,6 +88,7 @@ __meta__ = {
 
 [node name="Background" type="Node2D" parent="World"]
 light_mask = 1024
+z_index = -2
 
 [node name="boss" type="Sprite" parent="World/Background"]
 position = Vector2( 1800, 1172.62 )
@@ -281,11 +294,12 @@ __meta__ = {
 }
 
 [node name="boss_trigger" type="Area2D" parent="World/Interactions"]
-position = Vector2( 1855, 1975 )
+position = Vector2( 2075, 1974 )
 scale = Vector2( 6, 7 )
 collision_layer = 2
 collision_mask = 2
 script = ExtResource( 8 )
+zoneinfo = ExtResource( 28 )
 
 [node name="collider" type="CollisionShape2D" parent="World/Interactions/boss_trigger"]
 shape = SubResource( 10 )
@@ -306,3 +320,39 @@ fadeout = SubResource( 12 )
 
 [node name="Teleport" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 16 )
+volume_db = -20.0
+
+[node name="boss" type="Node2D" parent="."]
+position = Vector2( 1794.28, 1126.89 )
+script = ExtResource( 19 )
+to_be_played = ExtResource( 29 )
+
+[node name="melma" type="Sprite" parent="boss"]
+material = ExtResource( 18 )
+position = Vector2( -10.3324, -188.699 )
+scale = Vector2( 2.30071, 6.97396 )
+z_index = 1
+texture = ExtResource( 15 )
+region_enabled = true
+region_rect = Rect2( 0, 0, 400, 400 )
+script = ExtResource( 20 )
+fader_in = ExtResource( 25 )
+fader_out = ExtResource( 26 )
+fader_in_out = ExtResource( 27 )
+
+[node name="timer" type="Timer" parent="boss"]
+one_shot = true
+
+[node name="intro" type="Timer" parent="boss"]
+one_shot = true
+
+[node name="safezones" type="Node2D" parent="boss"]
+
+[node name="damage_area" type="Area2D" parent="boss"]
+position = Vector2( 30, 10 )
+collision_layer = 0
+collision_mask = 2048
+
+[node name="collider" type="CollisionShape2D" parent="boss/damage_area"]
+position = Vector2( 4.48767, 4.48779 )
+shape = SubResource( 14 )
