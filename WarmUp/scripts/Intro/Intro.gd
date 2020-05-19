@@ -60,10 +60,11 @@ func _enter_tree():
 	camera.zoom = camera_zoom
 	if activate_camera: camera.current = true;
 	$Player.add_child(camera)
+	
 	Player.visible = false
+	Player.set_locked(true);
 	
 	
-
 func _ready():
 	# Connect Signals
 	$Player.connect("start_casting", self, "on_Player_start_casting");
