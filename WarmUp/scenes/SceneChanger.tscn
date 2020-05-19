@@ -57,6 +57,7 @@ script = SubResource( 1 )
 [node name="Control" type="Control" parent="."]
 margin_right = 40.0
 margin_bottom = 40.0
+mouse_filter = 2
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -67,6 +68,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 margin_right = 1004.0
 margin_bottom = 570.0
+mouse_filter = 2
 color = Color( 0, 0, 0, 1 )
 __meta__ = {
 "_edit_use_anchors_": false
