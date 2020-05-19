@@ -55,6 +55,7 @@ signal pstate_changed;
 var pstate = PSTATE.ground;
 
 # input state
+var locked = false setget set_locked; # disable
 const input_state = preload('res://scripts/input_state.gd');
 var ui_cast = input_state.new("ui_cast");
 var ui_up = input_state.new("ui_up");
@@ -78,10 +79,18 @@ func _ready():
 	connect("pstate_changed", self, "_on_Player_pstate_changed")
 	#connect("move_direction_changed", self, "_on_Player_move_direction_changed")
 	
+func set_locked(flag):
+	self.velocity = Vector2(0,0);
+	self.move_direction = 0.0;
+	locked = flag;
+	
 # Execute ASAP
 func _process(delta):
 	if !attack:
-		_get_input();
+		
+		if !locked:
+			_get_input();
+			
 		MoveCharacter(delta);
 		
 		if (move_direction == -1):
@@ -89,7 +98,6 @@ func _process(delta):
 		elif (move_direction == 1):
 			flip(true);
 	_trigger_landing();
-	
 	
 # PSTATE check
 func _trigger_landing():
@@ -170,6 +178,7 @@ func _physics_process(delta):
 	if !cast:
 		velocity = move_and_slide(velocity, Vector2(0,0));
 	Endurance_Bar.set_value(update_endurance());
+	
 
 # Move Character
 func MoveCharacter(delta):
@@ -206,10 +215,7 @@ func flip(flag):
 # Check for and execute Input, fast reaction input
 func _get_input():
 	match ui_cast.check():
-		input_state.ui.pressed:
-			print("Pressed")
 		input_state.ui.just_pressed:
-			print("Just pressed")
 			if !cast && endurance>=30:
 				emit_signal('start_casting', null); # no trigger
 				cast = true;

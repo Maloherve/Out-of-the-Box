@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/CatWalk9.jpeg-f07c3c864f7eba2b9083894b411c837e.stex"
+path="res://.import/CatClimb1.png-110f3d7d2b080a8273f78734a1ea44f7.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Character/Cat2/CatWalk9.jpeg"
-dest_files=[ "res://.import/CatWalk9.jpeg-f07c3c864f7eba2b9083894b411c837e.stex" ]
+source_file="res://assets/Character/Cat2/CatClimb1.png"
+dest_files=[ "res://.import/CatClimb1.png-110f3d7d2b080a8273f78734a1ea44f7.stex" ]
 
 [params]
 

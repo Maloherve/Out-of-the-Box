@@ -1,9 +1,7 @@
-[gd_resource type="Resource" load_steps=3 format=2]
+[gd_resource type="Resource" load_steps=2 format=2]
 
-[ext_resource path="res://assets/Sounds/LightBox.ogg" type="AudioStream" id=1]
 [ext_resource path="res://scripts/zoneinfo.gd" type="Script" id=2]
 
 [resource]
 script = ExtResource( 2 )
-soundtrack = ExtResource( 1 )
-modulate = Color( 0.388235, 0.509804, 0.25098, 1 )
+modulate = Color( 0.866667, 0.803922, 0.4, 1 )
