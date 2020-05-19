@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=2]
 
-[sub_resource type="GDScript" id=2]
+[sub_resource type="GDScript" id=1]
 script/source = "extends CanvasLayer
 
 
@@ -19,8 +19,7 @@ func change_scene(path, delay = 0.5):
 	emit_signal(\"scene_changed\")
 "
 
-[sub_resource type="Animation" id=1]
-resource_name = "fade"
+[sub_resource type="Animation" id=2]
 length = 0.4
 tracks/0/type = "value"
 tracks/0/path = NodePath("Control/Black:modulate")
@@ -36,7 +35,7 @@ tracks/0/keys = {
 }
 
 [node name="SceneChanger" type="CanvasLayer"]
-script = SubResource( 2 )
+script = SubResource( 1 )
 
 [node name="Control" type="Control" parent="."]
 margin_right = 40.0
@@ -57,4 +56,4 @@ __meta__ = {
 }
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-anims/fade = SubResource( 1 )
+anims/fade = SubResource( 2 )

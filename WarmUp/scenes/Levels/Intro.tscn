@@ -111,9 +111,24 @@
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
+"frames": [ ExtResource( 77 ), ExtResource( 101 ), ExtResource( 77 ), ExtResource( 77 ), ExtResource( 101 ), ExtResource( 86 ), ExtResource( 81 ), ExtResource( 71 ), ExtResource( 92 ), ExtResource( 34 ) ],
+"loop": false,
+"name": "blueTalkEnd",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 44 ), ExtResource( 84 ), ExtResource( 51 ) ],
+"loop": true,
+"name": "blueTalk",
+"speed": 5.0
+}, {
 "frames": [ ExtResource( 30 ), ExtResource( 70 ), ExtResource( 73 ) ],
 "loop": true,
 "name": "redTalk",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 104 ), ExtResource( 25 ), ExtResource( 25 ) ],
+"loop": true,
+"name": "talkBlue",
 "speed": 5.0
 }, {
 "frames": [ ExtResource( 82 ), ExtResource( 58 ), ExtResource( 58 ) ],
@@ -121,14 +136,19 @@ animations = [ {
 "name": "phoneTalk",
 "speed": 5.0
 }, {
+"frames": [ ExtResource( 73 ), ExtResource( 69 ), ExtResource( 73 ), ExtResource( 69 ), ExtResource( 42 ), ExtResource( 40 ), ExtResource( 29 ), ExtResource( 36 ) ],
+"loop": false,
+"name": "redTalkEnd",
+"speed": 5.0
+}, {
 "frames": [ ExtResource( 25 ), ExtResource( 104 ), ExtResource( 25 ), ExtResource( 104 ), ExtResource( 25 ), ExtResource( 104 ), ExtResource( 25 ), ExtResource( 35 ), ExtResource( 26 ), ExtResource( 24 ), ExtResource( 28 ), ExtResource( 74 ), ExtResource( 43 ), ExtResource( 79 ), ExtResource( 49 ) ],
 "loop": false,
 "name": "blueTalkStart",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 104 ), ExtResource( 25 ), ExtResource( 25 ) ],
+"frames": [ ExtResource( 25 ), ExtResource( 106 ), ExtResource( 106 ) ],
 "loop": true,
-"name": "talkBlue",
+"name": "talkRed",
 "speed": 5.0
 }, {
 "frames": [ ExtResource( 82 ), ExtResource( 58 ), ExtResource( 82 ), ExtResource( 82 ), ExtResource( 58 ), ExtResource( 41 ), ExtResource( 53 ), ExtResource( 38 ), ExtResource( 78 ), ExtResource( 52 ), ExtResource( 39 ), ExtResource( 23 ), ExtResource( 27 ), ExtResource( 37 ), ExtResource( 25 ) ],
@@ -141,34 +161,14 @@ animations = [ {
 "name": "leaving",
 "speed": 8.0
 }, {
-"frames": [ ExtResource( 25 ), ExtResource( 106 ), ExtResource( 106 ) ],
-"loop": true,
-"name": "talkRed",
+"frames": [ ExtResource( 36 ), ExtResource( 29 ), ExtResource( 40 ), ExtResource( 42 ), ExtResource( 30 ) ],
+"loop": false,
+"name": "redTalkStart",
 "speed": 5.0
 }, {
 "frames": [ ExtResource( 33 ), ExtResource( 31 ), ExtResource( 37 ), ExtResource( 27 ), ExtResource( 23 ), ExtResource( 39 ), ExtResource( 52 ), ExtResource( 78 ), ExtResource( 38 ), ExtResource( 53 ), ExtResource( 41 ), ExtResource( 82 ), ExtResource( 58 ) ],
 "loop": false,
 "name": "phoneStart",
-"speed": 5.0
-}, {
-"frames": [ ExtResource( 73 ), ExtResource( 69 ), ExtResource( 73 ), ExtResource( 69 ), ExtResource( 42 ), ExtResource( 40 ), ExtResource( 29 ), ExtResource( 36 ) ],
-"loop": false,
-"name": "redTalkEnd",
-"speed": 5.0
-}, {
-"frames": [ ExtResource( 77 ), ExtResource( 101 ), ExtResource( 77 ), ExtResource( 77 ), ExtResource( 101 ), ExtResource( 86 ), ExtResource( 81 ), ExtResource( 71 ), ExtResource( 92 ), ExtResource( 34 ) ],
-"loop": false,
-"name": "blueTalkEnd",
-"speed": 5.0
-}, {
-"frames": [ ExtResource( 44 ), ExtResource( 84 ), ExtResource( 51 ) ],
-"loop": true,
-"name": "blueTalk",
-"speed": 5.0
-}, {
-"frames": [ ExtResource( 36 ), ExtResource( 29 ), ExtResource( 40 ), ExtResource( 42 ), ExtResource( 30 ) ],
-"loop": false,
-"name": "redTalkStart",
 "speed": 5.0
 } ]
 

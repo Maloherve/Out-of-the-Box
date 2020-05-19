@@ -62,6 +62,7 @@ _data = [ Vector2( 0, 0 ), 0.0, 1.4, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
 
 [node name="Level" type="Node2D"]
 script = ExtResource( 1 )
+level_index = 5
 cat_version = 2
 zone = ExtResource( 4 )
 
@@ -144,7 +145,6 @@ tile_data = PoolIntArray( 655413, 2, 0, 655416, 1, 0, 655417, 2, 0, 655421, 1, 0
 
 [node name="doorwall" parent="World/Objects" instance=ExtResource( 22 )]
 position = Vector2( 10, 480 )
-init_open = false
 
 [node name="right" parent="World/Objects/doorwall" instance=ExtResource( 23 )]
 position = Vector2( 70, 10 )

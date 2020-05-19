@@ -69,6 +69,7 @@ _data = [ Vector2( 0, 0 ), 0.0, 1.4, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
 
 [node name="Level" type="Node2D"]
 script = ExtResource( 1 )
+level_index = 4
 cat_version = 2
 zone = ExtResource( 19 )
 
