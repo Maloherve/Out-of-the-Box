@@ -44,7 +44,7 @@ func push_track(track):
 func _process(delta):
 	if finishing:
 		var t = fadeout.interpolate_baked(1 - tick / fadeout_time);
-		self.volume_db =  -80 * t + max_volume * (1-t);
+		self.volume_db =  -80 * (1-t) + max_volume * t;
 	else:
 		var t = fadein.interpolate_baked(1 - tick / fadein_time);
 		self.volume_db =  -80 * (1-t) + max_volume * t;

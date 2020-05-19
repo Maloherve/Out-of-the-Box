@@ -1,10 +1,12 @@
-[gd_resource type="ShaderMaterial" load_steps=2 format=2]
+[gd_resource type="ShaderMaterial" load_steps=3 format=2]
 
 [ext_resource path="res://assets/Shaders/melma.shader" type="Shader" id=1]
+[ext_resource path="res://assets/Other/noise_tex.jpg" type="Texture" id=2]
 
 [resource]
 shader = ExtResource( 1 )
 shader_param/transparency = 0.95
 shader_param/tiled_factor = Vector2( 1, 0.5 )
 shader_param/aspect_ratio = 1.0
-shader_param/modulation = Vector3( 1, 1, 0 )
+shader_param/modulation = Vector3( 4, 1.3, 0 )
+shader_param/noise = ExtResource( 2 )

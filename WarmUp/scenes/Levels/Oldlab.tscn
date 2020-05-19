@@ -329,8 +329,8 @@ to_be_played = ExtResource( 29 )
 
 [node name="melma" type="Sprite" parent="boss"]
 material = ExtResource( 18 )
-position = Vector2( -10.3324, -188.699 )
-scale = Vector2( 2.30071, 6.97396 )
+position = Vector2( 46.6732, 139.287 )
+scale = Vector2( 1.09494, 4.54395 )
 z_index = 1
 texture = ExtResource( 15 )
 region_enabled = true

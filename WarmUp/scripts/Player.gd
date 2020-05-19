@@ -55,7 +55,7 @@ signal pstate_changed;
 var pstate = PSTATE.ground;
 
 # input state
-var locked = false; # disable
+var locked = false setget set_locked; # disable
 const input_state = preload('res://scripts/input_state.gd');
 var ui_cast = input_state.new("ui_cast");
 var ui_up = input_state.new("ui_up");
@@ -78,6 +78,11 @@ func _ready():
 	
 	connect("pstate_changed", self, "_on_Player_pstate_changed")
 	#connect("move_direction_changed", self, "_on_Player_move_direction_changed")
+	
+func set_locked(flag):
+	self.velocity = Vector2(0,0);
+	self.move_direction = 0.0;
+	locked = flag;
 	
 # Execute ASAP
 func _process(delta):
@@ -210,10 +215,7 @@ func flip(flag):
 # Check for and execute Input, fast reaction input
 func _get_input():
 	match ui_cast.check():
-		input_state.ui.pressed:
-			print("Pressed")
 		input_state.ui.just_pressed:
-			print("Just pressed")
 			if !cast && endurance>=30:
 				emit_signal('start_casting', null); # no trigger
 				cast = true;
