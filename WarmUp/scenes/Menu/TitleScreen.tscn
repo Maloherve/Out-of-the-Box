@@ -3,7 +3,7 @@
 [ext_resource path="res://scripts/Menu/TitleScreen.gd" type="Script" id=1]
 [ext_resource path="res://assets/Background/MenuBackground.png" type="Texture" id=2]
 [ext_resource path="res://assets/Fonts/VCR_OSD_MONO_1.001.ttf" type="DynamicFontData" id=3]
-[ext_resource path="res://assets/Icon/Chat3noir.png" type="Texture" id=4]
+[ext_resource path="res://assets/Icon/Chat_icon.png" type="Texture" id=4]
 [ext_resource path="res://assets/Sounds/ui_click_rollover_misc_05.wav" type="AudioStream" id=5]
 [ext_resource path="res://assets/Sounds/LightBox.ogg" type="AudioStream" id=6]
 [ext_resource path="res://assets/Background/tv_effect.ogv" type="VideoStream" id=7]
@@ -100,16 +100,16 @@ align = 1
 [node name="Logo" type="TextureRect" parent="Menu"]
 margin_top = 59.0
 margin_right = 864.0
-margin_bottom = 138.0
+margin_bottom = 139.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 texture = ExtResource( 4 )
 stretch_mode = 4
 
 [node name="CenterRow" type="HBoxContainer" parent="Menu"]
-margin_top = 142.0
+margin_top = 143.0
 margin_right = 864.0
-margin_bottom = 422.0
+margin_bottom = 423.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
@@ -188,9 +188,9 @@ __meta__ = {
 }
 
 [node name="VersionLabel" type="Label" parent="Menu"]
-margin_top = 426.0
+margin_top = 427.0
 margin_right = 864.0
-margin_bottom = 459.0
+margin_bottom = 460.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_fonts/font = SubResource( 6 )

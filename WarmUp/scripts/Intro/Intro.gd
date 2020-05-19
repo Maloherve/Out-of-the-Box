@@ -60,6 +60,7 @@ func _enter_tree():
 	camera.zoom = camera_zoom
 	if activate_camera: camera.current = true;
 	$Player.add_child(camera)
+	Player.visible = false
 	
 	
 
@@ -69,7 +70,6 @@ func _ready():
 	$Player.connect("stop_casting", self, "on_Player_stop_casting");
 	$World/NPC/Box.play('eyes')
 	$World/NPC/DialogueBox.visible = false
-
 
 
 # Execute ASAP
@@ -128,14 +128,15 @@ func on_Player_stop_casting():
 	
 func _input(event):
 	if $World/NPC/DialogueBox.visible && event is InputEventMouseButton && event.is_pressed():
-		if dialogBox.get_visible_characters() > dialogBox.get_total_character_count():
-			if page < dialog.size()-1:
-				page += 1
-				dialogBox.set_bbcode(dialog[page])
-				dialogBox.set_visible_characters(0)
-				$World/Enemies/Scientists.play(anim[page])
-		else:
-			dialogBox.set_visible_characters(dialogBox.get_total_character_count())
+		if event.button_index == BUTTON_LEFT:
+			if dialogBox.get_visible_characters() > dialogBox.get_total_character_count():
+				if page < dialog.size()-1:
+					page += 1
+					dialogBox.set_bbcode(dialog[page])
+					dialogBox.set_visible_characters(0)
+					$World/Enemies/Scientists.play(anim[page])
+			else:
+				dialogBox.set_visible_characters(dialogBox.get_total_character_count())
 
 
 
@@ -164,3 +165,4 @@ func _on_Timer_timeout():
 func _on_Scientists_animation_finished():
 	if ($World/Enemies/Scientists.animation == 'leaving'):
 		$World/NPC/DialogueBox.visible = false
+		SceneChanger.change_scene("res://scenes/Levels/Introduction.tscn", 0.5)

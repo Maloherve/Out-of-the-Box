@@ -281,7 +281,6 @@ tile_data = PoolIntArray( 131067, 3, 0, 131068, 3, 1, 131069, 3, 1, 131070, 3, 1
 
 [node name="potential_wall" type="Node2D" parent="World/Walls"]
 script = ExtResource( 21 )
-value = 3.0
 
 [node name="Enemies" type="Node2D" parent="World"]
 
