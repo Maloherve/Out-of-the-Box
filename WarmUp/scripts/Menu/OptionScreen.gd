@@ -2,6 +2,7 @@ extends Control
 
 
 # Declare member variables here. Examples:
+export var play_music : bool = true;
 onready var video_player = get_node("VideoPlayer")
 onready var video = preload("res://assets/Background/tv_effect.ogv")
 
@@ -43,5 +44,5 @@ func _on_Volume_value_changed(value):
 	if (value == -24):
 		Music.get_node("GameSoundtrack").stop()
 	else:
-		if (Music.get_node("GameSoundtrack").playing == false):
+		if (Music.get_node("GameSoundtrack").playing == false && play_music == true):
 			Music.get_node("GameSoundtrack").play()

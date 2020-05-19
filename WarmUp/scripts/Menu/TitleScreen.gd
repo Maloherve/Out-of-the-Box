@@ -1,18 +1,21 @@
 extends Control
 
 export var play_music : bool = true;
-#var volume = AudioServer.get_bus_volume_db(0)
-#var soundtrack = Music.get_node("GameSoundtrack")
+var volume = AudioServer.get_bus_volume_db(0)
+var soundtrack = Music.get_node("GameSoundtrack")
 onready var video_player = get_node("VideoPlayer")
 onready var video = preload("res://assets/Background/tv_effect.ogv")
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	#if play_music:
-	#	if (soundtrack.playing == false && volume > -24):
-	#		soundtrack.play()
+	if play_music:
+		if (soundtrack.playing == false && volume > -24):
+			soundtrack.play()
+	
+	SceneChanger.get_node("Control").visible = false
 	video_player.set_stream( video )
 	set_process( true )
+
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -23,8 +26,9 @@ func _process(delta):
 
 #Pressing NewGameButton takes to main scene
 func _on_NewGameButton_pressed():
+	SceneChanger.get_node("Control").visible = true
 	$Click.play()
-	get_tree().change_scene("res://scenes/Levels/Intro.tscn")
+	SceneChanger.change_scene("intro", 0.5)
 	
 
 
