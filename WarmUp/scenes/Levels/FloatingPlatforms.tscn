@@ -28,7 +28,6 @@ extents = Vector2( 1.13702, 1.17068 )
 
 [node name="Level" type="Node2D"]
 script = ExtResource( 1 )
-level_index = 3
 cat_version = 2
 
 [node name="PlayerInitialPosition" type="Node2D" parent="."]
@@ -221,6 +220,7 @@ shape = SubResource( 3 )
 
 [node name="Victory" parent="World/Interactions" instance=ExtResource( 6 )]
 position = Vector2( 111.29, 228.663 )
+target_level = "walls"
 
 [node name="Fonction_Onde" type="Node2D" parent="."]
 script = ExtResource( 13 )

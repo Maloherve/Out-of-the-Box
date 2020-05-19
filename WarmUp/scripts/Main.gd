@@ -2,17 +2,6 @@ extends Node2D
 
 # This node describes the effects in the world, for exemple the darkening when casting
 
-
-# current level
-export var level_index : int;
-
-var level_list = [
-	"res://scenes/Levels/Intro.tscn",
-	"res://scenes/Levels/Introduction.tscn",
-	"res://scenes/Levels/Walls.tscn",
-	"res://scenes/Levels/FloatingPlatforms.tscn",
-	"res://scenes/Levels/Sensors.tscn",
-	"res://scenes/Levels/Oldlab.tscn"]
 # Game font
 var GameFont : Font = load('assets/Fonts/abel-regular.ttf');
 # For Debug
@@ -50,8 +39,6 @@ func _enter_tree():
 	camera.zoom = camera_zoom
 	if activate_camera: camera.current = true;
 	$Player.add_child(camera)
-
-	
 	
 
 func _ready():
@@ -59,8 +46,8 @@ func _ready():
 	$Player.connect("start_casting", self, "on_Player_start_casting");
 	$Player.connect("stop_casting", self, "on_Player_stop_casting");
 	
-	SceneChanger.connect("scene_changed", self, "_on_scene_changed");
-	$World/Interactions/Victory.connect("body_entered", self, "_on_body_entered");
+	#SceneChanger.connect("scene_changed", self, "_on_scene_changed");
+	#$World/Interactions/Victory.connect("body_entered", self, "_on_body_entered");
 	
 	set_zone(zone, true); # export + setget
 
@@ -126,9 +113,3 @@ func on_Player_stop_casting():
 	darken = false;
 	AudioServer.set_bus_effect_enabled ( 1, 0, false )
 	
-func _on_body_entered(body):
-	if body.name == "Player":
-		SceneChanger.change_scene(level_list[level_index+1]);
-	
-func _on_scene_changed():
-	level_index+=level_index;

@@ -1,4 +1,4 @@
-[gd_scene load_steps=38 format=2]
+[gd_scene load_steps=39 format=2]
 
 [ext_resource path="res://scripts/Main.gd" type="Script" id=1]
 [ext_resource path="res://assets/Background/SkyLine.png" type="Texture" id=2]
@@ -19,6 +19,7 @@
 [ext_resource path="res://scenes/Objects/Light.tscn" type="PackedScene" id=17]
 [ext_resource path="res://assets/Environment/zones/preoldlab.tres" type="Resource" id=18]
 [ext_resource path="res://assets/Environment/zones/calm.tres" type="Resource" id=19]
+[ext_resource path="res://scenes/Objects/Victory.tscn" type="PackedScene" id=20]
 [ext_resource path="res://bin/uniform_field.gdns" type="Script" id=21]
 [ext_resource path="res://scenes/Objects/door.tscn" type="PackedScene" id=22]
 [ext_resource path="res://scenes/Wave/detector.tscn" type="PackedScene" id=23]
@@ -69,7 +70,6 @@ _data = [ Vector2( 0, 0 ), 0.0, 1.4, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
 
 [node name="Level" type="Node2D"]
 script = ExtResource( 1 )
-level_index = 4
 cat_version = 2
 zone = ExtResource( 19 )
 
@@ -263,6 +263,10 @@ zoneinfo = ExtResource( 18 )
 
 [node name="collider" type="CollisionShape2D" parent="World/Interactions/zone_trigger3"]
 shape = SubResource( 12 )
+
+[node name="next_area" parent="World/Interactions" instance=ExtResource( 20 )]
+position = Vector2( 2200, 3800 )
+target_level = "oldlab"
 
 [node name="Fonction_Onde" type="Node2D" parent="."]
 script = ExtResource( 13 )
