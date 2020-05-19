@@ -18,6 +18,8 @@ export var activate_camera : bool = true;
 export var cat_version : int = 1;
 var teleport_player : bool = false;
 # TMP
+export var level_number : int;
+
 
 # zone wrapper
 export (Resource) var zone setget set_zone;

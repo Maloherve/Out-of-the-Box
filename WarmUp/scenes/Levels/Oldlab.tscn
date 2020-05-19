@@ -75,6 +75,7 @@ extents = Vector2( 239.812, 802.198 )
 [node name="Level" type="Node2D"]
 script = ExtResource( 1 )
 cat_version = 2
+level_number = 2
 zone = ExtResource( 4 )
 
 [node name="PlayerInitialPosition" type="Node2D" parent="."]
