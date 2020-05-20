@@ -34,4 +34,5 @@ func _physics_process(delta):
 	Player_Info_Label.text += "is on wall : " + str(Player.is_on_wall()) + "\n";
 	Player_Info_Label.text += "is on ledge : " + str(Player.is_on_ledge()) + "\n";
 	Player_Info_Label.text += "Top collision: " + str(Player.get_collision_mask_bit(10)) + "\n";
+	Player_Info_Label.text += "Energy: " + str(Player.energy) + "\n";
 

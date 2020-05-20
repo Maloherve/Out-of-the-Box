@@ -21,7 +21,8 @@ func _process(delta):
 
 func _on_TryAgainButton_pressed():
 	$Click.play()
-	get_tree().change_scene("res://scenes/Levels/Introduction.tscn")
+	SceneChanger.close_menu();
+	#get_tree().change_scene("res://scenes/Levels/Introduction.tscn")
 
 
 func _on_TryAgainButton_mouse_entered():

@@ -1,4 +1,4 @@
-[gd_scene load_steps=41 format=2]
+[gd_scene load_steps=57 format=2]
 
 [ext_resource path="res://scripts/Main.gd" type="Script" id=1]
 [ext_resource path="res://assets/Tilesets/platforms.tres" type="TileSet" id=2]
@@ -62,10 +62,58 @@ font_data = ExtResource( 12 )
 [sub_resource type="RectangleShape2D" id=10]
 extents = Vector2( 0.89978, 0.245422 )
 
-[sub_resource type="RectangleShape2D" id=12]
+[sub_resource type="RectangleShape2D" id=11]
 extents = Vector2( 25.8271, 3.07214 )
 
-[sub_resource type="RectangleShape2D" id=11]
+[sub_resource type="RectangleShape2D" id=12]
+extents = Vector2( 23.8284, 4.90833 )
+
+[sub_resource type="RectangleShape2D" id=13]
+extents = Vector2( 23.4509, 4.48303 )
+
+[sub_resource type="RectangleShape2D" id=15]
+extents = Vector2( 25.8048, 5.01196 )
+
+[sub_resource type="RectangleShape2D" id=16]
+extents = Vector2( 24.4038, 4.8429 )
+
+[sub_resource type="RectangleShape2D" id=17]
+extents = Vector2( 42.5287, 10 )
+
+[sub_resource type="RectangleShape2D" id=18]
+extents = Vector2( 35.4927, 3.61877 )
+
+[sub_resource type="RectangleShape2D" id=19]
+extents = Vector2( 21.9832, 3.48804 )
+
+[sub_resource type="RectangleShape2D" id=20]
+extents = Vector2( 9.04907, 4.45972 )
+
+[sub_resource type="RectangleShape2D" id=21]
+extents = Vector2( 18.0754, 3.16125 )
+
+[sub_resource type="RectangleShape2D" id=22]
+extents = Vector2( 10, 2.97888 )
+
+[sub_resource type="RectangleShape2D" id=23]
+extents = Vector2( 21.9037, 3.5127 )
+
+[sub_resource type="RectangleShape2D" id=24]
+extents = Vector2( 25.3403, 2.65216 )
+
+[sub_resource type="RectangleShape2D" id=25]
+extents = Vector2( 8.8645, 3.50311 )
+
+[sub_resource type="RectangleShape2D" id=26]
+extents = Vector2( 19.4266, 3.50311 )
+
+[sub_resource type="RectangleShape2D" id=27]
+extents = Vector2( 10.4402, 3.88568 )
+
+[sub_resource type="RectangleShape2D" id=28]
+extents = Vector2( 19.4547, 3.30734 )
+
+[sub_resource type="RectangleShape2D" id=14]
 extents = Vector2( 239.812, 802.198 )
 
 [node name="Level" type="Node2D"]
@@ -345,7 +393,151 @@ collision_mask = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="boss/safezones/safe1"]
 position = Vector2( 0, 11 )
+shape = SubResource( 11 )
+
+[node name="safe2" type="Area2D" parent="boss/safezones"]
+position = Vector2( -134, 614 )
+collision_layer = 0
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="boss/safezones/safe2"]
+position = Vector2( 3, 13 )
 shape = SubResource( 12 )
+
+[node name="safe3" type="Area2D" parent="boss/safezones"]
+position = Vector2( 127, 521 )
+collision_layer = 0
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="boss/safezones/safe3"]
+position = Vector2( -1, 9 )
+shape = SubResource( 13 )
+
+[node name="safe4" type="Area2D" parent="boss/safezones"]
+position = Vector2( -131, 422 )
+collision_layer = 0
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="boss/safezones/safe4"]
+position = Vector2( -1, 12 )
+shape = SubResource( 15 )
+
+[node name="safe5" type="Area2D" parent="boss/safezones"]
+position = Vector2( 226, 354 )
+collision_layer = 0
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="boss/safezones/safe5"]
+position = Vector2( -4, 16 )
+shape = SubResource( 16 )
+
+[node name="safe6" type="Area2D" parent="boss/safezones"]
+position = Vector2( 40, 332 )
+collision_layer = 0
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="boss/safezones/safe6"]
+position = Vector2( 4, 1 )
+shape = SubResource( 17 )
+
+[node name="safe7" type="Area2D" parent="boss/safezones"]
+position = Vector2( 40, 268 )
+collision_layer = 0
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="boss/safezones/safe7"]
+position = Vector2( 4, 8 )
+shape = SubResource( 18 )
+
+[node name="safe8" type="Area2D" parent="boss/safezones"]
+position = Vector2( -137, 133 )
+collision_layer = 0
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="boss/safezones/safe8"]
+position = Vector2( 0, 14 )
+shape = SubResource( 19 )
+
+[node name="safe9" type="Area2D" parent="boss/safezones"]
+position = Vector2( -150, 49 )
+collision_layer = 0
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="boss/safezones/safe9"]
+position = Vector2( -2, 1 )
+shape = SubResource( 20 )
+
+[node name="safe10" type="Area2D" parent="boss/safezones"]
+position = Vector2( 231, 17 )
+collision_layer = 0
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="boss/safezones/safe10"]
+position = Vector2( 2, 4 )
+shape = SubResource( 21 )
+
+[node name="safe11" type="Area2D" parent="boss/safezones"]
+position = Vector2( 240, -117 )
+collision_layer = 0
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="boss/safezones/safe11"]
+position = Vector2( 2, 10 )
+shape = SubResource( 22 )
+
+[node name="safe12" type="Area2D" parent="boss/safezones"]
+position = Vector2( -139, -117 )
+collision_layer = 0
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="boss/safezones/safe12"]
+position = Vector2( 2, 10 )
+shape = SubResource( 23 )
+
+[node name="safe13" type="Area2D" parent="boss/safezones"]
+position = Vector2( 222, -404 )
+collision_layer = 0
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="boss/safezones/safe13"]
+position = Vector2( 2, 7 )
+shape = SubResource( 24 )
+
+[node name="safe14" type="Area2D" parent="boss/safezones"]
+position = Vector2( 237, -500 )
+collision_layer = 0
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="boss/safezones/safe14"]
+position = Vector2( 5, 7 )
+shape = SubResource( 25 )
+
+[node name="safe15" type="Area2D" parent="boss/safezones"]
+position = Vector2( -136, -500 )
+collision_layer = 0
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="boss/safezones/safe15"]
+position = Vector2( -1, 7 )
+shape = SubResource( 26 )
+
+[node name="safe16" type="Area2D" parent="boss/safezones"]
+position = Vector2( -150, -687 )
+collision_layer = 0
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="boss/safezones/safe16"]
+position = Vector2( 0, 1 )
+shape = SubResource( 27 )
+
+[node name="safe17" type="Area2D" parent="boss/safezones"]
+position = Vector2( 231, -718 )
+collision_layer = 0
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="boss/safezones/safe17"]
+position = Vector2( 0, 1 )
+shape = SubResource( 28 )
 
 [node name="damage_area" type="Area2D" parent="boss"]
 visible = false
@@ -355,4 +547,4 @@ collision_mask = 2048
 
 [node name="collider" type="CollisionShape2D" parent="boss/damage_area"]
 position = Vector2( 4.48767, 4.48779 )
-shape = SubResource( 11 )
+shape = SubResource( 14 )

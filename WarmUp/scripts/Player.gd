@@ -62,11 +62,17 @@ var ui_up = input_state.new("ui_up");
 var ui_down = input_state.new("ui_down");
 
 # energy 
-var energy : float = 4.0 setget set_energy;
+const DEFAULT_ENERGY = 4.0;
+const MIN_ENERGY = 4.0;
+var energy : float = DEFAULT_ENERGY setget set_energy;
+
+
+# dead event
+signal dead(reason);
 
 func set_energy(value):
-	if value < 2.0:
-		value = 2.0;
+	if value < MIN_ENERGY:
+		value = MIN_ENERGY;
 
 func _ready():
 	animNode = get_node("AnimatedSprite")
@@ -81,9 +87,10 @@ func _ready():
 	#add_child(timer);
 	#timer.connect("timeout", self, "_on_timer_timeout");
 	
-	connect("start_casting", self, "_on_Player_start_casting")
+	connect("start_casting", self, "_on_Player_start_casting");
 	
-	connect("pstate_changed", self, "_on_Player_pstate_changed")
+	connect("pstate_changed", self, "_on_Player_pstate_changed");
+	$death_area.connect("body_entered", self, "_on_death_area_collide");
 	#connect("move_direction_changed", self, "_on_Player_move_direction_changed")
 	
 func set_locked(flag):
@@ -329,7 +336,16 @@ func _on_AnimatedSprite_animation_finished():
 # damage
 func take_damage(strength):
 	energy += strength;
-	velocity.x += 3.0 * move_direction;
-	velocity.y += 9.0;
-	print("New energy: ", energy)
+	velocity.x -= 0.3 * jump_velocity * move_direction;
+	velocity.y += 0.5 * jump_velocity;
 	animNode.call("_damage",true);
+	
+# death
+func die(reason = null):
+	print("YOU DIED")
+	# TODO, define this behaviour properly
+	emit_signal("dead", reason)
+	
+func _on_death_area_collide(node):
+	# simply die
+	die(node);
