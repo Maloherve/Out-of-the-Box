@@ -1,69 +1,71 @@
 extends AudioStreamPlayer
 
-var queue = null;
+export (float) var fadeout_time = 1.0;
+export (float) var fadein_time = 1.0;
 
-export (float) var max_volume = 0;
+export (float) var max_volume = 0.0;
 
-export (float) var fadein_time = 0;
-export (float) var fadeout_time = 0;
-export (Curve) var fadein;
-export (Curve) var fadeout;
+var queue : AudioStream = null;
 
-var tick : float = 0;
-var finishing = false;
+# accessibilty
+var semaphore : bool = false;
 
-func change():
-	#if queue != null:
-	self.volume_db = -80; #-80 * (1 - t) + max_volume * t;
+func fade_in():
+	$fade_in.interpolate_property(self, "volume_db",
+			-80, max_volume, fadein_time,
+			Tween.TRANS_LINEAR, Tween.EASE_IN);
+	$fade_in.start();
+	
+func fade_out():
+	$fade_out.interpolate_property(self, "volume_db",
+			max_volume, -80, fadeout_time,
+			Tween.TRANS_LINEAR, Tween.EASE_OUT);
+	$fade_out.start();
+	
+func _ready():
+	$fade_out.connect("tween_all_completed", self, "_on_fadeout_completed");
+	$fade_in.connect("tween_all_completed", self, "_on_fadein_completed");
+	
+func _on_fadeout_tree_entered():
+	pass
+	
+func _on_fadein_tree_entered():
+	pass
+	
+func _on_fadeout_completed():
+	if self.stream != null:
+		self.stop();
 		
-	if fadeout_time > 0 && self.stream != null:
-		tick = fadeout_time;
-		finishing = true;
+	self.stream = queue;
+	volume_db = -80;
+	
+	if self.stream != null:
+		self.stream.loop = true;
+		self.play();
+		fade_in();
 	else:
-		tick = fadein_time;
-		finishing = false;
-		self.stream = queue;
-		queue = null;
-		play();
-			
-	set_process(true);
+		semaphore = false;
 	
-func _init():
-	#connect("finished", self, "_on_AudioStreamPlayer_finished");
-	set_process(false);
-	
+func _on_fadein_completed():
+	semaphore = false;
 	
 func push_track(track):
-	if track != null:
-		track.loop = true;
+	if semaphore || track == self.stream:
+		return;
+		
 	queue = track;
-	change() # trigger beginning
 	
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	var t;
-	if finishing:
-		t = fadeout.interpolate_baked(1 - tick / fadeout_time);
-		#print(t)
+	if !is_ready():
+		yield($fade_in, "tree_entered");
+		yield($fade_out, "tree_entered");
+		
+	semaphore = true;
+	if self.stream != null:
+		fade_out();
 	else:
-		t = 1 - fadein.interpolate_baked(1 - tick / fadein_time);
-
-	self.volume_db = -80 * t + max_volume * (1-t);
-	tick -= delta;
+		_on_fadeout_completed();
 	
-	if tick < 0:
-		if finishing: # fade out end
-			self.stream = queue;
-			finishing = false;
-			queue = null;
-			if stream != null:
-				play();
-			if fadein_time > 0:
-				tick = fadein_time;
-			else:
-				tick = 0;
-				set_process(false);
-			print("FINISH")
-		else: # fade in end
-			tick = 0;
-			set_process(false);
+func is_ready():
+	return $fade_in.is_inside_tree() && $fade_out.is_inside_tree();
+	
+	

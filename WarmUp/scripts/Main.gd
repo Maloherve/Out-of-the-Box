@@ -2,8 +2,6 @@ extends Node2D
 
 # This node describes the effects in the world, for exemple the darkening when casting
 
-
-
 # Game font
 var GameFont : Font = load('assets/Fonts/abel-regular.ttf');
 # For Debug
@@ -43,17 +41,12 @@ func _enter_tree():
 	camera.zoom = camera_zoom
 	if activate_camera: camera.current = true;
 	$Player.add_child(camera)
-
-	
 	
 
 func _ready():
 	# Connect Signals
 	$Player.connect("start_casting", self, "on_Player_start_casting");
 	$Player.connect("stop_casting", self, "on_Player_stop_casting");
-	
-	set_zone(zone, true); # export + setget
-
 
 # Execute ASAP
 func _process(delta):
@@ -84,8 +77,7 @@ func _physics_process(delta):
 # Setup a new zone inside the scene
 func set_zone(zoneinfo, force = false):
 	if zoneinfo != null && (force || zone != zoneinfo):
-		if has_node("mainsound"):
-			$mainsound.push_track(zoneinfo.soundtrack);
+		Jugebox.push_track(zoneinfo.soundtrack);
 		if zoneinfo.modulate != null:
 			self.modulate = zoneinfo.modulate;
 		zone = zoneinfo;
@@ -115,3 +107,4 @@ func on_Player_stop_casting():
 	teleport_player = true;
 	darken = false;
 	AudioServer.set_bus_effect_enabled ( 1, 0, false )
+	

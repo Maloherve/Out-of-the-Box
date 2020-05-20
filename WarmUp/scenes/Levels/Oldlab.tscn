@@ -1,4 +1,4 @@
-[gd_scene load_steps=43 format=2]
+[gd_scene load_steps=41 format=2]
 
 [ext_resource path="res://scripts/Main.gd" type="Script" id=1]
 [ext_resource path="res://assets/Tilesets/platforms.tres" type="TileSet" id=2]
@@ -9,7 +9,6 @@
 [ext_resource path="res://scripts/Interactions/modulator.gd" type="Script" id=7]
 [ext_resource path="res://scripts/Oldlab/boss_trigger.gd" type="Script" id=8]
 [ext_resource path="res://assets/Environment/box.png" type="Texture" id=9]
-[ext_resource path="res://scripts/jugebox.gd" type="Script" id=10]
 [ext_resource path="res://scripts/Level1/ReadSign1.gd" type="Script" id=11]
 [ext_resource path="res://assets/Fonts/abel-regular.ttf" type="DynamicFontData" id=12]
 [ext_resource path="res://scripts/Fonction_Onde.gd" type="Script" id=13]
@@ -63,13 +62,10 @@ font_data = ExtResource( 12 )
 [sub_resource type="RectangleShape2D" id=10]
 extents = Vector2( 0.89978, 0.245422 )
 
-[sub_resource type="Curve" id=11]
-_data = [ Vector2( 0, 0 ), 0.0, 0.0, 0, 0, Vector2( 0.0892857, 0.7 ), 0.814545, 0.814545, 0, 0, Vector2( 1, 1 ), 0.0714515, 0.0, 0, 0 ]
+[sub_resource type="RectangleShape2D" id=12]
+extents = Vector2( 25.8271, 3.07214 )
 
-[sub_resource type="Curve" id=12]
-_data = [ Vector2( 0, 0 ), 0.0, 1.4, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
-
-[sub_resource type="RectangleShape2D" id=13]
+[sub_resource type="RectangleShape2D" id=11]
 extents = Vector2( 239.812, 802.198 )
 
 [node name="Level" type="Node2D"]
@@ -311,15 +307,6 @@ script = ExtResource( 13 )
 
 [node name="InfoScreen" parent="." instance=ExtResource( 14 )]
 
-[node name="mainsound" type="AudioStreamPlayer" parent="."]
-autoplay = true
-bus = "Filter"
-script = ExtResource( 10 )
-fadein_time = 2.0
-fadeout_time = 8.0
-fadein = SubResource( 11 )
-fadeout = SubResource( 12 )
-
 [node name="Teleport" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 16 )
 volume_db = -20.0
@@ -351,11 +338,21 @@ one_shot = true
 
 [node name="safezones" type="Node2D" parent="boss"]
 
+[node name="safe1" type="Area2D" parent="boss/safezones"]
+position = Vector2( -5, 714 )
+collision_layer = 0
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="boss/safezones/safe1"]
+position = Vector2( 0, 11 )
+shape = SubResource( 12 )
+
 [node name="damage_area" type="Area2D" parent="boss"]
+visible = false
 position = Vector2( 30, 10 )
 collision_layer = 0
 collision_mask = 2048
 
 [node name="collider" type="CollisionShape2D" parent="boss/damage_area"]
 position = Vector2( 4.48767, 4.48779 )
-shape = SubResource( 13 )
+shape = SubResource( 11 )

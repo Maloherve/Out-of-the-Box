@@ -61,6 +61,13 @@ var ui_cast = input_state.new("ui_cast");
 var ui_up = input_state.new("ui_up");
 var ui_down = input_state.new("ui_down");
 
+# energy 
+var energy : float = 4.0 setget set_energy;
+
+func set_energy(value):
+	if value < 2.0:
+		value = 2.0;
+
 func _ready():
 	animNode = get_node("AnimatedSprite")
 	if (animNode != null):
@@ -319,3 +326,10 @@ func _on_AnimatedSprite_animation_finished():
 			pstate = PSTATE.endcast;
 	
 
+# damage
+func take_damage(strength):
+	energy += strength;
+	velocity.x += 3.0 * move_direction;
+	velocity.y += 9.0;
+	print("New energy: ", energy)
+	animNode.call("_damage",true);

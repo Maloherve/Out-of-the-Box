@@ -23,6 +23,7 @@ config/icon="res://assets/Icon/imageedit_2_3132616459.png"
 
 Music="*res://scenes/Music.tscn"
 SceneChanger="*res://scenes/SceneChanger.tscn"
+Jugebox="*res://scenes/Jugebox.tscn"
 
 [debug]
 
@@ -98,8 +99,12 @@ ui_cast={
 2d_physics/layer_4="Enemies"
 2d_render/layer_5="Objects"
 2d_physics/layer_5="Objects"
+2d_render/layer_10="Platforms"
+2d_physics/layer_10="Platforms"
 2d_render/layer_11="Background"
 2d_physics/layer_11="Background"
+2d_render/layer_12="Damage"
+2d_physics/layer_12="Damage"
 
 [physics]
 

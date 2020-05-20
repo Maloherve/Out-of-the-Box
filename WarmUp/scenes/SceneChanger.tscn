@@ -1,38 +1,78 @@
 [gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://scripts/SceneChanger.gd" type="Script" id=1]
+[sub_resource type="GDScript" id=1]
+script/source = "extends CanvasLayer
 
-[sub_resource type="Animation" id=1]
-resource_name = "FadeOut"
-length = 0.5
+# current level
+export (String, \"intro\", \"introduction\", \"walls\", \"floating_platforms\", \"sensors\", \"oldlab\") var level; 
+
+const DEFAULT_LEVEL = \"res://scenes/Levels/Introduction.tscn\";
+
+var levels = {
+	\"intro\" : \"res://scenes/Levels/Intro.tscn\",
+	\"introduction\" : \"res://scenes/Levels/Introduction.tscn\",
+	\"walls\" : \"res://scenes/Levels/Walls.tscn\",
+	\"floating_platforms\" : \"res://scenes/Levels/FloatingPlatforms.tscn\",
+	\"sensors\" : \"res://scenes/Levels/Sensors.tscn\",
+	\"oldlab\" : \"res://scenes/Levels/Oldlab.tscn\",
+	}
+
+signal scene_changed(oldlevel, target);
+
+onready var animation_player = $AnimationPlayer
+onready var black = $Control/Black
+
+func change_scene(target, delay = 0.5):
+	yield(get_tree().create_timer(delay), \"timeout\")
+	animation_player.play(\"fade\");
+	yield(animation_player, \"animation_finished\")
+	var path = levels.get(target, DEFAULT_LEVEL);
+	assert(get_tree().change_scene(path) == OK)
+	animation_player.play_backwards(\"fade\");
+	yield(animation_player, \"animation_finished\")
+	emit_signal(\"scene_changed\", level, target)
+	print(\"Change between: \", level, \" to \", target)
+	level = target;
+	
+"
+
+[sub_resource type="Animation" id=2]
+length = 0.4
 tracks/0/type = "value"
-tracks/0/path = NodePath("Control/ColorRect:modulate")
+tracks/0/path = NodePath("Control/Black:modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0.1, 0.4 ),
+"times": PoolRealArray( 0, 0.4 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
-"values": [ Color( 0, 0, 0, 0 ), Color( 1, 1, 1, 1 ) ]
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
 }
 
 [node name="SceneChanger" type="CanvasLayer"]
-script = ExtResource( 1 )
+script = SubResource( 1 )
 
-[node name="Control" type="Node2D" parent="."]
+[node name="Control" type="Control" parent="."]
+margin_right = 40.0
+margin_bottom = 40.0
+mouse_filter = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
-[node name="ColorRect" type="ColorRect" parent="Control"]
-modulate = Color( 0, 0, 0, 0 )
+[node name="Black" type="ColorRect" parent="Control"]
+modulate = Color( 1, 1, 1, 0 )
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_right = 1050.0
-margin_bottom = 624.0
+margin_right = 1004.0
+margin_bottom = 570.0
+mouse_filter = 2
 color = Color( 0, 0, 0, 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-anims/FadeOut = SubResource( 1 )
+anims/fade = SubResource( 2 )

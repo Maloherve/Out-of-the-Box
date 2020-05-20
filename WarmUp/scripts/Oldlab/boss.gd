@@ -11,11 +11,11 @@ const NON_CASTING_TIME : float = 6.0;
 const INTRO_WAIT : float = 8.0;
 
 const MELMA_COLLISION_BIT : int = 11;
+const DAMAGE : float = 3.0;
 
 export (AudioStream) var to_be_played;
 
 onready var player = get_tree().get_current_scene().get_node("Player");
-onready var jugebox = get_tree().get_current_scene().get_node("mainsound");
 
 # Called when the node enters the scene tree for the first time.
 func _init():
@@ -24,6 +24,12 @@ func _init():
 func _ready():
 	$melma.modulate.a = 0.0;
 	$melma.visible = false;
+	$damage_area.set_collision_mask_bit(MELMA_COLLISION_BIT, false);
+	$damage_area.connect("body_entered", self, "_on_damage_area_enter");
+	
+func _on_damage_area_enter(body):
+	if body == player:
+		player.take_damage(DAMAGE);
 	
 func connect_safezones():
 	for safezone in $safezones.get_children():
@@ -70,10 +76,7 @@ func _on_Intro_timeout():
 	player.set_collision_layer_bit(MELMA_COLLISION_BIT, true);
 	
 	if to_be_played != null:
-		print("Set music")
-		jugebox.fadein_time = 0.1;
-		jugebox.fadeout_time = 2;
-		jugebox.push_track(to_be_played);
+		Jugebox.push_track(to_be_played);
 	uncast();
 	
 func intro():

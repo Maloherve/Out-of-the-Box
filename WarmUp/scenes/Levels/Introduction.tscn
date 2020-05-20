@@ -9,12 +9,12 @@
 [ext_resource path="res://assets/Environment/door/wood/door2.png" type="Texture" id=7]
 [ext_resource path="res://assets/Environment/door/wood/door3.png" type="Texture" id=8]
 [ext_resource path="res://assets/Environment/signs.png" type="Texture" id=9]
-[ext_resource path="res://assets/Environment/coin.png" type="Texture" id=10]
+[ext_resource path="res://scenes/Objects/Victory.tscn" type="PackedScene" id=10]
 [ext_resource path="res://scripts/Level1/ReadSign1.gd" type="Script" id=11]
 [ext_resource path="res://assets/Fonts/abel-regular.ttf" type="DynamicFontData" id=12]
 [ext_resource path="res://scripts/Fonction_Onde.gd" type="Script" id=13]
 [ext_resource path="res://scenes/InfoScreen.tscn" type="PackedScene" id=14]
-[ext_resource path="res://assets/Sounds/BoxBassArp.ogg" type="AudioStream" id=15]
+[ext_resource path="res://assets/Environment/zones/introduction.tres" type="Resource" id=15]
 [ext_resource path="res://assets/Sounds/electronic_accent_03.wav" type="AudioStream" id=16]
 [ext_resource path="res://scenes/Objects/Light.tscn" type="PackedScene" id=17]
 [ext_resource path="res://scripts/Interactions/Trigger_Flicker.gd" type="Script" id=18]
@@ -163,17 +163,14 @@ font_data = ExtResource( 12 )
 size = 10
 font_data = ExtResource( 12 )
 
-[sub_resource type="DynamicFont" id=9]
-size = 10
-font_data = ExtResource( 12 )
-
-[sub_resource type="RectangleShape2D" id=10]
+[sub_resource type="RectangleShape2D" id=9]
 extents = Vector2( 1.13702, 1.17068 )
 
 [node name="Level" type="Node2D"]
 script = ExtResource( 1 )
 cat_version = 2
 level_number = 1
+zone = ExtResource( 15 )
 
 [node name="PlayerInitialPosition" type="Node2D" parent="."]
 position = Vector2( 1185.79, 458.637 )
@@ -407,11 +404,6 @@ cell_size = Vector2( 16, 16 )
 format = 1
 tile_data = PoolIntArray( 2097195, 1610612738, 0, 2687036, 0, 0 )
 
-[node name="coin" type="Sprite" parent="World/Objects"]
-position = Vector2( 1073.36, 489.066 )
-scale = Vector2( 0.1, 0.1 )
-texture = ExtResource( 10 )
-
 [node name="doorwall" parent="World/Objects" instance=ExtResource( 22 )]
 position = Vector2( 530, 448 )
 init_open = true
@@ -487,34 +479,8 @@ margin_right = 107.0
 margin_bottom = -26.7572
 custom_fonts/font = SubResource( 8 )
 text = "Mi... Mia ... Miaou ? Miaou. Miaou !!
-(The experiments have left you ... changed... 
+(The experiments have left you ... changed...
 Press (space) to enter quantum mode !! )"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Victory" type="Area2D" parent="World/Interactions"]
-position = Vector2( 1071.55, 484.973 )
-scale = Vector2( 1.00202, 1.0243 )
-space_override = 1
-collision_layer = 0
-collision_mask = 4
-script = ExtResource( 11 )
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="World/Interactions/Victory"]
-position = Vector2( 0.165588, 5.45984 )
-shape = SubResource( 6 )
-
-[node name="Label" type="Label" parent="World/Interactions/Victory"]
-modulate = Color( 1, 0, 0, 1 )
-margin_left = 23.2245
-margin_top = -12.3523
-margin_right = 151.09
-margin_bottom = 32.6477
-custom_fonts/font = SubResource( 9 )
-text = "Miaaaaaaaooooooou !!!!!
-(Victoryyyyyyy !!!! )
-"
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -529,16 +495,16 @@ light_path = NodePath("../../Lights/Cell_Light")
 flicker_delay = 0.05
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="World/Interactions/Flicker"]
-shape = SubResource( 10 )
+shape = SubResource( 9 )
+
+[node name="Victory" parent="World/Interactions" instance=ExtResource( 10 )]
+position = Vector2( 1085.17, 484.309 )
+target_level = "floating_platforms"
 
 [node name="Fonction_Onde" type="Node2D" parent="."]
 script = ExtResource( 13 )
 
 [node name="InfoScreen" parent="." instance=ExtResource( 14 )]
-
-[node name="Soundtrack" type="AudioStreamPlayer" parent="."]
-stream = ExtResource( 15 )
-bus = "Filter"
 
 [node name="Teleport" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 16 )
