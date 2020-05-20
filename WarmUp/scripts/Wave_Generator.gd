@@ -11,6 +11,8 @@ onready var player : KinematicBody2D = get_parent()
 var particle : Node2D = null
 var detectors : Array = []
 
+const SCALE_FACTOR = 0.02;
+
 # wave function scene preload
 const particle_scene = preload("res://scenes/Wave/wave_function.tscn")
 
@@ -117,7 +119,8 @@ func on_Player_start_casting(trigger):
 		particle.scale = trigger.box.extents / half_width
 	else:
 		# scale to the default box (with respect to the cat box)
-		particle.scale = scale * half_width / (system.width/2)
+		particle.scale.x = scale.x * half_width / (system.width/2) * exp(SCALE_FACTOR * (player.energy - player.DEFAULT_ENERGY));
+		particle.scale.y = scale.y * half_width / (system.width/2);
 		
 	particle.position = offset
 		
@@ -138,7 +141,7 @@ func on_Player_start_casting(trigger):
 	print("[Wave_Generator.gd] k0 = ", particle.packet.k0)
 	
 	# modify hbar as function of the energy
-	system.mass = 4.0 / player.energy;
+	system.mass = player.DEFAULT_ENERGY / player.energy;
 	
 	particle.packet.N = samples
 	player.add_child(particle)

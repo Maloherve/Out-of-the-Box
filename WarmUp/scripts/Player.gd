@@ -62,14 +62,17 @@ var ui_up = input_state.new("ui_up");
 var ui_down = input_state.new("ui_down");
 
 # energy 
-var energy : float = 4.0 setget set_energy;
+const DEFAULT_ENERGY = 4.0;
+const MIN_ENERGY = 4.0;
+var energy : float = DEFAULT_ENERGY setget set_energy;
+
 
 # dead event
 signal dead(reason);
 
 func set_energy(value):
-	if value < 2.0:
-		value = 2.0;
+	if value < MIN_ENERGY:
+		value = MIN_ENERGY;
 
 func _ready():
 	animNode = get_node("AnimatedSprite")
