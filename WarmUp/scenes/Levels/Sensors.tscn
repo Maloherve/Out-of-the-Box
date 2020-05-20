@@ -1,4 +1,4 @@
-[gd_scene load_steps=39 format=2]
+[gd_scene load_steps=36 format=2]
 
 [ext_resource path="res://scripts/Main.gd" type="Script" id=1]
 [ext_resource path="res://assets/Background/SkyLine.png" type="Texture" id=2]
@@ -9,7 +9,6 @@
 [ext_resource path="res://scripts/Interactions/modulator.gd" type="Script" id=7]
 [ext_resource path="res://assets/Environment/zones/silence.tres" type="Resource" id=8]
 [ext_resource path="res://assets/Background/darkness.png" type="Texture" id=9]
-[ext_resource path="res://scripts/jugebox.gd" type="Script" id=10]
 [ext_resource path="res://scripts/Level1/ReadSign1.gd" type="Script" id=11]
 [ext_resource path="res://assets/Fonts/abel-regular.ttf" type="DynamicFontData" id=12]
 [ext_resource path="res://scripts/Fonction_Onde.gd" type="Script" id=13]
@@ -61,12 +60,6 @@ extents = Vector2( 219.813, 8.88477 )
 
 [sub_resource type="RectangleShape2D" id=12]
 extents = Vector2( 200, 10 )
-
-[sub_resource type="Curve" id=13]
-_data = [ Vector2( 0, 0 ), 0.0, 0.0, 0, 0, Vector2( 0.0892857, 0.7 ), 0.814545, 0.814545, 0, 0, Vector2( 1, 1 ), 0.0714515, 0.0, 0, 0 ]
-
-[sub_resource type="Curve" id=14]
-_data = [ Vector2( 0, 0 ), 0.0, 1.4, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
 
 [node name="Level" type="Node2D"]
 script = ExtResource( 1 )
@@ -272,15 +265,6 @@ target_level = "oldlab"
 script = ExtResource( 13 )
 
 [node name="InfoScreen" parent="." instance=ExtResource( 14 )]
-
-[node name="mainsound" type="AudioStreamPlayer" parent="."]
-autoplay = true
-bus = "Filter"
-script = ExtResource( 10 )
-fadein_time = 8.0
-fadeout_time = 8.0
-fadein = SubResource( 13 )
-fadeout = SubResource( 14 )
 
 [node name="Teleport" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 16 )

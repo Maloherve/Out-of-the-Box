@@ -47,12 +47,6 @@ func _ready():
 	# Connect Signals
 	$Player.connect("start_casting", self, "on_Player_start_casting");
 	$Player.connect("stop_casting", self, "on_Player_stop_casting");
-	
-	#SceneChanger.connect("scene_changed", self, "_on_scene_changed");
-	#$World/Interactions/Victory.connect("body_entered", self, "_on_body_entered");
-	
-	set_zone(zone, true); # export + setget
-
 
 # Execute ASAP
 func _process(delta):
@@ -83,8 +77,7 @@ func _physics_process(delta):
 # Setup a new zone inside the scene
 func set_zone(zoneinfo, force = false):
 	if zoneinfo != null && (force || zone != zoneinfo):
-		if has_node("mainsound"):
-			$mainsound.push_track(zoneinfo.soundtrack);
+		Jugebox.push_track(zoneinfo.soundtrack);
 		if zoneinfo.modulate != null:
 			self.modulate = zoneinfo.modulate;
 		zone = zoneinfo;

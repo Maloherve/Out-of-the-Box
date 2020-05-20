@@ -2,15 +2,18 @@ extends Control
 
 export var play_music : bool = true;
 var volume = AudioServer.get_bus_volume_db(0)
-var soundtrack = Music.get_node("GameSoundtrack")
+#var soundtrack = Music.get_node("GameSoundtrack")
+export (AudioStream) var soundtrack;
 onready var video_player = get_node("VideoPlayer")
 onready var video = preload("res://assets/Background/tv_effect.ogv")
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	if play_music:
-		if (soundtrack.playing == false && volume > -24):
-			soundtrack.play()
+		Jugebox.fadein_time = 0.1;
+		Jugebox.push_track(soundtrack);
+		#if (soundtrack.playing == false && volume > -24):
+		#	soundtrack.play()
 	
 	SceneChanger.get_node("Control").visible = false
 	video_player.set_stream( video )
@@ -28,6 +31,7 @@ func _process(delta):
 func _on_NewGameButton_pressed():
 	SceneChanger.get_node("Control").visible = true
 	$Click.play()
+	Jugebox.fadein_time = 0.5;
 	SceneChanger.change_scene("intro", 0.5)
 	
 

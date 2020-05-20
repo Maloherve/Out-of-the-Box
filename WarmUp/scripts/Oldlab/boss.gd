@@ -15,7 +15,6 @@ const MELMA_COLLISION_BIT : int = 11;
 export (AudioStream) var to_be_played;
 
 onready var player = get_tree().get_current_scene().get_node("Player");
-onready var jugebox = get_tree().get_current_scene().get_node("mainsound");
 
 # Called when the node enters the scene tree for the first time.
 func _init():
@@ -70,10 +69,7 @@ func _on_Intro_timeout():
 	player.set_collision_layer_bit(MELMA_COLLISION_BIT, true);
 	
 	if to_be_played != null:
-		print("Set music")
-		jugebox.fadein_time = 0.1;
-		jugebox.fadeout_time = 2;
-		jugebox.push_track(to_be_played);
+		Jugebox.push_track(to_be_played);
 	uncast();
 	
 func intro():

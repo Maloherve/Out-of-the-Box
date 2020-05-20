@@ -23,6 +23,7 @@ config/icon="res://assets/Icon/imageedit_2_3132616459.png"
 
 Music="*res://scenes/Music.tscn"
 SceneChanger="*res://scenes/SceneChanger.tscn"
+Jugebox="*res://scenes/Jugebox.tscn"
 
 [debug]
 
