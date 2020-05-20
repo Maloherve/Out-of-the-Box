@@ -16,24 +16,91 @@ var levels = {
 	\"sensors\" : \"res://scenes/Levels/Sensors.tscn\",
 	\"oldlab\" : \"res://scenes/Levels/Oldlab.tscn\",
 	}
+	
+var menus = {
+	\"title\" : \"res://scenes/Menu/TitleScreen.tscn\",
+	\"option\" : \"res://scenes/Menu/OptionScreen.tscn\",
+	\"gameover\" : \"res://scenes/Menu/GameOver.tscn\",
+}
 
 signal scene_changed(oldlevel, target);
 
 onready var animation_player = $AnimationPlayer
 onready var black = $Control/Black
 
-func change_scene(target, delay = 0.5):
-	yield(get_tree().create_timer(delay), \"timeout\")
+# delay an animation controller
+
+func apply_delay(delay):
+	if delay > 0:
+		yield(get_tree().create_timer(delay), \"timeout\")
+		
+func fade_out():
 	animation_player.play(\"fade\");
 	yield(animation_player, \"animation_finished\")
-	var path = levels.get(target, DEFAULT_LEVEL);
-	assert(get_tree().change_scene(path) == OK)
+	
+func ease_in():
 	animation_player.play_backwards(\"fade\");
 	yield(animation_player, \"animation_finished\")
+	
+# level controller
+
+func detect_current_level():
+	var scene = get_tree().get_current_scene().filename;
+	# auto-detect current level
+	for name in levels.keys():
+		if scene == levels[name]:
+			level = name;
+	assert(level != null, \"Error: no scene was found to be reloaded\")
+
+func reload_scene(delay = 0.5, animate = true):
+	change_scene(level, delay, animate);
+
+func change_scene(target, delay = 0.5, animate = true):
+	
+	apply_delay(delay);
+	
+	if animate:
+		fade_out();
+		
+	var path = levels.get(target, DEFAULT_LEVEL);
+	assert(get_tree().change_scene(path) == OK)
+	
+	if animate:
+		ease_in();
+		
 	emit_signal(\"scene_changed\", level, target)
 	print(\"Change between: \", level, \" to \", target)
 	level = target;
 	
+# menus controller
+
+var menu = null;
+var ingame_menu : bool = false;
+signal menu_opened(which, ingame);
+
+func open_menu(target, ingame = true, delay = 0.0):
+	assert(target != null);	
+	if ingame:
+		# TODO, add_child to main scene
+		pass
+	else:
+		apply_delay(delay);
+		fade_out();
+		var path = menus[target];
+		assert(get_tree().change_scene(path) == OK)
+		ease_in();
+		emit_signal(\"menu_opened\", target, ingame)
+	menu = target;
+	ingame_menu = ingame;
+	
+func close_menu(delay = 0.0):
+	if menu != null:
+		if ingame_menu:
+			# TODO, remove child from main scene
+			pass
+		else:
+			reload_scene(delay, ingame_menu);
+	menu = null;
 "
 
 [sub_resource type="Animation" id=2]
@@ -53,6 +120,7 @@ tracks/0/keys = {
 
 [node name="SceneChanger" type="CanvasLayer"]
 script = SubResource( 1 )
+level = "introduction"
 
 [node name="Control" type="Control" parent="."]
 margin_right = 40.0

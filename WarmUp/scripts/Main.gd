@@ -18,6 +18,8 @@ var teleport_player : bool = false;
 # TMP
 export var level_number : int;
 
+# current level name, needed in order to properly set the scene pointer
+#export (String, "intro", "introduction", "walls", "floating_platforms", "sensors", "oldlab") var level_name = "introduction"; 
 
 # zone wrapper
 export (Resource) var zone setget set_zone;
@@ -47,6 +49,12 @@ func _ready():
 	# Connect Signals
 	$Player.connect("start_casting", self, "on_Player_start_casting");
 	$Player.connect("stop_casting", self, "on_Player_stop_casting");
+	$Player.connect("dead", self, "_on_Player_dead");
+	
+	SceneChanger.detect_current_level();
+	
+	# setup SceneChanger pointer
+	#SceneChanger.level = level_name;
 
 # Execute ASAP
 func _process(delta):
@@ -108,3 +116,7 @@ func on_Player_stop_casting():
 	darken = false;
 	AudioServer.set_bus_effect_enabled ( 1, 0, false )
 	
+# back to menu
+func _on_Player_dead(reason):
+	# TODO, give hint for the reason
+	SceneChanger.open_menu("gameover", false, 2.0);
