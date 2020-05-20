@@ -11,6 +11,7 @@ const NON_CASTING_TIME : float = 6.0;
 const INTRO_WAIT : float = 8.0;
 
 const MELMA_COLLISION_BIT : int = 11;
+const DAMAGE : float = 3.0;
 
 export (AudioStream) var to_be_played;
 
@@ -23,6 +24,12 @@ func _init():
 func _ready():
 	$melma.modulate.a = 0.0;
 	$melma.visible = false;
+	$damage_area.set_collision_mask_bit(MELMA_COLLISION_BIT, false);
+	$damage_area.connect("body_entered", self, "_on_damage_area_enter");
+	
+func _on_damage_area_enter(body):
+	if body == player:
+		player.take_damage(DAMAGE);
 	
 func connect_safezones():
 	for safezone in $safezones.get_children():

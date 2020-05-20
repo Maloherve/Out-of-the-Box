@@ -137,6 +137,9 @@ func on_Player_start_casting(trigger):
 	particle.packet.k0 = direction * PI * 50 / system.width
 	print("[Wave_Generator.gd] k0 = ", particle.packet.k0)
 	
+	# modify hbar as function of the energy
+	system.mass = 4.0 / player.energy;
+	
 	particle.packet.N = samples
 	player.add_child(particle)
 	

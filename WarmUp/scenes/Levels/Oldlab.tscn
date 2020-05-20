@@ -1,4 +1,4 @@
-[gd_scene load_steps=40 format=2]
+[gd_scene load_steps=41 format=2]
 
 [ext_resource path="res://scripts/Main.gd" type="Script" id=1]
 [ext_resource path="res://assets/Tilesets/platforms.tres" type="TileSet" id=2]
@@ -61,6 +61,9 @@ font_data = ExtResource( 12 )
 
 [sub_resource type="RectangleShape2D" id=10]
 extents = Vector2( 0.89978, 0.245422 )
+
+[sub_resource type="RectangleShape2D" id=12]
+extents = Vector2( 25.8271, 3.07214 )
 
 [sub_resource type="RectangleShape2D" id=11]
 extents = Vector2( 239.812, 802.198 )
@@ -335,7 +338,17 @@ one_shot = true
 
 [node name="safezones" type="Node2D" parent="boss"]
 
+[node name="safe1" type="Area2D" parent="boss/safezones"]
+position = Vector2( -5, 714 )
+collision_layer = 0
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="boss/safezones/safe1"]
+position = Vector2( 0, 11 )
+shape = SubResource( 12 )
+
 [node name="damage_area" type="Area2D" parent="boss"]
+visible = false
 position = Vector2( 30, 10 )
 collision_layer = 0
 collision_mask = 2048
