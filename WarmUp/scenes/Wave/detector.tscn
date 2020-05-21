@@ -5,7 +5,7 @@
 [sub_resource type="RectangleShape2D" id=1]
 
 [node name="detector" type="Area2D"]
-collision_layer = 16
+collision_layer = 32
 collision_mask = 0
 script = ExtResource( 2 )
 
