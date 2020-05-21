@@ -26,6 +26,7 @@ polygon = PoolVector2Array( -20.2355, -224.689, -19.9445, -222.167, -20.3325, -2
 extents = Vector2( 1.13702, 1.17068 )
 
 [node name="Level" type="Node2D"]
+position = Vector2( 1, 0 )
 script = ExtResource( 1 )
 cat_version = 2
 

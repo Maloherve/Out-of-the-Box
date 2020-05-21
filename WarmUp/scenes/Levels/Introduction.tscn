@@ -173,7 +173,7 @@ cat_version = 2
 checkpoints = [ ExtResource( 15 ), ExtResource( 29 ) ]
 
 [node name="PlayerInitialPosition" type="Node2D" parent="."]
-position = Vector2( 1185.79, 458.637 )
+position = Vector2( -227.834, 383.99 )
 
 [node name="World" type="Node2D" parent="."]
 __meta__ = {
@@ -272,7 +272,7 @@ light_mask = 0
 position = Vector2( -1, 0 )
 tile_set = ExtResource( 3 )
 cell_size = Vector2( 32, 32 )
-collision_layer = 2
+collision_layer = 34
 collision_mask = 0
 occluder_light_mask = 2
 format = 1
@@ -280,6 +280,7 @@ tile_data = PoolIntArray( 131067, 3, 0, 131068, 3, 1, 131069, 3, 1, 131070, 3, 1
 
 [node name="potential_wall" type="Node2D" parent="World/Walls"]
 script = ExtResource( 21 )
+value = 10.0
 
 [node name="Enemies" type="Node2D" parent="World"]
 
@@ -346,7 +347,7 @@ tile_data = PoolIntArray( 1769468, 8, 0, 1966075, 1, 0, 1966076, 2, 0, 1900545, 
 [node name="Obstacles" type="TileMap" parent="World/Objects"]
 tile_set = ExtResource( 27 )
 cell_size = Vector2( 32, 32 )
-collision_layer = 2
+collision_layer = 1024
 collision_mask = 0
 format = 1
 tile_data = PoolIntArray( 1048573, 1, 0, 983040, 0, 0, 983044, 1, 0 )
@@ -408,6 +409,7 @@ tile_data = PoolIntArray( 2097195, 1610612738, 0, 2687036, 0, 0 )
 position = Vector2( 530, 448 )
 collision_layer = 12
 init_open = true
+layer_bits = [ 1, 5 ]
 
 [node name="right" parent="World/Objects/doorwall" instance=ExtResource( 23 )]
 position = Vector2( 70, 10 )
