@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=2]
+[gd_scene load_steps=37 format=2]
 
 [ext_resource path="res://scripts/Main.gd" type="Script" id=1]
 [ext_resource path="res://assets/Background/SkyLine.png" type="Texture" id=2]
@@ -7,8 +7,9 @@
 [ext_resource path="res://assets/Background/deepcave.jpg" type="Texture" id=5]
 [ext_resource path="res://bin/curve_field.gdns" type="Script" id=6]
 [ext_resource path="res://scripts/Interactions/modulator.gd" type="Script" id=7]
-[ext_resource path="res://assets/Environment/zones/silence.tres" type="Resource" id=8]
+[ext_resource path="res://assets/zones/silence.tres" type="Resource" id=8]
 [ext_resource path="res://assets/Background/darkness.png" type="Texture" id=9]
+[ext_resource path="res://assets/checkpoints/sensors/beginning.tres" type="Resource" id=10]
 [ext_resource path="res://scripts/Level1/ReadSign1.gd" type="Script" id=11]
 [ext_resource path="res://assets/Fonts/abel-regular.ttf" type="DynamicFontData" id=12]
 [ext_resource path="res://scripts/Fonction_Onde.gd" type="Script" id=13]
@@ -16,8 +17,8 @@
 [ext_resource path="res://scripts/Interactions/zone_trigger.gd" type="Script" id=15]
 [ext_resource path="res://assets/Sounds/electronic_accent_03.wav" type="AudioStream" id=16]
 [ext_resource path="res://scenes/Objects/Light.tscn" type="PackedScene" id=17]
-[ext_resource path="res://assets/Environment/zones/preoldlab.tres" type="Resource" id=18]
-[ext_resource path="res://assets/Environment/zones/calm.tres" type="Resource" id=19]
+[ext_resource path="res://assets/zones/preoldlab.tres" type="Resource" id=18]
+[ext_resource path="res://assets/checkpoints/sensors/end.tres" type="Resource" id=19]
 [ext_resource path="res://scenes/Objects/Victory.tscn" type="PackedScene" id=20]
 [ext_resource path="res://bin/uniform_field.gdns" type="Script" id=21]
 [ext_resource path="res://scenes/Objects/door.tscn" type="PackedScene" id=22]
@@ -64,7 +65,7 @@ extents = Vector2( 200, 10 )
 [node name="Level" type="Node2D"]
 script = ExtResource( 1 )
 cat_version = 2
-zone = ExtResource( 19 )
+checkpoints = [ ExtResource( 10 ), ExtResource( 19 ) ]
 
 [node name="PlayerInitialPosition" type="Node2D" parent="."]
 position = Vector2( -220.208, 480.684 )
