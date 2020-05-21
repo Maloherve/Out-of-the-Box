@@ -138,6 +138,7 @@ func _trigger_jump():
 		pstate = PSTATE.jump;
 		emit_signal("pstate_changed", PSTATE.air);
 		pstate = PSTATE.air;
+		$jump.play()
 		
 func _trigger_hold_wall():
 	if !cast && !is_on_wall() && _check_is_collided() && endurance > 0:

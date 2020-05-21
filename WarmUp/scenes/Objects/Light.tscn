@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://assets/Environment/light/Lightbulb.png" type="Texture" id=1]
 [ext_resource path="res://assets/Other/2DLight.png" type="Texture" id=2]
 [ext_resource path="res://scripts/Objects/NeonLight.gd" type="Script" id=3]
+[ext_resource path="res://assets/Sounds/hum_electric_neon_light_loop_01.wav" type="AudioStream" id=4]
 
 [node name="Neon_Light" type="Sprite"]
 modulate = Color( 0.392157, 0, 0, 1 )
@@ -19,3 +20,9 @@ energy = 2.0
 range_item_cull_mask = 1040
 shadow_enabled = true
 shadow_item_cull_mask = 1054
+
+[node name="Hum" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 4 )
+volume_db = -20.0
+autoplay = true
+max_distance = 180.0

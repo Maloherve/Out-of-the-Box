@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://scripts/Interactions/scene_transition.gd" type="Script" id=1]
 [ext_resource path="res://assets/Fonts/abel-regular.ttf" type="DynamicFontData" id=2]
 [ext_resource path="res://assets/Environment/coin.png" type="Texture" id=3]
+[ext_resource path="res://assets/Sounds/match3_1a.wav" type="AudioStream" id=4]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 15.8712, 18.4255 )
@@ -41,3 +42,6 @@ __meta__ = {
 [node name="Sprite" type="Sprite" parent="."]
 scale = Vector2( 0.1, 0.1 )
 texture = ExtResource( 3 )
+
+[node name="Win" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 4 )
