@@ -156,7 +156,7 @@ texture = ExtResource( 5 )
 [node name="Lights" type="Node2D" parent="World"]
 
 [node name="Lobby_Light" parent="World/Lights" instance=ExtResource( 17 )]
-position = Vector2( -100.531, 390.956 )
+position = Vector2( -400.531, 1923.96 )
 scale = Vector2( 0.100242, 0.141597 )
 color = Color( 0.396078, 0, 0, 1 )
 flicker_in = 5.0
