@@ -4,6 +4,8 @@ export (Curve) var fader_in;
 export (Curve) var fader_out;
 export (Curve) var fader_in_out;
 
+signal fade_in_completed;
+
 enum fmode {
 	enter,
 	exit,
@@ -75,3 +77,5 @@ func _process(delta):
 		#print("STOP")
 		if mode != fmode.enter:
 			visible = false; # optimise
+		else:
+			emit_signal("fade_in_completed");

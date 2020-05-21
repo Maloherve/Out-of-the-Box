@@ -118,8 +118,11 @@ func on_Player_start_casting(trigger):
 		# TODO, check if working properly
 		particle.scale = trigger.box.extents / half_width
 	else:
+		var gain = exp(SCALE_FACTOR * (player.energy - player.DEFAULT_ENERGY));
+		if gain > 1.4:
+			gain = 1.4; # limit in size reached
 		# scale to the default box (with respect to the cat box)
-		particle.scale.x = scale.x * half_width / (system.width/2) * exp(SCALE_FACTOR * (player.energy - player.DEFAULT_ENERGY));
+		particle.scale.x = scale.x * half_width / (system.width/2)* gain;
 		particle.scale.y = scale.y * half_width / (system.width/2);
 		
 	particle.position = offset

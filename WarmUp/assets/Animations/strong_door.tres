@@ -1,0 +1,21 @@
+[gd_resource type="SpriteFrames" load_steps=7 format=2]
+
+[ext_resource path="res://assets/Environment/door/StrongDoor/StrognDoor5.png" type="Texture" id=1]
+[ext_resource path="res://assets/Environment/door/StrongDoor/StrognDoor3.png" type="Texture" id=2]
+[ext_resource path="res://assets/Environment/door/StrongDoor/StrognDoor1.png" type="Texture" id=3]
+[ext_resource path="res://assets/Environment/door/StrongDoor/StrognDoor6.png" type="Texture" id=4]
+[ext_resource path="res://assets/Environment/door/StrongDoor/StrognDoor2.png" type="Texture" id=5]
+[ext_resource path="res://assets/Environment/door/StrongDoor/StrognDoor4.png" type="Texture" id=6]
+
+[resource]
+animations = [ {
+"frames": [ ExtResource( 4 ), ExtResource( 1 ), ExtResource( 6 ), ExtResource( 2 ), ExtResource( 5 ), ExtResource( 3 ) ],
+"loop": false,
+"name": "close",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 3 ), ExtResource( 5 ), ExtResource( 2 ), ExtResource( 6 ), ExtResource( 1 ), ExtResource( 4 ) ],
+"loop": false,
+"name": "open",
+"speed": 5.0
+} ]
