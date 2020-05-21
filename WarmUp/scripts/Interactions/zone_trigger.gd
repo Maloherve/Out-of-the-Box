@@ -8,7 +8,7 @@ func _on_Area2D_BodyExited(_node):
 	var level = get_tree().get_current_scene();
 	if zoneinfo != null:
 		# load the zone to the level
-		level.zone = zoneinfo;
+		level.set_zone(zoneinfo);
 		emit_signal("zone_loading", zoneinfo);
 
 func _init():

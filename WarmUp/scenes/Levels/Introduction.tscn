@@ -1,4 +1,4 @@
-[gd_scene load_steps=38 format=2]
+[gd_scene load_steps=39 format=2]
 
 [ext_resource path="res://scripts/Main.gd" type="Script" id=1]
 [ext_resource path="res://assets/Background/SkyLine.png" type="Texture" id=2]
@@ -14,7 +14,7 @@
 [ext_resource path="res://assets/Fonts/abel-regular.ttf" type="DynamicFontData" id=12]
 [ext_resource path="res://scripts/Fonction_Onde.gd" type="Script" id=13]
 [ext_resource path="res://scenes/InfoScreen.tscn" type="PackedScene" id=14]
-[ext_resource path="res://assets/Environment/zones/introduction.tres" type="Resource" id=15]
+[ext_resource path="res://assets/checkpoints/Introduction/Beginning.tres" type="Resource" id=15]
 [ext_resource path="res://assets/Sounds/electronic_accent_03.wav" type="AudioStream" id=16]
 [ext_resource path="res://scenes/Objects/Light.tscn" type="PackedScene" id=17]
 [ext_resource path="res://scripts/Interactions/Trigger_Flicker.gd" type="Script" id=18]
@@ -28,6 +28,7 @@
 [ext_resource path="res://assets/Tilesets/Decoration_Tileser.tres" type="TileSet" id=26]
 [ext_resource path="res://assets/Tilesets/Obstacles_Tileset.tres" type="TileSet" id=27]
 [ext_resource path="res://scenes/Objects/Exit.tscn" type="PackedScene" id=28]
+[ext_resource path="res://assets/checkpoints/Introduction/End.tres" type="Resource" id=29]
 
 [sub_resource type="OccluderPolygon2D" id=1]
 closed = false
@@ -169,8 +170,7 @@ extents = Vector2( 1.13702, 1.17068 )
 [node name="Level" type="Node2D"]
 script = ExtResource( 1 )
 cat_version = 2
-level_number = 1
-zone = ExtResource( 15 )
+checkpoints = [ ExtResource( 15 ), ExtResource( 29 ) ]
 
 [node name="PlayerInitialPosition" type="Node2D" parent="."]
 position = Vector2( 1185.79, 458.637 )
@@ -406,6 +406,7 @@ tile_data = PoolIntArray( 2097195, 1610612738, 0, 2687036, 0, 0 )
 
 [node name="doorwall" parent="World/Objects" instance=ExtResource( 22 )]
 position = Vector2( 530, 448 )
+collision_layer = 12
 init_open = true
 
 [node name="right" parent="World/Objects/doorwall" instance=ExtResource( 23 )]

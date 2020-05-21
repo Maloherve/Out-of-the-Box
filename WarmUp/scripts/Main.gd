@@ -15,14 +15,10 @@ var camera_zoom : Vector2 = Vector2(.3, .3)
 export var activate_camera : bool = true;
 export var cat_version : int = 1;
 var teleport_player : bool = false;
-# TMP
-export var level_number : int;
 
-# current level name, needed in order to properly set the scene pointer
-#export (String, "intro", "introduction", "walls", "floating_platforms", "sensors", "oldlab") var level_name = "introduction"; 
-
-# zone wrapper
-export (Resource) var zone setget set_zone;
+# Checkpoints
+export (int) var checkpoint = 0; # BUG: setget not working
+export (Array, Resource) var checkpoints = Array();
 
 func _enter_tree():
 	# Load in Player
@@ -37,7 +33,15 @@ func _enter_tree():
 	
 	var Player = player_scene.instance()
 	add_child(Player)
-	Player.position = $PlayerInitialPosition.position
+	# prevent debugged setups
+	if checkpoints.size() == 0:
+		var defcheckpt = load("res://scripts/checkpoint.gd").new();
+		if has_node("PlayerInitialPosition"):
+			defcheckpt.position = $PlayerInitialPosition.position;
+		checkpoints.push_back(defcheckpt);
+		checkpoint = 0;
+		
+	set_check_point(checkpoint);
 	# Add and activate Camera 
 	var camera = Camera2D.new(); camera.name = "Camera2D";
 	camera.zoom = camera_zoom
@@ -83,12 +87,19 @@ func _physics_process(delta):
 	_get_input();
 
 # Setup a new zone inside the scene
-func set_zone(zoneinfo, force = false):
-	if zoneinfo != null && (force || zone != zoneinfo):
-		Jugebox.push_track(zoneinfo.soundtrack);
-		if zoneinfo.modulate != null:
-			self.modulate = zoneinfo.modulate;
-		zone = zoneinfo;
+func set_zone(zoneinfo):
+	assert(zoneinfo != null);
+	Jugebox.push_track(zoneinfo.soundtrack);
+	self.modulate = zoneinfo.modulate;
+		
+func set_check_point(number):
+	assert(number >= 0 && number < checkpoints.size());
+	var checkpt = checkpoints[number];
+	set_zone(checkpt.zone);
+	if !has_node("Player"):
+		yield(self, "tree_entered")
+	$Player.position = checkpt.position;
+	checkpoint = number;
 
 # Check for and execute input
 func _get_input():
