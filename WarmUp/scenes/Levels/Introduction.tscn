@@ -1,4 +1,4 @@
-[gd_scene load_steps=39 format=2]
+[gd_scene load_steps=38 format=2]
 
 [ext_resource path="res://scripts/Main.gd" type="Script" id=1]
 [ext_resource path="res://assets/Background/SkyLine.png" type="Texture" id=2]
@@ -430,7 +430,7 @@ scale = Vector2( 3.3, 1 )
 script = ExtResource( 25 )
 
 [node name="Exit" parent="World/Objects" instance=ExtResource( 28 )]
-position = Vector2( 1073.42, 458.489 )
+position = Vector2( 1080.35, 443.993 )
 
 [node name="Interactions" type="Node2D" parent="World"]
 position = Vector2( 0.951309, -0.951324 )
