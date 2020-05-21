@@ -17,7 +17,7 @@ _global_script_class_icons={
 
 config/name="WarmUp"
 run/main_scene="res://scenes/Menu/TitleScreen.tscn"
-config/icon="res://assets/Icon/OotB.png"
+config/icon="res://assets/Icon/imageedit_2_3132616459.png"
 
 [autoload]
 

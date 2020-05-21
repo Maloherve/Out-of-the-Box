@@ -4,11 +4,15 @@ uniform sampler2D x_values;
 uniform sampler2D y_values;
 uniform int size;
 
+uniform int visible_bg = 1 ;
+
 const float scale = 1.7;
+
 
 uniform float brightness = 0.004; 
 uniform float thickness = 0.002;
 uniform vec4 color_neon : hint_color = vec4(vec3(0.8, 0.2, 0.05), 1.);
+
 
 const float PI = 3.14;
 
@@ -61,7 +65,7 @@ float shape(vec2 uv, float infinity){
 		point2 = get_position(ivec2(i+1, 0));
 		dist = min(dist, dfLine(point1, point2, uv) );
 	}
-	dist = min(dist, dfLine(point2, get_position(ivec2(0, 0)), uv) );
+//	dist = min(dist, dfLine(point2, get_p osition(ivec2(0, 0)), uv) );
 	
 	
 	
@@ -113,6 +117,6 @@ void fragment(){
 	shade = bright / max(1e-3, dist-thickness);
 	
 	vec4 color = vec4(color_neon.rgb * shade, 1.);
-	color.a = float( norm(color.rgb) > 0.6); // Make bg transparent
+	color.a = float( norm(color.rgb) > 0.6) + float(visible_bg) * 255.; // Make bg transparent
 	COLOR = color;
 }
