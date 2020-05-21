@@ -1,9 +1,20 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://assets/Sounds/LightBox.ogg" type="AudioStream" id=1]
+[ext_resource path="res://assets/Sounds/Meow/Cat_Meow_1.wav" type="AudioStream" id=2]
+[ext_resource path="res://scripts/Meow.gd" type="Script" id=3]
 
 [node name="Music" type="Node"]
 
 [node name="GameSoundtrack" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 1 )
 bus = "Filter"
+
+[node name="Meow" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 2 )
+script = ExtResource( 3 )
+
+[node name="Timer" type="Timer" parent="Meow"]
+wait_time = 5.084
+autostart = true
+[connection signal="timeout" from="Meow/Timer" to="Meow" method="_on_Timer_timeout"]
