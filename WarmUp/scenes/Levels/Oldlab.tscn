@@ -565,7 +565,7 @@ switch_time = 2.0
 position = Vector2( 255, 106 )
 rotation = 3.14159
 scale = Vector2( 0.7, 1 )
-switch_time = 1.0
+switch_time = 2.5
 
 [node name="flames3" parent="boss/flamethrowers" instance=ExtResource( 10 )]
 position = Vector2( -98, -185 )

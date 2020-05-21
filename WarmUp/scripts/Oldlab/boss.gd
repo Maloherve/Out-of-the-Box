@@ -71,9 +71,9 @@ func _on_Timer_timeout():
 		emit_signal("end_casting");
 	
 func intro():
+	player.locked = true; # disable user input
 	$intro.start(INTRO_WAIT);
 	yield($intro, "timeout");
-	player.locked = true;  # disable user input
 	casting = true;
 	cast();
 	yield(self, "end_casting");
