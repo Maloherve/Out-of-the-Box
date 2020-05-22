@@ -24,7 +24,6 @@ config/icon="res://assets/Icon/OotB.png"
 Music="*res://scenes/Music.tscn"
 SceneChanger="*res://scenes/SceneChanger.tscn"
 Jugebox="*res://scenes/Jugebox.tscn"
-Zoneinfo="res://scripts/zoneinfo.gd"
 
 [debug]
 
@@ -110,6 +109,8 @@ ui_cast={
 2d_physics/layer_12="Damage"
 2d_render/layer_13="Presence"
 2d_physics/layer_13="Presence"
+2d_render/layer_15="Friction"
+2d_physics/layer_15="Friction"
 
 [physics]
 

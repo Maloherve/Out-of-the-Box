@@ -2,6 +2,8 @@ extends Area2D
 
 var bodies : Array = [];
 export (float) var friction = 0.0;
+export (float) var upper_friction = 0.0;
+export (float) var cascade = 0.0;
 
 func _on_body_entered(body):
 	if body.get("velocity"):
@@ -31,5 +33,10 @@ func _init():
 # Called when the node enters the scene tree for the first time.
 func _physics_process(delta):
 	for body in bodies:
-		body.velocity *= (1.0 - friction);
+		if body.velocity.y < 0:
+			body.velocity.y *= (1.0 - upper_friction);
+		else:
+			body.velocity.y *= (1.0 - friction);
+		body.velocity.x *= 1.0 - friction;
+		body.velocity.y += cascade;
 

@@ -106,7 +106,7 @@ func on_Player_start_casting(trigger):
 		half_width = pbox.y
 		particle.rotation_degrees -= 90 * player.look_direction() # node of 90
 		# fix no move
-		direction = -player.vertical_move_direction
+		direction = -player.vertical_move_direction * player.look_direction();
 	else:
 		half_width = pbox.x
 		direction = player.look_direction()
