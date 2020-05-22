@@ -12,7 +12,6 @@ func _on_zone_trigger_zone_loading(zone):
 	walls.modulate *= Color(1.0, 0.2, 0.2, 1.0);
 	walls.z_index += 2;
 	boss.start();
-	disconnect("zone_loading", self, "_on_zone_trigger_zone_loading");
 	yield(boss, "end_battle");
 	walls.modulate /= Color(1.0, 0.2, 0.2, 1.0);
 	walls.z_index -= 2;

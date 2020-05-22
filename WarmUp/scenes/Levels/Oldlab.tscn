@@ -71,7 +71,7 @@ max_value = 10.0
 _data = [ Vector2( 0, 0 ), 0.0, 0.0, 0, 0, Vector2( 0.491071, 10 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), 0.0, 0.0, 0, 0 ]
 
 [sub_resource type="RectangleShape2D" id=10]
-extents = Vector2( 0.89978, 0.245422 )
+extents = Vector2( 33.3796, 1.35123 )
 
 [sub_resource type="RectangleShape2D" id=11]
 extents = Vector2( 20, 60 )
@@ -137,6 +137,7 @@ extents = Vector2( 11.7209, 62.9506 )
 position = Vector2( -2, 0 )
 script = ExtResource( 1 )
 cat_version = 2
+checkpoint = 1
 checkpoints = [ ExtResource( 4 ), ExtResource( 35 ), ExtResource( 36 ), ExtResource( 38 ) ]
 
 [node name="PlayerInitialPosition" type="Node2D" parent="."]
@@ -389,15 +390,15 @@ V_x = SubResource( 9 )
 position = Vector2( 0.951309, -0.951324 )
 
 [node name="boss_trigger" type="Area2D" parent="World/Interactions"]
-position = Vector2( 2009, 1973 )
+position = Vector2( 1872, 1973 )
 scale = Vector2( 6, 7 )
-collision_layer = 2
-collision_mask = 2
+collision_layer = 0
+collision_mask = 4
 script = ExtResource( 8 )
 zoneinfo = ExtResource( 28 )
+oneshot = true
 
 [node name="collider" type="CollisionShape2D" parent="World/Interactions/boss_trigger"]
-position = Vector2( 3.66672, 1.14285 )
 shape = SubResource( 10 )
 
 [node name="back_to_silence" parent="World/Interactions" instance=ExtResource( 11 )]
