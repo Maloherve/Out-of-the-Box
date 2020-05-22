@@ -39,6 +39,5 @@ func flicker_salve(iterations, delay,  delta):
 		
 		current_interations += .5;
 		flicker_timer = flicker_delay;
-		print(current_interations)
 		if (current_interations >= iterations):
 			flicker = false;

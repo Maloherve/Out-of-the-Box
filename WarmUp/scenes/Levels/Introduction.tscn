@@ -1,4 +1,4 @@
-[gd_scene load_steps=39 format=2]
+[gd_scene load_steps=40 format=2]
 
 [ext_resource path="res://scripts/Main.gd" type="Script" id=1]
 [ext_resource path="res://assets/Background/SkyLine.png" type="Texture" id=2]
@@ -29,6 +29,7 @@
 [ext_resource path="res://assets/Tilesets/Obstacles_Tileset.tres" type="TileSet" id=27]
 [ext_resource path="res://scenes/Objects/Exit.tscn" type="PackedScene" id=28]
 [ext_resource path="res://assets/checkpoints/Introduction/End.tres" type="Resource" id=29]
+[ext_resource path="res://scenes/Objects/Neon.tscn" type="PackedScene" id=30]
 
 [sub_resource type="OccluderPolygon2D" id=1]
 closed = false
@@ -173,7 +174,7 @@ cat_version = 2
 checkpoints = [ ExtResource( 15 ), ExtResource( 29 ) ]
 
 [node name="PlayerInitialPosition" type="Node2D" parent="."]
-position = Vector2( 1185.79, 458.637 )
+position = Vector2( -227.834, 383.99 )
 
 [node name="World" type="Node2D" parent="."]
 __meta__ = {
@@ -272,7 +273,7 @@ light_mask = 0
 position = Vector2( -1, 0 )
 tile_set = ExtResource( 3 )
 cell_size = Vector2( 32, 32 )
-collision_layer = 2
+collision_layer = 34
 collision_mask = 0
 occluder_light_mask = 2
 format = 1
@@ -280,6 +281,7 @@ tile_data = PoolIntArray( 131067, 3, 0, 131068, 3, 1, 131069, 3, 1, 131070, 3, 1
 
 [node name="potential_wall" type="Node2D" parent="World/Walls"]
 script = ExtResource( 21 )
+value = 10.0
 
 [node name="Enemies" type="Node2D" parent="World"]
 
@@ -346,7 +348,7 @@ tile_data = PoolIntArray( 1769468, 8, 0, 1966075, 1, 0, 1966076, 2, 0, 1900545, 
 [node name="Obstacles" type="TileMap" parent="World/Objects"]
 tile_set = ExtResource( 27 )
 cell_size = Vector2( 32, 32 )
-collision_layer = 2
+collision_layer = 1024
 collision_mask = 0
 format = 1
 tile_data = PoolIntArray( 1048573, 1, 0, 983040, 0, 0, 983044, 1, 0 )
@@ -408,6 +410,7 @@ tile_data = PoolIntArray( 2097195, 1610612738, 0, 2687036, 0, 0 )
 position = Vector2( 530, 448 )
 collision_layer = 12
 init_open = true
+layer_bits = [ 1, 5 ]
 
 [node name="right" parent="World/Objects/doorwall" instance=ExtResource( 23 )]
 position = Vector2( 70, 10 )
@@ -432,6 +435,13 @@ script = ExtResource( 25 )
 
 [node name="Exit" parent="World/Objects" instance=ExtResource( 28 )]
 position = Vector2( 1080.35, 443.993 )
+
+[node name="Neon" parent="World/Objects" instance=ExtResource( 30 )]
+position = Vector2( 221.119, 381.258 )
+
+[node name="Polygon2D" type="Polygon2D" parent="World/Objects/Neon"]
+color = Color( 0, 0, 0, 1 )
+polygon = PoolVector2Array( -29.2318, 10.7114, -29.3655, 31.9253, -13.7846, 31.8815, -8.47865, 14.755, -5.09341, 23.836, -11.2036, 23.7711, -5.14716, 23.7823, -1.7618, 31.9816, -0.0963745, 31.9926, -0.570435, 15.1788, 2.47418, 15.477, 4.56429, 16.7681, 5.45064, 18.9992, 4.99217, 20.9553, 3.21948, 22.6058, 0.157822, 23.4879, 3.16141, 24.4216, 5.33783, 25.3597, 6.3885, 26.3729, 6.76375, 27.7613, 6.95137, 29.1122, 6.20088, 30.2754, 5.33783, 31.2135, 3.98695, 31.9265, -0.10733, 32.0255, 13.2899, 31.9576, 15.3761, 31.4635, 17.0047, 30.6217, 18.1393, 28.9199, 17.8595, 27.2657, 15.8557, 25.6432, 13.4673, 24.8589, 10.865, 23.7538, 10.2589, 21.6506, 10.8293, 20.1177, 12.79, 19.2265, 14.6793, 19.3691, 16.9895, 20.397 )
 
 [node name="Interactions" type="Node2D" parent="World"]
 position = Vector2( 0.951309, -0.951324 )

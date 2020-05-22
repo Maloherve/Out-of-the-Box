@@ -26,10 +26,10 @@ func _ready():
 	var texture_x : Texture = create_texture_from_array(array_x);
 	var texture_y : Texture = create_texture_from_array(array_y);
 	# Upload the texture to my shader
-	material.set_shader_param("x_values", texture_x)
-	material.set_shader_param("y_values", texture_y)
-	material.set_shader_param("size", array_x.size())
-
+	material.set_shader_param("x_values", texture_x);
+	material.set_shader_param("y_values", texture_y);
+	material.set_shader_param("size", array_x.size());
+	material.set_shader_param("visible_bg", 0);
 
 
 # Saves the polygon in a .save file

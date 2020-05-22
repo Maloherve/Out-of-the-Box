@@ -10,7 +10,7 @@ var debug_mode : bool = false;
 var darken : bool = false;
 const WORLD_MODULATE_COLOR : Color = Color(0.5,1,0.5);
 #const PLAYER_MODULATE_COLOR : Color = Color(0.3,0.3,0.3)
-# Player 
+# Player  
 var camera_zoom : Vector2 = Vector2(.3, .3)
 export var activate_camera : bool = true;
 export var cat_version : int = 1;

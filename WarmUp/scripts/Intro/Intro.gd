@@ -24,6 +24,13 @@ var dialog = [
 var anim = ['redTalkStart', 'redTalk', 'redTalkEnd', 'blueTalkStart', 'blueTalk', 'blueTalk', 'blueTalk', 'blueTalk', 'blueTalkEnd', 'talkRed', 'talkRed', 'talkRed', 'talkRed', 'talkBlue', 'talkBlue', 'talkRed', 'talkRed', 'leaving' ]
 var page = 0
 
+const steps = [
+  'Footsteps_Casual_Concrete_09',
+  'Footsteps_Casual_Concrete_10',
+  'Footsteps_Casual_Concrete_11',
+  'Footsteps_Casual_Concrete_12'
+]
+
 onready var dialogBox = get_node('World/NPC/DialogueBox/Dialogue')
 # Game font
 var GameFont : Font = load('assets/Fonts/abel-regular.ttf');
@@ -136,6 +143,13 @@ func _input(event):
 					dialogBox.set_bbcode(dialog[page])
 					dialogBox.set_visible_characters(0)
 					$World/Enemies/Scientists.play(anim[page])
+					if anim[page] == "blueTalkStart" or \
+					anim[page] == "blueTalk" or anim[page] == "blueTalkEnd" \
+					or anim[page] == "talkBlue":
+						print(anim[page])
+						$World/NPC/DialogueBox/Speaker.add_color_override("font_color", Color(0.1,0.6,0.9,1))
+					else:
+						$World/NPC/DialogueBox/Speaker.add_color_override("font_color", Color(0.8,0.1,0.1,1))
 			else:
 				dialogBox.set_visible_characters(dialogBox.get_total_character_count())
 
@@ -143,6 +157,11 @@ func _input(event):
 
 func _on_EventTimer_timeout():
 	$World/NPC/Box.play('jump')
+	$World/EventTimer.wait_time = 0.5
+	if $World/NPC/DialogueBox/Arrow.visible:
+		$World/NPC/DialogueBox/Arrow.visible = false
+	else:
+		$World/NPC/DialogueBox/Arrow.visible = true
 
 
 func _on_Box_animation_finished():
@@ -161,9 +180,24 @@ func _on_Box_frame_changed():
 
 func _on_Timer_timeout():
 	dialogBox.set_visible_characters(dialogBox.get_visible_characters()+1)
+	
 
 
 func _on_Scientists_animation_finished():
+	if ($World/Enemies/Scientists.animation == 'blueTalkStart'):
+		$World/Objects/machine.play('laser')
 	if ($World/Enemies/Scientists.animation == 'leaving'):
 		$World/NPC/DialogueBox.visible = false
 		SceneChanger.change_scene("introduction", 0.5)
+		
+func play_random_step():
+	var rand_nb = randi() % steps.size()
+	var audiostream = load("res://assets/Sounds/Footsteps/" + steps[rand_nb] + '.wav')
+	$World/Enemies/footsteps.stream = audiostream
+	$World/Enemies/footsteps.play()
+
+
+func _on_Scientists_frame_changed():
+	if ($World/Enemies/Scientists.animation == 'leaving'):
+		if ($World/Enemies/Scientists.frame > 7 && $World/Enemies/Scientists.frame % 2):
+			play_random_step()

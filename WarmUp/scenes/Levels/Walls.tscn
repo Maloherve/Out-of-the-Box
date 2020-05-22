@@ -26,6 +26,7 @@ polygon = PoolVector2Array( -20.2355, -224.689, -19.9445, -222.167, -20.3325, -2
 extents = Vector2( 1.13702, 1.17068 )
 
 [node name="Level" type="Node2D"]
+position = Vector2( 1, 0 )
 script = ExtResource( 1 )
 cat_version = 2
 
@@ -208,7 +209,7 @@ position = Vector2( 601.041, -163.581 )
 light_mask = 0
 tile_set = ExtResource( 3 )
 cell_size = Vector2( 32, 32 )
-collision_layer = 2
+collision_layer = 18
 collision_mask = 2
 occluder_light_mask = 2
 format = 1
@@ -222,7 +223,7 @@ value = 10.0
 light_mask = 0
 tile_set = ExtResource( 3 )
 cell_size = Vector2( 32, 32 )
-collision_layer = 14
+collision_layer = 46
 collision_mask = 14
 occluder_light_mask = 2
 format = 1
