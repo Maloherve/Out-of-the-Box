@@ -1,4 +1,4 @@
-[gd_scene load_steps=69 format=2]
+[gd_scene load_steps=70 format=2]
 
 [ext_resource path="res://scripts/Main.gd" type="Script" id=1]
 [ext_resource path="res://assets/Tilesets/platforms.tres" type="TileSet" id=2]
@@ -10,8 +10,7 @@
 [ext_resource path="res://scripts/Oldlab/boss_trigger.gd" type="Script" id=8]
 [ext_resource path="res://assets/Environment/box.png" type="Texture" id=9]
 [ext_resource path="res://scenes/Objects/flamethrower.tscn" type="PackedScene" id=10]
-[ext_resource path="res://scripts/Level1/ReadSign1.gd" type="Script" id=11]
-[ext_resource path="res://assets/Fonts/abel-regular.ttf" type="DynamicFontData" id=12]
+[ext_resource path="res://scenes/Objects/Victory.tscn" type="PackedScene" id=11]
 [ext_resource path="res://scripts/Fonction_Onde.gd" type="Script" id=13]
 [ext_resource path="res://scenes/InfoScreen.tscn" type="PackedScene" id=14]
 [ext_resource path="res://assets/Environment/effects/water.jpg" type="Texture" id=15]
@@ -37,6 +36,9 @@
 [ext_resource path="res://assets/checkpoints/oldlab/preboss.tres" type="Resource" id=35]
 [ext_resource path="res://assets/checkpoints/oldlab/visions.tres" type="Resource" id=36]
 [ext_resource path="res://scripts/Interactions/friction_area.gd" type="Script" id=37]
+[ext_resource path="res://assets/checkpoints/oldlab/maybehard.tres" type="Resource" id=38]
+[ext_resource path="res://assets/Background/city.png" type="Texture" id=39]
+[ext_resource path="res://assets/Background/darkness.png" type="Texture" id=40]
 
 [sub_resource type="Curve" id=1]
 _data = [ Vector2( 0, 0 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 1.4, 0.0, 0, 0 ]
@@ -69,78 +71,73 @@ max_value = 10.0
 _data = [ Vector2( 0, 0 ), 0.0, 0.0, 0, 0, Vector2( 0.491071, 10 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), 0.0, 0.0, 0, 0 ]
 
 [sub_resource type="RectangleShape2D" id=10]
-extents = Vector2( 15.8712, 18.4255 )
-
-[sub_resource type="DynamicFont" id=11]
-size = 10
-font_data = ExtResource( 12 )
-
-[sub_resource type="RectangleShape2D" id=12]
 extents = Vector2( 0.89978, 0.245422 )
 
-[sub_resource type="RectangleShape2D" id=13]
+[sub_resource type="RectangleShape2D" id=11]
+extents = Vector2( 20, 60 )
+
+[sub_resource type="RectangleShape2D" id=12]
 extents = Vector2( 25.8271, 3.07214 )
 
-[sub_resource type="RectangleShape2D" id=14]
+[sub_resource type="RectangleShape2D" id=13]
 extents = Vector2( 23.8284, 4.90833 )
 
-[sub_resource type="RectangleShape2D" id=15]
+[sub_resource type="RectangleShape2D" id=14]
 extents = Vector2( 23.4509, 4.48303 )
 
-[sub_resource type="RectangleShape2D" id=16]
+[sub_resource type="RectangleShape2D" id=15]
 extents = Vector2( 25.8048, 5.01196 )
 
-[sub_resource type="RectangleShape2D" id=17]
+[sub_resource type="RectangleShape2D" id=16]
 extents = Vector2( 24.4038, 4.8429 )
 
-[sub_resource type="RectangleShape2D" id=18]
+[sub_resource type="RectangleShape2D" id=17]
 extents = Vector2( 42.5287, 10 )
 
-[sub_resource type="RectangleShape2D" id=19]
+[sub_resource type="RectangleShape2D" id=18]
 extents = Vector2( 35.4927, 3.61877 )
 
-[sub_resource type="RectangleShape2D" id=20]
+[sub_resource type="RectangleShape2D" id=19]
 extents = Vector2( 21.9832, 3.48804 )
 
-[sub_resource type="RectangleShape2D" id=21]
+[sub_resource type="RectangleShape2D" id=20]
 extents = Vector2( 9.04907, 4.45972 )
 
-[sub_resource type="RectangleShape2D" id=22]
+[sub_resource type="RectangleShape2D" id=21]
 extents = Vector2( 18.0754, 3.16125 )
 
-[sub_resource type="RectangleShape2D" id=23]
+[sub_resource type="RectangleShape2D" id=22]
 extents = Vector2( 10, 2.97888 )
 
-[sub_resource type="RectangleShape2D" id=24]
+[sub_resource type="RectangleShape2D" id=23]
 extents = Vector2( 21.9037, 3.5127 )
 
-[sub_resource type="RectangleShape2D" id=25]
+[sub_resource type="RectangleShape2D" id=24]
 extents = Vector2( 25.3403, 2.65216 )
 
-[sub_resource type="RectangleShape2D" id=26]
+[sub_resource type="RectangleShape2D" id=25]
 extents = Vector2( 8.8645, 3.50311 )
 
-[sub_resource type="RectangleShape2D" id=27]
+[sub_resource type="RectangleShape2D" id=26]
 extents = Vector2( 19.4266, 3.50311 )
 
-[sub_resource type="RectangleShape2D" id=28]
+[sub_resource type="RectangleShape2D" id=27]
 extents = Vector2( 10.4402, 3.88568 )
 
-[sub_resource type="RectangleShape2D" id=29]
+[sub_resource type="RectangleShape2D" id=28]
 extents = Vector2( 19.4547, 3.30734 )
 
-[sub_resource type="RectangleShape2D" id=30]
+[sub_resource type="RectangleShape2D" id=29]
 extents = Vector2( 268.288, 802.734 )
 
-[sub_resource type="RectangleShape2D" id=31]
+[sub_resource type="RectangleShape2D" id=30]
 extents = Vector2( 11.7209, 62.9506 )
 
 [node name="Level" type="Node2D"]
 position = Vector2( -2, 0 )
 script = ExtResource( 1 )
 cat_version = 2
-checkpoint = 2
-checkpoints = [ ExtResource( 4 ), ExtResource( 35 ), ExtResource( 36 ) ]
+checkpoints = [ ExtResource( 4 ), ExtResource( 35 ), ExtResource( 36 ), ExtResource( 38 ) ]
 
 [node name="PlayerInitialPosition" type="Node2D" parent="."]
 position = Vector2( 2225.21, 1957.68 )
@@ -159,6 +156,17 @@ z_index = -2
 position = Vector2( 1800, 1172.62 )
 scale = Vector2( 1, 2.92605 )
 texture = ExtResource( 5 )
+
+[node name="city" type="Sprite" parent="World/Background"]
+position = Vector2( 1082.74, 707.313 )
+scale = Vector2( 1.1742, 0.623042 )
+texture = ExtResource( 39 )
+
+[node name="darkness" type="Sprite" parent="World/Background"]
+position = Vector2( 662.314, 1068.82 )
+scale = Vector2( 2.22028, 0.929451 )
+z_index = -3
+texture = ExtResource( 40 )
 
 [node name="Lights" type="Node2D" parent="World"]
 
@@ -213,15 +221,15 @@ collision_friction = 0.0
 collision_layer = 1024
 collision_mask = 0
 format = 1
-tile_data = PoolIntArray( 655413, 2, 0, 655416, 1, 0, 655417, 2, 0, 655421, 1, 0, 655422, 2, 0, 786494, 3, 0, 786495, 2, 0, 852019, 2, 0, 852030, 0, 0, 917555, 0, 0, 1114164, 1, 0, 1114165, 2, 0, 1245235, 1, 0, 1245236, 4, 0, 1245247, 1, 0, 1310778, 2, 0, 1310782, 0, 0, 1441854, 3, 0, 1441855, 2, 0, 1703936, 1, 0, 1703956, 1, 0, 1703957, 1, 0, 1703987, 0, 0, 1703993, 0, 0, 1769479, 1, 0, 1769480, 1, 0, 1835011, 1, 0, 1900595, 0, 0, 1966080, 1, 0, 2031667, 1, 0, 2031668, 4, 0, 2031679, 3, 0, 2097155, 1, 0, 2097159, 1, 0, 2097160, 1, 0, 2097208, 1, 0, 2097209, 1, 0, 2097210, 1, 0, 2097211, 1, 0, 2097212, 1, 0, 2097213, 1, 0, 2097214, 1, 0, 2162750, 0, 0, 2228224, 1, 0, 2228231, 1, 0, 2228232, 1, 0, 2293822, 3, 0, 2293823, 1, 0, 2359303, 1, 0, 2359304, 1, 0, 2359347, 4, 0, 2424894, 0, 0, 2490386, 1, 0, 2490387, 1, 0, 2555955, 1, 0, 2555956, 4, 0, 2621460, 1, 0, 2621461, 1, 0, 2621499, 0, 0, 2687029, 0, 0, 2687030, 1, 0, 2687036, 1, 0, 2687038, 0, 0, 2818099, 0, 0, 2818104, 3, 0, 2818105, 1, 0, 2818106, 4, 0, 2883639, 0, 0, 2883641, 0, 0, 2949171, 2, 0, 2949176, 1, 0, 2949177, 2, 0, 2949178, 2, 0, 3014664, 2, 0, 3014665, 2, 0, 3014712, 2, 0, 3014713, 2, 0, 3014714, 2, 0, 3014718, 3, 0, 3014719, 2, 0, 3080204, 2, 0, 3080205, 2, 0, 3080251, 0, 0, 3145779, 1, 0, 3145780, 4, 0, 3211318, 0, 0, 3342329, 2, 0, 3342330, 2, 0, 3276815, 2, 0, 3276816, 2, 0, 3276817, 2, 0, 3276856, 2, 0, 3342395, 3, 0, 3342396, 4, 0, 3538936, 1, 0, 3538937, 1, 0, 3538938, 1, 0, 3538939, 1, 0, 3473416, 2, 0, 3473420, 2, 0, 3473424, 2, 0, 3473463, 0, 0, 3538995, 1, 0, 3538996, 4, 0, 3604507, 2, 0, 3604508, 2, 0, 3735607, 3, 0, 3735608, 4, 0, 3801113, 2, 0, 3801117, 2, 0, 3801118, 2, 0, 3997721, 2, 0, 3997722, 2, 0, 3997748, 1, 0, 3997749, 2, 0, 3997750, 1, 0, 3997751, 2, 0, 3997752, 1, 0, 3997753, 2, 0, 3997754, 1, 0, 3997755, 2, 0, 3997756, 1, 0, 3997757, 2, 0, 3997758, 1, 0, 3997759, 2, 0 )
+tile_data = PoolIntArray( 655413, 2, 0, 655416, 1, 0, 655417, 2, 0, 655421, 1, 0, 655422, 2, 0, 786494, 3, 0, 786495, 2, 0, 852019, 2, 0, 852030, 0, 0, 917555, 0, 0, 1114164, 1, 0, 1114165, 2, 0, 1245235, 1, 0, 1245236, 4, 0, 1245247, 1, 0, 1310778, 2, 0, 1310782, 0, 0, 1441854, 3, 0, 1441855, 2, 0, 1703936, 1, 0, 1703956, 1, 0, 1703957, 1, 0, 1703987, 0, 0, 1703993, 0, 0, 1769479, 1, 0, 1769480, 1, 0, 1835011, 1, 0, 1900595, 0, 0, 2031619, 1, 0, 2031667, 1, 0, 2031668, 4, 0, 2031679, 3, 0, 2097152, 1, 0, 2097159, 1, 0, 2097160, 1, 0, 2097208, 1, 0, 2097209, 1, 0, 2097210, 1, 0, 2097211, 1, 0, 2097212, 1, 0, 2097213, 1, 0, 2097214, 1, 0, 2162691, 1, 0, 2162750, 0, 0, 2228224, 1, 0, 2228231, 1, 0, 2228232, 1, 0, 2293822, 3, 0, 2293823, 1, 0, 2359303, 1, 0, 2359304, 1, 0, 2359347, 4, 0, 2424894, 0, 0, 2490386, 1, 0, 2490387, 1, 0, 2555955, 1, 0, 2555956, 4, 0, 2621460, 1, 0, 2621461, 1, 0, 2621499, 0, 0, 2687029, 0, 0, 2687030, 1, 0, 2687036, 1, 0, 2687038, 0, 0, 2818099, 0, 0, 2818104, 3, 0, 2818105, 1, 0, 2818106, 4, 0, 2883639, 0, 0, 2883641, 0, 0, 2949171, 2, 0, 2949176, 1, 0, 2949177, 2, 0, 2949178, 2, 0, 3014664, 2, 0, 3014665, 2, 0, 3014712, 2, 0, 3014713, 2, 0, 3014714, 2, 0, 3014718, 3, 0, 3014719, 2, 0, 3080204, 2, 0, 3080205, 2, 0, 3080251, 0, 0, 3145779, 1, 0, 3145780, 4, 0, 3211318, 0, 0, 3342329, 2, 0, 3342330, 2, 0, 3276815, 2, 0, 3276816, 2, 0, 3276817, 2, 0, 3276856, 2, 0, 3342395, 3, 0, 3342396, 4, 0, 3538936, 1, 0, 3538937, 1, 0, 3538938, 1, 0, 3538939, 1, 0, 3473416, 2, 0, 3473420, 2, 0, 3473424, 2, 0, 3473463, 0, 0, 3538995, 1, 0, 3538996, 4, 0, 3604507, 2, 0, 3604508, 2, 0, 3735607, 3, 0, 3735608, 4, 0, 3801113, 2, 0, 3801117, 2, 0, 3801118, 2, 0, 3997721, 2, 0, 3997722, 2, 0, 3997748, 1, 0, 3997749, 2, 0, 3997750, 1, 0, 3997751, 2, 0, 3997752, 1, 0, 3997753, 2, 0, 3997754, 1, 0, 3997755, 2, 0, 3997756, 1, 0, 3997757, 2, 0, 3997758, 1, 0, 3997759, 2, 0 )
 
 [node name="frictiontile" type="Area2D" parent="World"]
 collision_layer = 16416
 collision_mask = 0
 script = ExtResource( 37 )
 friction = 0.2
-upper_friction = 0.1
-cascade = 0.5
+upper_friction = 0.15
+cascade = 3.0
 
 [node name="weakwalls" type="TileMap" parent="World/frictiontile"]
 tile_set = ExtResource( 3 )
@@ -246,7 +254,6 @@ value = 3.5
 [node name="doorwall" parent="World/Objects" instance=ExtResource( 22 )]
 position = Vector2( 10, 480 )
 collision_mask = 46
-init_open = false
 layer_bits = [ 1, 3 ]
 
 [node name="right" parent="World/Objects/doorwall" instance=ExtResource( 23 )]
@@ -381,32 +388,6 @@ V_x = SubResource( 9 )
 [node name="Interactions" type="Node2D" parent="World"]
 position = Vector2( 0.951309, -0.951324 )
 
-[node name="intro" type="Area2D" parent="World/Interactions"]
-position = Vector2( -150, 490.304 )
-space_override = 1
-collision_layer = 0
-collision_mask = 4
-script = ExtResource( 11 )
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="World/Interactions/intro"]
-position = Vector2( 1.74341, 5.61761 )
-shape = SubResource( 10 )
-
-[node name="Label" type="Label" parent="World/Interactions/intro"]
-margin_left = -28.2969
-margin_top = -52.5529
-margin_right = 102.929
-margin_bottom = -7.55286
-rect_scale = Vector2( 0.993344, 1.01854 )
-custom_fonts/font = SubResource( 11 )
-text = "Warning!
-Subject 1926  escaped.
-No one is allowed to leave the building.
-Keep all the doors closed!"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
 [node name="boss_trigger" type="Area2D" parent="World/Interactions"]
 position = Vector2( 2009, 1973 )
 scale = Vector2( 6, 7 )
@@ -417,7 +398,13 @@ zoneinfo = ExtResource( 28 )
 
 [node name="collider" type="CollisionShape2D" parent="World/Interactions/boss_trigger"]
 position = Vector2( 3.66672, 1.14285 )
-shape = SubResource( 12 )
+shape = SubResource( 10 )
+
+[node name="back_to_silence" parent="World/Interactions" instance=ExtResource( 11 )]
+position = Vector2( -850, 1986 )
+target_level = "sensors"
+checkpoint = 1
+area = SubResource( 11 )
 
 [node name="Fonction_Onde" type="Node2D" parent="."]
 script = ExtResource( 13 )
@@ -462,7 +449,7 @@ collision_mask = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="boss/safezones/safe1"]
 position = Vector2( 0, 11 )
-shape = SubResource( 13 )
+shape = SubResource( 12 )
 
 [node name="safe2" type="Area2D" parent="boss/safezones"]
 position = Vector2( -134, 614 )
@@ -471,7 +458,7 @@ collision_mask = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="boss/safezones/safe2"]
 position = Vector2( 3, 13 )
-shape = SubResource( 14 )
+shape = SubResource( 13 )
 
 [node name="safe3" type="Area2D" parent="boss/safezones"]
 position = Vector2( 127, 521 )
@@ -480,7 +467,7 @@ collision_mask = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="boss/safezones/safe3"]
 position = Vector2( -1, 9 )
-shape = SubResource( 15 )
+shape = SubResource( 14 )
 
 [node name="safe4" type="Area2D" parent="boss/safezones"]
 position = Vector2( -131, 422 )
@@ -489,7 +476,7 @@ collision_mask = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="boss/safezones/safe4"]
 position = Vector2( -1, 12 )
-shape = SubResource( 16 )
+shape = SubResource( 15 )
 
 [node name="safe5" type="Area2D" parent="boss/safezones"]
 position = Vector2( 226, 354 )
@@ -498,7 +485,7 @@ collision_mask = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="boss/safezones/safe5"]
 position = Vector2( -4, 16 )
-shape = SubResource( 17 )
+shape = SubResource( 16 )
 
 [node name="safe6" type="Area2D" parent="boss/safezones"]
 position = Vector2( 40, 332 )
@@ -507,7 +494,7 @@ collision_mask = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="boss/safezones/safe6"]
 position = Vector2( 4, 1 )
-shape = SubResource( 18 )
+shape = SubResource( 17 )
 
 [node name="safe7" type="Area2D" parent="boss/safezones"]
 position = Vector2( 40, 268 )
@@ -516,7 +503,7 @@ collision_mask = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="boss/safezones/safe7"]
 position = Vector2( 4, 8 )
-shape = SubResource( 19 )
+shape = SubResource( 18 )
 
 [node name="safe8" type="Area2D" parent="boss/safezones"]
 position = Vector2( -137, 133 )
@@ -525,7 +512,7 @@ collision_mask = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="boss/safezones/safe8"]
 position = Vector2( 0, 14 )
-shape = SubResource( 20 )
+shape = SubResource( 19 )
 
 [node name="safe9" type="Area2D" parent="boss/safezones"]
 position = Vector2( -150, 49 )
@@ -534,7 +521,7 @@ collision_mask = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="boss/safezones/safe9"]
 position = Vector2( -2, 1 )
-shape = SubResource( 21 )
+shape = SubResource( 20 )
 
 [node name="safe10" type="Area2D" parent="boss/safezones"]
 position = Vector2( 231, 17 )
@@ -543,7 +530,7 @@ collision_mask = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="boss/safezones/safe10"]
 position = Vector2( 2, 4 )
-shape = SubResource( 22 )
+shape = SubResource( 21 )
 
 [node name="safe11" type="Area2D" parent="boss/safezones"]
 position = Vector2( 240, -117 )
@@ -552,7 +539,7 @@ collision_mask = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="boss/safezones/safe11"]
 position = Vector2( 2, 10 )
-shape = SubResource( 23 )
+shape = SubResource( 22 )
 
 [node name="safe12" type="Area2D" parent="boss/safezones"]
 position = Vector2( -139, -117 )
@@ -561,7 +548,7 @@ collision_mask = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="boss/safezones/safe12"]
 position = Vector2( 2, 10 )
-shape = SubResource( 24 )
+shape = SubResource( 23 )
 
 [node name="safe13" type="Area2D" parent="boss/safezones"]
 position = Vector2( 222, -404 )
@@ -570,7 +557,7 @@ collision_mask = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="boss/safezones/safe13"]
 position = Vector2( 2, 7 )
-shape = SubResource( 25 )
+shape = SubResource( 24 )
 
 [node name="safe14" type="Area2D" parent="boss/safezones"]
 position = Vector2( 237, -500 )
@@ -579,7 +566,7 @@ collision_mask = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="boss/safezones/safe14"]
 position = Vector2( 5, 7 )
-shape = SubResource( 26 )
+shape = SubResource( 25 )
 
 [node name="safe15" type="Area2D" parent="boss/safezones"]
 position = Vector2( -136, -500 )
@@ -588,7 +575,7 @@ collision_mask = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="boss/safezones/safe15"]
 position = Vector2( -1, 7 )
-shape = SubResource( 27 )
+shape = SubResource( 26 )
 
 [node name="safe16" type="Area2D" parent="boss/safezones"]
 position = Vector2( -150, -687 )
@@ -597,7 +584,7 @@ collision_mask = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="boss/safezones/safe16"]
 position = Vector2( 0, 1 )
-shape = SubResource( 28 )
+shape = SubResource( 27 )
 
 [node name="safe17" type="Area2D" parent="boss/safezones"]
 position = Vector2( 231, -718 )
@@ -606,7 +593,7 @@ collision_mask = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="boss/safezones/safe17"]
 position = Vector2( 0, 1 )
-shape = SubResource( 29 )
+shape = SubResource( 28 )
 
 [node name="flamethrowers" type="Node2D" parent="boss"]
 
@@ -667,12 +654,10 @@ position = Vector2( -4, 13 )
 collision_layer = 0
 collision_mask = 2048
 script = ExtResource( 30 )
-DAMAGE_MASK_BIT = 11
-damage = 3.0
 
 [node name="collider" type="CollisionShape2D" parent="boss/damage_area"]
 position = Vector2( 4.48767, 4.48779 )
-shape = SubResource( 30 )
+shape = SubResource( 29 )
 
 [node name="bossdoor" type="StaticBody2D" parent="boss"]
 position = Vector2( -278, 761 )
@@ -680,11 +665,9 @@ z_index = 2
 collision_layer = 34
 collision_mask = 0
 script = ExtResource( 32 )
-init_open = false
-layer_bits = [ 1, 5 ]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="boss/bossdoor"]
-shape = SubResource( 31 )
+shape = SubResource( 30 )
 
 [node name="animation" type="AnimatedSprite" parent="boss/bossdoor"]
 position = Vector2( 0, 0.0470104 )
