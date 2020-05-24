@@ -3,9 +3,9 @@ extends Node2D
 # This node describes the effects in the world, for exemple the darkening when casting
 var dialog = [
 	'So...', 
-	'How is it going with Experiment 8?', 
+	'How is it going with Subject 1926?', 
 	'Any progress?',
-	'None so far... We had high hopes for Schrödy- um, I mean Experiment 8.',
+	'None so far... We had high hopes for Schrödy- um, I mean Subject 1926.',
 	'As you know, he is our latest attempt at creating state superposition at a macroscopic scale',
 	'Originally it looked like the artificial enlargement of his de Broglie wavelength had succeeded',
 	'However, so far we haven\'t observed any of the expected quantum phenomena...',
