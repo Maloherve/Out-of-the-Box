@@ -28,6 +28,7 @@ var attackstun : int = 0;
 var meleeTime : int = 30;
 var hitstun : int = 0; # TODO, when does it change?
 # Cast
+var allow_casting = true;
 var cast : bool = false;
 var can_finish_cast = false;
 signal start_casting;
@@ -98,7 +99,7 @@ func set_locked(flag):
 	self.velocity = Vector2(0,0);
 	self.move_direction = 0.0;
 	locked = flag;
-	
+
 # Execute ASAP
 func _process(delta):
 	if !attack:
@@ -236,7 +237,7 @@ func flip(flag):
 func _get_input():
 	match ui_cast.check():
 		input_state.ui.just_pressed:
-			if !cast && endurance>=30:
+			if !cast && endurance>=30 && allow_casting:
 				emit_signal('start_casting', null); # no trigger
 				cast = true;
 				animNode.call("_cast",false);

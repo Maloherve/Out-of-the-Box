@@ -30,6 +30,8 @@ func _physics_process(delta):
 #	Player
 	Player_Info_Label.text = "Position = " + str(Vector2(round(Player.position[0]), round(Player.position[1]))) + "\n";
 	Player_Info_Label.text += "Velocity = " + str(Vector2(round(Player.velocity[0]), round(Player.velocity[1]))) + "\n";
+	Player_Info_Label.text += "Can Cast = " + str(Player.allow_casting) + "\n";
+	
 	#Player_Info_Label.text += "is on ground : " + str(Player.pstate == Player.PSTATE.ground) + "\n";
 	#Player_Info_Label.text += "is on wall : " + str(Player.is_on_wall()) + "\n";
 	#Player_Info_Label.text += "is on ledge : " + str(Player.is_on_ledge()) + "\n";

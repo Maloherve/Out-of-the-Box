@@ -1,4 +1,4 @@
-[gd_scene load_steps=44 format=2]
+[gd_scene load_steps=46 format=2]
 
 [ext_resource path="res://scripts/Main.gd" type="Script" id=1]
 [ext_resource path="res://assets/Background/SkyLine.png" type="Texture" id=2]
@@ -12,6 +12,7 @@
 [ext_resource path="res://scenes/Objects/Victory.tscn" type="PackedScene" id=10]
 [ext_resource path="res://scripts/Level1/ReadSign1.gd" type="Script" id=11]
 [ext_resource path="res://assets/Fonts/abel-regular.ttf" type="DynamicFontData" id=12]
+[ext_resource path="res://scripts/Interactions/Block_TP.gd" type="Script" id=13]
 [ext_resource path="res://scenes/InfoScreen.tscn" type="PackedScene" id=14]
 [ext_resource path="res://assets/checkpoints/Introduction/Beginning.tres" type="Resource" id=15]
 [ext_resource path="res://assets/Sounds/electronic_accent_03.wav" type="AudioStream" id=16]
@@ -191,6 +192,9 @@ font_data = ExtResource( 12 )
 
 [sub_resource type="RectangleShape2D" id=17]
 extents = Vector2( 1.13702, 1.17068 )
+
+[sub_resource type="RectangleShape2D" id=18]
+extents = Vector2( 7.96693, 8.37244 )
 
 [node name="Level" type="Node2D"]
 script = ExtResource( 1 )
@@ -586,8 +590,25 @@ shape = SubResource( 17 )
 [node name="Victory" parent="World/Interactions" instance=ExtResource( 10 )]
 position = Vector2( 1230.45, 484.891 )
 target_level = "floating_platforms"
-checkpoint = -1
 area = SubResource( 17 )
+
+[node name="Block_TP" type="Area2D" parent="World/Interactions"]
+position = Vector2( -229.447, 401.858 )
+collision_layer = 0
+collision_mask = 4
+script = ExtResource( 13 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="World/Interactions/Block_TP"]
+shape = SubResource( 18 )
+
+[node name="Allow_TP" type="Area2D" parent="World/Interactions"]
+position = Vector2( 977.335, 689.403 )
+collision_layer = 0
+collision_mask = 4
+script = ExtResource( 13 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="World/Interactions/Allow_TP"]
+shape = SubResource( 18 )
 
 [node name="InfoScreen" parent="." instance=ExtResource( 14 )]
 
