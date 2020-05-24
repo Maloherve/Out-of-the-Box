@@ -1,0 +1,8 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=2]
+
+[ext_resource path="res://assets/Shaders/illusion.shader" type="Shader" id=1]
+
+[resource]
+shader = ExtResource( 1 )
+shader_param/tiled_factor = Vector2( 1, 0.25 )
+shader_param/modulate = Plane( 0.2627, 0.43137, 0.3019, 1 )

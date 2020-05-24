@@ -53,9 +53,9 @@ func detect_current_level():
 	assert(level != null, \"Error: no scene was found to be reloaded\")
 
 func reload_scene(delay = 0.5, animate = true):
-	change_scene(level, delay, animate);
+	change_scene(level, -1, delay, animate);
 
-func change_scene(target, delay = 0.5, animate = true):
+func change_scene(target, checkpoint = -1, delay = 0.5, animate = true):
 	
 	apply_delay(delay);
 	
@@ -64,6 +64,10 @@ func change_scene(target, delay = 0.5, animate = true):
 		
 	var path = levels.get(target, DEFAULT_LEVEL);
 	assert(get_tree().change_scene(path) == OK)
+	
+	if checkpoint >= 0:
+		var sce = get_tree().current_scene;
+		get_tree().get_current_scene().checkpoint = checkpoint;
 	
 	if animate:
 		ease_in();

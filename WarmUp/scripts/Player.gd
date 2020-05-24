@@ -64,6 +64,7 @@ var ui_down = input_state.new("ui_down");
 # energy 
 const DEFAULT_ENERGY = 4.0;
 const MIN_ENERGY = 4.0;
+const ENERGY_LIMIT = 20.0;
 var energy : float = DEFAULT_ENERGY setget set_energy;
 
 
@@ -111,7 +112,9 @@ func _process(delta):
 			flip(false);
 		elif (move_direction == 1):
 			flip(true);
+			
 	_trigger_landing();
+	Endurance_Bar.set_value(update_endurance());
 	
 # PSTATE check
 func _trigger_landing():
@@ -133,11 +136,12 @@ func _trigger_ledge():
 		emit_signal("pstate_changed", PSTATE.air);
 		pstate = PSTATE.air;
 
-func _trigger_jump():
+func _trigger_jump(strength = 1.0):
 	if !cast && pstate == PSTATE.ground && endurance > 0:
 		pstate = PSTATE.jump;
 		emit_signal("pstate_changed", PSTATE.air);
 		pstate = PSTATE.air;
+		$jump.play()
 		
 func _trigger_hold_wall():
 	if !cast && !is_on_wall() && _check_is_collided() && endurance > 0:
@@ -155,7 +159,9 @@ func _on_Player_pstate_changed(new_state):
 			print("[Player] set air state")
 			animNode.call("_jump");
 		
-			if pstate == PSTATE.jump || pstate == PSTATE.ledge:
+			if pstate == PSTATE.jump:
+				velocity.y = Input.get_action_strength("ui_up") * jump_velocity;
+			elif pstate == PSTATE.ledge:
 				velocity.y = jump_velocity;
 		
 		PSTATE.wall:
@@ -191,7 +197,7 @@ func _on_Player_start_casting(_trigger):
 func _physics_process(delta):
 	if !cast:
 		velocity = move_and_slide(velocity, Vector2(0,0));
-	Endurance_Bar.set_value(update_endurance());
+	
 	
 
 # Move Character
@@ -339,6 +345,8 @@ func take_damage(strength):
 	velocity.x -= 0.3 * jump_velocity * move_direction;
 	velocity.y += 0.5 * jump_velocity;
 	animNode.call("_damage",true);
+	if energy > ENERGY_LIMIT:
+		die();
 	
 # death
 func die(reason = null):

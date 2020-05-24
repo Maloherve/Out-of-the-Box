@@ -57,10 +57,10 @@ font_data = ExtResource( 12 )
 [sub_resource type="RectangleShape2D" id=10]
 
 [sub_resource type="RectangleShape2D" id=11]
-extents = Vector2( 219.813, 8.88477 )
+extents = Vector2( 519.092, 8.88477 )
 
 [sub_resource type="RectangleShape2D" id=12]
-extents = Vector2( 200, 10 )
+extents = Vector2( 20, 60 )
 
 [node name="Level" type="Node2D"]
 script = ExtResource( 1 )
@@ -92,8 +92,8 @@ scale = Vector2( 0.889543, 1.76765 )
 texture = ExtResource( 5 )
 
 [node name="Sprite" type="Sprite" parent="World/Background/cave"]
-position = Vector2( -3.12457, 1018.81 )
-scale = Vector2( 1.00984, 0.528902 )
+position = Vector2( 176.448, 1018.81 )
+scale = Vector2( 1.19837, 0.528902 )
 texture = ExtResource( 9 )
 
 [node name="Lights" type="Node2D" parent="World"]
@@ -233,37 +233,31 @@ __meta__ = {
 [node name="zone_trigger1" type="Area2D" parent="World/Interactions"]
 position = Vector2( 899.049, 470.951 )
 scale = Vector2( 6, 7 )
-collision_layer = 2
-collision_mask = 2
+collision_layer = 0
+collision_mask = 4
 script = ExtResource( 15 )
 zoneinfo = ExtResource( 8 )
+oneshot = true
 
 [node name="collider" type="CollisionShape2D" parent="World/Interactions/zone_trigger1"]
 shape = SubResource( 10 )
 
 [node name="zone_trigger2" type="Area2D" parent="World/Interactions"]
-position = Vector2( 1215, 3000 )
-collision_layer = 2
-collision_mask = 2
+position = Vector2( 1538, 3000 )
+collision_layer = 0
+collision_mask = 4
 script = ExtResource( 15 )
 zoneinfo = ExtResource( 18 )
 
 [node name="collider" type="CollisionShape2D" parent="World/Interactions/zone_trigger2"]
+position = Vector2( -21, 0 )
 shape = SubResource( 11 )
 
-[node name="zone_trigger3" type="Area2D" parent="World/Interactions"]
-position = Vector2( 1840, 3000 )
-collision_layer = 2
-collision_mask = 2
-script = ExtResource( 15 )
-zoneinfo = ExtResource( 18 )
-
-[node name="collider" type="CollisionShape2D" parent="World/Interactions/zone_trigger3"]
-shape = SubResource( 12 )
-
 [node name="next_area" parent="World/Interactions" instance=ExtResource( 20 )]
-position = Vector2( 2200, 3800 )
+position = Vector2( 2200, 3778 )
 target_level = "oldlab"
+checkpoint = 0
+area = SubResource( 12 )
 
 [node name="Fonction_Onde" type="Node2D" parent="."]
 visible = false

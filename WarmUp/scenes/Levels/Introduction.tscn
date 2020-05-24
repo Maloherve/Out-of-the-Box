@@ -193,6 +193,9 @@ font_data = ExtResource( 12 )
 [sub_resource type="RectangleShape2D" id=10]
 extents = Vector2( 1.13702, 1.17068 )
 
+[sub_resource type="RectangleShape2D" id=10]
+extents = Vector2( 10, 40 )
+
 [node name="Level" type="Node2D"]
 script = ExtResource( 1 )
 cat_version = 2
@@ -477,7 +480,7 @@ margin_right = 49.1473
 margin_bottom = -30.133
 custom_fonts/font = SubResource( 13 )
 text = "Miaoooou.
-(Press up to 
+(Press up to
 jump )"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -566,7 +569,7 @@ margin_bottom = 81.3035
 custom_fonts/font = SubResource( 16 )
 text = "Miaou ?? Miaaaaaou ????
 (Press (space) again to teleport. The wave
-gives the probability of teleporting to a 
+gives the probability of teleporting to a
 certain point. )"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -587,6 +590,7 @@ shape = SubResource( 10 )
 [node name="Victory" parent="World/Interactions" instance=ExtResource( 10 )]
 position = Vector2( 1230.45, 484.891 )
 target_level = "floating_platforms"
+area = SubResource( 10 )
 
 [node name="Fonction_Onde" type="Node2D" parent="."]
 script = ExtResource( 13 )

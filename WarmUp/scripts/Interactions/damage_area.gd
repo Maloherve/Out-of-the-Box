@@ -1,4 +1,3 @@
-tool
 extends Area2D
 
 export (int) var DAMAGE_MASK_BIT = 11;
