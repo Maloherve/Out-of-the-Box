@@ -57,17 +57,17 @@ animations = [ {
 [sub_resource type="RectangleShape2D" id=5]
 extents = Vector2( 3.34546, 32.2485 )
 
-[sub_resource type="OccluderPolygon2D" id=20]
+[sub_resource type="OccluderPolygon2D" id=6]
 polygon = PoolVector2Array( -3.48395, -31.7154, -3.48395, 32.1351 )
 
-[sub_resource type="Curve" id=6]
+[sub_resource type="Curve" id=7]
 max_value = 5.0
 _data = [ Vector2( 0, 0 ), 0.0, 0.0, 0, 0, Vector2( 0.504808, 5 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), 0.0, 0.0, 0, 0 ]
 
-[sub_resource type="OccluderPolygon2D" id=19]
+[sub_resource type="OccluderPolygon2D" id=8]
 polygon = PoolVector2Array( -3.48395, -31.7154, -3.48395, 32.1351 )
 
-[sub_resource type="TileSet" id=7]
+[sub_resource type="TileSet" id=9]
 0/name = "signs.png 0"
 0/texture = ExtResource( 9 )
 0/tex_offset = Vector2( 0, 0 )
@@ -167,16 +167,7 @@ polygon = PoolVector2Array( -3.48395, -31.7154, -3.48395, 32.1351 )
 6/shapes = [  ]
 6/z_index = 0
 
-[sub_resource type="RectangleShape2D" id=8]
-
-[sub_resource type="DynamicFont" id=9]
-size = 10
-outline_size = 1
-outline_color = Color( 0, 0, 0, 1 )
-font_data = ExtResource( 12 )
-
 [sub_resource type="RectangleShape2D" id=10]
-extents = Vector2( 40.2386, 10 )
 
 [sub_resource type="DynamicFont" id=11]
 size = 10
@@ -185,22 +176,22 @@ outline_color = Color( 0, 0, 0, 1 )
 font_data = ExtResource( 12 )
 
 [sub_resource type="RectangleShape2D" id=12]
-extents = Vector2( 15.8712, 18.4255 )
+extents = Vector2( 40.2386, 10 )
 
 [sub_resource type="DynamicFont" id=13]
-size = 10
-outline_size = 2
-outline_color = Color( 0, 0, 0, 1 )
-font_data = ExtResource( 12 )
-
-[sub_resource type="DynamicFont" id=14]
 size = 10
 outline_size = 1
 outline_color = Color( 0, 0, 0, 1 )
 font_data = ExtResource( 12 )
 
-[sub_resource type="RectangleShape2D" id=15]
+[sub_resource type="RectangleShape2D" id=14]
 extents = Vector2( 15.8712, 18.4255 )
+
+[sub_resource type="DynamicFont" id=15]
+size = 10
+outline_size = 2
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 12 )
 
 [sub_resource type="DynamicFont" id=16]
 size = 10
@@ -208,22 +199,31 @@ outline_size = 1
 outline_color = Color( 0, 0, 0, 1 )
 font_data = ExtResource( 12 )
 
-[sub_resource type="DynamicFont" id=23]
+[sub_resource type="RectangleShape2D" id=17]
+extents = Vector2( 15.8712, 18.4255 )
+
+[sub_resource type="DynamicFont" id=18]
+size = 10
+outline_size = 1
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 12 )
+
+[sub_resource type="DynamicFont" id=19]
 size = 10
 outline_size = 2
 outline_color = Color( 0, 0, 0, 1 )
 font_data = ExtResource( 12 )
 
-[sub_resource type="RectangleShape2D" id=22]
+[sub_resource type="RectangleShape2D" id=20]
 extents = Vector2( 15.8712, 9.40561 )
 
-[sub_resource type="RectangleShape2D" id=17]
+[sub_resource type="RectangleShape2D" id=21]
 extents = Vector2( 1.13702, 1.17068 )
 
-[sub_resource type="RectangleShape2D" id=18]
+[sub_resource type="RectangleShape2D" id=22]
 extents = Vector2( 7.96693, 8.37244 )
 
-[sub_resource type="RectangleShape2D" id=21]
+[sub_resource type="RectangleShape2D" id=23]
 extents = Vector2( 63.3596, 10 )
 
 [node name="Level" type="Node2D"]
@@ -429,7 +429,7 @@ shape = SubResource( 5 )
 [node name="LightOccluder2D" type="LightOccluder2D" parent="World/Objects/door1"]
 light_mask = 16
 position = Vector2( 6.86743, 0.211853 )
-occluder = SubResource( 20 )
+occluder = SubResource( 6 )
 light_mask = 16
 
 [node name="door2" type="StaticBody2D" parent="World/Objects"]
@@ -449,15 +449,15 @@ animation = "open"
 [node name="potential" type="Node2D" parent="World/Objects/door2"]
 scale = Vector2( 5, 1 )
 script = ExtResource( 22 )
-V_x = SubResource( 6 )
+V_x = SubResource( 7 )
 
 [node name="LightOccluder2D" type="LightOccluder2D" parent="World/Objects/door2"]
 light_mask = 16
-occluder = SubResource( 19 )
+occluder = SubResource( 8 )
 light_mask = 16
 
 [node name="Decoration" type="TileMap" parent="World/Objects"]
-tile_set = SubResource( 7 )
+tile_set = SubResource( 9 )
 cell_size = Vector2( 16, 16 )
 format = 1
 tile_data = PoolIntArray( 2097195, 1610612738, 0, 2687036, 0, 0 )
@@ -487,14 +487,14 @@ color = Color( 0.352941, 0.352941, 0.352941, 1 )
 polygon = PoolVector2Array( 70, -65, 150, -65, 150, -20, 70, -20 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="World/Interactions/ReadSign_Arrows"]
-shape = SubResource( 8 )
+shape = SubResource( 10 )
 
 [node name="Label" type="Label" parent="World/Interactions/ReadSign_Arrows"]
 margin_left = 76.9356
 margin_top = -65.2054
 margin_right = 158.936
 margin_bottom = -20.2054
-custom_fonts/font = SubResource( 9 )
+custom_fonts/font = SubResource( 11 )
 text = "Miaou.
 (Use the arrows
 to move around)"
@@ -515,14 +515,14 @@ polygon = PoolVector2Array( 70, -65, 150, -65, 150, -20, 70, -20 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="World/Interactions/ReadSign_Jump"]
 position = Vector2( 5.83981, 0 )
-shape = SubResource( 10 )
+shape = SubResource( 12 )
 
 [node name="Label" type="Label" parent="World/Interactions/ReadSign_Jump"]
 margin_left = -32.8527
 margin_top = -75.133
 margin_right = 49.1473
 margin_bottom = -30.133
-custom_fonts/font = SubResource( 11 )
+custom_fonts/font = SubResource( 13 )
 text = "Miaoooou.
 (Press up to
 jump )"
@@ -543,14 +543,14 @@ polygon = PoolVector2Array( -35, -60, 100, -60, 100, -10, -35, -10 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="World/Interactions/ReadSign_Climb"]
 position = Vector2( 1.74341, 5.61761 )
-shape = SubResource( 12 )
+shape = SubResource( 14 )
 
 [node name="Label" type="Label" parent="World/Interactions/ReadSign_Climb"]
 margin_left = -30.0
 margin_top = -60.0
 margin_right = 100.0
 rect_scale = Vector2( 0.993344, 1.01854 )
-custom_fonts/font = SubResource( 13 )
+custom_fonts/font = SubResource( 15 )
 text = "Miaou, miaou, miaou.
 (You are a cat, have fun climbing
 walls)."
@@ -572,7 +572,7 @@ polygon = PoolVector2Array( -75, -75, 105, -75, 105, -25, -75, -25 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="World/Interactions/ReadSign_Teleport"]
 position = Vector2( 0.165588, 5.45984 )
-shape = SubResource( 12 )
+shape = SubResource( 14 )
 
 [node name="Label" type="Label" parent="World/Interactions/ReadSign_Teleport"]
 anchor_right = 1.0
@@ -580,7 +580,7 @@ margin_left = -69.9678
 margin_top = -71.7572
 margin_right = 107.0
 margin_bottom = -26.7572
-custom_fonts/font = SubResource( 14 )
+custom_fonts/font = SubResource( 16 )
 text = "Mi... Mia ... Miaou ? Miaou. Miaou !!
 (The experiments have left you ... changed...
 Press (space) to enter quantum mode !! )"
@@ -602,7 +602,7 @@ polygon = PoolVector2Array( -75, -75, 105, -75, 105, 0, -75, 0 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="World/Interactions/ReadSign_Teleport2"]
 position = Vector2( 0.165588, 5.45984 )
-shape = SubResource( 15 )
+shape = SubResource( 17 )
 
 [node name="Label" type="Label" parent="World/Interactions/ReadSign_Teleport2"]
 anchor_right = 1.0
@@ -610,7 +610,7 @@ margin_left = -71.9091
 margin_top = 36.3035
 margin_right = 105.059
 margin_bottom = 81.3035
-custom_fonts/font = SubResource( 16 )
+custom_fonts/font = SubResource( 18 )
 text = "Miaou ?? Miaaaaaou ????
 (Press (space) again to teleport. You will
 teleport at the mean position of the Wave. )"
@@ -636,7 +636,7 @@ margin_top = -9.18124
 margin_right = 2.05719
 margin_bottom = 50.8188
 rect_scale = Vector2( 0.993344, 1.01854 )
-custom_fonts/font = SubResource( 23 )
+custom_fonts/font = SubResource( 19 )
 custom_colors/font_color = Color( 1, 0.521569, 0.521569, 1 )
 text = "Hmmm ... We're really low on funds,
 the security here is a joke.
@@ -647,7 +647,7 @@ __meta__ = {
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="World/Interactions/Dialog_Scientist"]
 position = Vector2( 1.74341, 5.61761 )
-shape = SubResource( 22 )
+shape = SubResource( 20 )
 
 [node name="Flicker" type="Area2D" parent="World/Interactions"]
 position = Vector2( -182.975, 402.552 )
@@ -659,13 +659,13 @@ light_path = NodePath("../../Lights/Cell_Light")
 flicker_delay = 0.05
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="World/Interactions/Flicker"]
-shape = SubResource( 17 )
+shape = SubResource( 21 )
 
 [node name="Victory" parent="World/Interactions" instance=ExtResource( 10 )]
 position = Vector2( 1230.45, 484.891 )
 target_level = "floating_platforms"
 checkpoint = -1
-area = SubResource( 17 )
+area = SubResource( 21 )
 
 [node name="Block_TP" type="Area2D" parent="World/Interactions"]
 position = Vector2( -229.447, 401.858 )
@@ -674,7 +674,7 @@ collision_mask = 4
 script = ExtResource( 13 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="World/Interactions/Block_TP"]
-shape = SubResource( 18 )
+shape = SubResource( 22 )
 
 [node name="Allow_TP" type="Area2D" parent="World/Interactions"]
 position = Vector2( 977.335, 689.403 )
@@ -683,7 +683,7 @@ collision_mask = 4
 script = ExtResource( 13 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="World/Interactions/Allow_TP"]
-shape = SubResource( 18 )
+shape = SubResource( 22 )
 
 [node name="Area_Detection" type="Area2D" parent="World/Interactions"]
 position = Vector2( 599.634, 456.2 )
@@ -693,7 +693,7 @@ script = ExtResource( 24 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="World/Interactions/Area_Detection"]
 position = Vector2( 0.323547, 6.79422 )
-shape = SubResource( 21 )
+shape = SubResource( 23 )
 
 [node name="InfoScreen" parent="." instance=ExtResource( 14 )]
 

@@ -102,7 +102,7 @@ func set_check_point(number):
 	checkpoint = number;
 	
 #	Uncomment to use PlayerInitialPosition
-	$Player.position = get_tree().get_root().get_node("Level/PlayerInitialPosition").position;
+#	$Player.position = get_tree().get_root().get_node("Level/PlayerInitialPosition").position;
 	
 
 # Check for and execute input
