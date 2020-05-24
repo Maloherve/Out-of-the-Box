@@ -99,7 +99,7 @@ extents = Vector2( 15.052, 9.744 )
 polygon = PoolVector2Array( -5.72572, 3.05842, 4.18067, 2.94585, 5.41897, 4.22167, 5.83174, 7.44875, 5.60659, 9.21239, 2.37951, 9.77525, -6.88897, 8.53695, -8.23984, 6.62322, -7.26421, 3.84643 )
 
 [sub_resource type="RectangleShape2D" id=4]
-extents = Vector2( 11.5413, 5.70157 )
+extents = Vector2( 8.84044, 4.72158 )
 
 [sub_resource type="RectangleShape2D" id=5]
 extents = Vector2( 502.392, 417.65 )
@@ -124,6 +124,10 @@ script = ExtResource( 21 )
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 0, 6.135 )
 shape = SubResource( 2 )
+disabled = true
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+polygon = PoolVector2Array( -15.1529, -0.310415, -15.0798, 5.24499, -7.09044, 15.8526, 4.77019, 15.9839, 12.3318, 3.78304, 12.2587, -0.0911217 )
 
 [node name="Bottom_Raycasts" type="Node2D" parent="."]
 scale = Vector2( 1, 1.15 )
