@@ -1,4 +1,4 @@
-[gd_scene load_steps=45 format=2]
+[gd_scene load_steps=44 format=2]
 
 [ext_resource path="res://scripts/Main.gd" type="Script" id=1]
 [ext_resource path="res://assets/Background/SkyLine.png" type="Texture" id=2]
@@ -12,7 +12,6 @@
 [ext_resource path="res://scenes/Objects/Victory.tscn" type="PackedScene" id=10]
 [ext_resource path="res://scripts/Level1/ReadSign1.gd" type="Script" id=11]
 [ext_resource path="res://assets/Fonts/abel-regular.ttf" type="DynamicFontData" id=12]
-[ext_resource path="res://scripts/Fonction_Onde.gd" type="Script" id=13]
 [ext_resource path="res://scenes/InfoScreen.tscn" type="PackedScene" id=14]
 [ext_resource path="res://assets/checkpoints/Introduction/Beginning.tres" type="Resource" id=15]
 [ext_resource path="res://assets/Sounds/electronic_accent_03.wav" type="AudioStream" id=16]
@@ -55,11 +54,11 @@ animations = [ {
 [sub_resource type="RectangleShape2D" id=5]
 extents = Vector2( 3.34546, 32.2485 )
 
-[sub_resource type="Curve" id=17]
+[sub_resource type="Curve" id=6]
 max_value = 5.0
 _data = [ Vector2( 0, 0 ), 0.0, 0.0, 0, 0, Vector2( 0.504808, 5 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), 0.0, 0.0, 0, 0 ]
 
-[sub_resource type="TileSet" id=6]
+[sub_resource type="TileSet" id=7]
 0/name = "signs.png 0"
 0/texture = ExtResource( 9 )
 0/tex_offset = Vector2( 0, 0 )
@@ -159,27 +158,27 @@ _data = [ Vector2( 0, 0 ), 0.0, 0.0, 0, 0, Vector2( 0.504808, 5 ), 0.0, 0.0, 0, 
 6/shapes = [  ]
 6/z_index = 0
 
-[sub_resource type="RectangleShape2D" id=11]
+[sub_resource type="RectangleShape2D" id=8]
 
-[sub_resource type="DynamicFont" id=12]
+[sub_resource type="DynamicFont" id=9]
 size = 10
 font_data = ExtResource( 12 )
 
-[sub_resource type="RectangleShape2D" id=14]
+[sub_resource type="RectangleShape2D" id=10]
 extents = Vector2( 40.2386, 10 )
+
+[sub_resource type="DynamicFont" id=11]
+size = 10
+font_data = ExtResource( 12 )
+
+[sub_resource type="RectangleShape2D" id=12]
+extents = Vector2( 15.8712, 18.4255 )
 
 [sub_resource type="DynamicFont" id=13]
 size = 10
 font_data = ExtResource( 12 )
 
-[sub_resource type="RectangleShape2D" id=7]
-extents = Vector2( 15.8712, 18.4255 )
-
-[sub_resource type="DynamicFont" id=8]
-size = 10
-font_data = ExtResource( 12 )
-
-[sub_resource type="DynamicFont" id=9]
+[sub_resource type="DynamicFont" id=14]
 size = 10
 font_data = ExtResource( 12 )
 
@@ -190,11 +189,8 @@ extents = Vector2( 15.8712, 18.4255 )
 size = 10
 font_data = ExtResource( 12 )
 
-[sub_resource type="RectangleShape2D" id=10]
+[sub_resource type="RectangleShape2D" id=17]
 extents = Vector2( 1.13702, 1.17068 )
-
-[sub_resource type="RectangleShape2D" id=10]
-extents = Vector2( 10, 40 )
 
 [node name="Level" type="Node2D"]
 script = ExtResource( 1 )
@@ -410,10 +406,10 @@ animation = "open"
 [node name="potential" type="Node2D" parent="World/Objects/door2"]
 scale = Vector2( 5, 1 )
 script = ExtResource( 22 )
-V_x = SubResource( 17 )
+V_x = SubResource( 6 )
 
 [node name="Decoration" type="TileMap" parent="World/Objects"]
-tile_set = SubResource( 6 )
+tile_set = SubResource( 7 )
 cell_size = Vector2( 16, 16 )
 format = 1
 tile_data = PoolIntArray( 2097195, 1610612738, 0, 2687036, 0, 0 )
@@ -443,14 +439,14 @@ color = Color( 0.352941, 0.352941, 0.352941, 1 )
 polygon = PoolVector2Array( 70, -65, 150, -65, 150, -20, 70, -20 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="World/Interactions/ReadSign0"]
-shape = SubResource( 11 )
+shape = SubResource( 8 )
 
 [node name="Label" type="Label" parent="World/Interactions/ReadSign0"]
 margin_left = 76.9356
 margin_top = -65.2054
 margin_right = 158.936
 margin_bottom = -20.2054
-custom_fonts/font = SubResource( 12 )
+custom_fonts/font = SubResource( 9 )
 text = "Miaou.
 (Use the arrows
 to move around)"
@@ -471,14 +467,14 @@ polygon = PoolVector2Array( 70, -65, 150, -65, 150, -20, 70, -20 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="World/Interactions/ReadSign_Jump"]
 position = Vector2( 5.83981, 0 )
-shape = SubResource( 14 )
+shape = SubResource( 10 )
 
 [node name="Label" type="Label" parent="World/Interactions/ReadSign_Jump"]
 margin_left = -32.8527
 margin_top = -75.133
 margin_right = 49.1473
 margin_bottom = -30.133
-custom_fonts/font = SubResource( 13 )
+custom_fonts/font = SubResource( 11 )
 text = "Miaoooou.
 (Press up to
 jump )"
@@ -499,14 +495,14 @@ polygon = PoolVector2Array( -35, -60, 100, -60, 100, -10, -35, -10 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="World/Interactions/ReadSign_Climb"]
 position = Vector2( 1.74341, 5.61761 )
-shape = SubResource( 7 )
+shape = SubResource( 12 )
 
 [node name="Label" type="Label" parent="World/Interactions/ReadSign_Climb"]
 margin_left = -30.0
 margin_top = -60.0
 margin_right = 100.0
 rect_scale = Vector2( 0.993344, 1.01854 )
-custom_fonts/font = SubResource( 8 )
+custom_fonts/font = SubResource( 13 )
 text = "Miaou, miaou, miaou.
 (You are a cat, have fun climbing
 walls)."
@@ -528,7 +524,7 @@ polygon = PoolVector2Array( -75, -75, 105, -75, 105, -25, -75, -25 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="World/Interactions/ReadSign_Teleport"]
 position = Vector2( 0.165588, 5.45984 )
-shape = SubResource( 7 )
+shape = SubResource( 12 )
 
 [node name="Label" type="Label" parent="World/Interactions/ReadSign_Teleport"]
 anchor_right = 1.0
@@ -536,7 +532,7 @@ margin_left = -69.9678
 margin_top = -71.7572
 margin_right = 107.0
 margin_bottom = -26.7572
-custom_fonts/font = SubResource( 9 )
+custom_fonts/font = SubResource( 14 )
 text = "Mi... Mia ... Miaou ? Miaou. Miaou !!
 (The experiments have left you ... changed...
 Press (space) to enter quantum mode !! )"
@@ -585,15 +581,13 @@ light_path = NodePath("../../Lights/Cell_Light")
 flicker_delay = 0.05
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="World/Interactions/Flicker"]
-shape = SubResource( 10 )
+shape = SubResource( 17 )
 
 [node name="Victory" parent="World/Interactions" instance=ExtResource( 10 )]
 position = Vector2( 1230.45, 484.891 )
 target_level = "floating_platforms"
-area = SubResource( 10 )
-
-[node name="Fonction_Onde" type="Node2D" parent="."]
-script = ExtResource( 13 )
+checkpoint = -1
+area = SubResource( 17 )
 
 [node name="InfoScreen" parent="." instance=ExtResource( 14 )]
 
