@@ -140,7 +140,7 @@ func close_menu(delay = 0.0):
 "
 
 [sub_resource type="Animation" id=2]
-length = 0.4
+length = 0.8
 tracks/0/type = "value"
 tracks/0/path = NodePath("Control/Black:modulate")
 tracks/0/interp = 1
@@ -148,7 +148,7 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.4 ),
+"times": PoolRealArray( 0.1, 0.7 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
 "values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
@@ -170,8 +170,8 @@ __meta__ = {
 modulate = Color( 1, 1, 1, 0 )
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_right = 1004.0
-margin_bottom = 570.0
+margin_right = 3961.0
+margin_bottom = 2588.0
 mouse_filter = 2
 color = Color( 0, 0, 0, 1 )
 __meta__ = {
