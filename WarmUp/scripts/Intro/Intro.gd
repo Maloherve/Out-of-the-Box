@@ -10,7 +10,7 @@ var dialog = [
 	'Originally it looked like the artificial enlargement of his de Broglie wavelength had succeeded',
 	'However, so far we haven\'t observed any of the expected quantum phenomena...',
 	'It seems like the superposition state can\'t be triggered by an external source...',
-	'Maybe Schrödy himself needs to will himself into a probability wave?',
+	'Maybe Schrödy needs to will himself into a probability wave?',
 	'Don\'t be ridiculous. Cats don\'t have a consciousness.',
 	'In any case, we don\'t have time to test every outlandish hypothesis you come up with.',
 	'We need some results, and fast.',
