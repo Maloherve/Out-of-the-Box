@@ -13,7 +13,6 @@ func _ready():
 	for i in range(polygon_list.size()):
 		polygon_list[i] = Vector2(polygon_list[i].x / size.x, polygon_list[i].y / size.y);
 		polygon_list[i] += Vector2(0.5, 0.5)
-	save_polygon();
 
 	# Seperate into an x and y array
 	var array_x : Array;
@@ -32,14 +31,6 @@ func _ready():
 	material.set_shader_param("visible_bg", 0);
 
 
-# Saves the polygon in a .save file
-func save_polygon():
-	var save_game = File.new();
-	save_game.open("res://assets/shaders/polygon.save", File.WRITE);
-	save_game.store_string("Polygon 1 :");
-	for i in range(polygon_list.size()):
-		save_game.store_line(to_json(polygon_list[i]));
-	save_game.close()
 
 # Converts an array into a texture
 func create_texture_from_array(array : Array) -> Texture:
