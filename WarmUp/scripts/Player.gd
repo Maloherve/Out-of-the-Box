@@ -16,7 +16,8 @@ onready var Side_Raycasts : Node2D = get_node("Side_Raycasts");
 onready var Endurance_Bar : ProgressBar = get_node("GUI/Endurance_Bar");
 # Movement
 var velocity : Vector2 = Vector2();
-var jump_velocity : int = -1.1 * 388;
+var jump_velocity : int = -388;
+var jump_step : int = jump_velocity / 50;
 var Up : Vector2 = Vector2(0, -1);
 var move_direction : int = 1;
 var vertical_move_direction : int = 1;
@@ -46,8 +47,8 @@ enum PSTATE { # position state
 	ground,
 	air,
 	wall,
-	# temporary states
 	jump,
+	# temporary states
 	ledge,
 	endcast
 };
@@ -125,7 +126,7 @@ func _trigger_landing():
 			if pstate != PSTATE.ground:
 				emit_signal("pstate_changed", PSTATE.ground); # TODO, pass velocity too
 				pstate = PSTATE.ground;	
-		elif pstate != PSTATE.air:
+		elif pstate != PSTATE.air && pstate != PSTATE.jump:
 			if !is_on_wall() || !_check_is_collided() || pstate == PSTATE.endcast:
 				emit_signal("pstate_changed", PSTATE.air);
 				pstate = PSTATE.air;
@@ -139,9 +140,13 @@ func _trigger_ledge():
 
 func _trigger_jump(strength = 1.0):
 	if !cast && pstate == PSTATE.ground && endurance > 0:
+		#pstate = PSTATE.jump;
+		emit_signal("pstate_changed", PSTATE.jump);
 		pstate = PSTATE.jump;
-		emit_signal("pstate_changed", PSTATE.air);
-		pstate = PSTATE.air;
+		
+func _trigger_end_jump():
+	emit_signal("pstate_changed", PSTATE.air);
+	pstate = PSTATE.air;
 		
 		
 func _trigger_hold_wall():
@@ -161,11 +166,16 @@ func _on_Player_pstate_changed(new_state):
 			animNode.call("_jump");
 		
 			if pstate == PSTATE.jump:
-				velocity.y = Input.get_action_strength("ui_up") * jump_velocity;
-				$jump.play()
+				pass
+				#jump_step = jump_velocity; # reset jump
+				#velocity.y = Input.get_action_strength("ui_up") * jump_velocity;
 			elif pstate == PSTATE.ledge:
 				velocity.y = jump_velocity;
 				$jump.play()
+				
+		PSTATE.jump:
+			animNode.call("_jump");
+			$jump.play()
 		
 		PSTATE.wall:
 			print("[Player] set wall state")
@@ -256,7 +266,11 @@ func _get_input():
 		_trigger_jump(); # check if possible to jump
 		_trigger_ledge();
 		
-	#if (ui_up.check() == input_state.ui.just_released && )
+	if (pstate == PSTATE.jump && ui_up.check() == input_state.ui.pressed):
+		velocity.y += jump_step;
+		
+	if (ui_up.check() == input_state.ui.just_released && pstate == PSTATE.jump):
+		_trigger_end_jump();
 		
 	if (ui_down.check() == input_state.ui.just_pressed && pstate == PSTATE.ground && !cast):
 		#attack = true; # temporaly disabled, bugged
