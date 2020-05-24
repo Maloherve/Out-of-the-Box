@@ -9,7 +9,6 @@ func _ready():
 
 func _on_body_entered(body):
 	if body.name == "Player":
-		print("tut")
 		var flag : bool;
 		if name == "Block_TP": flag = false;
 		elif name == "Allow_TP": flag = true;

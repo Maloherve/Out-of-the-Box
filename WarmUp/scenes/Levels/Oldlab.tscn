@@ -139,7 +139,6 @@ extents = Vector2( 11.7209, 62.9506 )
 position = Vector2( -2, 0 )
 script = ExtResource( 1 )
 cat_version = 2
-checkpoint = 2
 checkpoints = [ ExtResource( 4 ), ExtResource( 35 ), ExtResource( 36 ), ExtResource( 38 ) ]
 
 [node name="PlayerInitialPosition" type="Node2D" parent="."]
