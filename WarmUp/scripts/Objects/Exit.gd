@@ -4,7 +4,7 @@ onready var ExitLight_Sprite : Sprite = get_node("ExitSign/ExitLight");
 onready var ExitLight_Light : Light2D = get_node("ExitSign/Light2D");
 
 var timer : float = 0.0;
-var long_wait : float = 2.0;
+export var long_wait : float = 2.0;
 var on_time : float = 1;
 var current_flag : bool = true;
 

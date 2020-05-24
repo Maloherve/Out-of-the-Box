@@ -27,7 +27,6 @@ func _physics_process(delta):
 #	Print out the text
 #	World
 	World_Info_Label.text = "FPS : " + str(1/delta) + "\n";
-	World_Info_Label.text += "Wave function precision : N = " + str(Fonction_Onde.N) + "\n";
 #	Player
 	Player_Info_Label.text = "Position = " + str(Vector2(round(Player.position[0]), round(Player.position[1]))) + "\n";
 	Player_Info_Label.text += "Velocity = " + str(Vector2(round(Player.velocity[0]), round(Player.velocity[1]))) + "\n";
