@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://scripts/Main.gd" type="Script" id=1]
 [ext_resource path="res://assets/Background/SkyLine.png" type="Texture" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://bin/uniform_field.gdns" type="Script" id=5]
 [ext_resource path="res://scenes/Objects/Victory.tscn" type="PackedScene" id=6]
 [ext_resource path="res://assets/Tilesets/platforms.tres" type="TileSet" id=7]
+[ext_resource path="res://scripts/Interactions/death_area.gd" type="Script" id=8]
 [ext_resource path="res://scripts/Fonction_Onde.gd" type="Script" id=13]
 [ext_resource path="res://scenes/InfoScreen.tscn" type="PackedScene" id=14]
 [ext_resource path="res://assets/Sounds/BoxBassArp.ogg" type="AudioStream" id=15]
@@ -22,8 +23,11 @@ polygon = PoolVector2Array( 25.0994, 215.423, 25.0163, 220.287, 23.9352, 220.537
 [sub_resource type="OccluderPolygon2D" id=2]
 polygon = PoolVector2Array( -20.2355, -224.689, -19.9445, -222.167, -20.3325, -221.634, -21.1084, -221.44, -21.0599, -216.445, -20.381, -216.009, -20.09, -214.845, -19.1201, -213.875, -19.1201, -211.062, -19.9445, -210.771, -20.381, -209.171, -20.8659, -208.395, -18.4897, -209.801, -18.1017, -214.069, -19.2656, -223.186 )
 
-[sub_resource type="RectangleShape2D" id=4]
+[sub_resource type="RectangleShape2D" id=3]
 extents = Vector2( 20, 20 )
+
+[sub_resource type="RectangleShape2D" id=4]
+extents = Vector2( 331.364, 10 )
 
 [node name="Level" type="Node2D"]
 script = ExtResource( 1 )
@@ -165,7 +169,16 @@ position = Vector2( 0.951309, -0.951324 )
 position = Vector2( 140, 228.663 )
 target_level = "walls"
 checkpoint = 0
-area = SubResource( 4 )
+area = SubResource( 3 )
+
+[node name="Area2D" type="Area2D" parent="World/Interactions"]
+position = Vector2( 606.501, 867.763 )
+collision_layer = 0
+collision_mask = 4
+script = ExtResource( 8 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="World/Interactions/Area2D"]
+shape = SubResource( 4 )
 
 [node name="Obstacles" type="Node2D" parent="World"]
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://scripts/Main.gd" type="Script" id=1]
 [ext_resource path="res://assets/Background/SkyLine.png" type="Texture" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://assets/Other/Scientist.png" type="Texture" id=4]
 [ext_resource path="res://bin/uniform_field.gdns" type="Script" id=5]
 [ext_resource path="res://scenes/Objects/Victory.tscn" type="PackedScene" id=6]
+[ext_resource path="res://scripts/Interactions/death_area.gd" type="Script" id=7]
 [ext_resource path="res://scripts/Fonction_Onde.gd" type="Script" id=13]
 [ext_resource path="res://scenes/InfoScreen.tscn" type="PackedScene" id=14]
 [ext_resource path="res://assets/Sounds/BoxBassArp.ogg" type="AudioStream" id=15]
@@ -23,6 +24,9 @@ polygon = PoolVector2Array( -20.2355, -224.689, -19.9445, -222.167, -20.3325, -2
 
 [sub_resource type="RectangleShape2D" id=3]
 extents = Vector2( 20, 20 )
+
+[sub_resource type="RectangleShape2D" id=4]
+extents = Vector2( 335.449, 10 )
 
 [node name="Level" type="Node2D"]
 position = Vector2( 1, 0 )
@@ -167,6 +171,24 @@ position = Vector2( 601.041, -200 )
 target_level = "sensors"
 checkpoint = 0
 area = SubResource( 3 )
+
+[node name="DeathArea1" type="Area2D" parent="World/Interactions"]
+position = Vector2( 950, 1118.15 )
+collision_layer = 0
+collision_mask = 4
+script = ExtResource( 7 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="World/Interactions/DeathArea1"]
+shape = SubResource( 4 )
+
+[node name="DeathArea2" type="Area2D" parent="World/Interactions"]
+position = Vector2( -545.051, 1107.27 )
+collision_layer = 0
+collision_mask = 4
+script = ExtResource( 7 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="World/Interactions/DeathArea2"]
+shape = SubResource( 4 )
 
 [node name="Obstacles" type="Node2D" parent="World"]
 
