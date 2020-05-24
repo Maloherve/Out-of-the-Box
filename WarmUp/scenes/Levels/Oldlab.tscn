@@ -70,7 +70,7 @@ max_value = 10.0
 _data = [ Vector2( 0, 0 ), 0.0, 0.0, 0, 0, Vector2( 0.491071, 10 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), 0.0, 0.0, 0, 0 ]
 
 [sub_resource type="RectangleShape2D" id=9]
-extents = Vector2( 29.1575, 1.35123 )
+extents = Vector2( 36.3118, 9.81116 )
 
 [sub_resource type="RectangleShape2D" id=10]
 extents = Vector2( 20, 60 )
@@ -139,6 +139,7 @@ extents = Vector2( 11.7209, 62.9506 )
 position = Vector2( -2, 0 )
 script = ExtResource( 1 )
 cat_version = 2
+checkpoint = 2
 checkpoints = [ ExtResource( 4 ), ExtResource( 35 ), ExtResource( 36 ), ExtResource( 38 ) ]
 
 [node name="PlayerInitialPosition" type="Node2D" parent="."]
@@ -343,9 +344,10 @@ texture = ExtResource( 24 )
 [node name="bossdoor2" type="StaticBody2D" parent="World/Objects"]
 position = Vector2( 1135.28, 1983.89 )
 z_index = 2
-collision_layer = 34
+collision_layer = 0
 collision_mask = 0
 script = ExtResource( 32 )
+init_open = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="World/Objects/bossdoor2"]
 shape = SubResource( 7 )
@@ -354,7 +356,7 @@ shape = SubResource( 7 )
 position = Vector2( 0, 0.0470104 )
 scale = Vector2( 1, 1.99454 )
 frames = ExtResource( 31 )
-animation = "close"
+animation = "open"
 frame = 5
 playing = true
 
@@ -449,7 +451,7 @@ shift = 1.0
 position = Vector2( 0.951309, -0.951324 )
 
 [node name="boss_trigger" type="Area2D" parent="World/Interactions"]
-position = Vector2( 1872, 1973 )
+position = Vector2( 1849, 1926 )
 scale = Vector2( 6, 7 )
 collision_layer = 0
 collision_mask = 4
@@ -458,6 +460,7 @@ zoneinfo = ExtResource( 28 )
 oneshot = true
 
 [node name="collider" type="CollisionShape2D" parent="World/Interactions/boss_trigger"]
+position = Vector2( -4.16678, -4.14279 )
 shape = SubResource( 9 )
 
 [node name="back_to_silence" parent="World/Interactions" instance=ExtResource( 11 )]
@@ -733,9 +736,10 @@ shape = SubResource( 29 )
 [node name="bossdoor" type="StaticBody2D" parent="boss"]
 position = Vector2( -278, 761 )
 z_index = 2
-collision_layer = 34
+collision_layer = 0
 collision_mask = 0
 script = ExtResource( 32 )
+init_open = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="boss/bossdoor"]
 shape = SubResource( 30 )
@@ -744,7 +748,7 @@ shape = SubResource( 30 )
 position = Vector2( 0, 0.0470104 )
 scale = Vector2( 1, 1.99454 )
 frames = ExtResource( 31 )
-animation = "close"
+animation = "open"
 frame = 5
 playing = true
 

@@ -14,12 +14,12 @@ func _input(event):
 		get_parent().set_collision_mask_bit(collision_bit, true);
 		disabled = false;
 	
-	if event.is_action_pressed("ui_up"):
-		get_parent().set_collision_mask_bit(collision_bit, false);
-		disabled = true;
-	elif event.is_action_released("ui_up"):
-		get_parent().set_collision_mask_bit(collision_bit, true);
-		disabled = false;
+	#if event.is_action_pressed("ui_up"):
+	#	get_parent().set_collision_mask_bit(collision_bit, false);
+	#	disabled = true;
+	#elif event.is_action_released("ui_up"):
+	#	get_parent().set_collision_mask_bit(collision_bit, true);
+	#	disabled = false;
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):

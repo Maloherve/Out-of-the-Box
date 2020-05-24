@@ -16,7 +16,7 @@ onready var Side_Raycasts : Node2D = get_node("Side_Raycasts");
 onready var Endurance_Bar : ProgressBar = get_node("GUI/Endurance_Bar");
 # Movement
 var velocity : Vector2 = Vector2();
-var jump_velocity : int = -388;
+var jump_velocity : int = -1.1 * 388;
 var Up : Vector2 = Vector2(0, -1);
 var move_direction : int = 1;
 var vertical_move_direction : int = 1;
@@ -142,7 +142,7 @@ func _trigger_jump(strength = 1.0):
 		pstate = PSTATE.jump;
 		emit_signal("pstate_changed", PSTATE.air);
 		pstate = PSTATE.air;
-		$jump.play()
+		
 		
 func _trigger_hold_wall():
 	if !cast && !is_on_wall() && _check_is_collided() && endurance > 0:
@@ -162,8 +162,10 @@ func _on_Player_pstate_changed(new_state):
 		
 			if pstate == PSTATE.jump:
 				velocity.y = Input.get_action_strength("ui_up") * jump_velocity;
+				$jump.play()
 			elif pstate == PSTATE.ledge:
 				velocity.y = jump_velocity;
+				$jump.play()
 		
 		PSTATE.wall:
 			print("[Player] set wall state")
@@ -214,7 +216,7 @@ func MoveCharacter(delta):
 	
 	#print("Vel y: ", velocity.y)
 #	Forces
-	if pstate != PSTATE.ground && !cast && velocity.y < LIMIT_AIR_SPEED:
+	if !cast && velocity.y < LIMIT_AIR_SPEED:
 		velocity.y += GRAVITY * delta;
 		
 	if _check_if_apply_friction():
@@ -253,6 +255,8 @@ func _get_input():
 	if (ui_up.check() == input_state.ui.just_pressed && !cast):
 		_trigger_jump(); # check if possible to jump
 		_trigger_ledge();
+		
+	#if (ui_up.check() == input_state.ui.just_released && )
 		
 	if (ui_down.check() == input_state.ui.just_pressed && pstate == PSTATE.ground && !cast):
 		#attack = true; # temporaly disabled, bugged
