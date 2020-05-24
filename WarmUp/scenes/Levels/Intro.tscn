@@ -115,24 +115,24 @@
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
+"frames": [ ExtResource( 25 ), ExtResource( 104 ), ExtResource( 25 ), ExtResource( 104 ), ExtResource( 25 ), ExtResource( 104 ), ExtResource( 25 ), ExtResource( 35 ), ExtResource( 26 ), ExtResource( 24 ), ExtResource( 28 ), ExtResource( 74 ), ExtResource( 43 ), ExtResource( 49 ) ],
+"loop": false,
+"name": "blueTalkStart",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 30 ), ExtResource( 70 ), ExtResource( 73 ) ],
+"loop": true,
+"name": "redTalk",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 104 ), ExtResource( 25 ), ExtResource( 25 ) ],
+"loop": true,
+"name": "talkBlue",
+"speed": 5.0
+}, {
 "frames": [ ExtResource( 33 ), ExtResource( 31 ), ExtResource( 37 ), ExtResource( 27 ), ExtResource( 23 ), ExtResource( 39 ), ExtResource( 52 ), ExtResource( 78 ), ExtResource( 38 ), ExtResource( 53 ), ExtResource( 41 ), ExtResource( 82 ), ExtResource( 58 ) ],
 "loop": false,
 "name": "phoneStart",
-"speed": 5.0
-}, {
-"frames": [ ExtResource( 73 ), ExtResource( 69 ), ExtResource( 73 ), ExtResource( 69 ), ExtResource( 42 ), ExtResource( 40 ), ExtResource( 29 ), ExtResource( 36 ) ],
-"loop": false,
-"name": "redTalkEnd",
-"speed": 5.0
-}, {
-"frames": [ ExtResource( 36 ), ExtResource( 29 ), ExtResource( 40 ), ExtResource( 42 ), ExtResource( 30 ) ],
-"loop": false,
-"name": "redTalkStart",
-"speed": 5.0
-}, {
-"frames": [ ExtResource( 82 ), ExtResource( 58 ), ExtResource( 58 ) ],
-"loop": true,
-"name": "phoneTalk",
 "speed": 5.0
 }, {
 "frames": [ ExtResource( 82 ), ExtResource( 58 ), ExtResource( 82 ), ExtResource( 82 ), ExtResource( 58 ), ExtResource( 41 ), ExtResource( 53 ), ExtResource( 38 ), ExtResource( 78 ), ExtResource( 52 ), ExtResource( 39 ), ExtResource( 23 ), ExtResource( 27 ), ExtResource( 37 ), ExtResource( 25 ) ],
@@ -155,19 +155,19 @@ animations = [ {
 "name": "talkRed",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 25 ), ExtResource( 104 ), ExtResource( 25 ), ExtResource( 104 ), ExtResource( 25 ), ExtResource( 104 ), ExtResource( 25 ), ExtResource( 35 ), ExtResource( 26 ), ExtResource( 24 ), ExtResource( 28 ), ExtResource( 74 ), ExtResource( 43 ), ExtResource( 49 ) ],
+"frames": [ ExtResource( 73 ), ExtResource( 69 ), ExtResource( 73 ), ExtResource( 69 ), ExtResource( 42 ), ExtResource( 40 ), ExtResource( 29 ), ExtResource( 36 ) ],
 "loop": false,
-"name": "blueTalkStart",
+"name": "redTalkEnd",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 30 ), ExtResource( 70 ), ExtResource( 73 ) ],
-"loop": true,
-"name": "redTalk",
+"frames": [ ExtResource( 36 ), ExtResource( 29 ), ExtResource( 40 ), ExtResource( 42 ), ExtResource( 30 ) ],
+"loop": false,
+"name": "redTalkStart",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 104 ), ExtResource( 25 ), ExtResource( 25 ) ],
+"frames": [ ExtResource( 82 ), ExtResource( 58 ), ExtResource( 58 ) ],
 "loop": true,
-"name": "talkBlue",
+"name": "phoneTalk",
 "speed": 5.0
 }, {
 "frames": [ ExtResource( 109 ), ExtResource( 79 ), ExtResource( 110 ), ExtResource( 111 ), ExtResource( 86 ) ],
@@ -193,15 +193,15 @@ animations = [ {
 size = 162
 font_data = ExtResource( 19 )
 
-[sub_resource type="DynamicFont" id=8]
+[sub_resource type="DynamicFont" id=4]
 size = 28
 font_data = ExtResource( 19 )
 
-[sub_resource type="DynamicFont" id=9]
+[sub_resource type="DynamicFont" id=5]
 size = 48
 font_data = ExtResource( 19 )
 
-[sub_resource type="SpriteFrames" id=4]
+[sub_resource type="SpriteFrames" id=6]
 animations = [ {
 "frames": [ ExtResource( 10 ), ExtResource( 44 ), ExtResource( 71 ), ExtResource( 51 ), ExtResource( 10 ) ],
 "loop": false,
@@ -209,14 +209,14 @@ animations = [ {
 "speed": 5.0
 } ]
 
-[sub_resource type="RectangleShape2D" id=5]
+[sub_resource type="RectangleShape2D" id=7]
 extents = Vector2( 15.8712, 18.4255 )
 
-[sub_resource type="DynamicFont" id=6]
+[sub_resource type="DynamicFont" id=8]
 size = 10
 font_data = ExtResource( 12 )
 
-[sub_resource type="RectangleShape2D" id=7]
+[sub_resource type="RectangleShape2D" id=9]
 extents = Vector2( 1.13702, 1.17068 )
 
 [node name="Level" type="Node2D"]
@@ -387,7 +387,7 @@ margin_left = -543.093
 margin_top = 15.8699
 margin_right = -330.093
 margin_bottom = 64.8699
-custom_fonts/font = SubResource( 8 )
+custom_fonts/font = SubResource( 4 )
 custom_colors/font_color = Color( 0.8, 0.1, 0.1, 1 )
 text = "Scientist:"
 uppercase = true
@@ -401,7 +401,7 @@ margin_left = -127.473
 margin_top = 149.249
 margin_right = -87.4734
 margin_bottom = 192.249
-custom_fonts/font = SubResource( 9 )
+custom_fonts/font = SubResource( 5 )
 text = "→"
 align = 1
 valign = 1
@@ -414,7 +414,7 @@ __meta__ = {
 [node name="machine" type="AnimatedSprite" parent="World/Objects"]
 position = Vector2( -80.8069, 463.879 )
 scale = Vector2( 0.25, 0.25 )
-frames = SubResource( 4 )
+frames = SubResource( 6 )
 animation = "laser"
 
 [node name="computer" type="Sprite" parent="World/Objects"]
@@ -440,7 +440,7 @@ script = ExtResource( 11 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="World/Interactions/Victory"]
 position = Vector2( 54.4179, 3.99913 )
-shape = SubResource( 5 )
+shape = SubResource( 7 )
 
 [node name="Label" type="Label" parent="World/Interactions/Victory"]
 modulate = Color( 0.121569, 0.635294, 0.87451, 1 )
@@ -448,7 +448,7 @@ margin_left = 23.2245
 margin_top = -12.3523
 margin_right = 151.09
 margin_bottom = 32.6477
-custom_fonts/font = SubResource( 6 )
+custom_fonts/font = SubResource( 8 )
 text = "Miaaaaaaaooooooou !!!!!
 (Victoryyyyyyy !!!! )
 "
@@ -466,7 +466,7 @@ light_path = NodePath("../../Lights/Cell_Light")
 flicker_delay = 0.05
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="World/Interactions/Flicker"]
-shape = SubResource( 7 )
+shape = SubResource( 9 )
 
 [node name="EventTimer" type="Timer" parent="World"]
 wait_time = 2.5

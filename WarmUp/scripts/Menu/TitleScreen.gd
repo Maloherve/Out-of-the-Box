@@ -32,7 +32,7 @@ func _on_NewGameButton_pressed():
 	SceneChanger.get_node("Control").visible = true
 	$Click.play()
 	Jugebox.fadein_time = 0.5;
-	SceneChanger.change_scene("intro", 0.5)
+	SceneChanger.change_scene("intro", -1, 0.5)
 	
 
 

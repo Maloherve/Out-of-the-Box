@@ -1,4 +1,4 @@
-[gd_scene load_steps=40 format=2]
+[gd_scene load_steps=41 format=2]
 
 [ext_resource path="res://scripts/Main.gd" type="Script" id=1]
 [ext_resource path="res://assets/Background/SkyLine.png" type="Texture" id=2]
@@ -167,6 +167,9 @@ font_data = ExtResource( 12 )
 
 [sub_resource type="RectangleShape2D" id=9]
 extents = Vector2( 1.13702, 1.17068 )
+
+[sub_resource type="RectangleShape2D" id=10]
+extents = Vector2( 10, 40 )
 
 [node name="Level" type="Node2D"]
 script = ExtResource( 1 )
@@ -410,7 +413,6 @@ tile_data = PoolIntArray( 2097195, 1610612738, 0, 2687036, 0, 0 )
 position = Vector2( 530, 448 )
 collision_layer = 12
 init_open = true
-layer_bits = [ 1, 5 ]
 
 [node name="right" parent="World/Objects/doorwall" instance=ExtResource( 23 )]
 position = Vector2( 70, 10 )
@@ -509,8 +511,9 @@ flicker_delay = 0.05
 shape = SubResource( 9 )
 
 [node name="Victory" parent="World/Interactions" instance=ExtResource( 10 )]
-position = Vector2( 1085.17, 484.309 )
+position = Vector2( 1083.17, 480.309 )
 target_level = "floating_platforms"
+area = SubResource( 10 )
 
 [node name="Fonction_Onde" type="Node2D" parent="."]
 script = ExtResource( 13 )

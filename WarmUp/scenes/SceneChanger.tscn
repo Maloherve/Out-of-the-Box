@@ -66,6 +66,7 @@ func change_scene(target, checkpoint = -1, delay = 0.5, animate = true):
 	assert(get_tree().change_scene(path) == OK)
 	
 	if checkpoint >= 0:
+		var sce = get_tree().current_scene;
 		get_tree().get_current_scene().checkpoint = checkpoint;
 	
 	if animate:

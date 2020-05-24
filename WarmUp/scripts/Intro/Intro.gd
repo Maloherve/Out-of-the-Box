@@ -188,7 +188,7 @@ func _on_Scientists_animation_finished():
 		$World/Objects/machine.play('laser')
 	if ($World/Enemies/Scientists.animation == 'leaving'):
 		$World/NPC/DialogueBox.visible = false
-		SceneChanger.change_scene("introduction", 0.5)
+		SceneChanger.change_scene("introduction", -1, 0.5)
 		
 func play_random_step():
 	var rand_nb = randi() % steps.size()
