@@ -15,7 +15,7 @@ _global_script_class_icons={
 
 [application]
 
-config/name="WarmUp"
+config/name="Out of the Box"
 run/main_scene="res://scenes/Menu/TitleScreen.tscn"
 config/icon="res://assets/Icon/OotB.png"
 
