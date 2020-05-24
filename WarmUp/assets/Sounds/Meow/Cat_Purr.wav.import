@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/Cat_Purr.wav-6f4a936132022b0e7e83c2c0f90adca7.sample"
+
+[deps]
+
+source_file="res://assets/Sounds/Meow/Cat_Purr.wav"
+dest_files=[ "res://.import/Cat_Purr.wav-6f4a936132022b0e7e83c2c0f90adca7.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/Footsteps_Casual_Concrete_12.wav-a72334d4c6e35fcf9edb4b58ab62fd99.sample"
+
+[deps]
+
+source_file="res://assets/Sounds/Footsteps/Footsteps_Casual_Concrete_12.wav"
+dest_files=[ "res://.import/Footsteps_Casual_Concrete_12.wav-a72334d4c6e35fcf9edb4b58ab62fd99.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

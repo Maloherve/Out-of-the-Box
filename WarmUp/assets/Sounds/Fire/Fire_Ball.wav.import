@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/Fire_Ball.wav-515f1bcfdc9897ae4edab24bab4647ab.sample"
+
+[deps]
+
+source_file="res://assets/Sounds/Fire/Fire_Ball.wav"
+dest_files=[ "res://.import/Fire_Ball.wav-515f1bcfdc9897ae4edab24bab4647ab.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

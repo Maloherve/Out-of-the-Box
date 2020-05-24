@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/hum_electric_neon_light_loop_01.wav-3a1563ea2d410595a5311eb78021b429.sample"
+
+[deps]
+
+source_file="res://assets/Sounds/hum_electric_neon_light_loop_01.wav"
+dest_files=[ "res://.import/hum_electric_neon_light_loop_01.wav-3a1563ea2d410595a5311eb78021b429.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

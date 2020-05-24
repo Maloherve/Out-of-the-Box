@@ -32,7 +32,7 @@ func _on_body_exited(body):
 func _process(delta):
 	$Label.percent_visible = clamp(lerp($Label.percent_visible, target, .01), 0, 1);
 	if has_node("Background"):
-		$Background.modulate.a = clamp(lerp($Background.modulate.a, back_target, .01), 0, 0.5);
+		$Background.modulate.a = clamp(lerp($Background.modulate.a, back_target, .01), 0, 0.9);
 
 
 
