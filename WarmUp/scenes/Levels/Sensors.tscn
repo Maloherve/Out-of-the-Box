@@ -59,13 +59,12 @@ font_data = ExtResource( 12 )
 [sub_resource type="RectangleShape2D" id=11]
 extents = Vector2( 519.092, 8.88477 )
 
-[sub_resource type="RectangleShape2D" id=13]
+[sub_resource type="RectangleShape2D" id=12]
 extents = Vector2( 20, 60 )
 
 [node name="Level" type="Node2D"]
 script = ExtResource( 1 )
 cat_version = 2
-checkpoint = 1
 checkpoints = [ ExtResource( 10 ), ExtResource( 19 ) ]
 
 [node name="PlayerInitialPosition" type="Node2D" parent="."]
@@ -258,7 +257,7 @@ shape = SubResource( 11 )
 position = Vector2( 2200, 3778 )
 target_level = "oldlab"
 checkpoint = 0
-area = SubResource( 13 )
+area = SubResource( 12 )
 
 [node name="Fonction_Onde" type="Node2D" parent="."]
 visible = false

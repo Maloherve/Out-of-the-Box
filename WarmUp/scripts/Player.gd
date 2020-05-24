@@ -64,6 +64,7 @@ var ui_down = input_state.new("ui_down");
 # energy 
 const DEFAULT_ENERGY = 4.0;
 const MIN_ENERGY = 4.0;
+const ENERGY_LIMIT = 20.0;
 var energy : float = DEFAULT_ENERGY setget set_energy;
 
 
@@ -344,6 +345,8 @@ func take_damage(strength):
 	velocity.x -= 0.3 * jump_velocity * move_direction;
 	velocity.y += 0.5 * jump_velocity;
 	animNode.call("_damage",true);
+	if energy > ENERGY_LIMIT:
+		die();
 	
 # death
 func die(reason = null):
