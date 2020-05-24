@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://scripts/Main.gd" type="Script" id=1]
 [ext_resource path="res://assets/Background/SkyLine.png" type="Texture" id=2]
@@ -8,7 +8,6 @@
 [ext_resource path="res://scenes/Objects/Victory.tscn" type="PackedScene" id=6]
 [ext_resource path="res://assets/Tilesets/platforms.tres" type="TileSet" id=7]
 [ext_resource path="res://scripts/Interactions/death_area.gd" type="Script" id=8]
-[ext_resource path="res://scripts/Fonction_Onde.gd" type="Script" id=13]
 [ext_resource path="res://scenes/InfoScreen.tscn" type="PackedScene" id=14]
 [ext_resource path="res://assets/Sounds/BoxBassArp.ogg" type="AudioStream" id=15]
 [ext_resource path="res://assets/Sounds/electronic_accent_03.wav" type="AudioStream" id=16]
@@ -217,9 +216,6 @@ collision_layer = 1024
 collision_mask = 0
 format = 1
 tile_data = PoolIntArray( 262143, 1, 0, 327677, 1, 0 )
-
-[node name="Fonction_Onde" type="Node2D" parent="."]
-script = ExtResource( 13 )
 
 [node name="InfoScreen" parent="." instance=ExtResource( 14 )]
 

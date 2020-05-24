@@ -195,7 +195,7 @@ margin_bottom = 460.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_fonts/font = SubResource( 6 )
-text = "Version 0.0.1
+text = "Version 0.1.0
 Quarantum Studios"
 align = 2
 
