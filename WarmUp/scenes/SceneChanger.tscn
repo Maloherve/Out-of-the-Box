@@ -23,7 +23,10 @@ var menus = {
 	\"gameover\" : \"res://scenes/Menu/GameOver.tscn\",
 }
 
-signal scene_changed(oldlevel, target);
+signal scene_loading(target);
+#signal scene_changed(target);
+
+var current_level = null;
 
 onready var animation_player = $AnimationPlayer
 onready var black = $Control/Black
@@ -50,10 +53,43 @@ func detect_current_level():
 	for name in levels.keys():
 		if scene == levels[name]:
 			level = name;
+			current_level = get_tree().get_current_scene();
 	assert(level != null, \"Error: no scene was found to be reloaded\")
 
 func reload_scene(delay = 0.5, animate = true):
 	change_scene(level, -1, delay, animate);
+	
+# Equivalent to get_tree().change_scene
+# but it emits a signal before the scene is loaded
+func goto_scene(path):
+	# Load the new scene.
+	var s = ResourceLoader.load(path, \"PackedScene\");
+	if s == null:
+		return ERR_CANT_OPEN;
+	elif !s.can_instance():
+		return ERR_CANT_CREATE;
+	
+	# free previous scene
+	call_deferred(\"_call_deferred_goto_scene\", s);
+	return OK;
+	
+func _call_deferred_goto_scene(scenepack):	
+	# free old scene
+	var old = get_tree().current_scene;
+	old.free();
+	# instance new scene
+	var new_scene = scenepack.instance();
+	current_level = new_scene;
+	emit_signal(\"scene_loading\", new_scene);
+	new_scene.connect(\"tree_entered\", get_tree(), \"set_current_scene\", [new_scene], CONNECT_ONESHOT);
+	get_tree().get_root().add_child(new_scene);
+	#emit_signal(\"scene_changed\", new_scene);
+	return OK;
+	
+func set_check_point(checkpoint):
+	if checkpoint >= 0:
+		yield(self, \"scene_loading\");
+		current_level.checkpoint = checkpoint;
 
 func change_scene(target, checkpoint = -1, delay = 0.5, animate = true):
 	
@@ -61,19 +97,15 @@ func change_scene(target, checkpoint = -1, delay = 0.5, animate = true):
 	
 	if animate:
 		fade_out();
-		
-	var path = levels.get(target, DEFAULT_LEVEL);
-	assert(get_tree().change_scene(path) == OK)
 	
-	if checkpoint >= 0:
-		var sce = get_tree().current_scene;
-		get_tree().get_current_scene().checkpoint = checkpoint;
+	var path = levels.get(target, DEFAULT_LEVEL);
+	assert(goto_scene(path) == OK);
+	
+	set_check_point(checkpoint);
 	
 	if animate:
 		ease_in();
-		
-	emit_signal(\"scene_changed\", level, target)
-	print(\"Change between: \", level, \" to \", target)
+
 	level = target;
 	
 # menus controller

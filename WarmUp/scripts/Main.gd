@@ -46,8 +46,8 @@ func _enter_tree():
 	var camera = Camera2D.new(); camera.name = "Camera2D";
 	camera.zoom = camera_zoom
 	if activate_camera: camera.current = true;
-	$Player.add_child(camera)
-	
+	$Player.add_child(camera)	
+	#SceneChanger.connect("scene_changed", self, "_on_fully_loaded");
 
 func _ready():
 	# Connect Signals

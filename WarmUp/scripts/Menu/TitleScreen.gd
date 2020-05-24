@@ -16,6 +16,7 @@ func _ready():
 		#	soundtrack.play()
 	
 	SceneChanger.get_node("Control").visible = false
+	#SceneChanger.detect_current_level();
 	video_player.set_stream( video )
 	set_process( true )
 

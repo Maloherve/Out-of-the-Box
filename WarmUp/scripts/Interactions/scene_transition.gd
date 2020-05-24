@@ -16,5 +16,4 @@ func _init():
 	connect("body_entered", self, "_on_scene_body_entered");
 	
 func _ready():
-	assert(area != null)
 	$collider.shape = area;
