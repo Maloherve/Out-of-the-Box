@@ -240,9 +240,8 @@ tile_data = PoolIntArray( 655413, 2, 0, 655416, 1, 0, 655417, 2, 0, 655421, 1, 0
 collision_layer = 16416
 collision_mask = 0
 script = ExtResource( 37 )
-friction = 0.2
+friction = 0.3
 upper_friction = 0.15
-cascade = 3.0
 
 [node name="weakwalls" type="TileMap" parent="World/frictiontile"]
 tile_set = ExtResource( 3 )

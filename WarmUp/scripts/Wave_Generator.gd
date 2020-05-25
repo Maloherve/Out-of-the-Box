@@ -1,4 +1,4 @@
-extends Node
+extends 'res://scripts/Player/State.gd'
 
 # Declare member variables here. Examples:
 # var a = 2

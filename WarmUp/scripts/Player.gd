@@ -17,7 +17,7 @@ onready var Endurance_Bar : ProgressBar = get_node("GUI/Endurance_Bar");
 # Movement
 var velocity : Vector2 = Vector2();
 var jump_velocity : int = -388;
-var jump_step : int = jump_velocity / 50;
+var jump_step : int = jump_velocity / 20;
 var Up : Vector2 = Vector2(0, -1);
 var move_direction : int = 1;
 var vertical_move_direction : int = 1;
@@ -117,6 +117,12 @@ func _process(delta):
 			
 	_trigger_landing();
 	Endurance_Bar.set_value(update_endurance());
+
+# Execute Regularly
+func _physics_process(delta):
+	if !cast:
+		velocity = move_and_slide(velocity, Vector2(0,0));
+	
 	
 # PSTATE check
 func _trigger_landing():
@@ -174,6 +180,8 @@ func _on_Player_pstate_changed(new_state):
 				$jump.play()
 				
 		PSTATE.jump:
+			print("[Player] set jump state")
+			velocity.y += 0.75 * jump_velocity;
 			animNode.call("_jump");
 			$jump.play()
 		
@@ -206,11 +214,7 @@ func _on_Node_teleport(delta):
 func _on_Player_start_casting(_trigger):
 	endurance -= 30; # TODO, replace this wth something more logic
 
-# Execute Regularly
-func _physics_process(delta):
-	if !cast:
-		velocity = move_and_slide(velocity, Vector2(0,0));
-	
+
 	
 
 # Move Character
@@ -262,11 +266,12 @@ func _get_input():
 			if cast:
 				can_finish_cast = true;
 		
-	if (ui_up.check() == input_state.ui.just_pressed && !cast):
+	if (Input.is_action_just_pressed("ui_up") && !cast):
 		_trigger_jump(); # check if possible to jump
 		_trigger_ledge();
 		
-	if (pstate == PSTATE.jump && ui_up.check() == input_state.ui.pressed):
+	if (pstate == PSTATE.jump && Input.is_action_pressed("ui_up")):
+		print("Jumping")
 		velocity.y += jump_step;
 		
 	if (ui_up.check() == input_state.ui.just_released && pstate == PSTATE.jump):
