@@ -38,7 +38,7 @@ func break_jump(enable = false):
 	set_enabled(enable);
 		
 func _process(delta):
-	if !is_physics_processing() && Input.is_action_just_pressed(action):
+	if enabled && !is_physics_processing() && Input.is_action_just_pressed(action):
 		jump();
 
 func _physics_process(delta):

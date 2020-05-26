@@ -19,8 +19,6 @@ var attackstun : int = 0;
 var meleeTime : int = 30;
 var hitstun : int = 0; # TODO, when does it change?
 
-# General
-var endurance : float = 100;
 # Obscuring
 const PLAYER_MODULATE_COLOR : Color = Color(0.3,0.3,0.3)
 # Audio
@@ -93,6 +91,7 @@ func _on_wall_hold(activate):
 		$Endurance.automatic_increase = false;
 		$Endurance.automatic_decrease = true;
 		$Jumper.enabled = false;
+		ground = false;
 	else:
 		$Jumper.enabled = true;
 		$Endurance.automatic_decrease = false;
@@ -126,15 +125,13 @@ func _on_start_casting(trigger):
 	$Endurance.automatic_decrease = true;
 	$animator.call("_cast");
 	
-func _on_stop_casting():
+func _on_stop_casting(teleported):
 	$Mover.enabled = true;
-	$Gravity.enabled = true;
 	$Jumper.enabled = true;
-	$Climber.hold(true);
+	$Gravity.enabled = true;
 	$Climber.enabled = true;
 	_physics_process(true);
 	check_landing = true;
-	$teleport_sound.play();
 	$Endurance.automatic_decrease = false;
 	$animator.call("_endcast");
 	
@@ -146,6 +143,8 @@ func _on_endurance_over():
 	$WaveCaster.enabled = false;
 	
 func set_locked(flag):
+	$Mover.set_from_input(!flag);
+	$Jumper.enabled = !flag;
 	locked = flag;
 
 # Execute ASAP
@@ -163,18 +162,17 @@ func _trigger_landing():
 		if !ground:
 			emit_signal("landed");
 			ground = true;
-	elif !is_on_wall() && !check_wall():
+	else:
+		if !is_on_wall() && !check_wall():
 			emit_signal("falling");
-			ground = false;
+		ground = false;
 
 func _on_Node_teleport(delta):
-	if $Climber.enabled:
+	if $Climber.holding:
 		delta -= Vector2($Mover.look * 8,0)
+	$teleport_sound.play();
 	position += delta
 	
-func _on_Player_start_casting(_trigger):
-	endurance -= 30; # TODO, replace this wth something more logic
-
 # obscurate, TODO create a child of player to be modulate
 func set_obscurate(flag):
 	if flag:
@@ -189,6 +187,9 @@ func flip(flag):
 	
 func look_direction():
 	return $Mover.look;
+	
+func is_holding():
+	return $Climber.holding;
 	
 func vertical_move_direction():
 	return $Climber.move;

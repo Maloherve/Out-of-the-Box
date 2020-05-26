@@ -16,7 +16,7 @@ export (String) var action = "ui_cast";
 var cast : bool = false;
 var can_finish_cast = false;
 signal start_casting(trigger);
-signal stop_casting();
+signal stop_casting(teleported);
 
 # wave function scene preload
 const particle_scene = preload("res://scenes/Wave/wave_function.tscn")
@@ -27,20 +27,15 @@ signal teleport
 func set_enabled(flag):
 	set_process(flag);
 	if !flag && cast:
-		emit_signal("stop_casting");
-		cast = false;
-		can_finish_cast = false;
+		uncast_wave(false);
 	enabled = flag;
 	
 func _process(_delta):
 	if Input.is_action_just_pressed(action):
 		if !cast:
-			emit_signal('start_casting', null); # no trigger
-			cast = true;
+			cast_wave(null); # no trigger
 		elif can_finish_cast:
-			emit_signal("stop_casting");
-			cast = false;
-			can_finish_cast = false;
+			uncast_wave(true);
 	elif Input.is_action_just_released(action):
 			if cast:
 				can_finish_cast = true;
@@ -108,13 +103,10 @@ func _on_Area2D_Area_exited(node):
 		node.detector_index = -1
 		detectors.remove(index)
 
-func _init():
-	connect("start_casting", self, "on_Player_start_casting");
-	connect("stop_casting", self, "on_Player_stop_casting");
-	
+
 # ----- Player Action ------
 # trigger == null: free teleport mode
-func on_Player_start_casting(trigger):
+func cast_wave(trigger):
 	if particle != null:
 		return
 		
@@ -129,7 +121,7 @@ func on_Player_start_casting(trigger):
 	var direction
 	var half_width
 	var dx = 0.0 # small displacement
-	if player.is_on_wall():
+	if player.is_holding():
 		half_width = pbox.y
 		particle.rotation_degrees -= 90 * player.look_direction() # node of 90
 		# fix no move
@@ -173,20 +165,28 @@ func on_Player_start_casting(trigger):
 	# modify hbar as function of the energy
 	system.mass = player.DEFAULT_ENERGY / player.energy;
 	
-	particle.packet.N = samples
-	player.add_child(particle)
+	particle.packet.N = samples;
+	player.add_child(particle);
+	
+	cast = true;
+	emit_signal('start_casting', trigger);
 	
 
-func on_Player_stop_casting():
+func uncast_wave(teleported):
 	# Manage teleporting
 	# Use the last computed quantum state to determine the teleport position
-	var x = teleport_position()
-	var delta = particle.get_node("simulator/qsystem").get_relative_transform_to_parent(player).xform(Vector2(x,0))
-	emit_signal("teleport", delta)
+	if teleported:
+		var x = teleport_position()
+		var delta = particle.get_node("simulator/qsystem").get_relative_transform_to_parent(player).xform(Vector2(x,0))
+		emit_signal("teleport", delta)
 	
 	# deinit simulation
-	player.remove_child(particle)
-	particle = null
+	player.remove_child(particle);
+	particle = null;
+	
+	cast = false;
+	can_finish_cast = false;
+	emit_signal("stop_casting", teleported);
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

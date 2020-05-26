@@ -4,7 +4,6 @@ export (int) var speed = 64;
 export (bool) var enabled = false setget set_enabled;
 export (bool) var from_input = true setget set_from_input;
 
-var old_direction : int = 0;
 var move_direction : int = 0 setget set_move;
 
 enum lkdir {
@@ -35,7 +34,8 @@ func set_from_input(flag):
 	from_input = flag;
 	
 func _process(delta):
-	set_move(- int(Input.is_action_pressed("ui_left")) + int(Input.is_action_pressed("ui_right")));
+	if from_input:
+		set_move(- int(Input.is_action_pressed("ui_left")) + int(Input.is_action_pressed("ui_right")));
 
 func set_enabled(flag):
 	set_physics_process(flag);

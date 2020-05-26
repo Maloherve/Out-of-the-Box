@@ -2,7 +2,7 @@ extends Node
 
 export (int) var maximum = 100;
 export (int) var increase_speed = 1;
-export (int) var decrease_speed = 2;
+export (int) var decrease_speed = 1;
 
 var endurance : int = maximum;
 var automatic_decrease : bool = false setget set_automatic_decrease;

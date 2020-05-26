@@ -125,8 +125,9 @@ func on_Player_start_casting(trigger):
 	darken = true;
 	AudioServer.set_bus_effect_enabled ( 1, 0, true )
 
-func on_Player_stop_casting():
-	teleport_player = true;
+func on_Player_stop_casting(teleported):
+	#$Teleport.play();
+	teleport_player = teleported;
 	darken = false;
 	AudioServer.set_bus_effect_enabled ( 1, 0, false )
 	

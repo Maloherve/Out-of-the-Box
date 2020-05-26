@@ -69,13 +69,14 @@ func _enter_tree():
 	$Player.add_child(camera)
 	
 	Player.visible = false
+	Player.check_landing = false;
 	Player.set_locked(true);
 	
 	
 func _ready():
 	# Connect Signals
-	$Player.connect("start_casting", self, "on_Player_start_casting");
-	$Player.connect("stop_casting", self, "on_Player_stop_casting");
+	#$Player.connect("start_casting", self, "on_Player_start_casting");
+	#$Player.connect("stop_casting", self, "on_Player_stop_casting");
 	$World/NPC/Box.play('eyes')
 	$World/NPC/DialogueBox.visible = false
 
