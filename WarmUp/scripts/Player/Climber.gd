@@ -8,25 +8,35 @@ onready var player = get_parent();
 
 var move : int = 0;
 
-signal hold;
+signal hold(flag);
 signal on_ledge;
 
-func set_enabled(flag):
-	set_physics_process(flag);
-	if flag:
-		emit_signal("hold");	
-	enabled = flag;
+export (String) var up_action = "ui_up";
+export (String) var down_action = "ui_down";
 
-func update_move_from_input():
-	move = - int(Input.is_action_pressed("ui_up")) + int(Input.is_action_pressed("ui_down")); 
+func set_enabled(flag):
+	set_process(flag);
+	enabled = flag;
+	
+func hold(flag):
+	set_physics_process(flag);
+	emit_signal("hold", flag);	
+	
+func _process(delta):
+	if is_physics_processing():
+		move = - int(Input.is_action_pressed(up_action)) + int(Input.is_action_pressed(down_action));
+		if !player.check_wall():
+			hold(false);
+	elif player.check_wall() && player.is_on_wall() && Input.is_action_pressed(up_action):
+		hold(true); 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta):
 	if move != 0:
 		player.velocity.y = lerp(player.velocity.y, speed * move, 0.2);
-		if player.is_on_ledge() && Input.is_action_just_pressed("ui_up"):
+		if player.is_on_ledge() && Input.is_action_just_pressed(up_action):
 			emit_signal("on_ledge");
-			enabled = false;
+			hold(false);
 	else:
 		player.velocity.y -= friction * delta;
 		

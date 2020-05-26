@@ -142,7 +142,7 @@ process_material = ExtResource( 2 )
 texture = ExtResource( 22 )
 script = ExtResource( 3 )
 
-[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+[node name="animator" type="AnimatedSprite" parent="."]
 position = Vector2( 0.073101, 0 )
 frames = SubResource( 1 )
 animation = "_walk"

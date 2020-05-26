@@ -1,8 +1,5 @@
 extends Node
 
-# Declare member variables here. Examples:
-# var a = 2
-# var b = "text"
 export (int) var samples = 100
 export (Vector2) var scale = Vector2(1,1)
 export (Vector2) var offset = Vector2(0,0)
@@ -13,11 +10,39 @@ var detectors : Array = []
 
 const SCALE_FACTOR = 0.02;
 
+# cast variables
+export (bool) var enabled = true setget set_enabled;
+export (String) var action = "ui_cast";
+var cast : bool = false;
+var can_finish_cast = false;
+signal start_casting;
+signal stop_casting;
+
 # wave function scene preload
 const particle_scene = preload("res://scenes/Wave/wave_function.tscn")
 
 # teleport to position
 signal teleport
+
+func set_enabled(flag):
+	set_process(flag);
+	enabled = flag;
+	
+func _process(_delta):
+	if Input.is_action_just_pressed(action):
+		if !cast:
+			emit_signal('start_casting', null); # no trigger
+			cast = true;
+			$animator.call("_cast",false);
+		elif can_finish_cast:
+			emit_signal("stop_casting");
+			$animator.call("_endcast")
+			cast = false;
+			can_finish_cast = false;
+	elif Input.is_action_just_released(action):
+			if cast:
+				can_finish_cast = true;
+	
 
 func winning_detector_position(system):
 	var P = 0

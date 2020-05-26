@@ -44,7 +44,6 @@ var energy : float = DEFAULT_ENERGY setget set_energy;
 signal landed;
 signal falling;
 var ground : bool = false;
-var air : bool = false;
 
 # dead event
 signal dead(reason);
@@ -74,17 +73,26 @@ func _ready():
 	$death_area.connect("body_entered", self, "_on_death_area_collide");
 	
 	#$Mover.connect("start_moving", self, "_on_start_moving");
+	$Mover.connect("moving_step", self, "_on_moving_step");
 	$Mover.connect("direction_changed", self, "_on_direction_changed");
 	$Jumper.connect("jumped", self, "_on_jumped");
 	$Climber.connect("hold", self, "_on_wall_hold");
 	$Climber.connect("on_ledge", self, "_on_ledge");
+	
+func _on_moving_step():
+	if is_on_floor() && !is_on_wall():
+		$animator.play("_walk");
+		$Trail.emitting = true;
 		
 func _on_direction_changed(move_direction):
-	# update look direction
 	flip(move_direction > 0);
 	
-func _on_wall_hold():
-	$animator.play("_hold");
+func _on_wall_hold(activate):
+	if activate:
+		$animator.play("_hold");
+		$Jumper.enabled = false;
+	else:
+		$Jumper.enabled = true;
 	
 func _on_jumped():
 	$animator.play("_jump");
@@ -112,18 +120,15 @@ func _process(delta):
 # Execute Regularly
 func _physics_process(delta):
 	if !cast:
-		velocity = move_and_slide(velocity, Vector2(0,0));
+		velocity = move_and_slide(velocity, Vector2(0,-1));
 	
 func _trigger_landing():
-	if $Bottom_Raycasts.check():
+	if is_on_floor():
 		if !ground:
 			emit_signal("landed");
-			air = false;
 			ground = true;
-	elif !check_wall():
-		if !air:
+	elif !is_on_wall() && !check_wall():
 			emit_signal("falling");
-			air = true;
 			ground = false;
 
 func _on_Node_teleport(delta):
@@ -161,7 +166,6 @@ func _get_input():
 	elif Input.is_action_just_released("ui_cast"):
 			if cast:
 				can_finish_cast = true;
-				
 
 func is_front_colliding():
 	$Side_Raycasts.is_front_colliding();

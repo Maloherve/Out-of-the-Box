@@ -1,7 +1,7 @@
 extends Node
 
 export (int) var jump_velocity = -100;
-var jump_step : int = jump_velocity / 5;
+var jump_step : int = jump_velocity / 3;
 var jump_count : int = 0;
 
 onready var player = get_parent();
