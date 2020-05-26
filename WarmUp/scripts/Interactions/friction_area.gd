@@ -27,8 +27,15 @@ func _on_body_exited(body):
 func _init():
 	connect("body_entered", self, "_on_body_entered")
 	connect("body_exited", self, "_on_body_exited")
-	set_process(false);
+	#set_process(false);
 	set_physics_process(false);
+	
+func _process(_delta):
+	for body in bodies:
+		if body.has_node("Jumper") && Input.is_action_just_pressed("ui_up"):
+			if body.has_endurance():
+				body.land();
+				body.get_node("Jumper").jump_one_shot();
 
 # Called when the node enters the scene tree for the first time.
 func _physics_process(delta):

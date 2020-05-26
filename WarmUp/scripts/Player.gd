@@ -145,6 +145,7 @@ func _on_endurance_over():
 func set_locked(flag):
 	$Mover.set_from_input(!flag);
 	$Jumper.enabled = !flag;
+	$WaveCaster.turned_on = !flag;
 	locked = flag;
 
 # Execute ASAP
@@ -160,18 +161,24 @@ func _physics_process(delta):
 func _trigger_landing():
 	if is_on_floor():
 		if !ground:
-			emit_signal("landed");
-			ground = true;
+			land();
 	else:
 		if !is_on_wall() && !check_wall():
 			emit_signal("falling");
 		ground = false;
+		
+func land():
+	emit_signal("landed");
+	ground = true;
 
 func _on_Node_teleport(delta):
 	if $Climber.holding:
 		delta -= Vector2($Mover.look * 8,0)
 	$teleport_sound.play();
 	position += delta
+	
+func has_endurance():
+	return $Endurance.endurance > 0;
 	
 # obscurate, TODO create a child of player to be modulate
 func set_obscurate(flag):

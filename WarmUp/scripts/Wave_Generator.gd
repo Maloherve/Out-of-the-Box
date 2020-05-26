@@ -11,6 +11,7 @@ var detectors : Array = []
 const SCALE_FACTOR = 0.02;
 
 # cast variables
+export (bool) var turned_on = true;
 export (bool) var enabled = true setget set_enabled;
 export (String) var action = "ui_cast";
 var cast : bool = false;
@@ -31,6 +32,8 @@ func set_enabled(flag):
 	enabled = flag;
 	
 func _process(_delta):
+	if !enabled || !turned_on: # set_process is bugged
+		return;
 	if Input.is_action_just_pressed(action):
 		if !cast:
 			cast_wave(null); # no trigger

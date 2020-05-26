@@ -1,7 +1,7 @@
 extends Node
 
 export (int) var jump_velocity = -100;
-var jump_step : int = jump_velocity / 3;
+var jump_step : int = floor(jump_velocity / 3.2);
 var jump_count : int = 0;
 
 onready var player = get_parent();
@@ -25,11 +25,14 @@ func _on_Player_landed():
 	break_jump(true);
 
 func jump():
-	player.velocity.y += jump_velocity;
-	emit_signal("jumped");
+	jump_one_shot();
 	if !oneshot:
 		set_physics_process(true);
 	set_enabled(false);
+	
+func jump_one_shot():
+	player.velocity.y += jump_velocity;
+	emit_signal("jumped");
 	
 func break_jump(enable = false):
 	emit_signal("end_jump");
