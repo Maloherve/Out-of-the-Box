@@ -27,7 +27,6 @@ func _on_Player_landed():
 func jump():
 	player.velocity.y += jump_velocity;
 	emit_signal("jumped");
-	$sound.play();
 	if !oneshot:
 		set_physics_process(true);
 	set_enabled(false);

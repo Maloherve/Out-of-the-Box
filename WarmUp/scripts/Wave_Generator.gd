@@ -15,8 +15,8 @@ export (bool) var enabled = true setget set_enabled;
 export (String) var action = "ui_cast";
 var cast : bool = false;
 var can_finish_cast = false;
-signal start_casting;
-signal stop_casting;
+signal start_casting(trigger);
+signal stop_casting();
 
 # wave function scene preload
 const particle_scene = preload("res://scenes/Wave/wave_function.tscn")
@@ -26,6 +26,10 @@ signal teleport
 
 func set_enabled(flag):
 	set_process(flag);
+	if !flag && cast:
+		emit_signal("stop_casting");
+		cast = false;
+		can_finish_cast = false;
 	enabled = flag;
 	
 func _process(_delta):
@@ -33,10 +37,8 @@ func _process(_delta):
 		if !cast:
 			emit_signal('start_casting', null); # no trigger
 			cast = true;
-			$animator.call("_cast",false);
 		elif can_finish_cast:
 			emit_signal("stop_casting");
-			$animator.call("_endcast")
 			cast = false;
 			can_finish_cast = false;
 	elif Input.is_action_just_released(action):
@@ -106,9 +108,9 @@ func _on_Area2D_Area_exited(node):
 		node.detector_index = -1
 		detectors.remove(index)
 
-func _ready():
-	player.connect("start_casting", self, "on_Player_start_casting");
-	player.connect("stop_casting", self, "on_Player_stop_casting");
+func _init():
+	connect("start_casting", self, "on_Player_start_casting");
+	connect("stop_casting", self, "on_Player_stop_casting");
 	
 # ----- Player Action ------
 # trigger == null: free teleport mode
@@ -131,7 +133,7 @@ func on_Player_start_casting(trigger):
 		half_width = pbox.y
 		particle.rotation_degrees -= 90 * player.look_direction() # node of 90
 		# fix no move
-		direction = -player.vertical_move_direction * player.look_direction();
+		direction = -player.vertical_move_direction() * player.look_direction();
 	else:
 		half_width = pbox.x
 		direction = player.look_direction()

@@ -26,9 +26,9 @@ export (Curve) var fade_curve = preload("res://assets/Curves/wave_fade.tres");
 
 func _ready():
 #	Connect Nodes
-	player.connect("start_casting", self, "on_Player_start_casting");
+	#player.connect("start_casting", self, "on_Player_start_casting");
 	#player.connect("is_casting", self, "on_Player_is_casting")
-	player.connect("stop_casting", self, "on_Player_stop_casting");
+	#player.connect("stop_casting", self, "on_Player_stop_casting");
 	#player.connect("finish_casting", self, "on_Player_finish_casting");
 #	Make x
 	for i in range(N): x.push_back(x_min + i*step);

@@ -4,6 +4,8 @@ export (int) var speed = 140;
 export (int) var friction = 400; 
 export (bool) var enabled = false setget set_enabled;
 
+export (bool) var input_enabled = true;
+
 onready var player = get_parent();
 
 var move : int = 0;
@@ -21,10 +23,15 @@ func set_enabled(flag):
 func hold(flag):
 	set_physics_process(flag);
 	emit_signal("hold", flag);	
+
+func stop_input():
+	input_enabled = false;
+	move = 0;
 	
 func _process(delta):
 	if is_physics_processing():
-		move = - int(Input.is_action_pressed(up_action)) + int(Input.is_action_pressed(down_action));
+		if input_enabled:
+			move = - int(Input.is_action_pressed(up_action)) + int(Input.is_action_pressed(down_action));
 		if !player.check_wall():
 			hold(false);
 	elif player.check_wall() && player.is_on_wall() && Input.is_action_pressed(up_action):

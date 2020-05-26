@@ -1,4 +1,4 @@
-[gd_scene load_steps=62 format=2]
+[gd_scene load_steps=64 format=2]
 
 [ext_resource path="res://scripts/Player.gd" type="Script" id=1]
 [ext_resource path="res://assets/Particles/trail.tres" type="Material" id=2]
@@ -56,6 +56,8 @@
 [ext_resource path="res://scripts/Player/Gravity.gd" type="Script" id=54]
 [ext_resource path="res://scripts/Player/Jumper.gd" type="Script" id=55]
 [ext_resource path="res://scripts/Player/Mover.gd" type="Script" id=56]
+[ext_resource path="res://assets/Sounds/electronic_accent_03.wav" type="AudioStream" id=57]
+[ext_resource path="res://scripts/Player/Endurance.gd" type="Script" id=58]
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
@@ -121,20 +123,16 @@ script = ExtResource( 54 )
 [node name="Climber" type="Node" parent="."]
 script = ExtResource( 23 )
 
-[node name="Wave_Generator" type="Node" parent="."]
+[node name="WaveCaster" type="Node" parent="."]
 script = ExtResource( 52 )
 scale = Vector2( 10, 0.5 )
 offset = Vector2( 0, 4 )
 
 [node name="Endurance" type="Node" parent="."]
+script = ExtResource( 58 )
 
 [node name="Jumper" type="Node" parent="."]
 script = ExtResource( 55 )
-
-[node name="sound" type="AudioStreamPlayer" parent="Jumper"]
-stream = ExtResource( 32 )
-volume_db = -20.0
-pitch_scale = 3.0
 
 [node name="Trail" type="Particles2D" parent="."]
 position = Vector2( 2.15273, 14.9302 )
@@ -247,7 +245,11 @@ collision_mask = 0
 [node name="CollisionShape2D" type="CollisionShape2D" parent="presence_area"]
 shape = SubResource( 5 )
 
-[node name="jump" type="AudioStreamPlayer" parent="."]
+[node name="jump_sound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 32 )
-volume_db = -20.0
+volume_db = -10.0
 pitch_scale = 3.0
+
+[node name="teleport_sound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 57 )
+volume_db = -10.0

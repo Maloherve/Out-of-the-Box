@@ -11,18 +11,14 @@ onready var Side_Raycasts : Node2D = get_node("Side_Raycasts");
 onready var Endurance_Bar : ProgressBar = get_node("GUI/Endurance_Bar");
 # Movement
 var velocity : Vector2 = Vector2();
+
 # Attack
 var attack_move_direction : int = 1;
 var attack : bool = false;
 var attackstun : int = 0;
 var meleeTime : int = 30;
 var hitstun : int = 0; # TODO, when does it change?
-# Cast
-var allow_casting = true;
-var cast : bool = false;
-var can_finish_cast = false;
-signal start_casting;
-signal stop_casting;
+
 # General
 var endurance : float = 100;
 # Obscuring
@@ -44,6 +40,7 @@ var energy : float = DEFAULT_ENERGY setget set_energy;
 signal landed;
 signal falling;
 var ground : bool = false;
+var check_landing : bool = true;
 
 # dead event
 signal dead(reason);
@@ -62,22 +59,25 @@ func _init():
 func _ready():
 	$animator.call("_idle");
 	
-	_trigger_landing();
+	if check_landing:
+		_trigger_landing();
 	
 	# Connect Signals
 	$animator.connect("animation_finished", self, "_on_AnimatedSprite_animation_finished");
-	$Wave_Generator.connect("teleport", self, "_on_Node_teleport")
-	
-	connect("start_casting", self, "_on_Player_start_casting");
+	$WaveCaster.connect("teleport", self, "_on_Node_teleport");
+	$WaveCaster.connect("start_casting", self, "_on_start_casting");
+	$WaveCaster.connect("stop_casting", self, "_on_stop_casting");
 	
 	$death_area.connect("body_entered", self, "_on_death_area_collide");
 	
-	#$Mover.connect("start_moving", self, "_on_start_moving");
 	$Mover.connect("moving_step", self, "_on_moving_step");
 	$Mover.connect("direction_changed", self, "_on_direction_changed");
 	$Jumper.connect("jumped", self, "_on_jumped");
 	$Climber.connect("hold", self, "_on_wall_hold");
 	$Climber.connect("on_ledge", self, "_on_ledge");
+	
+	$Endurance.connect("maximum_reached", self, "_on_endurance_max_reached")
+	$Endurance.connect("zero_reached", self, "_on_endurance_over");
 	
 func _on_moving_step():
 	if is_on_floor() && !is_on_wall():
@@ -90,37 +90,73 @@ func _on_direction_changed(move_direction):
 func _on_wall_hold(activate):
 	if activate:
 		$animator.play("_hold");
+		$Endurance.automatic_increase = false;
+		$Endurance.automatic_decrease = true;
 		$Jumper.enabled = false;
 	else:
 		$Jumper.enabled = true;
+		$Endurance.automatic_decrease = false;
 	
 func _on_jumped():
+	$jump_sound.play();
+	$Endurance.automatic_increase = false;
 	$animator.play("_jump");
 	
 func _on_ledge():
 	$animator.play("_walk");
 	
 func _on_landed():
+	$Endurance.automatic_increase = true;
+	$Endurance.automatic_decrease = false;
+	$Climber.input_enabled = true;
 	$animator.play("_idle");
 	
 func _on_falling():
 	$animator.play("_jump");
 	
+func _on_start_casting(trigger):
+	$Mover.enabled = false;
+	$Gravity.enabled = false;
+	$Jumper.enabled = false;
+	$Climber.hold(false);
+	$Climber.enabled = false;
+	velocity = Vector2(0,0);
+	_physics_process(false);
+	check_landing = false;
+	$Endurance.automatic_decrease = true;
+	$animator.call("_cast");
+	
+func _on_stop_casting():
+	$Mover.enabled = true;
+	$Gravity.enabled = true;
+	$Jumper.enabled = true;
+	$Climber.hold(true);
+	$Climber.enabled = true;
+	_physics_process(true);
+	check_landing = true;
+	$teleport_sound.play();
+	$Endurance.automatic_decrease = false;
+	$animator.call("_endcast");
+	
+func _on_endurance_max_reached():
+	$WaveCaster.enabled = true;
+	
+func _on_endurance_over():
+	$Climber.stop_input();
+	$WaveCaster.enabled = false;
+	
 func set_locked(flag):
 	locked = flag;
 
 # Execute ASAP
-func _process(delta):
-	if !locked:
-		_get_input();
-			
-	_trigger_landing();
-	Endurance_Bar.set_value(update_endurance());
+func _process(delta):	
+	if check_landing:	
+		_trigger_landing();
+	Endurance_Bar.set_value($Endurance.endurance);
 
 # Execute Regularly
 func _physics_process(delta):
-	if !cast:
-		velocity = move_and_slide(velocity, Vector2(0,-1));
+	velocity = move_and_slide(velocity, Vector2(0,-1));
 	
 func _trigger_landing():
 	if is_on_floor():
@@ -151,21 +187,11 @@ func flip(flag):
 	Side_Raycasts.set_flip(!flag);
 	$Trail.set_flip(!flag);
 	
-# Check for and execute Input, fast reaction input
-func _get_input():
-	if Input.is_action_just_pressed("ui_cast"):
-			if !cast && endurance>=30 && allow_casting:
-				emit_signal('start_casting', null); # no trigger
-				cast = true;
-				$animator.call("_cast",false);
-			elif can_finish_cast:
-				emit_signal("stop_casting");
-				$animator.call("_endcast")
-				cast = false;
-				can_finish_cast = false;
-	elif Input.is_action_just_released("ui_cast"):
-			if cast:
-				can_finish_cast = true;
+func look_direction():
+	return $Mover.look;
+	
+func vertical_move_direction():
+	return $Climber.move;
 
 func is_front_colliding():
 	$Side_Raycasts.is_front_colliding();
@@ -179,17 +205,6 @@ func is_on_ledge():
 # See if the character next to a wall
 func check_wall():
 	return $Side_Raycasts.check();
-
-func update_endurance():
-	if $Climber.enabled && endurance>0:
-		endurance -= 1;
-	if (is_on_floor() && endurance<100 && !cast):
-		endurance +=1;
-	if endurance<0:
-		endurance=0;
-	if endurance>100:
-		endurance=100;
-	return endurance;
 
 # ----- Node Function ------
 func _on_AnimatedSprite_animation_finished():

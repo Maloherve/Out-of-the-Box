@@ -51,8 +51,8 @@ func _enter_tree():
 
 func _ready():
 	# Connect Signals
-	$Player.connect("start_casting", self, "on_Player_start_casting");
-	$Player.connect("stop_casting", self, "on_Player_stop_casting");
+	$Player.get_node("WaveCaster").connect("start_casting", self, "on_Player_start_casting");
+	$Player.get_node("WaveCaster").connect("stop_casting", self, "on_Player_stop_casting");
 	$Player.connect("dead", self, "_on_Player_dead");
 	
 	SceneChanger.detect_current_level();
@@ -126,7 +126,6 @@ func on_Player_start_casting(trigger):
 	AudioServer.set_bus_effect_enabled ( 1, 0, true )
 
 func on_Player_stop_casting():
-	$Teleport.play();
 	teleport_player = true;
 	darken = false;
 	AudioServer.set_bus_effect_enabled ( 1, 0, false )
