@@ -20,6 +20,19 @@ func _input(event):
 	#elif event.is_action_released("ui_up"):
 	#	get_parent().set_collision_mask_bit(collision_bit, true);
 	#	disabled = false;
+	
+func collisions():
+	var out = [];
+	for raycast in get_children():
+		if raycast.is_colliding():
+			out.append(raycast.get_collider());
+	return out;
+	
+func check():
+	for raycast in get_children():
+		if raycast.is_colliding():
+			return true;
+	return false;
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
