@@ -83,7 +83,7 @@ func _ready():
 	
 func _on_moving_step():
 	if is_on_floor() && !is_on_wall():
-		$animator.play("_walk");
+		$animator.call("_walk");
 		$Trail.emitting = true;
 		
 func _on_direction_changed(move_direction):
@@ -91,7 +91,7 @@ func _on_direction_changed(move_direction):
 	
 func _on_wall_hold(activate):
 	if activate:
-		$animator.play("_hold");
+		$animator.call("_hold");
 		endurance_hold = $Endurance.add_decrease_process(3);
 		$Jumper.enabled = false;
 		reset_ground_endurance();
@@ -104,10 +104,10 @@ func _on_jumped():
 	reset_ground_endurance();
 	$Endurance.decrease(40);
 	$jump_sound.play();
-	$animator.play("_jump");
+	$animator.call("_jump");
 	
 func _on_ledge():
-	$animator.play("_walk");
+	$animator.call("_walk");
 	
 func _on_landed():
 	if endurance_ground != null:
@@ -115,7 +115,7 @@ func _on_landed():
 	else:
 		endurance_ground = $Endurance.add_increase_process(3);
 	$Climber.input_enabled = true;
-	$animator.play("_idle");
+	$animator.call("_idle");
 	
 func reset_ground_endurance():
 	if endurance_ground != null:
@@ -124,7 +124,7 @@ func reset_ground_endurance():
 	
 func _on_falling():
 	reset_ground_endurance()
-	$animator.play("_jump");
+	$animator.call("_jump");
 	
 func _on_start_casting(trigger):
 	$Mover.enabled = false;
@@ -256,10 +256,10 @@ func energy():
 	return $WaveCaster.energy;
 
 # damage
-func take_damage(strength):
+func take_damage(strength, stun = null):
 	change_energy(strength);
-	#velocity.x -= 0.3 * jump_velocity * move_direction;
-	#velocity.y += 0.5 * jump_velocity;
+	if stun:
+		velocity += stun;
 	$animator.call("_damage",true);
 	if energy() > ENERGY_LIMIT:
 		die();

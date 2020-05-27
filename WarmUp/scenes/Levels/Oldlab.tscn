@@ -483,6 +483,7 @@ shape = SubResource( 11 )
 script = ExtResource( 13 )
 
 [node name="InfoScreen" parent="." instance=ExtResource( 14 )]
+modulate = Color( 0.996078, 0.996078, 0.996078, 1 )
 
 [node name="boss" type="Node2D" parent="."]
 position = Vector2( 1793.28, 1126.89 )
