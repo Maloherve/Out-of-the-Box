@@ -1,8 +1,16 @@
 extends Node
 
+# energy 
+export (float) var DEFAULT_ENERGY = 4.0;
+export (float) var MIN_ENERGY = 4.0;
+var energy : float = DEFAULT_ENERGY setget set_energy;
+
 export (int) var samples = 100
 export (Vector2) var scale = Vector2(1,1)
 export (Vector2) var offset = Vector2(0,0)
+
+export (float) var dt_decrease_factor = 0.07;
+var dt_factor = 1.0;
 
 onready var player : KinematicBody2D = get_parent()
 var particle : Node2D = null
@@ -14,6 +22,7 @@ const SCALE_FACTOR = 0.02;
 export (bool) var turned_on = true;
 export (bool) var enabled = true setget set_enabled;
 export (String) var action = "ui_cast";
+export (String) var esc_action = "ui_uncast"
 var cast : bool = false;
 var can_finish_cast = false;
 signal start_casting(trigger);
@@ -24,6 +33,14 @@ const particle_scene = preload("res://scenes/Wave/wave_function.tscn")
 
 # teleport to position
 signal teleport
+	
+func set_energy(value):
+	if value < MIN_ENERGY:
+		energy = MIN_ENERGY;
+		dt_factor = 1.0;
+	else:
+		energy = value;
+		dt_factor = exp(dt_decrease_factor * (MIN_ENERGY - value));
 
 func set_enabled(flag):
 	set_process(flag);
@@ -42,6 +59,9 @@ func _process(_delta):
 	elif Input.is_action_just_released(action):
 			if cast:
 				can_finish_cast = true;
+	
+	if Input.is_action_just_pressed(esc_action) && cast:
+		uncast_wave(false);
 	
 
 func winning_detector_position(system):
@@ -140,7 +160,7 @@ func cast_wave(trigger):
 		# TODO, check if working properly
 		particle.scale = trigger.box.extents / half_width
 	else:
-		var gain = exp(SCALE_FACTOR * (player.energy - player.DEFAULT_ENERGY));
+		var gain = exp(SCALE_FACTOR * (energy - DEFAULT_ENERGY));
 		if gain > 1.4:
 			gain = 1.4; # limit in size reached
 		# scale to the default box (with respect to the cat box)
@@ -165,8 +185,10 @@ func cast_wave(trigger):
 	particle.packet.k0 = direction * PI * 50 / system.width
 	print("[Wave_Generator.gd] k0 = ", particle.packet.k0)
 	
-	# modify hbar as function of the energy
-	system.mass = player.DEFAULT_ENERGY / player.energy;
+	# modify the mass as function of the energy
+	system.mass = DEFAULT_ENERGY / energy;
+	# modify the delta time in order to keep it slow
+	system.dt_gain *= dt_factor;
 	
 	particle.packet.N = samples;
 	player.add_child(particle);

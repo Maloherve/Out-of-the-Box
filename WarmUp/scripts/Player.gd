@@ -28,27 +28,28 @@ var myAudioIdle : AudioStreamPlayer2D;
 # input state
 var locked = false setget set_locked; # disable
 
-# energy 
-const DEFAULT_ENERGY = 4.0;
-const MIN_ENERGY = 4.0;
-const ENERGY_LIMIT = 20.0;
-var energy : float = DEFAULT_ENERGY setget set_energy;
-
 # floor VS air
 signal landed;
 signal falling;
 var ground : bool = false;
 var check_landing : bool = true;
+var endurance_ground = null;
+
+# cast processes
+var endurance_cast = null;
+onready var endurance_cast_reactive : int = floor(3 * $Endurance.maximum / 4);
+
+# wall hold processes
+var endurance_hold = null;
+
+# energy and death
+export (float) var ENERGY_LIMIT = 20.0;
 
 # dead event
 signal dead(reason);
 
 func animate(animation):
 	$animator.call(animation);
-
-func set_energy(value):
-	if value < MIN_ENERGY:
-		value = MIN_ENERGY;
 		
 func _init():
 	connect("landed", self, "_on_landed");
@@ -76,6 +77,9 @@ func _ready():
 	
 	$Endurance.connect("maximum_reached", self, "_on_endurance_max_reached")
 	$Endurance.connect("zero_reached", self, "_on_endurance_over");
+	$Endurance.connect("value_reached", self, "_on_endurance_value_reached")
+	$Endurance.values_to_reach.push_back(endurance_cast_reactive);
+	Endurance_Bar.max_value = $Endurance.maximum;
 	
 func _on_moving_step():
 	if is_on_floor() && !is_on_wall():
@@ -88,29 +92,37 @@ func _on_direction_changed(move_direction):
 func _on_wall_hold(activate):
 	if activate:
 		$animator.play("_hold");
-		$Endurance.automatic_increase = false;
-		$Endurance.automatic_decrease = true;
+		endurance_hold = $Endurance.add_decrease_process(3);
 		$Jumper.enabled = false;
+		reset_ground_endurance();
 		ground = false;
 	else:
 		$Jumper.enabled = true;
-		$Endurance.automatic_decrease = false;
+		$Endurance.rm_decrease_process(endurance_hold);
 	
 func _on_jumped():
+	reset_ground_endurance();
 	$jump_sound.play();
-	$Endurance.automatic_increase = false;
 	$animator.play("_jump");
 	
 func _on_ledge():
 	$animator.play("_walk");
 	
 func _on_landed():
-	$Endurance.automatic_increase = true;
-	$Endurance.automatic_decrease = false;
+	if endurance_ground != null:
+		print("ERROR: duplicate endurance_ground")
+	else:
+		endurance_ground = $Endurance.add_increase_process(3);
 	$Climber.input_enabled = true;
 	$animator.play("_idle");
 	
+func reset_ground_endurance():
+	if endurance_ground != null:
+		$Endurance.rm_increase_process(endurance_ground);
+		endurance_ground = null;
+	
 func _on_falling():
+	reset_ground_endurance()
 	$animator.play("_jump");
 	
 func _on_start_casting(trigger):
@@ -122,7 +134,9 @@ func _on_start_casting(trigger):
 	velocity = Vector2(0,0);
 	_physics_process(false);
 	check_landing = false;
-	$Endurance.automatic_decrease = true;
+	ground = false;
+	endurance_cast = $Endurance.add_decrease_process(2);
+	reset_ground_endurance()
 	$animator.call("_cast");
 	
 func _on_stop_casting(teleported):
@@ -132,15 +146,20 @@ func _on_stop_casting(teleported):
 	$Climber.enabled = true;
 	_physics_process(true);
 	check_landing = true;
-	$Endurance.automatic_decrease = false;
+	$Endurance.rm_decrease_process(endurance_cast);
 	$animator.call("_endcast");
 	
 func _on_endurance_max_reached():
-	$WaveCaster.enabled = true;
+	pass
+	#$WaveCaster.enabled = true;
 	
 func _on_endurance_over():
 	$Climber.stop_input();
 	$WaveCaster.enabled = false;
+	
+func _on_endurance_value_reached(value, raising):
+	if value == endurance_cast_reactive && raising:
+		$WaveCaster.enabled = true;
 	
 func set_locked(flag):
 	$Mover.set_from_input(!flag);
@@ -173,8 +192,10 @@ func land():
 
 func _on_Node_teleport(delta):
 	if $Climber.holding:
-		delta -= Vector2($Mover.look * 8,0)
+		delta.x -= $Mover.look * 8;
 	$teleport_sound.play();
+	if $Bottom_Raycasts.check():
+		delta.y -= 10;
 	position += delta
 	
 func has_endurance():
@@ -223,15 +244,23 @@ func _on_AnimatedSprite_animation_finished():
 			$Trail.emitting = false;
 		#"_endcast":
 		#	pstate = PSTATE.endcast;
+
+func set_energy(value):
+	$WaveCaster.energy = value;
+
+func change_energy(delta):
+	set_energy($WaveCaster.energy + delta);
 	
+func energy():
+	return $WaveCaster.energy;
 
 # damage
 func take_damage(strength):
-	energy += strength;
+	change_energy(strength);
 	#velocity.x -= 0.3 * jump_velocity * move_direction;
 	#velocity.y += 0.5 * jump_velocity;
 	$animator.call("_damage",true);
-	if energy > ENERGY_LIMIT:
+	if energy() > ENERGY_LIMIT:
 		die();
 	
 # death
