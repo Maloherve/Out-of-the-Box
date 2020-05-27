@@ -30,6 +30,8 @@ func set_move(value):
 	move_direction = value;
 	
 func set_from_input(flag):
+	if !flag:
+		move_direction = 0;
 	set_process(flag);
 	from_input = flag;
 	

@@ -102,6 +102,7 @@ func _on_wall_hold(activate):
 	
 func _on_jumped():
 	reset_ground_endurance();
+	$Endurance.decrease(40);
 	$jump_sound.play();
 	$animator.play("_jump");
 	
@@ -128,7 +129,7 @@ func _on_falling():
 func _on_start_casting(trigger):
 	$Mover.enabled = false;
 	$Gravity.enabled = false;
-	$Jumper.enabled = false;
+	$Jumper.turned_on = false;
 	$Climber.hold(false);
 	$Climber.enabled = false;
 	velocity = Vector2(0,0);
@@ -141,7 +142,7 @@ func _on_start_casting(trigger):
 	
 func _on_stop_casting(teleported):
 	$Mover.enabled = true;
-	$Jumper.enabled = true;
+	$Jumper.turned_on = true;
 	$Gravity.enabled = true;
 	$Climber.enabled = true;
 	_physics_process(true);
@@ -163,7 +164,7 @@ func _on_endurance_value_reached(value, raising):
 	
 func set_locked(flag):
 	$Mover.set_from_input(!flag);
-	$Jumper.enabled = !flag;
+	$Jumper.turned_on = !flag;
 	$WaveCaster.turned_on = !flag;
 	locked = flag;
 

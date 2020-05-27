@@ -6,6 +6,7 @@ var jump_count : int = 0;
 
 onready var player = get_parent();
 
+export (bool) var turned_on = true;
 export (bool) var enabled = true setget set_enabled;
 export (bool) var oneshot = false;
 export (int) var hold_ticks = 12;
@@ -25,10 +26,11 @@ func _on_Player_landed():
 	break_jump(true);
 
 func jump():
-	jump_one_shot();
-	if !oneshot:
-		set_physics_process(true);
-	set_enabled(false);
+	if turned_on:
+		jump_one_shot();
+		if !oneshot:
+			set_physics_process(true);
+		set_enabled(false);
 	
 func jump_one_shot():
 	player.velocity.y += jump_velocity;

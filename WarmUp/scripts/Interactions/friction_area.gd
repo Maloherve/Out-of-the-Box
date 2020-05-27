@@ -12,7 +12,7 @@ export (int) var endurance_decrease = 40;
 func _on_body_entered(body):
 	if body.get("TYPE") == "PLAYER":
 		bodies.append(body);
-		endurance_fall.append(body.get_node("Endurance").add_increase_process(1));
+		endurance_fall.append(body.get_node("Endurance").add_increase_process(1.5));
 		if !is_physics_processing():
 			set_physics_process(true);
 	elif body is RigidBody2D:
@@ -44,7 +44,7 @@ func _process(_delta):
 			if body.has_endurance():
 				body.land();
 				body.get_node("Jumper").jump_one_shot();
-				body.get_node("Endurance").decrease(endurance_decrease);
+				#body.get_node("Endurance").decrease(endurance_decrease);
 				if !body.has_endurance():
 					body.get_node("Endurance").rm_increase_process(endurance_fall[index]);
 					endurance_fall[index] = null;

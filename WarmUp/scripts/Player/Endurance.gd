@@ -1,10 +1,10 @@
 extends Node
 
-export (int) var maximum = 200;
+export (float) var maximum = 200;
 #export (int) var increase_speed = 1;
 #export (int) var decrease_speed = 1;
 
-var endurance : int = maximum;
+var endurance : float = maximum;
 
 # string -> int
 var increase_processes : Dictionary = {};
@@ -32,7 +32,7 @@ func decrease(value):
 	if endurance > 0:
 		for val in values_to_reach:
 			if (endurance - value) <= val && endurance > val:
-				emit_signal("value_reached", val, false);
+				emit_signal("value_reached", int(val), false);
 		endurance -= value;
 		if endurance <= 0:
 			endurance=0;
@@ -42,7 +42,7 @@ func increase(value):
 	if endurance < maximum:
 		for val in values_to_reach:
 			if (endurance + value) >= val && endurance < val:
-				emit_signal("value_reached", val, true);
+				emit_signal("value_reached", int(val), true);
 		endurance += value;
 		if endurance >= maximum:
 			reset();

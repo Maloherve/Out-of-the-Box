@@ -10,6 +10,7 @@ font_data = ExtResource( 2 )
 
 [node name="InfoScreen" type="HBoxContainer"]
 visible = false
+modulate = Color( 0.14902, 0.117647, 0.117647, 1 )
 margin_left = 387.711
 margin_top = -433.965
 margin_right = 526.711

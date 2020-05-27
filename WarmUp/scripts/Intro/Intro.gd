@@ -68,8 +68,7 @@ func _enter_tree():
 	if activate_camera: camera.current = true;
 	$Player.add_child(camera)
 	
-	Player.visible = false
-	Player.check_landing = false;
+	Player.visible = false;
 	Player.set_locked(true);
 	
 	
