@@ -79,7 +79,7 @@ func _ready():
 	$Endurance.connect("zero_reached", self, "_on_endurance_over");
 	$Endurance.connect("value_reached", self, "_on_endurance_value_reached")
 	$Endurance.values_to_reach.push_back(endurance_cast_reactive);
-	Endurance_Bar.max_value = $Endurance.maximum;
+	Endurance_Bar.max_value = $Endurance.endurance;
 	
 func _on_moving_step():
 	if is_on_floor() && !is_on_wall():
@@ -133,7 +133,7 @@ func _on_start_casting(trigger):
 	$Climber.hold(false);
 	$Climber.enabled = false;
 	velocity = Vector2(0,0);
-	_physics_process(false);
+	set_physics_process(false);
 	check_landing = false;
 	ground = false;
 	endurance_cast = $Endurance.add_decrease_process(2);
@@ -145,7 +145,7 @@ func _on_stop_casting(teleported):
 	$Jumper.turned_on = true;
 	$Gravity.enabled = true;
 	$Climber.enabled = true;
-	_physics_process(true);
+	set_physics_process(true);
 	check_landing = true;
 	$Endurance.rm_decrease_process(endurance_cast);
 	$animator.call("_endcast");
