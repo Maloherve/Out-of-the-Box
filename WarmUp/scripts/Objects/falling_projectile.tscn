@@ -1,0 +1,30 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://bin/curve_field.gdns" type="Script" id=1]
+[ext_resource path="res://scripts/Objects/falling_projectile.gd" type="Script" id=3]
+
+[sub_resource type="PhysicsMaterial" id=3]
+bounce = 0.2
+absorbent = true
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 14.1475, 28.8404 )
+
+[sub_resource type="Curve" id=2]
+max_value = 4.5
+_data = [ Vector2( 0, 0 ), 0.0, 0.0, 0, 0, Vector2( 0.491071, 4.5 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), 0.0, 0.0, 0, 0 ]
+
+[node name="falling_projectile" type="RigidBody2D"]
+collision_layer = 0
+collision_mask = 2
+physics_material_override = SubResource( 3 )
+script = ExtResource( 3 )
+
+[node name="collider" type="CollisionShape2D" parent="."]
+position = Vector2( 1808, 610 )
+shape = SubResource( 1 )
+
+[node name="potential" type="Node2D" parent="."]
+scale = Vector2( 14, 1 )
+script = ExtResource( 1 )
+V_x = SubResource( 2 )
