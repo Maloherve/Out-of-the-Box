@@ -126,6 +126,8 @@ namespace qsim::math {
     };
 }
 
+namespace qsim::math {
+
 /*
  * double and complex addiction (specialization)
  */
@@ -177,6 +179,8 @@ template<typename T, class ...Obj, class Another, typename = typename std::enabl
 qsim::math::composition<T, Obj..., Another> operator+(qsim::math::composition<T, Obj...>&& input, Another&& addon) {
     // expand to tuple and push the new element
     return qsim::math::composition<T, Obj..., Another>(input.identity, (std::get<Obj>(input.components), ...), addon);
+}
+
 }
 
 /*

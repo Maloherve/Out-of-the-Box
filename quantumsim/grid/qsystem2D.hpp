@@ -1,12 +1,13 @@
 #pragma once
 
 #include "fwd.hpp"
-#include "qsystem.hpp"
-#include "math/composition.hpp"
+
 #include "math/diagonals.hpp"
 #include "math/diagonal.hpp"
-
 #include "math/matrix.hpp"
+
+#include "qsystem.hpp"
+#include "math/composition.hpp"
 
 namespace qsim::grid {
 

@@ -73,27 +73,28 @@ wave_t wave_vector::at(int i) const {
                 0 : std::vector<wave_t>::operator[](static_cast<size_t>(i));
 }
 
-wave_vector operator+(wave_vector w, const wave_vector& other) {
+// namespace grid
+wave_vector qsim::grid::operator+(wave_vector w, const wave_vector& other) {
     return w += other;
 }
 
-wave_vector operator-(wave_vector w, const wave_vector& other) {
+wave_vector qsim::grid::operator-(wave_vector w, const wave_vector& other) {
     return w -= other;
 }
 
-wave_vector operator*(wave_vector w, const wave_t& z) {
+wave_vector qsim::grid::operator*(wave_vector w, const wave_t& z) {
     return w *= z;
 }
 
-wave_vector operator/(wave_vector w, const wave_t& z) {
+wave_vector qsim::grid::operator/(wave_vector w, const wave_t& z) {
     return w /= z;
 }
 
-wave_vector operator*(const wave_t& z, wave_vector w) {
+wave_vector qsim::grid::operator*(const wave_t& z, wave_vector w) {
     return w *= z;
 }
 
-wave_vector operator/(const wave_t& z, wave_vector w) {
+wave_vector qsim::grid::operator/(const wave_t& z, wave_vector w) {
     return w /= z;
 }
 
@@ -119,7 +120,7 @@ qsim::grid::wave_vector std::conj(qsim::grid::wave_vector v) {
     return v;
 }
 
-qsim::grid::wave_t operator*(qsim::grid::wave_vector x, const qsim::grid::wave_vector& y) {
+qsim::grid::wave_t qsim::grid::operator*(qsim::grid::wave_vector x, const qsim::grid::wave_vector& y) {
     
     wave_t result(0);
 

@@ -1,10 +1,11 @@
 #include "crank_nicholson.hpp"
 
+#include "debug.hpp"
+
+#include "math/matrix.hpp"
 #include "grid/qsystem1D.hpp"
 #include "grid/qsystem2D.hpp"
 #include "math/composition.hpp"
-
-#include "debug.hpp"
 
 using namespace qsim::grid;
 using namespace qsim::evo;

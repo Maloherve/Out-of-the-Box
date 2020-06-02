@@ -1,3 +1,4 @@
+#include <complex>
 
 namespace qsim::math {
 
@@ -413,7 +414,7 @@ square_matrix<T> square_matrix<T>::eye(size_t N) {
  */ 
 
 
-template <class R, typename T, typename = typename std::enable_if<std::is_base_of<basic_matrix<T>, R>::value>::type >
+template <class R, typename T, typename>
 R convert(R A, const std::function<T (const T&)>& operation) {
     //npdebug("Converting matrix of size: ", A.rows_nb(), ", ", A.cols_nb())
     for (size_t i = 0; i < A.rows_nb(); ++i) {
@@ -646,6 +647,8 @@ namespace std {
  * External operator overloading
  */
 
+namespace qsim::math {
+
 /*
  * Operator+
  */ 
@@ -786,5 +789,5 @@ const qsim::math::column_vector<T> operator/(qsim::math::column_vector<T> A, con
     return A /= scalar;
 }
 
-
+}
 

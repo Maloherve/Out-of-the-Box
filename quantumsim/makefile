@@ -4,7 +4,7 @@
 NAME := quantumsim
 BUILD:= build
 BIN := $(BUILD)/$(NAME).a
-CC := g++
+CC := clang++
 STDCPP := -std=c++17
 FLAGS:= -fPIC
 #FLAGS += -O2 

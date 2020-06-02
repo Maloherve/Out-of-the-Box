@@ -76,7 +76,10 @@ namespace qsim::grid {
     };
 }
 
-qsim::grid::wave_vector operator+(qsim::grid::wave_vector, const qsim::grid::wave_vector&);
+namespace qsim::grid {
+
+wave_vector operator+(qsim::grid::wave_vector, const qsim::grid::wave_vector&);
+
 qsim::grid::wave_vector operator-(qsim::grid::wave_vector, const qsim::grid::wave_vector&);
 
 qsim::grid::wave_vector operator*(qsim::grid::wave_vector, const qsim::grid::wave_t&);
@@ -85,6 +88,8 @@ qsim::grid::wave_vector operator*(const qsim::grid::wave_t&, qsim::grid::wave_ve
 qsim::grid::wave_vector operator/(const qsim::grid::wave_t&, qsim::grid::wave_vector);
 
 qsim::grid::wave_t operator*(qsim::grid::wave_vector, const qsim::grid::wave_vector&);
+
+}
 
 std::ostream& operator<<(std::ostream&, const qsim::grid::wave_vector&);
 

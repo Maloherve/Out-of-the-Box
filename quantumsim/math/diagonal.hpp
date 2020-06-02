@@ -66,6 +66,7 @@ namespace qsim::math {
 /*
  * Scalar multiplication
  */
+namespace qsim::math {
 
 template<typename T>
 const qsim::math::diag_functor<T> operator*(qsim::math::diag_functor<T> A, const T& g) {
@@ -97,4 +98,6 @@ const V operator*(const qsim::math::diagonal<T>& mat, V v) {
         v[k] *= mat[k];
 
     return v;
+}
+
 }

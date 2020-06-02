@@ -587,6 +587,9 @@ namespace qsim::math {
     Vector solve(const Matrix& A, Vector b);
 }
 
+
+namespace qsim::math {
+
 /*
  * Operator+
  */ 
@@ -677,6 +680,8 @@ const qsim::math::table_row<T> operator/(qsim::math::table_row<T>, const T&);
 
 template<typename T>
 const qsim::math::column_vector<T> operator/(qsim::math::column_vector<T>, const T&);
+
+}
 
 // implementation
 #include "matrix_template.hpp"

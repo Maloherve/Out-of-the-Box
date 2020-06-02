@@ -227,6 +227,8 @@ namespace qsim::math {
 /*
  * By scalar multiplication
  */
+namespace qsim::math {
+
 template <typename T, size_t D>
 const qsim::math::diagonals<T,D> operator*(qsim::math::diagonals<T,D> A, const T& a) {
     return A *= a;
@@ -254,4 +256,6 @@ const V operator*(const qsim::math::diagonals<T,D>& mat, const V& v) {
     }
     
     return out;
+}
+
 }
