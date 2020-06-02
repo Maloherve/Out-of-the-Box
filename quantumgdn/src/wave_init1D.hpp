@@ -13,14 +13,15 @@ namespace godot {
     class wave_init1D : public qsim::grid::qsystem1D::init_pack, public Resource {
         GODOT_CLASS(wave_init1D, Resource)
     public:
-        wave_init1D(size_t N = 0);
+        wave_init1D(int N = 0);
         virtual ~wave_init1D() = default;
 
         // default is the null function
         virtual qsim::wave_t psi(double x) const {
             return 0;
         }
-
+        void set_N(int N);
+        int get_N() const;
         void _init();
 
         static void _register_methods();
@@ -37,7 +38,7 @@ namespace godot {
             double sigma;
 
     public:
-        gauss_init1D(size_t N = 0,
+        gauss_init1D(int N = 0,
                      double k0 = 0.0, // space frequency
                      double r0 = 0.0, // peak position
                      double sigma = 1.0); // uncertainty
@@ -49,7 +50,7 @@ namespace godot {
         void set_sigma(double);
         double get_sigma() const;
 
-        static gauss_init1D * _new(size_t N, 
+        static gauss_init1D * _new(int N, 
                                    double k0, 
                                    double r0, 
                                    double sigma);

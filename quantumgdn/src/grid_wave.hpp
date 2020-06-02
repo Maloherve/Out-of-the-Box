@@ -43,7 +43,7 @@ namespace godot {
         double real(int) const;
         double imag(int) const;
         double prob(int) const; // square modulus
-        size_t N() const;
+        int N() const;
         
         // access to members
         void _set(int, Vector2);
