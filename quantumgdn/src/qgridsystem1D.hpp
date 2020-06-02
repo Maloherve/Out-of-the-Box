@@ -72,7 +72,7 @@ namespace godot {
          */
 
         double potential_at(double x) const;
-        double potential_at_index(size_t k) const;
+        double potential_at_index(int k) const;
 
         /*
          * Delta time amplification

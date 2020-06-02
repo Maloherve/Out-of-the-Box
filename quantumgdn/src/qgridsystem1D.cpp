@@ -108,8 +108,13 @@ double qgridsystem1D::potential_at(double x) const {
     return potential()->at(Vector2(x,0));
 }
 
-double qgridsystem1D::potential_at_index(size_t k) const {
-    return (*potential())(k);
+double qgridsystem1D::potential_at_index(int k) const {
+    if (k < 0){
+        return 0;
+    }
+    else{
+        return (*potential())(k);
+    }
 }
 
 int qgridsystem1D::N() const {

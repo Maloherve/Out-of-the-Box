@@ -1,10 +1,10 @@
-LIB := quantumgdn/quantum_al/bin/x11/libqsim.so
+LIB := quantumgdn/quantum_al/bin/osx/libqsim.so
 BINDINGS := quantumgdn/godot-cpp/bin/libgodot-cpp.linux.release.64.a
 API := quantumgdn/api.json
 GODOT_CPP := quantumgdn/godot-cpp
 QSIM := quantumsim/bin/quantumsim.a
 
-INSTALL_DIR := WarmUp/bin/x11
+INSTALL_DIR := WarmUp/bin/osx
 
 BIND_THREADS := 4
 
@@ -30,12 +30,12 @@ $(API): $(GODOT_CPP)/SConstruct
 
 $(BINDINGS): $(API)
 	cd $(GODOT_CPP) && \
-	scons platform=linux generate_bindings=yes -j$(BIND_THREADS)  target=release use_custom_api_file=yes custom_api_file=../api.json bits=64 && \
+	scons platform=osx generate_bindings=yes -j$(BIND_THREADS)  target=release use_custom_api_file=yes custom_api_file=../api.json bits=64 && \
 	cd ../..
 
-$(LIB): $(QSIM) $(BINDINGS)
+$(LIB): $(BINDINGS)
 	cd quantumgdn && \
-	scons platform=x11 target=release bits=64 && \
+	scons platform=osx target=release bits=64 && \
 	cd ..
 
 install:

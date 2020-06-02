@@ -10,6 +10,7 @@ env = DefaultEnvironment()
 proj_dir = 'quantum_al'
 proj_src = '../quantumsim'
 proj_lib = 'libqsim'
+macos = False
 
 
 # Define our options
@@ -54,14 +55,16 @@ if env['platform'] == '':
 
 # Check our platform specifics
 if env['platform'] == "osx":
+    macos = True
     env['target_path'] += 'osx/'
     cpp_library += '.osx'
     if env['target'] in ('debug', 'd'):
         env.Append(CCFLAGS=['-g', '-O2', '-arch', 'x86_64'])
         env.Append(LINKFLAGS=['-arch', 'x86_64'])
     else:
-        env.Append(CCFLAGS=['-g', '-O3', '-arch', 'x86_64'])
+        env.Append(CCFLAGS=['-g', '-O3', '-arch', 'x86_64', '-D', 'NDEBUG'])
         env.Append(LINKFLAGS=['-arch', 'x86_64'])
+        env.Append(CXXFLAGS=['-std=c++17'])
 
 elif env['platform'] in ('x11', 'linux'):
     print("Building with linux!!")
@@ -103,7 +106,9 @@ proj_libdir = proj_src + '/build'
 cpp_library += '.' + str(bits)
 
 # allows static linking for building shared lib
-env['STATIC_AND_SHARED_OBJECTS_ARE_THE_SAME']=1
+if not macos:
+    env['STATIC_AND_SHARED_OBJECTS_ARE_THE_SAME']=1
+
 
 # make sure our binding library is properly includes
 env.Append(CPPPATH=['.', godot_headers_path, cpp_bindings_path + 'include/', cpp_bindings_path + 'include/core/', cpp_bindings_path + 'include/gen/', '../', proj_src])
@@ -114,7 +119,12 @@ env.Append(LIBS=[cpp_library])
 env.Append(CPPPATH=['src/'])
 sources = Glob('src/*.cpp')
 print(proj_libdir + '/' + qsim_library)
-sources.append(proj_libdir + '/' + qsim_library)
+if macos:
+    sources += Glob('../quantumsim/evolvers/*.cpp')
+    sources += Glob('../quantumsim/grid/*.cpp')
+   
+else:
+    sources.append(proj_libdir + '/' + qsim_library)
 
 library = env.SharedLibrary(target=env['target_path'] + env['target_name'] , source=sources)
 

@@ -2,10 +2,7 @@
 
 #include <cstddef>
 
-namespace std {
-    template<typename T>
-    class complex;
-}
+#include <complex>
 
 namespace qsim {
 

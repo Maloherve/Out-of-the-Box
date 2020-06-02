@@ -21,7 +21,7 @@ double grid_wave1D::prob(int m) const {
     return std::norm((*const_wave())[m]);
 }
 
-size_t grid_wave1D::N() const {
+int grid_wave1D::N() const {
     return const_wave()->size();
 }
 

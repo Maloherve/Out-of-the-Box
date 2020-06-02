@@ -5,22 +5,31 @@ using namespace qsim::grid;
 
 using namespace std::placeholders;
 
-wave_init1D::wave_init1D(size_t N)
-    : qsystem1D::init_pack(std::bind(&wave_init1D::psi, this, _1), N) {}
+wave_init1D::wave_init1D(int N)
+    : qsystem1D::init_pack(std::bind(&wave_init1D::psi, this, _1), size_t(N)) {}
 
 void wave_init1D::_init() {
     N = 0;
 }
 
+void wave_init1D::set_N(int N) {
+    if (N >= 0)
+        this->N = N;
+}
+
+int wave_init1D::get_N() const {
+    return static_cast<int>(N);
+}
+
 void wave_init1D::_register_methods() {
-    register_property<wave_init1D, size_t>("N", &wave_init1D::N, 0);
+    register_property<wave_init1D, int>("N", &wave_init1D::set_N, &wave_init1D::get_N, 0);
 }
 
 /*
  * Gauss init
  */
 
-gauss_init1D::gauss_init1D(size_t _N,
+gauss_init1D::gauss_init1D(int _N,
                            double _k0, double _r0,
                            double _sigma)
     : wave_init1D(_N), k0(_k0), r0(_r0), sigma(_sigma)
@@ -28,7 +37,7 @@ gauss_init1D::gauss_init1D(size_t _N,
 }
 
 
-gauss_init1D* gauss_init1D::_new(size_t N, 
+gauss_init1D* gauss_init1D::_new(int N, 
                                  double k0, 
                                  double r0, 
                                  double sigma) {
