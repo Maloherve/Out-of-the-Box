@@ -1,4 +1,4 @@
-[gd_scene load_steps=73 format=2]
+[gd_scene load_steps=72 format=2]
 
 [ext_resource path="res://scripts/Main.gd" type="Script" id=1]
 [ext_resource path="res://assets/Tilesets/platforms.tres" type="TileSet" id=2]
@@ -15,7 +15,6 @@
 [ext_resource path="res://scripts/Fonction_Onde.gd" type="Script" id=13]
 [ext_resource path="res://scenes/InfoScreen.tscn" type="PackedScene" id=14]
 [ext_resource path="res://assets/Environment/effects/water.jpg" type="Texture" id=15]
-[ext_resource path="res://scripts/Objects/spawner.gd" type="Script" id=16]
 [ext_resource path="res://scenes/Objects/Light.tscn" type="PackedScene" id=17]
 [ext_resource path="res://assets/Materials/melma.tres" type="Material" id=18]
 [ext_resource path="res://scripts/Oldlab/boss.gd" type="Script" id=19]
@@ -485,7 +484,7 @@ shift = 1.0
 [node name="box_cannons" type="Node2D" parent="World/Zone1"]
 
 [node name="spawner" type="Node2D" parent="World/Zone1/box_cannons"]
-script = ExtResource( 16 )
+position = Vector2( 443, 691 )
 
 [node name="Fonction_Onde" type="Node2D" parent="."]
 script = ExtResource( 13 )

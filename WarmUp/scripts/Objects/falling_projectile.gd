@@ -3,13 +3,17 @@ extends 'res://scripts/Interactions/projectile.gd'
 export (float) var potential_scale = 14 setget set_potential_scale;
 
 var falling : bool = false setget set_falling;
-
-signal self_cancelled(this);
+var auto_erase : bool = false setget set_auto_erase;
+var life_time : float = 0.0;
 
 func set_potential_scale(value):
 	if get_node("potential") != null:
 		$potential.scale.x = value;
 	potential_scale = value;
+	
+func set_auto_erase(flag):
+	var timer = get_tree().create_timer(life_time);
+	# TODO
 
 # Called when the node enters the scene tree for the first time.
 func _ready():

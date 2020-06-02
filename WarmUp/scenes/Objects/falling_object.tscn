@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://scripts/Objects/falling_projectile.gd" type="Script" id=1]
+[ext_resource path="res://assets/Environment/spike.png" type="Texture" id=2]
+
+[sub_resource type="RectangleShape2D" id=1]
+
+[node name="falling_object" type="RigidBody2D"]
+script = ExtResource( 1 )
+damage = 1.0
+
+[node name="collider" type="CollisionShape2D" parent="."]
+shape = SubResource( 1 )
+
+[node name="Sprite" type="Sprite" parent="."]
+position = Vector2( 0, -3 )
+scale = Vector2( 1, -1 )
+texture = ExtResource( 2 )

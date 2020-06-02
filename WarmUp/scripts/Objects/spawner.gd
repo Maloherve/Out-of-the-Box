@@ -15,9 +15,4 @@ func _ready():
 	
 func _on_timer_timeout():
 	var newobj = scene.new();
-	if newobj.has_user_signal("self_cancelled"):
-		newobj.connect("self_cancelled", self, "_on_child_self_cancelled");
 	add_child(newobj);
-
-func _on_object_self_cancelled(target):
-	remove_child(target);
