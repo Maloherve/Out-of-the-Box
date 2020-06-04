@@ -33,7 +33,10 @@ func jump():
 		set_enabled(false);
 	
 func jump_one_shot():
-	player.velocity.y += jump_velocity;
+	if player.is_running():
+		player.velocity += 5 * jump_velocity * Vector2(0,1).rotated(player.look_direction() * deg2rad(85));
+	else:
+		player.velocity.y += jump_velocity;
 	emit_signal("jumped");
 	
 func jump_one_shot_of(value):

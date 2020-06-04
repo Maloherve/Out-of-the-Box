@@ -81,10 +81,12 @@ func _ready():
 	$Endurance.values_to_reach.push_back(endurance_cast_reactive);
 	Endurance_Bar.max_value = $Endurance.endurance;
 	
-func _on_moving_step():
+func _on_moving_step(running):
 	if is_on_floor() && !is_on_wall():
 		$animator.call("_walk");
 		$Trail.emitting = true;
+		if running:
+			$Endurance.decrease(4);
 		
 func _on_direction_changed(move_direction):
 	flip(move_direction > 0);
@@ -157,11 +159,13 @@ func _on_endurance_max_reached():
 	
 func _on_endurance_over():
 	$Climber.stop_input();
+	$Mover.can_run = false;
 	$WaveCaster.enabled = false;
 	
 func _on_endurance_value_reached(value, raising):
 	if value == endurance_cast_reactive && raising:
 		$WaveCaster.enabled = true;
+		$Mover.can_run = true;
 	
 func set_locked(flag):
 	$Mover.set_from_input(!flag);
@@ -232,6 +236,9 @@ func front_collisions():
 	
 func is_on_ledge():
 	return $Side_Raycasts.is_on_ledge();
+	
+func is_running():
+	return $Mover.running;
 
 # See if the character next to a wall
 func check_wall():
