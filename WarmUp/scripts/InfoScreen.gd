@@ -3,7 +3,7 @@ extends HBoxContainer
 # This node will give information on the state of the game : FPS, position, velocity ....
 
 # Nodes
-onready var Fonction_Onde = get_tree().get_root().get_node("Level").get_node("Fonction_Onde");
+#onready var Fonction_Onde = get_tree().get_root().get_node("Level").get_node("Fonction_Onde");
 #onready var Player = get_tree().get_root().get_node("Level/Player");
 onready var World_Info_Label = $LeftInfo/World_Info_Label;
 onready var Player_Info_Label = $RightInfo/Player_Info_Label;

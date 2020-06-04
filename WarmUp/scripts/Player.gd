@@ -124,6 +124,7 @@ func reset_ground_endurance():
 	
 func _on_falling():
 	reset_ground_endurance()
+	$Jumper.enabled = false;
 	$animator.call("_jump");
 	
 func _on_start_casting(trigger):

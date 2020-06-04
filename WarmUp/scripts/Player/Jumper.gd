@@ -36,6 +36,10 @@ func jump_one_shot():
 	player.velocity.y += jump_velocity;
 	emit_signal("jumped");
 	
+func jump_one_shot_of(value):
+	player.velocity.y -= value;
+	emit_signal("jumped");
+	
 func break_jump(enable = false):
 	emit_signal("end_jump");
 	set_physics_process(false);
