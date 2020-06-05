@@ -662,9 +662,8 @@ flicker_delay = 0.05
 shape = SubResource( 21 )
 
 [node name="Victory" parent="World/Interactions" instance=ExtResource( 10 )]
-position = Vector2( 1230.45, 484.891 )
+position = Vector2( 1230.45, 496 )
 target_level = "floating_platforms"
-checkpoint = -1
 area = SubResource( 21 )
 
 [node name="Block_TP" type="Area2D" parent="World/Interactions"]
