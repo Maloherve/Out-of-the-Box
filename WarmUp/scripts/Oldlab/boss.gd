@@ -86,16 +86,21 @@ func intro():
 	#$firesound.playing = true;
 	#$melma.fade_in_out(5.0, 2.0); # enter and exit for 5 sec, with a delay of 1 sec
 	
+signal starting;
+signal ending;
 
 func start():
-	$bossdoor.open = false;
 	intro();
 	connect_safezones();
 	$timer.connect("timeout", self, "_on_Timer_timeout");
 	set_process(true);
+	emit_signal("starting");
 	
 func stop():
+	$timer.stop();
 	$timer.disconnect("timeout", self, "_on_Timer_timeout");
 	disconnect_safezones();
-	player.release_damage_layer(MELMA_COLLISION_BIT);
+	#player.release_damage_layer(MELMA_COLLISION_BIT);
 	set_process(false);
+	set_process(false);
+	emit_signal("ending");
