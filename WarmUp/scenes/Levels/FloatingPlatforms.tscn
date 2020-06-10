@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://scripts/Main.gd" type="Script" id=1]
 [ext_resource path="res://assets/Background/SkyLine.png" type="Texture" id=2]
@@ -8,6 +8,7 @@
 [ext_resource path="res://scenes/Objects/Victory.tscn" type="PackedScene" id=6]
 [ext_resource path="res://assets/Tilesets/platforms.tres" type="TileSet" id=7]
 [ext_resource path="res://scripts/Interactions/death_area.gd" type="Script" id=8]
+[ext_resource path="res://scenes/EnergyBar.tscn" type="PackedScene" id=9]
 [ext_resource path="res://scenes/InfoScreen.tscn" type="PackedScene" id=14]
 [ext_resource path="res://assets/Sounds/BoxBassArp.ogg" type="AudioStream" id=15]
 [ext_resource path="res://assets/Sounds/electronic_accent_03.wav" type="AudioStream" id=16]
@@ -225,3 +226,11 @@ bus = "Filter"
 
 [node name="Teleport" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 16 )
+
+[node name="PlayerInterface" type="CanvasLayer" parent="."]
+
+[node name="EnergyBar" parent="PlayerInterface" instance=ExtResource( 9 )]
+margin_left = 80.0
+margin_top = 40.0
+margin_right = 287.648
+margin_bottom = 98.6

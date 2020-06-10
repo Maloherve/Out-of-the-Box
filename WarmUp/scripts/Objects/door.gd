@@ -67,6 +67,10 @@ func set_open(flag):
 
 func _ready():
 	is_ready = true;
+	$potential.V_x = Curve.new();
+	$potential.V_x.add_point(Vector2(0,0));
+	$potential.V_x.add_point(Vector2(0.5,0));
+	$potential.V_x.add_point(Vector2(1,0));
 	set_open(open);
 	set_V(V);
 	set_frames(frames);
