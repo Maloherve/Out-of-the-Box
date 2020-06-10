@@ -1,0 +1,72 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://assets/Shaders/EnergyBar.shader" type="Shader" id=1]
+[ext_resource path="res://assets/Environment/effects/water.jpg" type="Texture" id=3]
+[ext_resource path="res://assets/Elements/termometer.png" type="Texture" id=4]
+[ext_resource path="res://assets/Fonts/VCR_OSD_MONO_1.001.ttf" type="DynamicFontData" id=5]
+[ext_resource path="res://scripts/Player/EnergyBar.gd" type="Script" id=6]
+
+[sub_resource type="ShaderMaterial" id=2]
+shader = ExtResource( 1 )
+shader_param/tiled_factor = Vector2( 1, 0.5 )
+shader_param/aspect_ratio = 1.0
+shader_param/modulation = 0.2
+shader_param/mod_max = Plane( 5, 0.4, 0.1, 1 )
+shader_param/mod_min = Plane( 1, 1, 1, 1 )
+shader_param/lumin = 5.0
+shader_param/lumin_T = 5.0
+
+[sub_resource type="DynamicFont" id=1]
+size = 46
+outline_size = 1
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 5 )
+
+[node name="EnergyBar" type="HBoxContainer"]
+anchor_right = 0.473
+anchor_bottom = 0.229
+margin_left = 500.0
+margin_top = 500.0
+margin_right = 707.648
+margin_bottom = 558.6
+rect_scale = Vector2( 0.7, 0.7 )
+script = ExtResource( 6 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+energy = 4.0
+
+[node name="termometer" type="TextureRect" parent="."]
+margin_right = 688.0
+margin_bottom = 196.0
+texture = ExtResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="bar" type="TextureProgress" parent="termometer"]
+material = SubResource( 2 )
+margin_left = 98.0
+margin_top = 63.0
+margin_right = 354.0
+margin_bottom = 319.0
+rect_scale = Vector2( 2.1, 0.17 )
+max_value = 20.0
+step = 0.5
+value = 4.0
+texture_progress = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Value" type="Label" parent="termometer"]
+margin_left = 30.0
+margin_top = 60.0
+margin_right = 84.0
+margin_bottom = 107.0
+custom_fonts/font = SubResource( 1 )
+custom_colors/font_color = Color( 0.992157, 0.992157, 0.992157, 1 )
+text = "4"
+__meta__ = {
+"_edit_use_anchors_": false
+}

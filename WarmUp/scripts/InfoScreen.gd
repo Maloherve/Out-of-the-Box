@@ -19,14 +19,16 @@ func _process(delta):
 #	Set position to the top the visible space (camera)	
 	rect_position[0] = round(Player.position[0] - Player.get_node("Camera2D").zoom[0] * get_tree().get_root().size[0] /2)
 	rect_position[1] = round(Player.position[1] - Player.get_node("Camera2D").zoom[1] * get_tree().get_root().size[1] /2)
+	update_info(delta)
 	pass
 
 
 # Execute Regularly
-func _physics_process(delta):
+func update_info(delta):
 #	Print out the text
 #	World
-	World_Info_Label.text = "FPS : " + str(1/delta) + "\n";
+	if delta > 0:
+		World_Info_Label.text = "FPS : " + str(1/delta) + "\n";
 #	Player
 	Player_Info_Label.text = "Position = " + str(Vector2(round(Player.position[0]), round(Player.position[1]))) + "\n";
 	Player_Info_Label.text += "Velocity = " + str(Vector2(round(Player.velocity[0]), round(Player.velocity[1]))) + "\n";

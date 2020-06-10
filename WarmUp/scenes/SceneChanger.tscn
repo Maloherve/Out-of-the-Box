@@ -99,7 +99,8 @@ func change_scene(target, checkpoint = -1, delay = 0.5, animate = true):
 		fade_out();
 	
 	var path = levels.get(target, DEFAULT_LEVEL);
-	assert(goto_scene(path) == OK);
+	var isok = goto_scene(path);
+	assert(isok == OK);
 	
 	set_check_point(checkpoint);
 	
@@ -115,7 +116,8 @@ var ingame_menu : bool = false;
 signal menu_opened(which, ingame);
 
 func open_menu(target, ingame = true, delay = 0.0):
-	assert(target != null);	
+	assert(target != null);
+			
 	if ingame:
 		# TODO, add_child to main scene
 		pass
@@ -123,7 +125,9 @@ func open_menu(target, ingame = true, delay = 0.0):
 		apply_delay(delay);
 		fade_out();
 		var path = menus[target];
-		assert(get_tree().change_scene(path) == OK)
+		var isok = get_tree().change_scene(path);
+		assert(isok == OK);
+			
 		ease_in();
 		emit_signal(\"menu_opened\", target, ingame)
 	menu = target;

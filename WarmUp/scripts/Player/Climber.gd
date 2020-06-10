@@ -28,8 +28,8 @@ func hold(flag):
 	if flag != holding:
 		set_physics_process(flag);
 		emit_signal("hold", flag);
-		if flag && player.is_on_floor():
-			player.velocity.y -= 300;	
+		if !holding && flag && player.is_on_floor():
+			player.velocity.y -= 250;	
 		holding = flag;
 	
 func _on_land():

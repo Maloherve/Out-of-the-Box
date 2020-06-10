@@ -45,8 +45,15 @@ func _enter_tree():
 	# Add and activate Camera 
 	var camera = Camera2D.new(); camera.name = "Camera2D";
 	camera.zoom = camera_zoom
-	if activate_camera: camera.current = true;
+	if activate_camera: 
+		camera.current = true;
 	$Player.add_child(camera)	
+	
+	# Create Player interface
+	#var canvas = CanvasLayer.new();
+	#var energybar = load('res://scenes/EnergyBar.tscn').new();
+	
+	#canvas.add_child(energybar);
 	#SceneChanger.connect("scene_changed", self, "_on_fully_loaded");
 
 func _ready():
@@ -57,8 +64,8 @@ func _ready():
 	
 	SceneChanger.detect_current_level();
 	
-	# setup SceneChanger pointer
-	#SceneChanger.level = level_name;
+	if has_node("PlayerInterface"):
+		$PlayerInterface/EnergyBar.connect_player($Player);
 
 # Execute ASAP
 func _process(delta):

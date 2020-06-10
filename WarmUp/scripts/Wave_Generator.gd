@@ -5,6 +5,8 @@ export (float) var DEFAULT_ENERGY = 4.0;
 export (float) var MIN_ENERGY = 4.0;
 var energy : float = DEFAULT_ENERGY setget set_energy;
 
+signal energy_changed(value);
+
 export (int) var samples = 100
 export (Vector2) var scale = Vector2(1,1)
 export (Vector2) var offset = Vector2(0,0)
@@ -41,6 +43,7 @@ func set_energy(value):
 	else:
 		energy = value;
 		dt_factor = exp(dt_decrease_factor * (MIN_ENERGY - value));
+	emit_signal("energy_changed", energy);
 
 func set_enabled(flag):
 	set_process(flag);

@@ -1,4 +1,4 @@
-[gd_scene load_steps=59 format=2]
+[gd_scene load_steps=66 format=2]
 
 [ext_resource path="res://scripts/Player.gd" type="Script" id=1]
 [ext_resource path="res://assets/Particles/trail.tres" type="Material" id=2]
@@ -36,6 +36,11 @@
 [ext_resource path="res://assets/Character/Cat2/CatDamage2.png" type="Texture" id=34]
 [ext_resource path="res://assets/Character/Cat2/CatDamage4.png" type="Texture" id=35]
 [ext_resource path="res://assets/Character/Cat2/CatDamage3.png" type="Texture" id=36]
+[ext_resource path="res://assets/Character/Cat/Attack_ground4.png" type="Texture" id=37]
+[ext_resource path="res://assets/Character/Cat/BlackCat4.png" type="Texture" id=38]
+[ext_resource path="res://assets/Character/Cat/Attack_ground6.png" type="Texture" id=39]
+[ext_resource path="res://assets/Character/Cat/Attack_ground5.png" type="Texture" id=40]
+[ext_resource path="res://assets/Character/Cat/Attack_ground3.png" type="Texture" id=41]
 [ext_resource path="res://assets/Character/Cat2/CatIDLE1.png" type="Texture" id=42]
 [ext_resource path="res://assets/Character/Cat2/CatIDLE2.png" type="Texture" id=43]
 [ext_resource path="res://assets/Character/Cat2/CatIDLE3.png" type="Texture" id=44]
@@ -53,43 +58,50 @@
 [ext_resource path="res://scripts/Player/Mover.gd" type="Script" id=56]
 [ext_resource path="res://assets/Sounds/electronic_accent_03.wav" type="AudioStream" id=57]
 [ext_resource path="res://scripts/Player/Endurance.gd" type="Script" id=58]
+[ext_resource path="res://assets/Character/Cat/Damage4.png" type="Texture" id=59]
+[ext_resource path="res://scenes/EnergyBar.tscn" type="PackedScene" id=60]
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
-"frames": [ ExtResource( 42 ), ExtResource( 43 ), ExtResource( 44 ), ExtResource( 45 ) ],
+"frames": [ ExtResource( 46 ), ExtResource( 47 ), ExtResource( 48 ), ExtResource( 48 ), ExtResource( 49 ), ExtResource( 50 ) ],
 "loop": false,
-"name": "_endcast",
-"speed": 5.0
+"name": "_jump",
+"speed": 10.0
+}, {
+"frames": [ ExtResource( 10 ), ExtResource( 11 ), ExtResource( 12 ), ExtResource( 13 ), ExtResource( 14 ), ExtResource( 15 ), ExtResource( 16 ), ExtResource( 17 ), ExtResource( 18 ), ExtResource( 19 ), ExtResource( 20 ) ],
+"loop": false,
+"name": "_cast",
+"speed": 12.0
 }, {
 "frames": [ ExtResource( 4 ), ExtResource( 5 ), ExtResource( 6 ), ExtResource( 7 ), ExtResource( 8 ), ExtResource( 9 ) ],
 "loop": true,
 "name": "_hold",
 "speed": 10.0
 }, {
-"frames": [ ExtResource( 46 ), ExtResource( 47 ), ExtResource( 48 ), ExtResource( 48 ), ExtResource( 49 ), ExtResource( 50 ) ],
+"frames": [ ExtResource( 42 ), ExtResource( 43 ), ExtResource( 44 ), ExtResource( 45 ) ],
 "loop": false,
-"name": "_jump",
-"speed": 10.0
-}, {
-"frames": [ ExtResource( 34 ), ExtResource( 33 ), ExtResource( 36 ), ExtResource( 35 ), ExtResource( 34 ), ExtResource( 33 ), ExtResource( 34 ), ExtResource( 33 ), ExtResource( 34 ) ],
-"loop": true,
-"name": "_damage",
+"name": "_idle",
 "speed": 8.0
+}, {
+"frames": [ ExtResource( 41 ), ExtResource( 37 ), ExtResource( 40 ), ExtResource( 39 ), ExtResource( 38 ), ExtResource( 59 ) ],
+"loop": true,
+"name": "_death",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 42 ), ExtResource( 43 ), ExtResource( 44 ), ExtResource( 45 ) ],
+"loop": false,
+"name": "_endcast",
+"speed": 5.0
 }, {
 "frames": [ ExtResource( 31 ), ExtResource( 26 ), ExtResource( 28 ), ExtResource( 27 ), ExtResource( 29 ), ExtResource( 30 ), ExtResource( 25 ) ],
 "loop": true,
 "name": "_walk",
 "speed": 12.0
 }, {
-"frames": [ ExtResource( 42 ), ExtResource( 43 ), ExtResource( 44 ), ExtResource( 45 ) ],
-"loop": false,
-"name": "_idle",
+"frames": [ ExtResource( 34 ), ExtResource( 33 ), ExtResource( 36 ), ExtResource( 35 ), ExtResource( 34 ), ExtResource( 33 ), ExtResource( 34 ), ExtResource( 33 ), ExtResource( 34 ) ],
+"loop": true,
+"name": "_damage",
 "speed": 8.0
-}, {
-"frames": [ ExtResource( 10 ), ExtResource( 11 ), ExtResource( 12 ), ExtResource( 13 ), ExtResource( 14 ), ExtResource( 15 ), ExtResource( 16 ), ExtResource( 17 ), ExtResource( 18 ), ExtResource( 19 ), ExtResource( 20 ) ],
-"loop": false,
-"name": "_cast",
-"speed": 12.0
 } ]
 
 [sub_resource type="RectangleShape2D" id=2]
@@ -105,6 +117,7 @@ extents = Vector2( 8.84044, 4.72158 )
 radius = 879.802
 
 [node name="Player" type="KinematicBody2D"]
+z_index = 2
 collision_layer = 2052
 collision_mask = 17410
 script = ExtResource( 1 )
@@ -141,7 +154,7 @@ script = ExtResource( 3 )
 [node name="animator" type="AnimatedSprite" parent="."]
 position = Vector2( 0.073101, 0 )
 frames = SubResource( 1 )
-animation = "_walk"
+animation = "_death"
 script = ExtResource( 21 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -228,3 +241,5 @@ pitch_scale = 3.0
 [node name="teleport_sound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 57 )
 volume_db = -10.0
+
+[node name="PlayerInterface" parent="." instance=ExtResource( 60 )]

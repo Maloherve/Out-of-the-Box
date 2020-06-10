@@ -116,7 +116,9 @@ func _on_landed():
 		print("ERROR: duplicate endurance_ground")
 	else:
 		endurance_ground = $Endurance.add_increase_process(3);
-	$Climber.input_enabled = true;
+		
+	if !$Climber.holding:
+		$Climber.input_enabled = true;
 	$animator.call("_idle");
 	
 func reset_ground_endurance():
@@ -273,10 +275,30 @@ func take_damage(strength, stun = null):
 		die();
 	
 # death
+
+# this is a non elegant solution, 
+# don't do it at home coders
+var death_timer = null;
+var death_reason = null;
+
 func die(reason = null):
 	print("YOU DIED")
+	$animator.play("_death", true);
+	set_locked(false);
+	$Mover.enabled = false;
+	velocity = Vector2(0,0);
+	check_landing = false;
+	$Gravity.enabled = false;
+	death_reason = reason;
+	death_timer = Timer.new();
+	death_timer.connect("timeout", self, "_on_real_death");
+	add_child(death_timer);
+	death_timer.start(2.0);
 	# TODO, define this behaviour properly
-	emit_signal("dead", reason)
+	
+func _on_real_death():
+	emit_signal("dead", death_reason)
+	remove_child(death_timer);
 	
 func _on_death_area_collide(node):
 	# simply die
