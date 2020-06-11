@@ -4,7 +4,7 @@ export (int) var DAMAGE_MASK_BIT = 11;
 
 export (float) var damage : float = 3.0;
 
-var enabled : bool = true setget set_enabled;
+export(bool) var enabled = true setget set_enabled;
 
 onready var player = get_tree().get_current_scene().get_node("Player");
 
@@ -13,6 +13,7 @@ func _init():
 
 func set_enabled(value):
 	set_collision_mask_bit(DAMAGE_MASK_BIT, value);
+	visible = value;
 	enabled = value;
 
 func _on_damage_area_enter(body):

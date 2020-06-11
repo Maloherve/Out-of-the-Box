@@ -6,8 +6,8 @@ var casting : bool = false;
 signal start_casting;
 signal end_casting;
 
-const CASTING_TIME : float = 3.0;
-const NON_CASTING_TIME : float = 6.0;
+const CASTING_TIME : float = 4.173;
+const NON_CASTING_TIME : float = 8.347;
 
 const INTRO_WAIT : float = 2.0;
 
@@ -28,6 +28,12 @@ func _ready():
 	$melma.modulate.a = 0.0;
 	$melma.visible = false;
 	$damage_area.enabled = false;
+	
+func set_enabled_flamethrowers(flag):
+	for flame in $flamethrowers.get_children():
+		flame.periodic = flag;
+	for flame in $constant_flamethrowers.get_children():
+		flame.enabled = flag;
 	
 func connect_safezones():
 	for safezone in $safezones.get_children():
@@ -79,6 +85,7 @@ func intro():
 	yield(self, "end_casting");
 	player.locked = false;
 	player.set_collision_layer_bit(MELMA_COLLISION_BIT, true);
+	set_enabled_flamethrowers(true);
 	
 	if to_be_played != null:
 		Jugebox.push_track(to_be_played);
@@ -103,4 +110,5 @@ func stop():
 	#player.release_damage_layer(MELMA_COLLISION_BIT);
 	set_process(false);
 	set_process(false);
+	set_enabled_flamethrowers(false);
 	emit_signal("ending");

@@ -202,9 +202,15 @@ func _on_Node_teleport(delta):
 	if $Climber.holding:
 		delta.x -= $Mover.look * 8;
 	$teleport_sound.play();
-	if $Bottom_Raycasts.check():
-		delta.y -= 10;
-	position += delta
+	
+	position += delta;
+	call_deferred("boost_up_after_teleport");
+	
+func boost_up_after_teleport():
+	if $Bottom_Raycasts.check() || !is_on_floor():
+		velocity.y += $Jumper.jump_velocity;
+		#$Jumper.jump_one_shot();
+		#position.y -= 15.0;
 	
 func has_endurance():
 	return $Endurance.endurance > 0;

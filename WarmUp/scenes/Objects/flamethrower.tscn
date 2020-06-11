@@ -46,9 +46,9 @@ colors = PoolColorArray( 0.992157, 1, 0, 1, 0.0352941, 0.0352941, 0.00392157, 1,
 [sub_resource type="GradientTexture" id=7]
 gradient = SubResource( 6 )
 
-[sub_resource type="CapsuleShape2D" id=8]
-radius = 9.96335
-height = 142.924
+[sub_resource type="CapsuleShape2D" id=10]
+radius = 9.963
+height = 132.412
 
 [sub_resource type="SpriteFrames" id=9]
 animations = [ {
@@ -73,11 +73,9 @@ script = ExtResource( 3 )
 damage = 1.5
 
 [node name="collider" type="CollisionShape2D" parent="damage_area"]
-position = Vector2( 92.213, 0 )
+position = Vector2( 86.6901, 0 )
 rotation = 1.5708
-shape = SubResource( 8 )
-
-[node name="clock" type="Timer" parent="."]
+shape = SubResource( 10 )
 
 [node name="sound" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 4 )
@@ -90,3 +88,6 @@ area_mask = 4096
 position = Vector2( 7, 0 )
 rotation = 1.5708
 frames = SubResource( 9 )
+
+[node name="fader" type="Tween" parent="."]
+playback/active = true

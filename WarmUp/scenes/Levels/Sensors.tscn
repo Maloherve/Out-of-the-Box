@@ -1,4 +1,4 @@
-[gd_scene load_steps=41 format=2]
+[gd_scene load_steps=40 format=2]
 
 [ext_resource path="res://scripts/Main.gd" type="Script" id=1]
 [ext_resource path="res://assets/Background/SkyLine.png" type="Texture" id=2]
@@ -23,7 +23,6 @@
 [ext_resource path="res://bin/uniform_field.gdns" type="Script" id=21]
 [ext_resource path="res://scenes/Objects/door.tscn" type="PackedScene" id=22]
 [ext_resource path="res://scenes/Wave/detector.tscn" type="PackedScene" id=23]
-[ext_resource path="res://assets/Other/star.png" type="Texture" id=24]
 [ext_resource path="res://assets/checkpoints/sensors/climbhard.tres" type="Resource" id=25]
 [ext_resource path="res://scenes/EnergyBar.tscn" type="PackedScene" id=26]
 
@@ -185,18 +184,9 @@ layer_bits = [ 1, 3 ]
 position = Vector2( 70, 10 )
 collision_mask = 16
 
-[node name="Sprite" type="Sprite" parent="World/Objects/doorwall/right"]
-scale = Vector2( -0.01, -0.01 )
-texture = ExtResource( 24 )
-
 [node name="left" parent="World/Objects/doorwall" instance=ExtResource( 23 )]
 position = Vector2( -70, 10 )
 collision_mask = 16
-
-[node name="Sprite2" type="Sprite" parent="World/Objects/doorwall/left"]
-rotation = 3.14159
-scale = Vector2( 0.01, 0.01 )
-texture = ExtResource( 24 )
 
 [node name="potential" type="Node2D" parent="World/Objects/doorwall"]
 scale = Vector2( 5, 1 )
