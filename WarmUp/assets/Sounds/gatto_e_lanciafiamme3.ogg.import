@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/gatto_e_lanciafiamme3.ogg-d95b4ed83188736b351fd7d20fb7ab2f.oggstr"
+
+[deps]
+
+source_file="res://assets/Sounds/gatto_e_lanciafiamme3.ogg"
+dest_files=[ "res://.import/gatto_e_lanciafiamme3.ogg-d95b4ed83188736b351fd7d20fb7ab2f.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0

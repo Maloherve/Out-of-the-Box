@@ -28,7 +28,7 @@
 [ext_resource path="res://assets/Curves/fader_out.tres" type="Curve" id=26]
 [ext_resource path="res://assets/Curves/fader_in_out.tres" type="Curve" id=27]
 [ext_resource path="res://assets/zones/oldlab_boss.tres" type="Resource" id=28]
-[ext_resource path="res://assets/Sounds/BoxBassArp.ogg" type="AudioStream" id=29]
+[ext_resource path="res://assets/Sounds/gatto_e_lanciafiamme4.ogg" type="AudioStream" id=29]
 [ext_resource path="res://scripts/Interactions/damage_area.gd" type="Script" id=30]
 [ext_resource path="res://assets/Animations/strong_door.tres" type="SpriteFrames" id=31]
 [ext_resource path="res://scripts/Oldlab/boss_trigger_end.gd" type="Script" id=32]
@@ -85,7 +85,7 @@ size = 10
 font_data = ExtResource( 53 )
 
 [sub_resource type="RectangleShape2D" id=10]
-extents = Vector2( 36.3118, 9.81116 )
+extents = Vector2( 36.3118, 8.67996 )
 
 [sub_resource type="RectangleShape2D" id=11]
 extents = Vector2( 100, 60 )
@@ -438,8 +438,6 @@ texture = ExtResource( 24 )
 
 [node name="inganno" parent="World/Objects" instance=ExtResource( 10 )]
 position = Vector2( -33, 1452 )
-emitting = false
-enabled = false
 switch_time = 10.0
 
 [node name="bossdoor" parent="World/Objects" instance=ExtResource( 13 )]
@@ -494,7 +492,7 @@ zoneinfo = ExtResource( 28 )
 oneshot = true
 
 [node name="collider" type="CollisionShape2D" parent="World/Interactions/boss_trigger"]
-position = Vector2( -4.16678, -4.14279 )
+position = Vector2( -4.16678, -5.2857 )
 shape = SubResource( 10 )
 
 [node name="back_to_silence" parent="World/Interactions" instance=ExtResource( 11 )]
@@ -657,7 +655,7 @@ position = Vector2( 443, 691 )
 modulate = Color( 0.996078, 0.996078, 0.996078, 1 )
 
 [node name="boss" type="Node2D" parent="."]
-position = Vector2( 1793.28, 1126.89 )
+position = Vector2( 1792.28, 1126.89 )
 script = ExtResource( 19 )
 to_be_played = ExtResource( 29 )
 
@@ -1062,7 +1060,7 @@ collision_layer = 0
 script = ExtResource( 22 )
 collider = SubResource( 37 )
 frames = ExtResource( 31 )
-V = 20.0
+V = 50.0
 open = true
 
 [node name="PlayerInterface" type="CanvasLayer" parent="."]

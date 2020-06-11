@@ -6,17 +6,17 @@ var casting : bool = false;
 signal start_casting;
 signal end_casting;
 
-const CASTING_TIME : float = 4.173;
-const NON_CASTING_TIME : float = 8.347;
+const CASTING_TIME : float = 3.84;
+const NON_CASTING_TIME : float = 7.68;
 
-const INTRO_WAIT : float = 2.0;
+const INTRO_WAIT : float = 3.84;
 
 const MELMA_COLLISION_BIT : int = 11;
 const DAMAGE : float = 3.0;
 
 signal end_battle;
 
-export (AudioStream) var to_be_played;
+export (AudioStream) var to_be_played = null;
 
 onready var player = get_tree().get_current_scene().get_node("Player");
 
@@ -80,18 +80,19 @@ func intro():
 	player.locked = true; # disable user input
 	$intro.start(INTRO_WAIT);
 	yield($intro, "timeout");
+	
+	if to_be_played != null:
+		Jugebox.push_track(to_be_played, true);
+		
 	casting = true;
 	cast();
-	yield(self, "end_casting");
+	connect("end_casting", self, "_end_intro_cast");
+	
+func _end_intro_cast():
 	player.locked = false;
 	player.set_collision_layer_bit(MELMA_COLLISION_BIT, true);
 	set_enabled_flamethrowers(true);
-	
-	if to_be_played != null:
-		Jugebox.push_track(to_be_played);
-	#uncast();
-	#$firesound.playing = true;
-	#$melma.fade_in_out(5.0, 2.0); # enter and exit for 5 sec, with a delay of 1 sec
+	disconnect("end_casting", self, "_end_intro_cast")
 	
 signal starting;
 signal ending;

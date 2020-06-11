@@ -1,7 +1,7 @@
 extends AudioStreamPlayer
 
 export (float) var fadeout_time = 1.0;
-export (float) var fadein_time = 1.0;
+export (float) var fadein_time = .01;
 
 export (float) var max_volume = 0.0;
 
@@ -49,8 +49,8 @@ func _on_fadeout_completed():
 func _on_fadein_completed():
 	semaphore = false;
 	
-func push_track(track):
-	if semaphore || track == self.stream:
+func push_track(track, force = false):
+	if !force && (semaphore || track == self.stream):
 		return;
 		
 	queue = track;
