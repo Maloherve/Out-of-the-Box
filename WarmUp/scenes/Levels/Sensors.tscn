@@ -1,9 +1,9 @@
-[gd_scene load_steps=40 format=2]
+[gd_scene load_steps=49 format=2]
 
 [ext_resource path="res://scripts/Main.gd" type="Script" id=1]
 [ext_resource path="res://assets/Background/SkyLine.png" type="Texture" id=2]
 [ext_resource path="res://assets/Tilesets/Floor.tres" type="TileSet" id=3]
-[ext_resource path="res://assets/Other/Scientist.png" type="Texture" id=4]
+[ext_resource path="res://assets/Character/Scientist/Scientist_blue.png" type="Texture" id=4]
 [ext_resource path="res://assets/Background/deepcave.jpg" type="Texture" id=5]
 [ext_resource path="res://bin/curve_field.gdns" type="Script" id=6]
 [ext_resource path="res://scripts/Interactions/modulator.gd" type="Script" id=7]
@@ -23,8 +23,11 @@
 [ext_resource path="res://bin/uniform_field.gdns" type="Script" id=21]
 [ext_resource path="res://scenes/Objects/door.tscn" type="PackedScene" id=22]
 [ext_resource path="res://scenes/Wave/detector.tscn" type="PackedScene" id=23]
+[ext_resource path="res://scripts/Sensors/scientist_talk.gd" type="Script" id=24]
 [ext_resource path="res://assets/checkpoints/sensors/climbhard.tres" type="Resource" id=25]
 [ext_resource path="res://scenes/EnergyBar.tscn" type="PackedScene" id=26]
+[ext_resource path="res://assets/Tilesets/Decoration_Tileser.tres" type="TileSet" id=27]
+[ext_resource path="res://assets/Tilesets/Obstacles_Tileset.tres" type="TileSet" id=28]
 
 [sub_resource type="Curve" id=1]
 _data = [ Vector2( 0, 0 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 1.4, 0.0, 0, 0 ]
@@ -44,6 +47,13 @@ _data = [ Vector2( 0, 0 ), 0.0, 1.4, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
 [sub_resource type="RectangleShape2D" id=6]
 extents = Vector2( 25.6558, 39.6197 )
 
+[sub_resource type="RectangleShape2D" id=17]
+extents = Vector2( 33.9829, 48.5282 )
+
+[sub_resource type="DynamicFont" id=18]
+size = 18
+font_data = ExtResource( 12 )
+
 [sub_resource type="RectangleShape2D" id=7]
 extents = Vector2( 4, 30 )
 
@@ -55,9 +65,23 @@ _data = [ Vector2( 0, 0 ), 0.0, 0.0, 0, 0, Vector2( 0.5, 4 ), 0.0, 0.0, 0, 0, Ve
 extents = Vector2( 4, 10 )
 
 [sub_resource type="RectangleShape2D" id=10]
+extents = Vector2( 43.1922, 18.4255 )
+
+[sub_resource type="DynamicFont" id=21]
+size = 12
+font_data = ExtResource( 12 )
+
+[sub_resource type="RectangleShape2D" id=15]
 extents = Vector2( 15.8712, 18.4255 )
 
-[sub_resource type="DynamicFont" id=11]
+[sub_resource type="DynamicFont" id=16]
+size = 10
+font_data = ExtResource( 12 )
+
+[sub_resource type="RectangleShape2D" id=19]
+extents = Vector2( 15.8712, 18.4255 )
+
+[sub_resource type="DynamicFont" id=20]
 size = 10
 font_data = ExtResource( 12 )
 
@@ -125,6 +149,20 @@ tile_data = PoolIntArray( 65527, 3, 0, 65528, 3, 1, 65529, 3, 1, 65530, 3, 1, 65
 script = ExtResource( 21 )
 value = 10.0
 
+[node name="decorations" type="TileMap" parent="World"]
+tile_set = ExtResource( 27 )
+cell_size = Vector2( 16, 16 )
+format = 1
+tile_data = PoolIntArray( 1900558, 3, 0, 1900560, 1, 0 )
+
+[node name="tables" type="TileMap" parent="World"]
+tile_set = ExtResource( 28 )
+cell_size = Vector2( 32, 32 )
+collision_layer = 1024
+collision_mask = 0
+format = 1
+tile_data = PoolIntArray( 983047, 1, 0 )
+
 [node name="passage" type="TileMap" parent="World"]
 z_index = 1
 tile_set = ExtResource( 3 )
@@ -165,9 +203,32 @@ shape = SubResource( 6 )
 
 [node name="Scientist" type="Sprite" parent="World/Enemies"]
 modulate = Color( 0.745098, 0.745098, 0.745098, 1 )
-position = Vector2( 30.72, 485 )
-scale = Vector2( 0.08, 0.08 )
+position = Vector2( 33.4389, 484.497 )
+scale = Vector2( 0.5069, 0.316253 )
 texture = ExtResource( 4 )
+
+[node name="talk" type="Area2D" parent="World/Enemies/Scientist"]
+position = Vector2( 74.9655, 22.1344 )
+collision_layer = 0
+collision_mask = 4
+script = ExtResource( 24 )
+
+[node name="collider" type="CollisionShape2D" parent="World/Enemies/Scientist/talk"]
+shape = SubResource( 17 )
+
+[node name="Label" type="Label" parent="World/Enemies/Scientist/talk"]
+visible = false
+margin_left = -35.4283
+margin_top = -116.245
+margin_right = 176.572
+margin_bottom = -65.2454
+rect_scale = Vector2( 0.993344, 1.01854 )
+custom_fonts/font = SubResource( 18 )
+text = "Don't worry... I won't catch you.
+I know the fate of you cats..."
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="NPC" type="Node2D" parent="World"]
 
@@ -206,6 +267,7 @@ position = Vector2( 0.951309, -0.951324 )
 
 [node name="intro" type="Area2D" parent="World/Interactions"]
 position = Vector2( -140, 490.304 )
+z_index = 2
 space_override = 1
 collision_layer = 0
 collision_mask = 4
@@ -216,16 +278,69 @@ position = Vector2( 1.74341, 5.61761 )
 shape = SubResource( 10 )
 
 [node name="Label" type="Label" parent="World/Interactions/intro"]
-margin_left = -28.2969
-margin_top = -52.5529
-margin_right = 102.929
-margin_bottom = -7.55286
+margin_left = -74.2969
+margin_top = -87.5529
+margin_right = 99.7031
+margin_bottom = -14.5529
 rect_scale = Vector2( 0.993344, 1.01854 )
-custom_fonts/font = SubResource( 11 )
+custom_fonts/font = SubResource( 21 )
+custom_colors/font_color = Color( 0.984314, 0.0313726, 0.0313726, 1 )
 text = "Warning!
 Subject 1926  escaped.
 No one is allowed to leave the building.
 Keep all the doors closed!"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="scientist_talk" type="Area2D" parent="World/Interactions"]
+position = Vector2( -23, 487.304 )
+space_override = 1
+collision_layer = 0
+collision_mask = 4
+script = ExtResource( 11 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="World/Interactions/scientist_talk"]
+position = Vector2( 1.74341, 5.61761 )
+shape = SubResource( 15 )
+
+[node name="Label" type="Label" parent="World/Interactions/scientist_talk"]
+margin_left = 67.0
+margin_top = -36.0
+margin_right = 229.0
+margin_bottom = 25.0
+rect_scale = Vector2( 0.993344, 1.01854 )
+custom_fonts/font = SubResource( 16 )
+text = "Finally I placed these particle detectors...
+(Concentrate the wave over the 
+
+one you want to teleport to)"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="scientist_talk2" type="Area2D" parent="World/Interactions"]
+position = Vector2( 224, 487.304 )
+space_override = 1
+collision_layer = 0
+collision_mask = 4
+script = ExtResource( 11 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="World/Interactions/scientist_talk2"]
+position = Vector2( 41.7434, 5.61761 )
+shape = SubResource( 19 )
+
+[node name="Label" type="Label" parent="World/Interactions/scientist_talk2"]
+margin_left = -130.0
+margin_top = -47.0
+margin_right = 32.0
+margin_bottom = 14.0
+rect_scale = Vector2( 0.993344, 1.01854 )
+custom_fonts/font = SubResource( 20 )
+text = "Cat...
+There's a way taking to the old
+ laboratory if are brave enough...
+Be careful, it's quite dark down here."
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -275,3 +390,4 @@ margin_bottom = 77.6
 
 [node name="Teleport" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 16 )
+[connection signal="body_entered" from="World/Enemies/Scientist/talk" to="World/Enemies/Scientist/talk" method="_on_talk_body_entered" flags=6]

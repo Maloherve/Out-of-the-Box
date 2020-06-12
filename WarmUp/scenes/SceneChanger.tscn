@@ -21,6 +21,7 @@ var menus = {
 	\"title\" : \"res://scenes/Menu/TitleScreen.tscn\",
 	\"option\" : \"res://scenes/Menu/OptionScreen.tscn\",
 	\"gameover\" : \"res://scenes/Menu/GameOver.tscn\",
+	\"endgame\" : \"res://scenes/Menu/EndGame.tscn\"
 }
 
 signal scene_loading(target);
@@ -133,13 +134,16 @@ func open_menu(target, ingame = true, delay = 0.0):
 	menu = target;
 	ingame_menu = ingame;
 	
-func close_menu(delay = 0.0):
+func close_menu(delay = 0.0, scenename = null):
 	if menu != null:
 		if ingame_menu:
 			# TODO, remove child from main scene
 			pass
 		else:
-			reload_scene(delay, ingame_menu);
+			if scenename == null:
+				reload_scene(delay, ingame_menu);
+			else:
+				change_scene(scenename);
 	menu = null;
 "
 

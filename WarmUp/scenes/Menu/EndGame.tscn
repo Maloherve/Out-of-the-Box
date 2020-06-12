@@ -1,0 +1,185 @@
+[gd_scene load_steps=12 format=2]
+
+[ext_resource path="res://assets/Icon/Chat_icon.png" type="Texture" id=1]
+[ext_resource path="res://assets/Fonts/VCR_OSD_MONO_1.001.ttf" type="DynamicFontData" id=2]
+[ext_resource path="res://assets/Background/MenuBackground.png" type="Texture" id=3]
+[ext_resource path="res://scripts/Menu/EndGame.gd" type="Script" id=4]
+[ext_resource path="res://assets/Background/tv_effect.ogv" type="VideoStream" id=5]
+[ext_resource path="res://assets/Sounds/ISeeLight.ogg" type="AudioStream" id=6]
+[ext_resource path="res://assets/Sounds/ui_click_rollover_misc_05.wav" type="AudioStream" id=9]
+
+[sub_resource type="DynamicFont" id=1]
+size = 52
+font_data = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=2]
+size = 58
+font_data = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=3]
+size = 40
+font_data = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=4]
+font_data = ExtResource( 2 )
+
+[node name="EndGame" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VideoPlayer" type="VideoPlayer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+stream = ExtResource( 5 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect" type="TextureRect" parent="."]
+modulate = Color( 0.329412, 0.658824, 0.713726, 1 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+rect_clip_content = true
+texture = ExtResource( 3 )
+stretch_mode = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Menu" type="VBoxContainer" parent="."]
+margin_left = 80.0
+margin_top = 80.0
+margin_right = 944.0
+margin_bottom = 520.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="Menu"]
+margin_right = 952.0
+margin_bottom = 55.0
+rect_min_size = Vector2( 0, 55 )
+custom_fonts/font = SubResource( 1 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+custom_constants/shadow_offset_x = -2
+custom_constants/shadow_offset_y = 3
+text = "OUT OF THE BOX"
+align = 1
+
+[node name="Logo" type="TextureRect" parent="Menu"]
+margin_top = 59.0
+margin_right = 952.0
+margin_bottom = 139.0
+rect_min_size = Vector2( 0, 80 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource( 1 )
+stretch_mode = 4
+
+[node name="CenterRow" type="HBoxContainer" parent="Menu"]
+margin_top = 143.0
+margin_right = 952.0
+margin_bottom = 423.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Buttons" type="VBoxContainer" parent="Menu/CenterRow"]
+margin_right = 952.0
+margin_bottom = 280.0
+rect_min_size = Vector2( 0, 280 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_constants/separation = 5
+alignment = 1
+
+[node name="YouWon" type="Label" parent="Menu/CenterRow/Buttons"]
+margin_top = 15.0
+margin_right = 952.0
+margin_bottom = 95.0
+rect_min_size = Vector2( 0, 80 )
+custom_fonts/font = SubResource( 2 )
+custom_colors/font_color = Color( 0.9, 0.1, 0.93, 0.5 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+custom_constants/shadow_offset_x = -2
+custom_constants/shadow_offset_y = 3
+text = "You reached the outer world!"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Restart" type="Button" parent="Menu/CenterRow/Buttons"]
+margin_top = 100.0
+margin_right = 952.0
+margin_bottom = 180.0
+rect_min_size = Vector2( 0, 80 )
+flat = true
+
+[node name="Label" type="Label" parent="Menu/CenterRow/Buttons/Restart"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_fonts/font = SubResource( 3 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+custom_constants/shadow_offset_x = -2
+custom_constants/shadow_offset_y = 3
+text = "Restart game"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Quit" type="Button" parent="Menu/CenterRow/Buttons"]
+margin_top = 185.0
+margin_right = 952.0
+margin_bottom = 265.0
+rect_min_size = Vector2( 0, 80 )
+flat = true
+
+[node name="Label" type="Label" parent="Menu/CenterRow/Buttons/Quit"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_fonts/font = SubResource( 3 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+custom_constants/shadow_offset_x = -2
+custom_constants/shadow_offset_y = 3
+text = "Quit"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VersionLabel" type="Label" parent="Menu"]
+margin_top = 427.0
+margin_right = 952.0
+margin_bottom = 460.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_fonts/font = SubResource( 4 )
+text = "Version 0.0.1
+Quarantum Studios"
+align = 2
+
+[node name="Click" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 9 )
+
+[node name="GameOver" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 6 )
+volume_db = -10.097
+autoplay = true
+[connection signal="mouse_entered" from="Menu/CenterRow/Buttons/Restart" to="." method="_on_Restart_mouse_entered"]
+[connection signal="mouse_exited" from="Menu/CenterRow/Buttons/Restart" to="." method="_on_Restart_mouse_exited"]
+[connection signal="pressed" from="Menu/CenterRow/Buttons/Restart" to="." method="_on_Restart_pressed"]
+[connection signal="mouse_entered" from="Menu/CenterRow/Buttons/Quit" to="." method="_on_Quit_mouse_entered"]
+[connection signal="mouse_exited" from="Menu/CenterRow/Buttons/Quit" to="." method="_on_Quit_mouse_exited"]
+[connection signal="pressed" from="Menu/CenterRow/Buttons/Quit" to="." method="_on_Quit_pressed"]
