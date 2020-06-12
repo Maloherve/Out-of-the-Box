@@ -114,18 +114,18 @@ extents = Vector2( 40.1599, 17.9739 )
 [sub_resource type="RectangleShape2D" id=16]
 extents = Vector2( 4143.44, 10 )
 
-[sub_resource type="RectangleShape2D" id=39]
+[sub_resource type="RectangleShape2D" id=17]
 extents = Vector2( 58.1206, 26.5269 )
 
-[sub_resource type="DynamicFont" id=40]
-size = 10
+[sub_resource type="DynamicFont" id=18]
+size = 12
 outline_color = Color( 0.972549, 0.972549, 0.972549, 1 )
 font_data = ExtResource( 53 )
 
-[sub_resource type="RectangleShape2D" id=17]
+[sub_resource type="RectangleShape2D" id=19]
 extents = Vector2( 25.8271, 3.07214 )
 
-[sub_resource type="ParticlesMaterial" id=18]
+[sub_resource type="ParticlesMaterial" id=20]
 flag_disable_z = true
 gravity = Vector3( 0, 0, 0 )
 initial_velocity = 10.0
@@ -137,71 +137,71 @@ tangential_accel = 20.0
 scale = 0.01
 color = Color( 0.545098, 1, 0.435294, 1 )
 
-[sub_resource type="RectangleShape2D" id=19]
+[sub_resource type="RectangleShape2D" id=21]
 extents = Vector2( 23.8284, 4.90833 )
 
-[sub_resource type="RectangleShape2D" id=20]
+[sub_resource type="RectangleShape2D" id=22]
 extents = Vector2( 23.4509, 4.48303 )
 
-[sub_resource type="RectangleShape2D" id=21]
+[sub_resource type="RectangleShape2D" id=23]
 extents = Vector2( 25.8048, 5.01196 )
 
-[sub_resource type="RectangleShape2D" id=22]
+[sub_resource type="RectangleShape2D" id=24]
 extents = Vector2( 24.4038, 4.8429 )
 
-[sub_resource type="RectangleShape2D" id=23]
+[sub_resource type="RectangleShape2D" id=25]
 extents = Vector2( 42.5287, 10 )
 
-[sub_resource type="RectangleShape2D" id=24]
+[sub_resource type="RectangleShape2D" id=26]
 extents = Vector2( 35.4927, 3.61877 )
 
-[sub_resource type="RectangleShape2D" id=25]
+[sub_resource type="RectangleShape2D" id=27]
 extents = Vector2( 21.9832, 3.48804 )
 
-[sub_resource type="RectangleShape2D" id=26]
+[sub_resource type="RectangleShape2D" id=28]
 extents = Vector2( 9.04907, 4.45972 )
 
-[sub_resource type="RectangleShape2D" id=27]
+[sub_resource type="RectangleShape2D" id=29]
 extents = Vector2( 18.0754, 3.16125 )
 
-[sub_resource type="RectangleShape2D" id=28]
+[sub_resource type="RectangleShape2D" id=30]
 extents = Vector2( 10, 2.97888 )
 
-[sub_resource type="RectangleShape2D" id=29]
+[sub_resource type="RectangleShape2D" id=31]
 extents = Vector2( 21.9037, 3.5127 )
 
-[sub_resource type="RectangleShape2D" id=30]
+[sub_resource type="RectangleShape2D" id=32]
 extents = Vector2( 25.3403, 2.65216 )
 
-[sub_resource type="RectangleShape2D" id=31]
+[sub_resource type="RectangleShape2D" id=33]
 extents = Vector2( 8.8645, 3.50311 )
 
-[sub_resource type="RectangleShape2D" id=32]
+[sub_resource type="RectangleShape2D" id=34]
 extents = Vector2( 19.4266, 3.50311 )
 
-[sub_resource type="RectangleShape2D" id=33]
+[sub_resource type="RectangleShape2D" id=35]
 extents = Vector2( 10.4402, 3.88568 )
 
-[sub_resource type="RectangleShape2D" id=34]
+[sub_resource type="RectangleShape2D" id=36]
 extents = Vector2( 19.4547, 3.30734 )
 
-[sub_resource type="RectangleShape2D" id=35]
+[sub_resource type="RectangleShape2D" id=37]
 extents = Vector2( 268.288, 802.734 )
 
-[sub_resource type="RectangleShape2D" id=36]
+[sub_resource type="RectangleShape2D" id=38]
 extents = Vector2( 29.7806, 14.7735 )
 
-[sub_resource type="RectangleShape2D" id=37]
+[sub_resource type="RectangleShape2D" id=39]
 extents = Vector2( 10, 60 )
 
-[sub_resource type="RectangleShape2D" id=38]
+[sub_resource type="RectangleShape2D" id=40]
 extents = Vector2( 10, 32 )
 
 [node name="Level" type="Node2D"]
 position = Vector2( -2, 0 )
 script = ExtResource( 1 )
 cat_version = 2
-checkpoint = 3
+checkpoint = 2
 checkpoints = [ ExtResource( 4 ), ExtResource( 35 ), ExtResource( 36 ), ExtResource( 38 ), ExtResource( 58 ) ]
 
 [node name="World" type="Node2D" parent="."]
@@ -552,7 +552,7 @@ collision_mask = 4
 script = ExtResource( 57 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="World/Interactions/RealVictory"]
-shape = SubResource( 39 )
+shape = SubResource( 17 )
 
 [node name="special2" type="Particles2D" parent="World/Interactions/RealVictory"]
 position = Vector2( 2, -6 )
@@ -569,11 +569,11 @@ z_index = -1
 texture = ExtResource( 56 )
 
 [node name="Label" type="Label" parent="World/Interactions/RealVictory"]
-margin_left = -98.0
-margin_top = -75.0
-margin_right = 90.0
-margin_bottom = -20.0
-custom_fonts/font = SubResource( 40 )
+margin_left = -128.0
+margin_top = -78.0
+margin_right = 114.0
+margin_bottom = -23.0
+custom_fonts/font = SubResource( 18 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "Congratulations!
 You reached the outer world!
@@ -600,24 +600,18 @@ energy = 8.0
 position = Vector2( 523, 1856 )
 rotation = -1.5708
 scale = Vector2( 1.3, 1 )
-emitting = false
-enabled = false
 switch_time = 8.0
 
 [node name="flamethrower2" parent="World/Zone1/flames1" instance=ExtResource( 10 )]
 position = Vector2( 479, 1856 )
 rotation = -1.5708
 scale = Vector2( 1.3, 1 )
-emitting = false
-enabled = false
 switch_time = 2.5
 
 [node name="flamethrower3" parent="World/Zone1/flames1" instance=ExtResource( 10 )]
 position = Vector2( 435, 1856 )
 rotation = -1.5708
 scale = Vector2( 1.3, 1 )
-emitting = false
-enabled = false
 switch_time = 2.5
 shift = 0.3
 
@@ -625,16 +619,12 @@ shift = 0.3
 position = Vector2( 400, 1857 )
 rotation = -1.5708
 scale = Vector2( 1.3, 1 )
-emitting = false
-enabled = false
 switch_time = 8.0
 
 [node name="flamethrower5" parent="World/Zone1/flames1" instance=ExtResource( 10 )]
 position = Vector2( 356, 1857 )
 rotation = -1.5708
 scale = Vector2( 1.3, 1 )
-emitting = false
-enabled = false
 switch_time = 2.5
 shift = 0.6
 
@@ -642,8 +632,6 @@ shift = 0.6
 position = Vector2( 311, 1857 )
 rotation = -1.5708
 scale = Vector2( 1.3, 1 )
-emitting = false
-enabled = false
 switch_time = 2.5
 shift = 0.9
 
@@ -651,16 +639,12 @@ shift = 0.9
 position = Vector2( 269, 1857 )
 rotation = -1.5708
 scale = Vector2( 1.3, 1 )
-emitting = false
-enabled = false
 switch_time = 8.0
 
 [node name="flamethrower8" parent="World/Zone1/flames1" instance=ExtResource( 10 )]
 position = Vector2( 237, 1857 )
 rotation = -1.5708
 scale = Vector2( 1.3, 1 )
-emitting = false
-enabled = false
 switch_time = 2.5
 shift = 1.2
 
@@ -669,23 +653,33 @@ shift = 1.2
 [node name="flamethrower" parent="World/Zone1/flames2" instance=ExtResource( 10 )]
 position = Vector2( 224, 1294 )
 scale = Vector2( 1.3, 1 )
+emitting = false
+enabled = false
 
 [node name="flamethrower2" parent="World/Zone1/flames2" instance=ExtResource( 10 )]
 position = Vector2( 500, 1057 )
 rotation = 1.5708
+emitting = false
+enabled = false
 
 [node name="flamethrower3" parent="World/Zone1/flames2" instance=ExtResource( 10 )]
 position = Vector2( 385, 1057 )
 rotation = 1.5708
+emitting = false
+enabled = false
 shift = 2.0
 
 [node name="flamethrower4" parent="World/Zone1/flames2" instance=ExtResource( 10 )]
 position = Vector2( 223, 1131 )
 scale = Vector2( 0.5, 1 )
+emitting = false
+enabled = false
 
 [node name="flamethrower5" parent="World/Zone1/flames2" instance=ExtResource( 10 )]
 position = Vector2( 223, 1054 )
 scale = Vector2( 0.4, 1 )
+emitting = false
+enabled = false
 shift = 1.0
 
 [node name="box_cannons" type="Node2D" parent="World/Zone1"]
@@ -730,13 +724,13 @@ collision_mask = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="boss/safezones/safe1"]
 position = Vector2( 0, 11 )
-shape = SubResource( 17 )
+shape = SubResource( 19 )
 
 [node name="visual" type="Particles2D" parent="boss/safezones/safe1"]
 amount = 4
 lifetime = 0.8
 randomness = 0.64
-process_material = SubResource( 18 )
+process_material = SubResource( 20 )
 texture = ExtResource( 24 )
 
 [node name="safe2" type="Area2D" parent="boss/safezones"]
@@ -746,13 +740,13 @@ collision_mask = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="boss/safezones/safe2"]
 position = Vector2( 3, 13 )
-shape = SubResource( 19 )
+shape = SubResource( 21 )
 
 [node name="visual2" type="Particles2D" parent="boss/safezones/safe2"]
 amount = 4
 lifetime = 0.8
 randomness = 0.64
-process_material = SubResource( 18 )
+process_material = SubResource( 20 )
 texture = ExtResource( 24 )
 
 [node name="safe3" type="Area2D" parent="boss/safezones"]
@@ -762,13 +756,13 @@ collision_mask = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="boss/safezones/safe3"]
 position = Vector2( -1, 9 )
-shape = SubResource( 20 )
+shape = SubResource( 22 )
 
 [node name="visual3" type="Particles2D" parent="boss/safezones/safe3"]
 amount = 4
 lifetime = 0.8
 randomness = 0.64
-process_material = SubResource( 18 )
+process_material = SubResource( 20 )
 texture = ExtResource( 24 )
 
 [node name="safe4" type="Area2D" parent="boss/safezones"]
@@ -778,13 +772,13 @@ collision_mask = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="boss/safezones/safe4"]
 position = Vector2( -1, 12 )
-shape = SubResource( 21 )
+shape = SubResource( 23 )
 
 [node name="visual4" type="Particles2D" parent="boss/safezones/safe4"]
 amount = 4
 lifetime = 0.8
 randomness = 0.64
-process_material = SubResource( 18 )
+process_material = SubResource( 20 )
 texture = ExtResource( 24 )
 
 [node name="safe5" type="Area2D" parent="boss/safezones"]
@@ -794,13 +788,13 @@ collision_mask = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="boss/safezones/safe5"]
 position = Vector2( -4, 16 )
-shape = SubResource( 22 )
+shape = SubResource( 24 )
 
 [node name="visual5" type="Particles2D" parent="boss/safezones/safe5"]
 amount = 4
 lifetime = 0.8
 randomness = 0.64
-process_material = SubResource( 18 )
+process_material = SubResource( 20 )
 texture = ExtResource( 24 )
 
 [node name="safe6" type="Area2D" parent="boss/safezones"]
@@ -810,13 +804,13 @@ collision_mask = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="boss/safezones/safe6"]
 position = Vector2( 4, 1 )
-shape = SubResource( 23 )
+shape = SubResource( 25 )
 
 [node name="visual6" type="Particles2D" parent="boss/safezones/safe6"]
 amount = 4
 lifetime = 0.8
 randomness = 0.64
-process_material = SubResource( 18 )
+process_material = SubResource( 20 )
 texture = ExtResource( 24 )
 
 [node name="safe7" type="Area2D" parent="boss/safezones"]
@@ -826,13 +820,13 @@ collision_mask = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="boss/safezones/safe7"]
 position = Vector2( 4, 8 )
-shape = SubResource( 24 )
+shape = SubResource( 26 )
 
 [node name="visual7" type="Particles2D" parent="boss/safezones/safe7"]
 amount = 4
 lifetime = 0.8
 randomness = 0.64
-process_material = SubResource( 18 )
+process_material = SubResource( 20 )
 texture = ExtResource( 24 )
 
 [node name="safe8" type="Area2D" parent="boss/safezones"]
@@ -842,13 +836,13 @@ collision_mask = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="boss/safezones/safe8"]
 position = Vector2( 0, 14 )
-shape = SubResource( 25 )
+shape = SubResource( 27 )
 
 [node name="visual8" type="Particles2D" parent="boss/safezones/safe8"]
 amount = 4
 lifetime = 0.8
 randomness = 0.64
-process_material = SubResource( 18 )
+process_material = SubResource( 20 )
 texture = ExtResource( 24 )
 
 [node name="safe9" type="Area2D" parent="boss/safezones"]
@@ -858,13 +852,13 @@ collision_mask = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="boss/safezones/safe9"]
 position = Vector2( -2, 1 )
-shape = SubResource( 26 )
+shape = SubResource( 28 )
 
 [node name="visual9" type="Particles2D" parent="boss/safezones/safe9"]
 amount = 4
 lifetime = 0.8
 randomness = 0.64
-process_material = SubResource( 18 )
+process_material = SubResource( 20 )
 texture = ExtResource( 24 )
 
 [node name="safe10" type="Area2D" parent="boss/safezones"]
@@ -874,13 +868,13 @@ collision_mask = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="boss/safezones/safe10"]
 position = Vector2( 2, 4 )
-shape = SubResource( 27 )
+shape = SubResource( 29 )
 
 [node name="visual10" type="Particles2D" parent="boss/safezones/safe10"]
 amount = 4
 lifetime = 0.8
 randomness = 0.64
-process_material = SubResource( 18 )
+process_material = SubResource( 20 )
 texture = ExtResource( 24 )
 
 [node name="safe11" type="Area2D" parent="boss/safezones"]
@@ -892,12 +886,12 @@ collision_mask = 4
 amount = 4
 lifetime = 0.8
 randomness = 0.64
-process_material = SubResource( 18 )
+process_material = SubResource( 20 )
 texture = ExtResource( 24 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="boss/safezones/safe11"]
 position = Vector2( 2, 10 )
-shape = SubResource( 28 )
+shape = SubResource( 30 )
 
 [node name="safe12" type="Area2D" parent="boss/safezones"]
 position = Vector2( -139, -117 )
@@ -906,13 +900,13 @@ collision_mask = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="boss/safezones/safe12"]
 position = Vector2( 2, 10 )
-shape = SubResource( 29 )
+shape = SubResource( 31 )
 
 [node name="visual12" type="Particles2D" parent="boss/safezones/safe12"]
 amount = 4
 lifetime = 0.8
 randomness = 0.64
-process_material = SubResource( 18 )
+process_material = SubResource( 20 )
 texture = ExtResource( 24 )
 
 [node name="safe13" type="Area2D" parent="boss/safezones"]
@@ -922,13 +916,13 @@ collision_mask = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="boss/safezones/safe13"]
 position = Vector2( 2, 7 )
-shape = SubResource( 30 )
+shape = SubResource( 32 )
 
 [node name="visual13" type="Particles2D" parent="boss/safezones/safe13"]
 amount = 4
 lifetime = 0.8
 randomness = 0.64
-process_material = SubResource( 18 )
+process_material = SubResource( 20 )
 texture = ExtResource( 24 )
 
 [node name="safe14" type="Area2D" parent="boss/safezones"]
@@ -938,13 +932,13 @@ collision_mask = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="boss/safezones/safe14"]
 position = Vector2( 5, 7 )
-shape = SubResource( 31 )
+shape = SubResource( 33 )
 
 [node name="visual14" type="Particles2D" parent="boss/safezones/safe14"]
 amount = 4
 lifetime = 0.8
 randomness = 0.64
-process_material = SubResource( 18 )
+process_material = SubResource( 20 )
 texture = ExtResource( 24 )
 
 [node name="safe15" type="Area2D" parent="boss/safezones"]
@@ -954,13 +948,13 @@ collision_mask = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="boss/safezones/safe15"]
 position = Vector2( -1, 7 )
-shape = SubResource( 32 )
+shape = SubResource( 34 )
 
 [node name="visual15" type="Particles2D" parent="boss/safezones/safe15"]
 amount = 4
 lifetime = 0.8
 randomness = 0.64
-process_material = SubResource( 18 )
+process_material = SubResource( 20 )
 texture = ExtResource( 24 )
 
 [node name="safe16" type="Area2D" parent="boss/safezones"]
@@ -970,13 +964,13 @@ collision_mask = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="boss/safezones/safe16"]
 position = Vector2( 0, 1 )
-shape = SubResource( 33 )
+shape = SubResource( 35 )
 
 [node name="visual16" type="Particles2D" parent="boss/safezones/safe16"]
 amount = 4
 lifetime = 0.8
 randomness = 0.64
-process_material = SubResource( 18 )
+process_material = SubResource( 20 )
 texture = ExtResource( 24 )
 
 [node name="safe17" type="Area2D" parent="boss/safezones"]
@@ -986,63 +980,53 @@ collision_mask = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="boss/safezones/safe17"]
 position = Vector2( 0, 1 )
-shape = SubResource( 34 )
+shape = SubResource( 36 )
 
 [node name="visual17" type="Particles2D" parent="boss/safezones/safe17"]
 amount = 4
 lifetime = 0.8
 randomness = 0.64
-process_material = SubResource( 18 )
+process_material = SubResource( 20 )
 texture = ExtResource( 24 )
 
 [node name="flamethrowers" type="Node2D" parent="boss"]
 
 [node name="flames1" parent="boss/flamethrowers" instance=ExtResource( 10 )]
 position = Vector2( -162, -33 )
-emitting = false
-enabled = false
 switch_time = 2.0
 
 [node name="flames2" parent="boss/flamethrowers" instance=ExtResource( 10 )]
 position = Vector2( 255, 106 )
 rotation = 3.14159
 scale = Vector2( 0.7, 1 )
-emitting = false
-enabled = false
 switch_time = 2.5
 
 [node name="flames3" parent="boss/flamethrowers" instance=ExtResource( 10 )]
 position = Vector2( -98, -185 )
-emitting = false
-enabled = false
 switch_time = 2.0
 
 [node name="flames4" parent="boss/flamethrowers" instance=ExtResource( 10 )]
 position = Vector2( 160, 391 )
 rotation = 3.14159
-emitting = false
-enabled = false
 switch_time = 2.0
 
 [node name="flames5" parent="boss/flamethrowers" instance=ExtResource( 10 )]
 position = Vector2( 256, -539 )
 rotation = 3.14159
 scale = Vector2( 1, 0.8 )
-emitting = false
-enabled = false
 switch_time = 1.0
 
 [node name="flames6" parent="boss/flamethrowers" instance=ExtResource( 10 )]
 position = Vector2( -162, -746 )
 scale = Vector2( 1, 0.8 )
-emitting = false
-enabled = false
 switch_time = 2.0
 
 [node name="flames10" parent="boss/flamethrowers" instance=ExtResource( 10 )]
 position = Vector2( 223, -789 )
 rotation = 3.14159
 scale = Vector2( 0.4, 0.4 )
+emitting = false
+enabled = false
 
 [node name="constant_flamethrowers" type="Node2D" parent="boss"]
 
@@ -1075,7 +1059,7 @@ script = ExtResource( 30 )
 
 [node name="collider" type="CollisionShape2D" parent="boss/damage_area"]
 position = Vector2( 4.48767, 4.48779 )
-shape = SubResource( 35 )
+shape = SubResource( 37 )
 
 [node name="trigger_end" type="Area2D" parent="boss"]
 position = Vector2( -66, -949 )
@@ -1084,7 +1068,7 @@ collision_mask = 4
 script = ExtResource( 32 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="boss/trigger_end"]
-shape = SubResource( 36 )
+shape = SubResource( 38 )
 
 [node name="firesound" type="AudioStreamPlayer" parent="boss"]
 stream = ExtResource( 33 )
@@ -1099,7 +1083,7 @@ stream = ExtResource( 34 )
 position = Vector2( -280, 761 )
 collision_layer = 0
 script = ExtResource( 16 )
-collider = SubResource( 37 )
+collider = SubResource( 39 )
 frames = ExtResource( 31 )
 V = 15.0
 sprite_scale = Vector2( 1, 2 )
@@ -1109,7 +1093,7 @@ open = true
 position = Vector2( -65, -882 )
 rotation = 1.5708
 script = ExtResource( 22 )
-collider = SubResource( 38 )
+collider = SubResource( 40 )
 frames = ExtResource( 31 )
 V = 50.0
 
